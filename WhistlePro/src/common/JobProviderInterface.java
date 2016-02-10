@@ -5,15 +5,14 @@ public interface JobProviderInterface
 {
 
     //////////////////////////////
-    /// @brief Warn the application whether the provider has work or not
+    /// @brief Warns the application whether the provider has work or not
+    /// @return true if work is available, false otherwise
     //////////////////////////////
-    boolean hasWork();    
+    boolean isWorkAvailable();    
 
     
     //////////////////////////////
-    /// @brief Let the work be done
-    //
-    // Let the work be done in the current thread -> don't forget to solve thread issue.
+    /// @brief Do the work, perhaps in another thread
     //////////////////////////////
     void doWork();
 
