@@ -33,7 +33,7 @@ public class DataSourceInterface<E> {
     protected final void push(E outputData) {
         for (DataListenerInterface<E> out : this.listeners)
         {
-            out.onPushData(outputData);
+            out.onPushData(this, outputData);
         }
     }
 
