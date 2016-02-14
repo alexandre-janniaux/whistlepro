@@ -15,7 +15,7 @@ public class StrongClassifierLearner{
 	public static StrongClassifier buildClassifier(ArrayList<TrainExampleInterface> examples, int nbFeatures, int nbWeakClassifer)
 	{
  
-		ArrayList<WeakClassifier> classifiers = new ArrayList<WeakClassifier>();
+		StrongClassifier.Builder builder = new StrongClassifier.Builder();
 		 
 		int examplesNb = examples.size();
 		double defWeight = 1.0/examplesNb;
@@ -35,7 +35,7 @@ public class StrongClassifierLearner{
 			classifierBuilder.setCoef(alpha);
 			
 			WeakClassifier classifier = classifierBuilder.build();
-			classifiers.add(classifier);  
+			builder.add(classifier);  
 			
 			for(TrainExampleInterface ex : examples)
 			{  
@@ -45,13 +45,10 @@ public class StrongClassifierLearner{
 							);
 				 
 			}
-			
-			
-			
+			 
 		}
-		 
-		
-		return new StrongClassifier(classifiers);
+		  
+		return builder.build();
 	}
 	
 	/***

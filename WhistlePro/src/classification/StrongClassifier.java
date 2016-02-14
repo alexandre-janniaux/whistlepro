@@ -15,9 +15,9 @@ public class StrongClassifier implements ClassifierInterface<FeatureProviderInte
 	
 	private ArrayList<WeakClassifier> classifiers = null;
 	
-	public StrongClassifier(ArrayList<WeakClassifier> wClassifiers)
-	{
-		classifiers = wClassifiers;
+	public StrongClassifier(Builder builder)
+	{ 
+		classifiers = builder.classifiers;
 	}
 	
 	/***
@@ -60,41 +60,40 @@ public class StrongClassifier implements ClassifierInterface<FeatureProviderInte
 	public static class Builder
 	{
 		private ArrayList<WeakClassifier> classifiers = new ArrayList<WeakClassifier>();
-
-		public StrongClassifier build()
-		{
-			return new StrongClassifier(classifiers);
-		}
-		
-		/***
-		 * Loads the data from a file, the data are read following
-		 * the format of the funciton toString().
-		 * @param fileName is name of the file where data will be read.
-		 */
-		public void fromFile(String fileName)
-		{ 
-			stringToClassifiers(FileOperator.getDataFromFile(fileName));	    
-		}
-		
+   
 		/***
 		 * Parse the data in a string to fill a list of weak classifiers.
 		 * @param str is the string containing the data.
 		 */
-		private void stringToClassifiers(String str)
+		public  Builder fromString(String str)
 		{
 			ArrayList<WeakClassifier> classifiers = new ArrayList<WeakClassifier>();
 			
-			Pattern pattern = Pattern.compile("<[a-zA-Z0-9]*>.*</[a-zA-Z0-9]*>");
+			Pattern pattern = Pattern.compile("<weakClassifier>.*?</weakClassifier>", Pattern.DOTALL);
 			Matcher matcher = pattern.matcher(str);
 			
 			while (matcher.find())
 			{ 
 				String tmp = matcher.group();
-				tmp = tmp.replaceAll("<[a-zA-Z0-9]*>|</[a-zA-Z0-9]*>", "");  
+				tmp = tmp.replaceAll("<weakClassifier>|</weakClassifier>", "");  
 				classifiers.add(new WeakClassifier.Builder().fromString(tmp).build());
 			}
 			
 			this.classifiers  = classifiers;
+			
+			return this;
+		}
+  
+		public  Builder add(WeakClassifier wc)
+		{
+			 classifiers.add(wc);
+			
+			return this;
+		}
+		
+		public StrongClassifier build()
+		{
+			return new StrongClassifier(this);
 		}
 		
 	}

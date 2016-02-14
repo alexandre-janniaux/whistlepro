@@ -2,6 +2,6 @@ package classification;
 
 public interface ClassifierInterface<E> {
 	
-	double classify(E sample);
-
+	public double classify(E sample);
+	 
 }
