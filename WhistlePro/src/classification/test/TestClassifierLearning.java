@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import classification.FeatureProviderInterface;
 import classification.FileOperator;
-import classification.MultipleClassifiers;
+import classification.MultipleStrongClassifiers;
 import classification.MultipleStrongClassifiersLearner;
 
 public class TestClassifierLearning {
@@ -53,7 +53,7 @@ public class TestClassifierLearning {
 		
 		System.out.println("Nombre d'échantillons : "+ samples.size());
 		 
-		MultipleClassifiers classifiers = MultipleStrongClassifiersLearner.buildClassifiers(classes, samples, NB_FEATURES, NB_CLASSIFIERS_TO_CREATE);
+		MultipleStrongClassifiers classifiers = MultipleStrongClassifiersLearner.buildClassifiers(classes, samples, NB_FEATURES, NB_CLASSIFIERS_TO_CREATE);
 		
 		FileOperator.saveToFile(classifierSavefileName, classifiers.toString());
 		

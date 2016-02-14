@@ -1,7 +1,7 @@
 package classification.test;
  
 import classification.FileOperator;
-import classification.MultipleClassifiers; 
+import classification.MultipleStrongClassifiers; 
 
 public class TestClassification {
 
