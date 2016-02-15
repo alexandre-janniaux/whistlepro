@@ -10,4 +10,15 @@ public interface DataListenerInterface<E> {
     //////////////////////////////
     void onPushData(DataSourceInterface<E> source, E inputData);
 
+
+    ////////////////////////////// 
+    /// @brief called when a transaction of data ends
+    ////////////////////////////// 
+    void onCommit(DataSourceInterface<E> source);
+
+    ////////////////////////////// 
+    /// @brief called when a transaction of data starts
+    ////////////////////////////// 
+    void onTransaction(DataSourceInterface<E> source);
+
 }

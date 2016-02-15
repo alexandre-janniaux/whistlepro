@@ -32,4 +32,15 @@ public class SpectrumStream
         return false;
     }
 
+    @Override
+    public void onCommit(DataSourceInterface<ArrayList<Double>> source) {
+
+    }
+
+    @Override
+    public void onTransaction(DataSourceInterface<ArrayList<Double>> source) {
+
+
+    }
+
 }

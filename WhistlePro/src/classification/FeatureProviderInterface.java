@@ -1,6 +1,6 @@
 package classification;
 
-interface FeatureProviderInterface {
+public interface FeatureProviderInterface {
     
     //////////////////////////////  
     /// @brief return the number of features this provider gives
