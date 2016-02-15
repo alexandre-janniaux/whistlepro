@@ -3,6 +3,7 @@ package stream;
 import common.DataListenerInterface;
 import common.DataSourceInterface;
 import common.JobProviderInterface;
+import classification.FeatureProviderInterface;
 import java.util.ArrayList;
 
 public class ClassificationStream 
@@ -15,6 +16,10 @@ public class ClassificationStream
         // Define a possible parallel job 
         JobProviderInterface
 {
+
+    public void addFeatureProvider(FeatureProviderInterface featureProvider) {
+
+    }
 
     @Override
     public void onPushData(DataSourceInterface<ArrayList<Double>> source, ArrayList<Double> data) {

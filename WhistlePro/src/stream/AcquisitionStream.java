@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import common.DataSourceInterface;
 
 // TODO: documentation
-class AcquisitionStream 
+public class AcquisitionStream 
     extends DataSourceInterface<ArrayList<Double>>
 {
     //TODO: implement recording [ACQUISITION]

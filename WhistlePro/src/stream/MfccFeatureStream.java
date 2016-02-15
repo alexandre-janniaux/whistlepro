@@ -3,8 +3,9 @@ package stream;
 import common.DataListenerInterface;
 import common.DataSourceInterface;
 import common.JobProviderInterface;
-import java.util.ArrayList;
 import features.MfccFeatureProvider;
+import classification.FeatureProviderInterface;
+import java.util.ArrayList;
 
 public class MfccFeatureStream
     extends 
@@ -14,11 +15,18 @@ public class MfccFeatureStream
         // Receive an arraylist of double as input (the signal itself, smoothed or not)
         DataListenerInterface<ArrayList<Double>>,
         // Define a possible parallel job 
-        JobProviderInterface
+        JobProviderInterface,
+        // Notice feature provider
+        FeatureProviderInterface
 {
     private MfccFeatureProvider mfcc = new MfccFeatureProvider();
     private ArrayList<ArrayList<Double>> storedData = new ArrayList<>(); 
     private int index = 0;
+
+    @Override
+    public int countFeatures() {
+        return this.mfcc.countFeatures();
+    }
 
     @Override
     public void onPushData(DataSourceInterface<ArrayList<Double>> source, ArrayList<Double> data) {
