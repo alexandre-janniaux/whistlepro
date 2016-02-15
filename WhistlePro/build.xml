@@ -1,0 +1,55 @@
+<project name="WhistlePro" default="compile" basedir=".">
+
+    <property name="project.bin.dir" value="dir" />
+    <property name="project.src.dir" value="src" />
+    <property name="project.lib.dir" value="lib" />
+    <property name="project.build.dir" value="build" />
+    <property name="project.nom" value="WhistlePro" />
+    <property name="project.version" value="1.0" />
+
+    <!--
+    <fileset dir="sources">
+        <patternset id="source_code">
+            <include="**/*.java" />
+        </patternset>
+    </fileset>
+-->    
+    <path id="project.classpath">
+        <fileset dir="${project.lib.dir}">
+            <include name="*.jar" />
+        </fileset>
+        <pathelement location="${project.bin.dir}" />
+    </path>
+
+    <target name="init">
+        <echo message="Compilation du projet" />
+    </target>
+
+    <target name="compile" description="Compilation des classes">
+        <mkdir dir="${project.bin.dir}" />
+        <mkdir dir="${project.build.dir}" />
+        <javac srcdir="${project.src.dir}"
+            destdir="${project.build.dir}"
+            debug="on"
+            optimize="off"
+            deprecation="on"
+            includeantruntime="false">
+
+            <classpath>
+                <pathelement location="./${project.lib.dir}/commons-math3-3.6.jar" />
+            </classpath>
+
+        </javac>
+    </target>
+
+    <target name="packaging">
+        <jar destfile="${project.bin.dir}/WhistlePro.jar">
+            <manifest>
+                <attribute name="Main-Class" value="fr.enst.pact34.main.Main" />
+                <attribute name="Class-Path" value="./lib/*.jar" />
+            </manifest>
+        </jar>
+    </target>
+
+
+</project>
