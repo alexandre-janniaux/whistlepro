@@ -26,17 +26,28 @@
         <echo message="Vérification des dépendances" />
         
         <mkdir dir="tmp" />
-        <available file="${project.lib.dir}" property="need-apache-commons-math" />
-        <antcall target="install-apache-commons-math" />
+        <available file="${project.lib.dir}/commons-math3-3.6.jar" property="need-apache-commons-math" />
+        <available file="${project.lib.dir}/junit-4.12.jar" property="need-junit" />
+        <antcall>
+            <target name="install-apache-commons-math" />
+            <target name="install-junit" />
+        </antcall>
         <delete dir="tmp/" />
     </target>
 
-    <target name="install-apache-commons-math" if="need-apache-commons-math">
+    <target name="install-apache-commons-math" unless="need-apache-commons-math">
         <echo message="Téléchargement de Apache Commons Math3" />
         <get src="http://www.eu.apache.org/dist/commons/math/binaries/commons-math3-3.6-bin.zip" dest="tmp/commons-math.zip" />
         <unzip src="tmp/commons-math.zip" dest="tmp/" />
         <copy file="tmp/commons-math3-3.6/commons-math3-3.6.jar" todir="${project.lib.dir}" />
         <echo message="Apache Commons Math a été installé" />
+    </target>
+
+    <target name="install-junit" unless="need-junit">
+        <echo message="Téléchargement de jUnit" />
+        <get src="http://search.maven.org/remotecontent?filepath=junit/junit/4.12/junit-4.12.jar" dest="${project.lib.dir}/junit-4.12.jar" />
+        <get src="http://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" dest="${project.lib.dir}/hamcrest-core-1.3.jar" />
+        <echo message="jUnit a été installé" />
     </target>
 
     <target name="init" depends="init-depend">
@@ -55,6 +66,8 @@
 
             <classpath>
                 <pathelement location="./${project.lib.dir}/commons-math3-3.6.jar" />
+                <pathelement location="./${project.lib.dir}/junit-4.12.jar" />
+                <pathelement location="./${project.lib.dir}/hamcrest-core-1.3.jar" />
             </classpath>
 
         </javac>
