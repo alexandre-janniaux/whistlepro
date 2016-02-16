@@ -19,20 +19,28 @@ public class MfccFeatureProvider
         return 13; //+ 13 + 13;
     }
 
+    public double[] signalToMelScale(double[] signal) 
+    {
+
+        return signal;
+    }
+
+    public double[] filterSpectrum(double[] signal)
+    {
+        return signal;
+    }
+
     public ArrayList<Double> processMfcc(double[] spectrum)
     {
         // COMPUTE THE POWER SPECTRUM
         for(int i=0; i<spectrum.length; ++i)
             spectrum[i] = spectrum[i]*spectrum[i]; 
         
+        // FILTERING
+        double[] filtered = this.filterSpectrum(spectrum);
 
-        /* MEL FILTER
-        for(int i = 0; i < nbMelFilter; ++i)
-        {
-            
-        }*/
-        
-        double[] melSignal = spectrum; // TODO : compute mel filtered signal
+        // GO TO MEL SCALE
+        double[] melSignal = this.signalToMelScale(filtered); 
 
         for(Double x : melSignal) x = Math.log(x);
 
