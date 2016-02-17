@@ -50,22 +50,27 @@ public class MfccFeatureProvider
  
     }
 
-    public double[][] computeFilterBank()
+    public TriangleConvolution[] computeFilterBank(int[] frequencies)
     {
-        return null;
+        TriangleConvolution[] filters = new TriangleConvolution[frequencies.length-1];
+        for(int i=0; i<frequencies.length-1; ++i)
+        {
+            filters[i] = new TriangleConvolution(frequencies[i], frequencies[i+1], frequencies[i+2]);
+        }
+        return filters;
     }
 
     public double[] computeFilter(double[] signal)
     {
         double[] output = new double[this.nbMelFilter];
         int[] frequencies = computeFilterFrequencies(this.minFrequency, this.maxFrequency);
+        TriangleConvolution[] filters = computeFilterBank(frequencies);
         
         for(int i=0; i < this.nbMelFilter; ++i)
         {
-            TriangleConvolution filter = new TriangleConvolution(frequencies[i], frequencies[i+1], frequencies[i+2]);
             // double f_d = Math.floor((signal.length+1)*f/this.samplingFrequency);
 
-            output[i] = computePower(filter.convoluate(signal, 0, signal.length));
+            output[i] = computePower(filters[i].convoluate(signal, 0, signal.length));
         }
         return output;
     }
