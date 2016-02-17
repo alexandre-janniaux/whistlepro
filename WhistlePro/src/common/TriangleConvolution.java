@@ -3,7 +3,7 @@ package common;
 import common.ConvolutionInterface;
 import common.Convolution1D;
 
-class TriangleConvolution
+public class TriangleConvolution
     implements ConvolutionInterface
 {
     private Convolution1D filter;
@@ -11,7 +11,7 @@ class TriangleConvolution
     public TriangleConvolution(int nbPoints, int shift) {
 
         double[] kernel = new double[nbPoints];
-        int middle = (int) (nbPoint/2);
+        int middle = nbPoints/2;
 
         for(int i=0; i < nbPoints; ++i) 
         {
@@ -21,6 +21,11 @@ class TriangleConvolution
                 kernel[i] = 2-i/middle;
         }
         filter = new Convolution1D(shift, kernel);
+    }
+
+    public double[] convoluate(double[] signal, int start, int stop)
+    {
+        return this.filter.convoluate(signal, start, stop);
     }
 
 }

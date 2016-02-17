@@ -2,6 +2,7 @@ package features;
 
 import common.ConvolutionInterface;
 import common.Convolution1D;
+import common.TriangleConvolution;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.lang.Math;
@@ -14,8 +15,8 @@ public class MfccFeatureProvider
 
     // TODO: getter/setter for frequencies and mel filters;
     private int nbMelFilter = 24;
-    private double minFrequency=300., maxFrequency=8000.;
-    private double samplingFrequency=16000.;
+    private int minFrequency=300, maxFrequency=8000;
+    private int samplingFrequency=16000;
 
     public double frequencyToMel(double frequency) 
     {
@@ -33,6 +34,22 @@ public class MfccFeatureProvider
         return 13; //+ 13 + 13;
     }
 
+    public int[] computeFilterFrequencies(int minFrequency, int maxFrequency)
+    {
+        double minMel = frequencyToMel(minFrequency);
+        double maxMel = frequencyToMel(maxFrequency);
+        double stepMel = (maxMel-minMel)/this.nbMelFilter;
+
+        int[] frequencies = new int[this.nbMelFilter];
+        frequencies[0] = minFrequency;
+        for(int i=1; i <= this.nbMelFilter+1; ++i)
+        {
+            frequencies[i] = (int) melToFrequency(minMel+i*stepMel);
+        }
+        return frequencies;
+ 
+    }
+
     public double[][] computeFilterBank()
     {
         return null;
@@ -41,22 +58,16 @@ public class MfccFeatureProvider
     public double[] computeFilter(double[] signal)
     {
         double[] output = new double[this.nbMelFilter];
-        double minMel = frequencyToMel(this.minFrequency);
-        double maxMel = frequencyToMel(this.maxFrequency);
-        double stepMel = (maxMel-minMel)/this.nbMelFilter;
-
+        int[] frequencies = computeFilterFrequencies(this.minFrequency, this.maxFrequency);
+        
         for(int i=0; i < this.nbMelFilter; ++i)
         {
-            double f = melToFrequency(minMel+i*stepMel);
-            double f_d = Math.floor((signal.length+1)*f/this.samplingFrequency);
-            double[] kernel = new double[6];
-            int shift = 0;
+            TriangleConvolution filter = new TriangleConvolution(frequencies[i+2]-frequencies[i], frequencies[i+1]);
+            // double f_d = Math.floor((signal.length+1)*f/this.samplingFrequency);
 
-            ConvolutionInterface filter = new Convolution1D(shift, kernel);
             output[i] = computePower(filter.convoluate(signal, 0, signal.length));
         }
-
-        return signal;
+        return output;
     }
 
     //////////////////////////////
