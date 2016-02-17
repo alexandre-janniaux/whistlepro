@@ -62,7 +62,7 @@ public class MfccFeatureProvider
         
         for(int i=0; i < this.nbMelFilter; ++i)
         {
-            TriangleConvolution filter = new TriangleConvolution(frequencies[i+2]-frequencies[i], frequencies[i+1]);
+            TriangleConvolution filter = new TriangleConvolution(frequencies[i], frequencies[i+1], frequencies[i+2]);
             // double f_d = Math.floor((signal.length+1)*f/this.samplingFrequency);
 
             output[i] = computePower(filter.convoluate(signal, 0, signal.length));

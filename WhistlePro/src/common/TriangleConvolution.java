@@ -8,19 +8,23 @@ public class TriangleConvolution
 {
     private Convolution1D filter;
 
-    public TriangleConvolution(int nbPoints, int shift) {
-
+    public TriangleConvolution(int start, int mid, int stop) {
+        assert(start < mid);
+        assert(mid < stop);
+        int nbPoints = stop-start;
         double[] kernel = new double[nbPoints];
-        int middle = nbPoints/2;
+
+        double stepAscend = 1/(mid-start);
+        double stepDescend = 1/(stop-mid);
 
         for(int i=0; i < nbPoints; ++i) 
         {
-            if (i <= middle)
-                kernel[i] = i/middle;
+            if (i <= mid)
+                kernel[i] = i*stepAscend;
             else
-                kernel[i] = 2-i/middle;
+                kernel[i] = 1-(i-mid+start)*stepDescend;
         }
-        filter = new Convolution1D(shift, kernel);
+        filter = new Convolution1D(start, kernel);
     }
 
     public double[] convoluate(double[] signal, int start, int stop)
