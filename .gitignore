@@ -1,0 +1,11 @@
+*.aux
+*.log
+*.nav
+*.out
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.toc
+*.vrb
+*.syntastic_javac_config
