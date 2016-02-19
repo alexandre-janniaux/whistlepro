@@ -76,7 +76,7 @@
     <target name="packaging">
         <jar destfile="${project.bin.dir}/WhistlePro.jar">
             <manifest>
-                <attribute name="Main-Class" value="fr.enst.pact34.main.Main" />
+                <attribute name="Main-Class" value="fr.enst.pact34.main.MainApplication" />
                 <attribute name="Class-Path" value="./lib/*.jar" />
             </manifest>
         </jar>
