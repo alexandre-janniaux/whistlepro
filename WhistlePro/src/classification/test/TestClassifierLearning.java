@@ -9,7 +9,7 @@ import classification.MultipleStrongClassifiersLearner;
 
 public class TestClassifierLearning {
 
-	protected static int NB_CLASSIFIERS_TO_CREATE = 100;
+	protected static int NB_CLASSIFIERS_TO_CREATE = 500;
 	protected static int NB_FEATURES= 20;
 	protected static String datafileName = "src/classification/test/instrument_features.csv";
 	protected static String classifierSavefileName = "src/classification/test/instrument_features.scs";
