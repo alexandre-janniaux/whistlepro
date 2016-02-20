@@ -113,6 +113,23 @@ public class MultipleStrongClassifiers implements MultipleClassifierInterface<Fe
 	}
 
 	@Override
+	public String classifyStr(FeatureProviderInterface sample)
+	{
+		double max = -Double.MAX_VALUE;
+		String reco = null;
+		for(int i = 0; i < classifiersList.length; i ++)
+		{
+			double res = classifiersList[i].sc.classify(sample);
+			if(res > max)
+			{
+				max = res;
+				reco = classifiersList[i].classe;
+			}
+		}
+		return reco;
+	}
+
+	@Override
 	public int nbOfClassifiers() { 
 		return classifiersList.length;
 	}

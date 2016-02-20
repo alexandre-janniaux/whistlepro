@@ -15,4 +15,18 @@ public class ArrayClassifier {
 		
  		return res; 
 	}
+
+	public static String[] classifyStr(
+			MultipleClassifierInterface<FeatureProviderInterface> classifiers,
+			FeatureProviderInterface[] samples)
+	{
+		String[] res = new String[samples.length];
+
+		for(int i = 0; i < samples.length; i ++)
+		{
+			res[i] = classifiers.classifyStr(samples[i]);
+		}
+
+		return res;
+	}
 }
