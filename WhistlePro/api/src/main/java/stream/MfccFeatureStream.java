@@ -52,8 +52,8 @@ public class MfccFeatureStream
             double[] input = new double[storedData.get(this.index).size()];
             for(int i=0; i<this.storedData.get(index).size(); ++i) input[i] = (double) this.storedData.get(index).get(i);
 
-            ArrayList<Double> coeffs = mfcc.processMfcc(input);
-            push(coeffs); // TODO: push full array
+            //TODO : arrange input => ArrayList<Double> coeffs = mfcc.processMfcc(input);
+            //TODO => push(coeffs); // TODO: push full array
             index++;
         }
         commit();

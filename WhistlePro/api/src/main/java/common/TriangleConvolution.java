@@ -14,12 +14,12 @@ public class TriangleConvolution
         int nbPoints = stop-start;
         double[] kernel = new double[nbPoints];
 
-        double stepAscend = 1/(mid-start);
-        double stepDescend = 1/(stop-mid);
+        double stepAscend = 1.0/(mid-start);
+        double stepDescend = 1.0/(stop-mid);
 
         for(int i=0; i < nbPoints; ++i) 
         {
-            if (i <= mid)
+            if (i <= mid-start)
                 kernel[i] = i*stepAscend;
             else
                 kernel[i] = 1-(i-mid+start)*stepDescend;
