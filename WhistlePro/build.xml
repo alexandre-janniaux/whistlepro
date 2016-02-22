@@ -7,6 +7,8 @@
     <property name="project.nom" value="WhistlePro" />
     <property name="project.version" value="1.0" />
     <property name="project.tmp.dir" value="tmp" />
+    <property name="tests.src.dir" value="${project.src.dir}/tests" />
+    <property name="tests.report.dir" value="${project.build/dir}/reports" />
 
     <!--
     <fileset dir="sources">
@@ -80,6 +82,19 @@
                 <attribute name="Class-Path" value="./lib/*.jar" />
             </manifest>
         </jar>
+    </target>
+
+    <target name="tests" depends="compile">
+        <junit fork="yes">
+            <classpath location="./${project.lib.dir}/junit-4.12.jar" />
+            <formatter type="xml" />
+            <formatter type="plain" />
+            <batchtest fork="yes" todir="${tests.report.dir}">
+                <fileset dir="${tests.src.dir}">
+                    <include name="**/*Test.java" />
+                </fileset>
+            </batchtest>
+        </junit>
     </target>
 
 
