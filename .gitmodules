@@ -1,6 +1,3 @@
 [submodule "Presentations/images"]
 	path = Presentations/images
 	url = https://github.com/alexandre-janniaux/pact34-images.git
-[submodule "WhistlePro/src/android"]
-	path = WhistlePro/src/android
-	url = ../sbenkirane-lepeudryAndr.git
