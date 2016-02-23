@@ -1,3 +1,7 @@
 build/
 lib/
 bin/
+/.classpath
+/.project
+/.idea/
+/WhistlePro.iml
