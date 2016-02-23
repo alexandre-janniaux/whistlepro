@@ -15,6 +15,7 @@ public class Spectrum {
         this.values = values;
         this.fs = fs;
 
+        scale = new double[values.length];
         for(int i = 0; i < values.length; i++)
         {
             scale[i] = i*fs/nbPtsSig;

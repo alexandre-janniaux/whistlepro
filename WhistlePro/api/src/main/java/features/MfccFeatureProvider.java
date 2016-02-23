@@ -5,6 +5,7 @@ import java.lang.Math;
 
 import classification.FeatureProviderInterface;
 import common.Spectrum;
+import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.transform.FastCosineTransformer;
 import org.apache.commons.math3.transform.DctNormalization;
 import org.apache.commons.math3.transform.TransformType;
@@ -86,7 +87,7 @@ public class MfccFeatureProvider implements FeatureProviderInterface
 
         for(int i = 1; i < frequencies.length-1; i++)
         {
-            filters[i] = computeTriangleFilter(echelleFreq,frequencies[i-1],frequencies[i],frequencies[i+1]);
+            filters[i-1] = computeTriangleFilter(echelleFreq,frequencies[i-1],frequencies[i],frequencies[i+1]);
         }
 
         return filters;
@@ -131,31 +132,60 @@ public class MfccFeatureProvider implements FeatureProviderInterface
     }
 
 
-    public ArrayList<Double> processMfcc(Spectrum spectrumIn)
+    public static ArrayList<Double> processMfcc(Spectrum spectrumIn)
     {
-        // COMPUTE THE POWER SPECTRUM
+        //limit to 3500 Hz
+        int iMax = (int)(Math.round(3500*spectrumIn.getNbPtsSig()/spectrumIn.getFs()-1));
+        double fftC[] = new double[iMax];
         double[] spectrum = spectrumIn.getSpectrumValues();
-        for(int i=0; i<spectrum.length; ++i)
-            spectrum[i] = spectrum[i]*spectrum[i]; 
+        for(int i = 0; i < iMax; i++) fftC[i]=spectrum[i];
 
-        spectrumIn = new Spectrum(spectrumIn.getNbPtsSig(),spectrumIn.getFs(),spectrum);
+        // COMPUTE THE POWER SPECTRUM
+        for(int i=0; i<fftC.length; ++i)
+            fftC[i] = fftC[i]*fftC[i];
+
+        spectrumIn = new Spectrum(spectrumIn.getNbPtsSig(),spectrumIn.getFs(),fftC);
 
         // FILTERING
-        double[] filtered = this.computeMelSpectrum(spectrumIn.getSpectrumValues(), spectrumIn.getSpectrumScale());
+        double[] filtered = computeMelSpectrum(spectrumIn.getSpectrumValues(), spectrumIn.getSpectrumScale());
 
-        for(Double x : filtered) x = Math.log(x);
+        for(int i = 0; i < filtered.length; i++)
+        {
+            filtered[i] = Math.log(filtered[i]);
+        }
 
-        // DCT TRANSFORM
-        FastCosineTransformer dct = new FastCosineTransformer(DctNormalization.STANDARD_DCT_I);
-
-        double mfcc[] = dct.transform(filtered, TransformType.FORWARD);
+        double mfcc[] = dct(filtered);
         
         ArrayList<Double> coeffs = new ArrayList<>();
         coeffs.ensureCapacity(13);
-        for(int i=0; i<13; ++i)
-            coeffs.add(mfcc[i]);
+
+        coeffs.add(mfcc[0]/Math.sqrt(Math.pow(2,6)));
+        for(int i=1; i<13; ++i)
+            coeffs.add(Math.sqrt(2)*mfcc[i]);
 
         return coeffs;
+    }
+
+    private static double[] dct(double[] signal) {
+        int N = signal.length;
+        double dct[] = new double[N];
+        dct[0] = 0;
+        for(int n = 0; n < N; n++)
+        {
+            dct[0] += signal[n]* 1;//1=cos(0)=>Math.cos((Math.PI*(2*n+1)*k)/(2*N)) k = 0;
+        }
+        dct[0]= dct[0]/Math.sqrt(N);
+
+        for(int k = 1; k < N ; k++)
+        {
+            dct[k] = 0;
+            for(int n = 0; n < N; n++)
+            {
+                dct[k] += signal[n]*Math.cos((Math.PI*(2*n+1)*k)/(2*N));
+            }
+            dct[k]= (dct[k]*Math.sqrt(2))/Math.sqrt(N);
+        }
+        return dct;
     }
 
 }
