@@ -45,16 +45,16 @@ public class tests {
 
             readWavFile.close();
 
-            double[] fft = AffichageFFT.affichageFFT_R(buffer,"null");
+            double[] fft = AffichageFFT.FFT_matlab(buffer);
 
             for(i=0; i < fft.length; i++)
             {
-                fft[i]=2*(fft[i]/Math.pow(2,13));
+                fft[i]=2*(fft[i]/fft.length);
 
             }
 
 
-            Spectrum sp = new Spectrum(Math.pow(2,13),Fs,fft);
+            Spectrum sp = new Spectrum(fft.length,Fs,fft);
 
             ArrayList<Double> coef = MfccFeatureProvider.processMfcc(sp);
 

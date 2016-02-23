@@ -34,7 +34,7 @@ public class MfccFeatureProvider implements FeatureProviderInterface
         return 13; //+ 13 + 13;
     }
 
-    public static double[] computeFilterFrequencies(int minFrequency, int maxFrequency)
+    public static double[] computeFilterFrequencies(double minFrequency, double maxFrequency)
     {
         double minMel = frequencyToMel(minFrequency);
         double maxMel = frequencyToMel(maxFrequency);
@@ -43,7 +43,7 @@ public class MfccFeatureProvider implements FeatureProviderInterface
         double[] frequencies = new double[nbMelFilter+2]; 
         for(int i=0; i < nbMelFilter+2; ++i)
         {
-            frequencies[i] = (int) melToFrequency(minMel+i*stepMel);
+            frequencies[i] = melToFrequency(minMel+i*stepMel);
         }
         return frequencies;
  
@@ -135,7 +135,7 @@ public class MfccFeatureProvider implements FeatureProviderInterface
     public static ArrayList<Double> processMfcc(Spectrum spectrumIn)
     {
         //limit to 3500 Hz
-        int iMax = (int)(Math.round(3500*spectrumIn.getNbPtsSig()/spectrumIn.getFs()-1));
+        int iMax = (int)(Math.round(3500*spectrumIn.getNbPtsSig()/spectrumIn.getFs())+1);
         double fftC[] = new double[iMax];
         double[] spectrum = spectrumIn.getSpectrumValues();
         for(int i = 0; i < iMax; i++) fftC[i]=spectrum[i];
@@ -158,10 +158,8 @@ public class MfccFeatureProvider implements FeatureProviderInterface
         
         ArrayList<Double> coeffs = new ArrayList<>();
         coeffs.ensureCapacity(13);
-
-        coeffs.add(mfcc[0]/Math.sqrt(Math.pow(2,6)));
-        for(int i=1; i<13; ++i)
-            coeffs.add(Math.sqrt(2)*mfcc[i]);
+        for(int i=0; i<13; ++i)
+            coeffs.add(mfcc[i]);
 
         return coeffs;
     }

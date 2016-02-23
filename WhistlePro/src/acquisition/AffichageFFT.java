@@ -51,9 +51,9 @@ public class AffichageFFT {
 			}
 		}	
 
-		FastFourierTransformer fft = new FastFourierTransformer(DftNormalization.STANDARD);		
+		FastFourierTransformer fft = new FastFourierTransformer(DftNormalization.STANDARD);
 
-		Complex[] res1 = fft.transform(y,TransformType.FORWARD);
+		Complex[] res1 = fft.transform(y,TransformType.INVERSE);
 
 		double[] mod_res = new double[res1.length];
 
@@ -63,6 +63,28 @@ public class AffichageFFT {
 		}	
 
 		return mod_res;
-	}	
+	}
+
+	public static double[] FFT_matlab(double sig[])
+	{
+		Complex fft[] = new Complex[sig.length];
+
+
+		for (int k = 0; k < fft.length; k++)
+		{
+			fft[k] = new Complex(0);
+			for(int j = 0; j < sig.length; j++)
+			{
+
+				fft[k]=fft[k].add(new Complex(0.0,-2.0*Math.PI*j*k/sig.length).exp().multiply(sig[j]));//Complex.valueOf(0.0,-2.0*Math.PI*j*k/sig.length).exp().multiply((double)(sig[j])));
+
+			}
+		}
+
+		double fftR[] = new double[fft.length];
+		for(int i = 0; i < fft.length;i ++) fftR[i] = fft[i].abs();
+
+		return fftR;
+	}
 
 }
