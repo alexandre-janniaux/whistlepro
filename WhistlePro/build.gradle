@@ -19,15 +19,8 @@ subprojects {
     }
 }
 
-project(':api') {
-    apply plugin: "java"
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.10'
 }
 
-project(':demo') {
-    apply plugin: "java"
-}
-
-project(':app') {
-    
-}
 
