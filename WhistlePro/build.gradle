@@ -9,7 +9,8 @@ buildscript {
 }
 
 allprojects {
-
+    apply plugin: 'eclipse'
+    group = 'fr.enst.pact34'
 }
 
 subprojects {
