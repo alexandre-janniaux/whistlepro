@@ -5,6 +5,7 @@ import acquisition.WavFile;
 import acquisition.WavFileException;
 import classification.FeatureProviderInterface;
 import common.Spectrum;
+import common.transformers;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class tests {
 
             readWavFile.close();
 
-            double[] fft = AffichageFFT.FFT_matlab(buffer);
+            double[] fft = transformers.fft(buffer);
 
             for(i=0; i < fft.length; i++)
             {
@@ -58,7 +59,13 @@ public class tests {
 
             ArrayList<Double> coef = MfccFeatureProvider.processMfcc(sp);
 
-            System.out.print('E');
+            System.out.println();
+            for(i = 0; i < coef.size(); i ++)
+            {
+                System.out.print(coef.get(i) + ";");
+            }
+
+            System.out.println();
 
 
         } catch (IOException e) {

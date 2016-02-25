@@ -1,7 +1,7 @@
 package common;
 
 /**
- * Created by Mohamed Mansour on 22/02/16.
+ * Created by Mohamed  on 22/02/16.
  */
 public class Spectrum {
 
