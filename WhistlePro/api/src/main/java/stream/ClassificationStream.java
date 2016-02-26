@@ -22,7 +22,7 @@ public class ClassificationStream
     }
 
     @Override
-    public void onPushData(DataSourceInterface<ArrayList<Double>> source, ArrayList<Double> data) {
+    public void onPushData(DataSourceInterface<ArrayList<Double>> source, ArrayList<ArrayList<Double>> data) {
        // TODO: Store the data
     }
 

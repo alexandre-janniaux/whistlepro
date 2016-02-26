@@ -10,8 +10,8 @@ import common.transformers;
 
 public class MfccFeatureProvider implements FeatureProviderInterface
 {
-    private static final int nbMelFilter = 24;
-    private static double minFrequency = 0, maxFrequency = 3500;
+    private final int nbMelFilter = 24;
+    private double minFrequency = 0, maxFrequency = 3500;
 
     public int countFeatures() 
     {
@@ -19,7 +19,7 @@ public class MfccFeatureProvider implements FeatureProviderInterface
         return 13; //+ 13 + 13;
     }
 
-    public static double[] applyFilter(double[] signal, double[] filter)
+    public double[] applyFilter(double[] signal, double[] filter)
     {
         double output[]= new double[signal.length];
        //TODO : pour l'instant on suppose que signal et filter ont la meme taille
@@ -31,7 +31,7 @@ public class MfccFeatureProvider implements FeatureProviderInterface
         return output;
     }
 
-    public static double[] computeMelSpectrum(double[] signal, double[] echelleFreq)
+    public double[] computeMelSpectrum(double[] signal, double[] echelleFreq)
     {
         double[] output = new double[nbMelFilter];
         double[][] filters = FilterBankMel.computeFilterBank(minFrequency, maxFrequency,nbMelFilter,echelleFreq);
@@ -47,7 +47,7 @@ public class MfccFeatureProvider implements FeatureProviderInterface
     //////////////////////////////
     /// @brief compute power of a signal, which is the sum of the values of the signal
     //////////////////////////////
-    public static double computePower(double[] signal)
+    public double computePower(double[] signal)
     {
         double power = 0;
         for(double x : signal)
@@ -58,7 +58,7 @@ public class MfccFeatureProvider implements FeatureProviderInterface
     }
 
 
-    public static ArrayList<Double> processMfcc(Spectrum spectrumIn)
+    public ArrayList<Double> processMfcc(Spectrum spectrumIn)
     {
         //limit to maxFrequency (3500 Hz)
         int iMax = (int)(Math.round(maxFrequency*spectrumIn.getNbPtsSig()/spectrumIn.getFs())+1);

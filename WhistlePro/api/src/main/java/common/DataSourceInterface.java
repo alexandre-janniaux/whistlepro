@@ -1,6 +1,7 @@
 package common;
 
 import java.util.HashSet;
+import java.util.ArrayList;
 import common.DataListenerInterface;
 
 //TODO: documentation
@@ -30,7 +31,7 @@ public class DataSourceInterface<E> {
     /// @brief push data to listeners
     /// @param outputData the data to broadcast
     //////////////////////////////
-    protected final void push(E outputData) {
+    protected final void push(ArrayList<E> outputData) {
         for (DataListenerInterface<E> out : this.listeners)
         {
             out.onPushData(this, outputData);

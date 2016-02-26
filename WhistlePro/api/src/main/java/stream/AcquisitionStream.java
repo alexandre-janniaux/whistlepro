@@ -5,7 +5,7 @@ import common.DataSourceInterface;
 
 // TODO: documentation
 public class AcquisitionStream 
-    extends DataSourceInterface<ArrayList<Double>>
+    extends DataSourceInterface<Double>
 {
     //TODO: implement recording [ACQUISITION]
     //

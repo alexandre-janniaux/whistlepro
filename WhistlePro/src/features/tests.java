@@ -20,6 +20,7 @@ public class tests {
 
     public static void main(String[] args)
     {
+        MfccFeatureProvider mfcc = new MfccFeatureProvider();
         System.out.print(" a");
 
 
@@ -57,7 +58,7 @@ public class tests {
 
             Spectrum sp = new Spectrum(fft.length,Fs,fft);
 
-            ArrayList<Double> coef = MfccFeatureProvider.processMfcc(sp);
+            ArrayList<Double> coef = mfcc.processMfcc(sp);
 
             System.out.println();
             for(i = 0; i < coef.size(); i ++)
