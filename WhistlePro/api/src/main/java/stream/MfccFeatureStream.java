@@ -55,6 +55,7 @@ public class MfccFeatureStream
         {
             results.add(mfcc.processMfcc(this.storedData.get(index)));
         }
+        this.storedData.clear();
 
         transaction();
         push(results);
