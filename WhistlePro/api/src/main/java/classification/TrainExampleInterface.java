@@ -1,11 +1,7 @@
 package classification;
 
-public interface TrainExampleInterface extends FeatureProviderInterface{
+public interface TrainExampleInterface extends FeaturedObjectInterface{
 
-	//return 1 or -1
-	public int isValid(); 
-	public void setValid(boolean valid);
-	
-	public void setWeight(double w);
-	public double getWeight();
+
+	String getClasse();
 }

@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  *
  */
 
-public class WeakClassifier implements ClassifierInterface<FeatureProviderInterface>{
+public class WeakClassifier implements ClassifierInterface<FeaturedObjectInterface>{
 
 	private double threshold;
 	private int featureIndex;
@@ -66,16 +66,16 @@ public class WeakClassifier implements ClassifierInterface<FeatureProviderInterf
 	 * or if left is false, if the value is inferior to the threshold,
 	 * otherwise it returns -1
 	 */
-	public double classify(FeatureProviderInterface sample)
+	public double classify(FeaturedObjectInterface sample)
 	{
 		double toTest = sample.getFeature(featureIndex);
 		if(left==true)
 		{
-			if(threshold < toTest) return 1;
+			if(threshold <= toTest) return 1;
 		}
 		else
 		{
-			if(toTest < threshold) return 1;
+			if(toTest <= threshold) return 1;
 		}
 		return  -1;
 	}

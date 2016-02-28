@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern; 
 
-public class MultipleStrongClassifiers implements MultipleClassifierInterface<FeatureProviderInterface>{
+public class MultipleStrongClassifiers implements MultipleClassifierInterface<FeaturedObjectInterface>{
 
 	private StrongClassifierItem[] classifiersList = null;
 	
@@ -101,19 +101,19 @@ public class MultipleStrongClassifiers implements MultipleClassifierInterface<Fe
 	}
 
 	@Override
-	public double[] classify(FeatureProviderInterface sample) {
-		double[] rets= new double[classifiersList.length];
+	public ArrayList<Double> classify(FeaturedObjectInterface sample) {
+		ArrayList<Double> rets= new ArrayList<>();
 		
 		for(int i = 0; i < classifiersList.length; i ++)
 		{  
-			rets[i] = classifiersList[i].sc.classify(sample);
+			rets.add(i, classifiersList[i].sc.classify(sample));
 		}
 		
 		return rets;
 	}
 
 	@Override
-	public String classifyStr(FeatureProviderInterface sample)
+	public String classifyStr(FeaturedObjectInterface sample)
 	{
 		double max = -Double.MAX_VALUE;
 		String reco = null;
@@ -135,12 +135,12 @@ public class MultipleStrongClassifiers implements MultipleClassifierInterface<Fe
 	}
 
 	@Override
-	public String[] classes() {
-		String[] rets= new String[classifiersList.length];
+	public ArrayList<String> classes() {
+		ArrayList<String> rets= new ArrayList<>();
 		
 		for(int i = 0; i < classifiersList.length; i ++)
 		{  
-			rets[i] = classifiersList[i].classe;
+			rets.add(i,classifiersList[i].classe);
 		}
 		
 		return rets;

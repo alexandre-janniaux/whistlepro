@@ -1,4 +1,7 @@
-package classification;
+package classification.Learning;
+
+import classification.StrongClassifier;
+import classification.WeakClassifier;
 
 import java.util.ArrayList;
 
@@ -12,7 +15,7 @@ public class StrongClassifierLearner{
 	 * @param nbWeakClassifer is the number of weak classifier to build.
 	 * @return a StrongClassifier objet containning the datas
 	 */
-	public static StrongClassifier buildClassifier(ArrayList<TrainExampleInterface> examples, int nbFeatures, int nbWeakClassifer)
+	public static StrongClassifier buildClassifier(ArrayList<TrainObjectInterface> examples, int nbFeatures, int nbWeakClassifer)
 	{
  
 		StrongClassifier.Builder builder = new StrongClassifier.Builder();
@@ -20,7 +23,7 @@ public class StrongClassifierLearner{
 		int examplesNb = examples.size();
 		double defWeight = 1.0/examplesNb;
 		
-		for(TrainExampleInterface ex : examples)
+		for(TrainObjectInterface ex : examples)
 		{
 			ex.setWeight(defWeight);
 		}
@@ -28,7 +31,7 @@ public class StrongClassifierLearner{
 
 		for(int r = 0; r < nbWeakClassifer; r++)
 		{ 
-			WeakClassifier.Builder classifierBuilder = new WeakClassifier.Builder(); 
+			WeakClassifier.Builder classifierBuilder = new WeakClassifier.Builder();
 			double epsilon = trainWeakClassifier(classifierBuilder, examples,nbFeatures);
 			
 			double alpha = Math.log((1-epsilon)/epsilon)/2;
@@ -37,7 +40,7 @@ public class StrongClassifierLearner{
 			WeakClassifier classifier = classifierBuilder.build();
 			builder.add(classifier);  
 			
-			for(TrainExampleInterface ex : examples)
+			for(TrainObjectInterface ex : examples)
 			{  
 				ex.setWeight(
 						ex.getWeight()*Math.exp(-alpha*ex.isValid()*classifier.classify(ex))
@@ -54,12 +57,10 @@ public class StrongClassifierLearner{
 	/***
 	 * Builds a weak classifier using the examples associated with their weights.
 	 * @param examples used to train the classifier.
-	 * @param nbExamples is the number of examples given.
 	 * @param nbFeatures is the number of features of an example.
-	 * @param w is the list of the weights associated with the examples.
 	 * @return a weak classifier.
 	 */
-	private static double trainWeakClassifier(WeakClassifier.Builder classifierBuilder, ArrayList<TrainExampleInterface> examples,int nbFeatures)
+	private static double trainWeakClassifier(WeakClassifier.Builder classifierBuilder, ArrayList<TrainObjectInterface> examples,int nbFeatures)
 	{ 
 		int nbExamples = examples.size();
 		int minPivotIndex = -1;

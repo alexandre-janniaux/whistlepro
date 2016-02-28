@@ -1,16 +1,18 @@
 package classification;
 
+import java.util.ArrayList;
+
 public class ArrayClassifier {
 
-	public static double[][] classify(
+	public static ArrayList<ArrayList<Double>> classify(
 			MultipleClassifierInterface<FeatureProviderInterface> classifiers, 
 			FeatureProviderInterface[] samples)
 	{
-		double[][] res = new double[samples.length][classifiers.nbOfClassifiers()];
+		ArrayList<ArrayList<Double>> res = new ArrayList<>();
 		
 		for(int i = 0; i < samples.length; i ++)
 		{
-			res[i] = classifiers.classify(samples[i]);
+			res.add(i,classifiers.classify(samples[i]));
 		}
 		
  		return res; 

@@ -30,7 +30,7 @@ class MainApplication {
         //////////////////////////////
         // CLASSIFICATION FEATURES CONFIGURATION
         //////////////////////////////
-        classificationStream.addFeatureProvider(mfccFeatureStream);
+        //classificationStream.addFeatureProvider(mfccFeatureStream);
 
     }
 }

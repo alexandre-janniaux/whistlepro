@@ -1,8 +1,8 @@
 package classification.test;
 
-import classification.FeatureProviderInterface;
-import classification.FileOperator;
-import classification.MultipleStrongClassifiersLearner;
+import classification.*;
+import classification.Learning.MultipleStrongClassifiersLearner;
+import common.FileOperator;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ public class TestValidation {
         ArrayList<String> strs = FileOperator.getLinesFromFile(TestClassifierLearning.datafileName);
 
         //creating samples
-        ArrayList<FeatureProviderInterface> samples = new ArrayList<>();
+        ArrayList<TrainExampleInterface> samples = new ArrayList<>();
         ArrayList<String> classes = new ArrayList<String>();
 
         for (String s : strs) {
@@ -41,7 +41,7 @@ public class TestValidation {
             }
         }
 
-        System.out.println("mean = "+MultipleStrongClassifiersLearner.buildAndValidate(classes,samples,
+        System.out.println("mean = "+ MultipleStrongClassifiersLearner.buildAndValidate(classes,samples,
                 TestClassifierLearning.NB_FEATURES,
                 10 //TestClassifierLearning.NB_CLASSIFIERS_TO_CREATE
         ));

@@ -1,9 +1,12 @@
-package classification;
+package classification.Learning;
+
+import classification.*;
 
 import java.util.ArrayList;
 
 
 public class MultipleStrongClassifiersLearner {
+
 
 	//retourne l'erreur moyenne
 	// cree une partition des examples de n parties (n defini a 10)
@@ -11,18 +14,18 @@ public class MultipleStrongClassifiersLearner {
 	// calcul l'erreur sur la n-ième en pourcentage
 	// renvoie la moyenne de ces erreurs.
 	public static double buildAndValidate(ArrayList<String> classes,
-		 ArrayList<FeatureProviderInterface> samples, int nbFeatures, int nbWeakClassifer)
+										  ArrayList<TrainExampleInterface> samples, int nbFeatures, int nbWeakClassifer)
 	{
 		//building partitions of samples
 		int n = 10;
-		ArrayList<ArrayList<FeatureProviderInterface>> groupes = makeTestParts(samples,n);
+		ArrayList<ArrayList<TrainExampleInterface>> groupes = makeTestParts(samples,n);
 
 		double errors[] = new double[groupes.size()];
 		//learn and verify
 		for(int i = 0; i < groupes.size(); i++)
 		{
-			ArrayList<FeatureProviderInterface> partTest = groupes.get(i);
-			ArrayList<FeatureProviderInterface> partsLearn = new ArrayList<>();
+			ArrayList<TrainExampleInterface> partTest = groupes.get(i);
+			ArrayList<TrainExampleInterface> partsLearn = new ArrayList<>();
 			for(int j = 0; j < groupes.size();j++)
 			{
 				if(j!=i) {
@@ -36,7 +39,7 @@ public class MultipleStrongClassifiersLearner {
 			//verfify
 			for(int j = 0; j < partTest.size();j++)
 			{
-				FeatureProviderInterface tmp = partTest.get(j);
+				TrainExampleInterface tmp = partTest.get(j);
 				String calcClasse = classifier.classifyStr(tmp);
 				if(classifier.classifyStr(tmp).equals(tmp.getClasse())==false)
 				{
@@ -55,15 +58,15 @@ public class MultipleStrongClassifiersLearner {
 		return mean;
 	}
 
-	private static ArrayList<ArrayList<FeatureProviderInterface>> makeTestParts(ArrayList<FeatureProviderInterface> samples, int n) {
-		ArrayList<ArrayList<FeatureProviderInterface>> parts = new ArrayList<>();
+	private static ArrayList<ArrayList<TrainExampleInterface>> makeTestParts(ArrayList<TrainExampleInterface> samples, int n) {
+		ArrayList<ArrayList<TrainExampleInterface>> parts = new ArrayList<>();
 
 		int nbExamplesByPart = Math.round(samples.size()/n);
-		ArrayList<FeatureProviderInterface> sampleList = (ArrayList<FeatureProviderInterface>) samples.clone();
+		ArrayList<TrainExampleInterface> sampleList = new ArrayList<TrainExampleInterface>(samples);
 
 		for(int i = 0; i < n-1; i++)
 		{
-			ArrayList<FeatureProviderInterface> part = new ArrayList<>();
+			ArrayList<TrainExampleInterface> part = new ArrayList<>();
 			for(int j=0; j < nbExamplesByPart; j++)
 			{
 				int index = (int) Math.floor(Math.random()*(sampleList.size()-0.001));
@@ -78,15 +81,15 @@ public class MultipleStrongClassifiersLearner {
 	}
 
 	public static MultipleStrongClassifiers buildClassifiers(ArrayList<String> classes,
-			ArrayList<FeatureProviderInterface> samples, int nbFeatures, int nbWeakClassifer)
+			ArrayList<TrainExampleInterface> samples, int nbFeatures, int nbWeakClassifer)
 	{
 		
-		ArrayList<TrainExampleInterface> examples = buildExampleList(samples);
+		ArrayList<TrainObjectInterface> examples = buildExampleList(samples);
 		MultipleStrongClassifiers.Builder msClassfier = new MultipleStrongClassifiers.Builder();
 		for(String s : classes)
 		{
 			setupExamplesForClass(s,examples);
-			StrongClassifier sClassfier = StrongClassifierLearner.buildClassifier(examples, 
+			StrongClassifier sClassfier = StrongClassifierLearner.buildClassifier(examples,
 					nbFeatures, nbWeakClassifer);
 			msClassfier.addClassifier(s, sClassfier);
 		}
@@ -94,13 +97,13 @@ public class MultipleStrongClassifiersLearner {
 		return msClassfier.build();
 	}
 	
-	private static ArrayList<TrainExampleInterface> buildExampleList(ArrayList<FeatureProviderInterface> samples)
+	private static ArrayList<TrainObjectInterface> buildExampleList(ArrayList<TrainExampleInterface> samples)
 	{
-		ArrayList<TrainExampleInterface> tExamples= new ArrayList<TrainExampleInterface>() ;
+		ArrayList<TrainObjectInterface> tExamples= new ArrayList<>() ;
 		
-		for(FeatureProviderInterface s : samples)
+		for(TrainExampleInterface s : samples)
 		{
-			TrainExampleInterface t = new ClassifTrainExample(s);
+			TrainObjectInterface t = new ClassifTrainExample(s);
 			t.setValid(false);
 			tExamples.add(t);
 		}
@@ -108,9 +111,9 @@ public class MultipleStrongClassifiersLearner {
 		return tExamples;
 	}
 	
-	private static void setupExamplesForClass(String classe, ArrayList<TrainExampleInterface> examples)
+	private static void setupExamplesForClass(String classe, ArrayList<TrainObjectInterface> examples)
 	{
-		for(TrainExampleInterface ex : examples)
+		for(TrainObjectInterface ex : examples)
 		{
 			ex.setValid(ex.getClasse().equalsIgnoreCase(classe));
 		}

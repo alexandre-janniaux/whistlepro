@@ -1,4 +1,4 @@
-package classification;
+package common;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,7 +10,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class FileOperator {
-	
+
+	public static ArrayList<String> listFiles(String folderName)
+	{
+		ArrayList<String> files = new ArrayList<>();
+
+		File folder = new File(folderName);
+
+		if(folder.isDirectory()) {
+
+			for (File fileEntry : folder.listFiles()) {
+				if (fileEntry.isDirectory()) {
+					files.addAll(listFiles(fileEntry.getName()));
+				} else {
+					files.add(fileEntry.getName());
+				}
+			}
+		}
+
+		return files;
+	}
+
 	/*** 
 	 * @param fileName is name of the file where data will be saved.
 	 * @param data to save
@@ -33,6 +53,23 @@ public class FileOperator {
  
 	}
 
+	public static void appendToFile(String fileName, String data)
+	{
+		BufferedWriter bos;
+		try {
+			bos = new BufferedWriter(new FileWriter(new File(fileName),true));
+
+			bos.write(data);
+
+			bos.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 	
 
 	/***

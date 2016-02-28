@@ -2,25 +2,24 @@ package classification.test;
 
 import java.util.ArrayList;
 
-import classification.FeatureProviderInterface;
-import classification.FileOperator;
-import classification.MultipleStrongClassifiers;
-import classification.MultipleStrongClassifiersLearner;
+import classification.*;
+import classification.Learning.MultipleStrongClassifiersLearner;
+import common.FileOperator;
 
 public class TestClassifierLearning {
 
 	protected static int NB_CLASSIFIERS_TO_CREATE = 500;
 	protected static int NB_FEATURES= 20;
-	protected static String datafileName = "src/classification/test/instrument_features.csv";
-	protected static String classifierSavefileName = "src/classification/test/instrument_features.scs";
+	protected static String datafileName = "data/instrument_features.csv";
+	protected static String classifierSavefileName = "data/instrument_features.scs";
 	
 	public static void main(String[] args) {
-		
+		System.out.println("Start");
 		//reading file
 		ArrayList<String> strs = FileOperator.getLinesFromFile(datafileName);
 				
 		//creating samples
-		ArrayList<FeatureProviderInterface> samples = new ArrayList<FeatureProviderInterface>();
+		ArrayList<TrainExampleInterface> samples = new ArrayList<>();
 		ArrayList<String> classes = new ArrayList<String>();
 
 		for(String s : strs)

@@ -1,7 +1,9 @@
 package classification.test;
  
-import classification.FileOperator;
-import classification.MultipleStrongClassifiers; 
+import common.FileOperator;
+import classification.MultipleStrongClassifiers;
+
+import java.util.ArrayList;
 
 public class TestClassification {
 
@@ -21,11 +23,11 @@ public class TestClassification {
 		//Testing a sample
 		Example sample = new Example.Builder().fromString(ExampleData).build();
 		
-		double[] vals = classifiers.classify(sample);
+		ArrayList<Double> vals = classifiers.classify(sample);
 		System.out.print("Resultat : ");
-		for(int i = 0; i < vals.length ; i ++)
+		for(int i = 0; i < vals.size() ; i ++)
 		{
-			System.out.print(vals[i]+" / ");
+			System.out.print(vals.get(i)+" / ");
 		}
 		System.out.println(".");
 		

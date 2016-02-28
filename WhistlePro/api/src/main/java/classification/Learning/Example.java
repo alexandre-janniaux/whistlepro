@@ -1,18 +1,19 @@
-package classification.test;
+package classification.Learning;
+
+import classification.TrainExampleInterface;
 
 import java.util.ArrayList;
 
-import classification.FeatureProviderInterface;
-
-public class Example implements FeatureProviderInterface {
+public class Example implements TrainExampleInterface {
 
 	String classe = "";
-	ArrayList<Double> dbl = new ArrayList<Double>();
+	ArrayList<Double> dbl = new ArrayList<>();
 	 	
 	public Example(Builder builder) {
 		classe = builder.classe;
 		dbl = builder.dbl;
 	}
+
 
 	@Override
 	public String getClasse() {
@@ -27,7 +28,7 @@ public class Example implements FeatureProviderInterface {
 	}
 
 	@Override
-	public int getFeatureNumber() {
+	public int countFeatures() {
 
 		return dbl.size();
 	}
@@ -40,30 +41,28 @@ public class Example implements FeatureProviderInterface {
 		
 		public Builder fromString(String str)
 		{
-			String[] strs = str.split(",");
-			
+			String[] strs = str.split(";");
+
+			if(strs.length!= 14) return this;
+
 			dbl.clear();
-			for(int i = 0; i < 20 && i < strs.length; i++)
+			for(int i = 0; i < 13; i++)
 			{
 				dbl.add(i, new Double(strs[i]));
 			}
 			
-			if(strs.length <= 22)
-				classe = strs[21];
+			classe = strs[13];
 			
 			return this;
 		}
 		
 		public Example build()
 		{
+			if(classe.isEmpty() || dbl.size()!=13 ) return null;
+
 			return new Example(this);
 		}
-		
-		public boolean isValid()
-		{
-			if(dbl.size()==20) return true;
-				
-			return false;
-		}
+
+
 	}
 }

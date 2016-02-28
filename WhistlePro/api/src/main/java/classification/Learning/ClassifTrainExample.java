@@ -1,12 +1,14 @@
-package classification;
+package classification.Learning;
 
-public class ClassifTrainExample implements TrainExampleInterface
+import classification.TrainExampleInterface;
+
+public class ClassifTrainExample implements TrainObjectInterface
 {
-	FeatureProviderInterface sample = null;
+	TrainExampleInterface sample = null;
 	int valid;
 	double weight;
 	
-	public ClassifTrainExample(FeatureProviderInterface sample)
+	public ClassifTrainExample(TrainExampleInterface sample)
 	{
 		this.sample = sample;
 	}
@@ -35,17 +37,15 @@ public class ClassifTrainExample implements TrainExampleInterface
 	}
 
 	@Override
-	public int getFeatureNumber() {
+	public int countFeatures() {
 		if(sample != null) 
-			return sample.getFeatureNumber();
+			return sample.countFeatures();
 		return 0;
 	}
 
 	@Override
 	public String getClasse() {
-		if(sample != null) 
-			return sample.getClasse();
-		return "";
+		return sample.getClasse();
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class ClassifTrainExample implements TrainExampleInterface
 	public double getWeight() {
 		return weight;
 	}
-	
-	
-	
+
+
+
 }

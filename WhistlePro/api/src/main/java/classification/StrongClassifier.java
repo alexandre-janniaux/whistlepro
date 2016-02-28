@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * @author  Mohamed
  *
  */
-public class StrongClassifier implements ClassifierInterface<FeatureProviderInterface>{
+public class StrongClassifier implements ClassifierInterface<FeaturedObjectInterface>{
 	 
 	
 	private ArrayList<WeakClassifier> classifiers = null;
@@ -46,7 +46,7 @@ public class StrongClassifier implements ClassifierInterface<FeatureProviderInte
 	 * @return -1 if it is rejected by the classifier,
 	 * otherwise returns 1.
 	 */
-	public double classify(FeatureProviderInterface sample)
+	public double classify(FeaturedObjectInterface sample)
 	{
 		double res = 0;
 		for(WeakClassifier c : classifiers)
