@@ -11,25 +11,6 @@ class MfccFeatureProviderTest {
         assertEquals(13, mfcc.countFeatures());
     }
 
-    @Test
-    public void frequencyToMel() {
-        MfccFeatureProvider mfcc = new MfccFeatureProvider();
-        // TODO: implement test
-        throw new UnsupportedOperationException("Le test de calcul du signal en échelle de mél doit être fait");
-    }
-
-    @Test
-    public void melToFrequency() {
-        MfccFeatureProvider mfcc = new MfccFeatureProvider();
-        double mel = 100., freq = 100.;
-        assertTrue(mfcc.melToFrequency(100.)-freq <= Double.MIN_VALUE); // TODO: precalculate mel coeff
-    }
-
-    @Test
-    public void computeFilterFrequencies()
-    {
-        MfccFeatureProvider mfcc = new MfccFeatureProvider();
-    }
 
     @Test
     public void computePower()
