@@ -1,7 +1,6 @@
 package features;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import fr.enst.pact34.whistlepro.api.common.FileOperator;
 import org.junit.Test;
@@ -41,7 +40,7 @@ public class FilterBankMelTest {
 
         ArrayList<String> lines = FileOperator.getLinesFromFile("../testData/features/genFilters.valid");
 
-        assertTrue(lines.size()>=nbMelFiler);
+        assertEquals(lines.size(),nbMelFiler);
 
         for(int i = 0; i < filters.length; i++)
         {
@@ -53,7 +52,7 @@ public class FilterBankMelTest {
             {
                 double tmp = Double.parseDouble(line[j]);
                 if(tmp != 0)
-                    assertEquals(tmp,filters[i][j],tmp*0.001);
+                    assertEquals(tmp,filters[i][j], Math.abs(tmp*0.001));
                 else
                     assertEquals(tmp,filters[i][j],1e-14);
             }
