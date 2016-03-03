@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  * Represent a weak classifier used in Adaboost algorithm which 
  * return true or false according to a threshold.
  * 4 values are stored : the threshold, the number of the feature 
- * concerned, the direction of the comparison and the error calculated.
+ * concerned, the direction of the comparison.
  * An other value is stored, it is a coefficient calculated by Adaboost
  * algorithm. It will be required by the strong classifier.
  * 
@@ -31,7 +31,7 @@ public class WeakClassifier implements ClassifierInterface<FeaturedObjectInterfa
 
 	/***
 	 * @return a string containing the data to save them
-	 * they formated as following : "feature=xx;threshold=xx;isLeft=xx;error=xx;coef=xx;" 
+	 * they formated as following : "feature=xx;threshold=xx;isLeft=xx;coef=xx;"
 	 * where "xx" are the corresponding values.
 	 */
 	public String toString()
