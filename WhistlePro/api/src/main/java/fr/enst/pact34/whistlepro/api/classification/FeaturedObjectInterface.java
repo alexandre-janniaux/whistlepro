@@ -1,4 +1,4 @@
-package classification;
+package fr.enst.pact34.whistlepro.api.classification;
 
 /**
  * Created by mms on 26/02/16.

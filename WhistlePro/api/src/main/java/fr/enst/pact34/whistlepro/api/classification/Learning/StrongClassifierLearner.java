@@ -1,7 +1,7 @@
-package classification.Learning;
+package fr.enst.pact34.whistlepro.api.classification.Learning;
 
-import classification.StrongClassifier;
-import classification.WeakClassifier;
+import fr.enst.pact34.whistlepro.api.classification.StrongClassifier;
+import fr.enst.pact34.whistlepro.api.classification.WeakClassifier;
 
 import java.util.ArrayList;
 

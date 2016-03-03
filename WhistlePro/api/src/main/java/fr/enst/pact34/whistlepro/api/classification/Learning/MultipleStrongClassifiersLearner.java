@@ -1,6 +1,6 @@
-package classification.Learning;
+package fr.enst.pact34.whistlepro.api.classification.Learning;
 
-import classification.*;
+import fr.enst.pact34.whistlepro.api.classification.*;
 
 import java.util.ArrayList;
 

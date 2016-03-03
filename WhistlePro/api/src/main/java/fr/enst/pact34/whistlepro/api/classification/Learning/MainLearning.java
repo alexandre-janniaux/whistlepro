@@ -1,9 +1,9 @@
-package classification.Learning;
+package fr.enst.pact34.whistlepro.api.classification.Learning;
 
 
-import common.FileOperator;
-import classification.MultipleStrongClassifiers;
-import classification.TrainExampleInterface;
+import fr.enst.pact34.whistlepro.api.common.FileOperator;
+import fr.enst.pact34.whistlepro.api.classification.MultipleStrongClassifiers;
+import fr.enst.pact34.whistlepro.api.classification.TrainExampleInterface;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,5 @@
-package classification;
+package fr.enst.pact34.whistlepro.api.classification;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

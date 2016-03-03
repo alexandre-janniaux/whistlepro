@@ -1,4 +1,4 @@
-package classification.Learning;
+package fr.enst.pact34.whistlepro.api.classification.Learning;
 
 import acquisition.WavFile;
 import acquisition.WavFileException;

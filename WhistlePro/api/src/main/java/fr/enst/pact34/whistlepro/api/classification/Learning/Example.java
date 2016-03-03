@@ -1,6 +1,6 @@
-package classification.Learning;
+package fr.enst.pact34.whistlepro.api.classification.Learning;
 
-import classification.TrainExampleInterface;
+import fr.enst.pact34.whistlepro.api.classification.TrainExampleInterface;
 
 import java.util.ArrayList;
 

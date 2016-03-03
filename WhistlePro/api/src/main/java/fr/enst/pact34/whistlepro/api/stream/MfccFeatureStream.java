@@ -7,7 +7,7 @@ import fr.enst.pact34.whistlepro.api.features.MfccFeatureProvider;
 import fr.enst.pact34.whistlepro.api.classification.FeatureProviderInterface;
 import java.util.ArrayList;
 
-import common.Spectrum;
+import fr.enst.pact34.whistlepro.api.common.Spectrum;
 
 public class MfccFeatureStream
     extends 
