@@ -70,13 +70,16 @@ class Derivative
 
         boolean useLastBuffer = this.lastbuffer.length>this.n;
         int start = useLastBuffer ? this.n : 0;
+        int ssize = this.storedData.size();
         int size = useLastBuffer ? this.n + this.storedData.size() : this.storedData.size();
         this.buffer = new double[size];
 
         if (useLastBuffer) for(int i=0; i<n; ++i) this.buffer[i] = this.lastbuffer[i];
         for(int i=start; i < size; ++i) {
-            this.buffer[i] = this.storedData.get(i); //FIXME get(0)
-
+            this.buffer[i] = this.storedData.get(i);
+            if (ssize-i <= this.n) {
+                this.lastbuffer[i-ssize+this.n] = this.storedData.get(i);
+            }
         }
         this.storedData.clear();
 
