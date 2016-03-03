@@ -1,10 +1,10 @@
-package classification.test;
+package fr.enst.pact34.whistlepro.api.classification.test;
 
 import java.util.ArrayList;
 
-import classification.FeatureProviderInterface;
-import classification.FeaturedObjectInterface;
-import classification.TrainExampleInterface;
+import fr.enst.pact34.whistlepro.api.classification.FeatureProviderInterface;
+import fr.enst.pact34.whistlepro.api.classification.FeaturedObjectInterface;
+import fr.enst.pact34.whistlepro.api.classification.TrainExampleInterface;
 
 
 public class Example implements TrainExampleInterface {

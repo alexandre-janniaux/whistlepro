@@ -1,7 +1,7 @@
 package fr.enst.pact34.whistlepro.api.common;
 
 import java.util.ArrayList;
-import common.JobProviderInterface;
+import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
 import java.util.Observer;
 import java.util.Observable;
 
@@ -36,7 +36,8 @@ public class ThreadPool
         {
             // TODO: find job and set it
             JobProviderInterface job = null;
-            worker.start(job);
+            if (job != null)
+                worker.start(job);
         }
     }
 }

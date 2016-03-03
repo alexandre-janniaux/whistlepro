@@ -1,7 +1,7 @@
-package classification.test;
+package fr.enst.pact34.whistlepro.api.classification.test;
  
-import common.FileOperator;
-import classification.MultipleStrongClassifiers;
+import fr.enst.pact34.whistlepro.api.common.FileOperator;
+import fr.enst.pact34.whistlepro.api.classification.MultipleStrongClassifiers;
 
 import java.util.ArrayList;
 

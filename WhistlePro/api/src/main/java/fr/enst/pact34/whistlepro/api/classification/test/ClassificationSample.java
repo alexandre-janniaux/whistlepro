@@ -1,6 +1,6 @@
-package classification.test;
+package fr.enst.pact34.whistlepro.api.classification.test;
 
-import classification.FeaturedObjectInterface;
+import fr.enst.pact34.whistlepro.api.classification.FeaturedObjectInterface;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
 package fr.enst.pact34.main;
 
-import stream.*;
+import fr.enst.pact34.whistlepro.api.stream.*;
 
 class MainApplication {
 

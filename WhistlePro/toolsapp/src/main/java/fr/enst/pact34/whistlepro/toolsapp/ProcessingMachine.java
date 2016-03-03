@@ -1,19 +1,17 @@
 package fr.enst.pact34.whistlepro.toolsapp;
 
 import android.util.Log;
-import fr.enst.pact34.api.common.DataListenerInterface;
-import fr.enst.pact34.api.common.DataSourceInterface;
-import fr.enst.pact34.api.common.Spectrum;
-import fr.enst.pact34.api.common.transformers;
-import fr.enst.pact34.api.stream.ClassificationStream;
-import fr.enst.pact34.api.stream.MfccFeatureStream;
+import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
+import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
+import fr.enst.pact34.whistlepro.api.common.Spectrum;
+import fr.enst.pact34.whistlepro.api.common.transformers;
+import fr.enst.pact34.whistlepro.api.stream.ClassificationStream;
+import fr.enst.pact34.whistlepro.api.stream.MfccFeatureStream;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-/**
- * Created by mms on 01/03/16.
- */
+
 public class ProcessingMachine implements AudioDataListener,Runnable {
 
     LinkedList<Double> datas = new LinkedList<Double>();

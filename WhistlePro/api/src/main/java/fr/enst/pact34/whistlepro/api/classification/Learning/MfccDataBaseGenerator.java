@@ -1,13 +1,13 @@
 package fr.enst.pact34.whistlepro.api.classification.Learning;
 
-import acquisition.WavFile;
-import acquisition.WavFileException;
-import common.FileOperator;
-import common.DataListenerInterface;
-import common.DataSourceInterface;
-import common.Spectrum;
-import common.transformers;
-import stream.MfccFeatureStream;
+import fr.enst.pact34.whistlepro.api.acquisition.WavFile;
+import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
+import fr.enst.pact34.whistlepro.api.common.FileOperator;
+import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
+import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
+import fr.enst.pact34.whistlepro.api.common.Spectrum;
+import fr.enst.pact34.whistlepro.api.common.transformers;
+import fr.enst.pact34.whistlepro.api.stream.MfccFeatureStream;
 
 import java.io.File;
 import java.io.IOException;

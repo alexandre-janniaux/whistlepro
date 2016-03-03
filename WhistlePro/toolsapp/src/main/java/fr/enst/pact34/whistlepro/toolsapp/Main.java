@@ -1,4 +1,4 @@
-package fr.enst.pact34.WhistleProDemo;
+package fr.enst.pact34.whistlepro.toolsapp;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 public class Main extends Activity implements UserInterface {
     AudioIn recorder ;
