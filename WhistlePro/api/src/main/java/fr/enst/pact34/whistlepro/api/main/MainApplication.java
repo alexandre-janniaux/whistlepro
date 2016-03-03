@@ -1,4 +1,4 @@
-package fr.enst.pact34.main;
+package fr.enst.pact34.whistlepro.api.main;
 
 import fr.enst.pact34.whistlepro.api.stream.*;
 

@@ -1,11 +1,11 @@
 package fr.enst.pact34.whistlepro.api.features;
 
-import acquisition.AffichageFFT;
-import acquisition.WavFile;
-import acquisition.WavFileException;
-import classification.FeatureProviderInterface;
-import common.Spectrum;
-import common.transformers;
+import fr.enst.pact34.whistlepro.api.acquisition.AffichageFFT;
+import fr.enst.pact34.whistlepro.api.acquisition.WavFile;
+import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
+import fr.enst.pact34.whistlepro.api.classification.FeatureProviderInterface;
+import fr.enst.pact34.whistlepro.api.common.Spectrum;
+import fr.enst.pact34.whistlepro.api.common.transformers;
 
 import java.io.File;
 import java.io.IOException;
