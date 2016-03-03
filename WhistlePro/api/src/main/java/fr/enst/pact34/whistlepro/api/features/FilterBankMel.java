@@ -8,12 +8,12 @@ public class FilterBankMel {
 
     public static double frequencyToMel(double frequency)
     {
-        return 1125*Math.log(1+frequency/700.);
+        return 1127*Math.log(1+frequency/700.);
     }
 
     public static double melToFrequency(double mel)
     {
-        return 700*(Math.exp(mel/1125)-1);
+        return 700*(Math.exp(mel/1127)-1);
     }
 
     private static double[] computeFilterFrequencies(double minFrequency, double maxFrequency,int nbMelFilter )
