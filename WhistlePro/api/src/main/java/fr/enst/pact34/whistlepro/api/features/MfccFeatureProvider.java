@@ -1,11 +1,11 @@
-package features;
+package fr.enst.pact34.whistlepro.api.features;
 
 import java.util.ArrayList;
 import java.lang.Math;
 
-import classification.FeatureProviderInterface;
-import common.Spectrum;
-import common.transformers;
+import fr.enst.pact34.whistlepro.api.classification.FeatureProviderInterface;
+import fr.enst.pact34.whistlepro.api.common.Spectrum;
+import fr.enst.pact34.whistlepro.api.common.transformers;
 
 
 public class MfccFeatureProvider implements FeatureProviderInterface

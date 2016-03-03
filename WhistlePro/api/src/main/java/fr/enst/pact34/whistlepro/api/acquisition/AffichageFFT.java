@@ -1,5 +1,5 @@
 
-package acquisition;
+package fr.enst.pact34.whistlepro.api.acquisition;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;

@@ -1,6 +1,6 @@
-package common;
+package fr.enst.pact34.whistlepro.api.common;
 
-import common.DataSourceInterface;
+import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
 import java.util.ArrayList;
 
 public interface DataListenerInterface<E> {

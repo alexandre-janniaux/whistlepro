@@ -1,4 +1,4 @@
-package acquisition;
+package fr.enst.pact34.whistlepro.api.acquisition;
 
 public class WavFileException extends Exception
 {

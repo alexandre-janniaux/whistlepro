@@ -1,4 +1,4 @@
-package common;
+package fr.enst.pact34.whistlepro.api.common;
 
 import java.util.ArrayList;
 import common.JobProviderInterface;

@@ -1,11 +1,11 @@
-package common;
+package fr.enst.pact34.whistlepro.api.common;
 
 import java.lang.Thread;
 import java.lang.Runnable;
 import java.util.Observable;
 import java.util.concurrent.locks.ReentrantLock;
 
-import common.JobProviderInterface;
+import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
 
 public class Worker
     extends Observable

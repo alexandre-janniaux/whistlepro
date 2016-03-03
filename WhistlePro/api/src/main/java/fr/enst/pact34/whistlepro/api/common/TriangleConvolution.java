@@ -1,7 +1,7 @@
-package common;
+package fr.enst.pact34.whistlepro.api.common;
 
-import common.ConvolutionInterface;
-import common.Convolution1D;
+import fr.enst.pact34.whistlepro.api.common.ConvolutionInterface;
+import fr.enst.pact34.whistlepro.api.common.Convolution1D;
 
 public class TriangleConvolution
     implements ConvolutionInterface

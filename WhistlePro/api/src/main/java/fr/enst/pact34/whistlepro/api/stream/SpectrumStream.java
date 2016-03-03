@@ -1,9 +1,9 @@
-package stream;
+package fr.enst.pact34.whistlepro.api.stream;
 
-import common.DataListenerInterface;
-import common.DataSourceInterface;
-import common.JobProviderInterface;
-import common.Spectrum;
+import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
+import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
+import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
+import fr.enst.pact34.whistlepro.api.common.Spectrum;
 import java.util.ArrayList;
 
 public class SpectrumStream 

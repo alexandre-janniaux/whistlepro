@@ -1,4 +1,4 @@
-package common;
+package fr.enst.pact34.whistlepro.api.common;
 
 // TODO: documentation
 public interface JobProviderInterface

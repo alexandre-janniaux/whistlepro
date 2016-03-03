@@ -1,4 +1,4 @@
-package common;
+package fr.enst.pact34.whistlepro.api.common;
 
 /**
  * Created by Mohamed  on 22/02/16.

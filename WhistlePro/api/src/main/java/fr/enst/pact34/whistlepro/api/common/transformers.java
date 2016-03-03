@@ -1,4 +1,4 @@
-package common;
+package fr.enst.pact34.whistlepro.api.common;
 
 import org.apache.commons.math3.complex.Complex;
 

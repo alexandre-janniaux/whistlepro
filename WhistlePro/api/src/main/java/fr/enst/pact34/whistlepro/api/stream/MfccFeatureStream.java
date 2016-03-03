@@ -1,10 +1,10 @@
-package stream;
+package fr.enst.pact34.whistlepro.api.stream;
 
-import common.DataListenerInterface;
-import common.DataSourceInterface;
-import common.JobProviderInterface;
-import features.MfccFeatureProvider;
-import classification.FeatureProviderInterface;
+import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
+import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
+import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
+import fr.enst.pact34.whistlepro.api.features.MfccFeatureProvider;
+import fr.enst.pact34.whistlepro.api.classification.FeatureProviderInterface;
 import java.util.ArrayList;
 
 import common.Spectrum;

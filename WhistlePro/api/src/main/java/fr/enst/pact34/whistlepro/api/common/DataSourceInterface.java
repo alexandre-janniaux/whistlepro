@@ -1,8 +1,8 @@
-package common;
+package fr.enst.pact34.whistlepro.api.common;
 
 import java.util.HashSet;
 import java.util.ArrayList;
-import common.DataListenerInterface;
+import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 
 //TODO: documentation
 public class DataSourceInterface<E> {

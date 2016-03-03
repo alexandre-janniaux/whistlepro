@@ -2,11 +2,11 @@ package fr.enst.pact34.whistlepro.stream;
 
 import java.util.ArrayList;
 
-import common.DataListenerInterface;
-import common.DataSourceInterface;
-import common.JobProviderInterface;
-import common.ConvolutionInterface;
-import common.Convolution1D;
+import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
+import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
+import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
+import fr.enst.pact34.whistlepro.api.common.ConvolutionInterface;
+import fr.enst.pact34.whistlepro.api.common.Convolution1D;
 
 class Derivative
     extends DataSourceInterface<ArrayList<Double>>

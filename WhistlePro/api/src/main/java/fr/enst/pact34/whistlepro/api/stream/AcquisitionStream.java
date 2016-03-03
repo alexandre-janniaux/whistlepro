@@ -1,7 +1,7 @@
-package stream;
+package fr.enst.pact34.whistlepro.api.stream;
 
 import java.util.ArrayList;
-import common.DataSourceInterface;
+import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
 
 // TODO: documentation
 public class AcquisitionStream 

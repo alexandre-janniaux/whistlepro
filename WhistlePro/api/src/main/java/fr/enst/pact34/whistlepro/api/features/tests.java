@@ -1,4 +1,4 @@
-package features;
+package fr.enst.pact34.whistlepro.api.features;
 
 import acquisition.AffichageFFT;
 import acquisition.WavFile;

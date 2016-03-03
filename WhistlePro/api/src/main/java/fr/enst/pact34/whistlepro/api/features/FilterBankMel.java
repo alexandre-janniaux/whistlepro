@@ -1,4 +1,4 @@
-package features;
+package fr.enst.pact34.whistlepro.api.features;
 
 /**
  * Created by Mohamed  on 25/02/16.

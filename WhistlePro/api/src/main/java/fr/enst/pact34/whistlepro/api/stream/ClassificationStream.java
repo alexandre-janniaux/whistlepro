@@ -1,11 +1,11 @@
-package stream;
+package fr.enst.pact34.whistlepro.api.stream;
 
-import classification.SampleClassif;
-import common.FileOperator;
-import classification.MultipleStrongClassifiers;
-import common.DataListenerInterface;
-import common.DataSourceInterface;
-import common.JobProviderInterface;
+import fr.enst.pact34.whistlepro.api.classification.SampleClassif;
+import fr.enst.pact34.whistlepro.api.common.FileOperator;
+import fr.enst.pact34.whistlepro.api.classification.MultipleStrongClassifiers;
+import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
+import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
+import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
 import java.util.ArrayList;
 
 public class ClassificationStream 
