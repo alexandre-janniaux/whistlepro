@@ -1,11 +1,10 @@
 package fr.enst.pact34.whistlepro.api.stream;
 
-import java.util.ArrayList;
-import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
+import fr.enst.pact34.whistlepro.api.common.DataSource;
 
 // TODO: documentation
 public class AcquisitionStream 
-    extends DataSourceInterface<Double>
+    extends DataSource<Double>
 {
     //TODO: implement recording [ACQUISITION]
     //

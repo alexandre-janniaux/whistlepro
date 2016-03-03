@@ -11,6 +11,8 @@ public class ThreadPool
     private ArrayList<JobProviderInterface> jobs;
     private int poolSize;
     private ArrayList<Worker> workers;
+    private ArrayList<Worker> availableWorker;
+    private int index;
 
 
     public ThreadPool(int poolSize) {
@@ -27,7 +29,9 @@ public class ThreadPool
 
     public void addJobProvider(JobProviderInterface job) {
         if (!jobs.contains(job))
+        {
             this.jobs.add(job);
+        }
     }
 
     public void update(Observable observable, Object objet) {
@@ -36,8 +40,14 @@ public class ThreadPool
         {
             // TODO: find job and set it
             JobProviderInterface job = null;
+            for(int j=0; j<this.jobs.size(); ++j) {
+                if ((job = this.jobs.get(++this.index % this.jobs.size())) != null) {
+                    break;
+                }
+            }
             if (job != null)
                 worker.start(job);
+            else this.availableWorker.add(worker);
         }
     }
 }

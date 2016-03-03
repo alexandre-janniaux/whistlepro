@@ -2,9 +2,9 @@ package fr.enst.pact34.whistlepro.api.classification.Learning;
 
 import fr.enst.pact34.whistlepro.api.acquisition.WavFile;
 import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
+import fr.enst.pact34.whistlepro.api.common.DataSource;
 import fr.enst.pact34.whistlepro.api.common.FileOperator;
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
-import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
 import fr.enst.pact34.whistlepro.api.common.Spectrum;
 import fr.enst.pact34.whistlepro.api.common.transformers;
 import fr.enst.pact34.whistlepro.api.stream.MfccFeatureStream;
@@ -82,7 +82,7 @@ public class MfccDataBaseGenerator {
         }
 
         @Override
-        public void onPushData(DataSourceInterface<ArrayList<Double>> source, ArrayList<ArrayList<Double>> inputData) {
+        public void onPushData(DataSource<ArrayList<Double>> source, ArrayList<ArrayList<Double>> inputData) {
             //System.out.print("pushdata ");
             for(int j = 0; j < inputData.size(); j++) {
                 ArrayList<Double> dd = inputData.get(j);
@@ -100,18 +100,18 @@ public class MfccDataBaseGenerator {
         }
 
         @Override
-        public void onCommit(DataSourceInterface<ArrayList<Double>> source) {
+        public void onCommit(DataSource<ArrayList<Double>> source) {
             //System.out.println("source");
         }
 
         @Override
-        public void onTransaction(DataSourceInterface<ArrayList<Double>> source) {
+        public void onTransaction(DataSource<ArrayList<Double>> source) {
             //System.out.println("transaction");
 
         }
     }
 
-    public static  class FakeSpectrumStream extends DataSourceInterface<Spectrum>
+    public static  class FakeSpectrumStream extends DataSource<Spectrum>
     {
 
         public void prepareData(String folderName) {

@@ -2,7 +2,7 @@ package fr.enst.pact34.whistlepro.toolsapp;
 
 import android.util.Log;
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
-import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
+import fr.enst.pact34.whistlepro.api.common.DataSource;
 import fr.enst.pact34.whistlepro.api.common.Spectrum;
 import fr.enst.pact34.whistlepro.api.common.transformers;
 import fr.enst.pact34.whistlepro.api.stream.ClassificationStream;
@@ -134,7 +134,7 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
         }
 
         @Override
-        public void onPushData(DataSourceInterface<ArrayList<Double>> source, ArrayList<ArrayList<Double>> inputData) {
+        public void onPushData(DataSource<ArrayList<Double>> source, ArrayList<ArrayList<Double>> inputData) {
             //System.out.print("pushdata ");
 
             for(int j = 0; j < inputData.size(); j++) {
@@ -143,19 +143,19 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
         }
 
         @Override
-        public void onCommit(DataSourceInterface<ArrayList<Double>> source) {
+        public void onCommit(DataSource<ArrayList<Double>> source) {
             //System.out.println("source");
         }
 
         @Override
-        public void onTransaction(DataSourceInterface<ArrayList<Double>> source) {
+        public void onTransaction(DataSource<ArrayList<Double>> source) {
             //System.out.println("transaction");
 
         }
 
     }
 
-    public static  class FakeSpectrumStream extends DataSourceInterface<Spectrum>
+    public static  class FakeSpectrumStream extends DataSource<Spectrum>
     {
 
         public void calcOnWav(double[] buffer,double Fs)
