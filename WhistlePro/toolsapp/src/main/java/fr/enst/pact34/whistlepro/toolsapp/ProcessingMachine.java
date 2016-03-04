@@ -47,7 +47,7 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
         FakeSpectrumStream spectrumStream = new FakeSpectrumStream();
 
         Log.e("e","err3");
-        ClassificationStream classifStream = new ClassificationStream(Main.CLASSIFIER_DATA);
+        ClassificationStream classifStream = new ClassificationStream(); //TODO: add a way to inject Main.CLASSIFIER_DATA;
 
         Log.e("e","err4");
         FakeReceiverClassif fakeReceiverClassif = new FakeReceiverClassif();
