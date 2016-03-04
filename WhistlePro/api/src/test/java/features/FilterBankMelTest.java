@@ -1,6 +1,7 @@
 package features;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import fr.enst.pact34.whistlepro.api.common.FileOperator;
 import org.junit.Test;
