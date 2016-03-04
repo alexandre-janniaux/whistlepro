@@ -16,25 +16,56 @@ public class SynchronizedStream<E,F>
         DataListenerInterface<E>,
         JobProviderInterface
 {
+    private DataSource<F> output;
+    private FakeInternStream input;
+    private DataStreamInterface<E,F> iostream;
 
+    private class FakeInternStream extends DataSource<E> implements DataListenerInterface<F> {
 
-    public SynchronizeStream(DataStreamInterface<E,F> io) {
+        private SynchronizedStream<E,F> root;
 
+        public FakeInternStream(SynchronizedStream<E,F> root) {
+            this.root = root;
+        }
+
+        @Override
+        public void onPushData(DataSource<F> source, ArrayList<F> inputData) {
+            this.root.output.push(inputData);
+        }
+
+        @Override
+        public void onCommit(DataSource<F> source) {}
+
+        @Override
+        public void onTransaction(DataSource<F> source) {}
+    }
+
+    public SynchronizedStream(DataStreamInterface<E,F> io) {
+        assert(io != null);
+        this.iostream = io;
     }
 
     @Override
     public void onPushData(DataSource<E> source, ArrayList<E> inputData) {
-
+        this.input.push(inputData);
     }
 
     @Override
-    public void onCommit(DataSource<ArrayList<E>> source) {
-
+    public void onCommit(DataSource<E> source) {
     }
 
     @Override
-    public void onTransaction(DataSource<ArrayList<E>> source) {
+    public void onTransaction(DataSource<E> source) {
+    }
 
+    @Override
+    public void subscribe(DataListenerInterface<F> listener) {
+        output.subscribe(listener);
+    }
+
+    @Override
+    public void unsubscribe(DataListenerInterface<F> listener) {
+        output.unsubscribe(listener);
     }
 
     @Override
