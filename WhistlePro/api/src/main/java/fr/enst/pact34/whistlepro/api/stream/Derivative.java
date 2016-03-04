@@ -51,18 +51,6 @@ class Derivative
     }
 
     @Override
-    public void onCommit(DataSource<Double> source) {
-        // TODO: unlock data processing
-    }
-
-    @Override
-    public void onTransaction(DataSource<Double> source) {
-        // TODO: use previous array 
-
-       // TODO: lock data processing
-    }
-
-    @Override
     public void doWork() {
         // TODO: use previous array
         // -n is for boundsof the array

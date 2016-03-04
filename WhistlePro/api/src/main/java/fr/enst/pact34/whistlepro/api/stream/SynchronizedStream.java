@@ -6,7 +6,6 @@ import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 import fr.enst.pact34.whistlepro.api.common.DataSource;
 import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
 import fr.enst.pact34.whistlepro.api.common.DataStreamInterface;
-import fr.enst.pact34.whistlepro.api.common.FactoryInterface;
 import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
 
 
@@ -33,11 +32,6 @@ public class SynchronizedStream<E,F>
             this.root.output.push(inputData);
         }
 
-        @Override
-        public void onCommit(DataSource<F> source) {}
-
-        @Override
-        public void onTransaction(DataSource<F> source) {}
     }
 
     public SynchronizedStream(DataStreamInterface<E,F> io) {
@@ -48,14 +42,6 @@ public class SynchronizedStream<E,F>
     @Override
     public void onPushData(DataSource<E> source, ArrayList<E> inputData) {
         this.input.push(inputData);
-    }
-
-    @Override
-    public void onCommit(DataSource<E> source) {
-    }
-
-    @Override
-    public void onTransaction(DataSource<E> source) {
     }
 
     @Override

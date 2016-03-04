@@ -88,13 +88,4 @@ public class ClassificationStream
         return (storedData.size()>0);
     }
 
-    @Override
-    public void onCommit(DataSource<ArrayList<Double>> source) {
-    }
-
-    @Override
-    public void onTransaction(DataSource<ArrayList<Double>> source) {
-
-    }
-
 }

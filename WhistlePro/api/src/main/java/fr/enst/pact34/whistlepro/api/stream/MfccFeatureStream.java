@@ -7,7 +7,6 @@ import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
 import fr.enst.pact34.whistlepro.api.features.MfccFeatureProvider;
 import fr.enst.pact34.whistlepro.api.classification.FeatureProviderInterface;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import fr.enst.pact34.whistlepro.api.common.Spectrum;
 
@@ -45,16 +44,6 @@ public class MfccFeatureStream
     @Override
     public void onPushData(DataSource<Spectrum> source, ArrayList<Spectrum> data) {
        this.storedData.addAll(data);
-    }
-
-    @Override
-    public void onCommit(DataSource<Spectrum> source) {
-        // TODO: Unlock data processing
-    }
-
-    @Override
-    public void onTransaction(DataSource<Spectrum> source) {
-        // TODO: Lock data processing
     }
 
     @Override

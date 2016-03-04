@@ -38,24 +38,4 @@ public class DataSource<E> implements DataSourceInterface<E>{
         }
     }
 
-
-    //////////////////////////////
-    /// @brief allow following module to process data
-    //////////////////////////////
-    public final void commit() {
-        for (DataListenerInterface<E> out : this.listeners)
-        {
-            out.onCommit(this);
-        }
-    }
-
-    //////////////////////////////
-    /// @brief allow following module to process data
-    //////////////////////////////
-    public final void transaction() {
-        for (DataListenerInterface<E> out : this.listeners)
-        {
-            out.onTransaction(this);
-        }
-    }
 }

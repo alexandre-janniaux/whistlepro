@@ -61,15 +61,4 @@ public class SpectrumStream
         return false;
     }
 
-    @Override
-    public void onCommit(DataSource<Double> source) {
-
-    }
-
-    @Override
-    public void onTransaction(DataSource<Double> source) {
-
-
-    }
-
 }

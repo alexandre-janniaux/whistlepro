@@ -58,14 +58,6 @@ public class MultiplexerStream<E,F>
             }
         }
 
-        @Override
-        public void onCommit(DataSource<F> source) {
-        }
-
-        @Override
-        public void onTransaction(DataSource<F> source) {
-        }
-
     }
 
 
@@ -93,16 +85,6 @@ public class MultiplexerStream<E,F>
             ArrayList<E> data = inputData.get(i);
             this.loops.get(i).push(data);
         }
-    }
-
-    @Override
-    public void onCommit(DataSource<ArrayList<E>> source) {
-
-    }
-
-    @Override
-    public void onTransaction(DataSource<ArrayList<E>> source) {
-
     }
 
     @Override
