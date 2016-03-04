@@ -142,17 +142,6 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
             }
         }
 
-        @Override
-        public void onCommit(DataSource<ArrayList<Double>> source) {
-            //System.out.println("source");
-        }
-
-        @Override
-        public void onTransaction(DataSource<ArrayList<Double>> source) {
-            //System.out.println("transaction");
-
-        }
-
     }
 
     public static  class FakeSpectrumStream extends DataSource<Spectrum>
