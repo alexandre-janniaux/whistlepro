@@ -1,4 +1,4 @@
-package classification;
+package fr.enst.pact34.whistlepro.api.test.classification;
 
 import fr.enst.pact34.whistlepro.api.classification.FeaturedObjectInterface;
 import fr.enst.pact34.whistlepro.api.classification.WeakClassifier;
