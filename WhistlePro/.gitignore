@@ -6,4 +6,5 @@ bin/
 /.idea/
 /WhistlePro.iml
 *.iml
+**/*.iml/
 local.properties

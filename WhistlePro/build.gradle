@@ -10,7 +10,7 @@ buildscript {
 
 allprojects {
     apply plugin: 'eclipse'
-    group = 'fr.enst.pact34'
+    group = 'fr.enst.pact34.whistlepro'
 }
 
 subprojects {

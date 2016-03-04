@@ -1,4 +1,4 @@
-package features;
+package fr.enst.pact34.whistlepro.api.test.features;
 
 import static org.junit.Assert.assertEquals;
 
