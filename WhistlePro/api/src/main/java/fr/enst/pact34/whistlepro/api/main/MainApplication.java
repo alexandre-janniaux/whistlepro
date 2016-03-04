@@ -1,5 +1,6 @@
 package fr.enst.pact34.whistlepro.api.main;
 
+import fr.enst.pact34.whistlepro.api.common.FileOperator;
 import fr.enst.pact34.whistlepro.api.stream.*;
 
 class MainApplication {
@@ -12,7 +13,7 @@ class MainApplication {
         AcquisitionStream acquisitionStream = new AcquisitionStream();
         SpectrumStream spectrumStream = new SpectrumStream();
         MfccFeatureStream mfccFeatureStream = new MfccFeatureStream();
-        ClassificationStream classificationStream = new ClassificationStream();
+        ClassificationStream classificationStream = new ClassificationStream(FileOperator.getDataFromFile("data/voyelles.scs"));
 
         //////////////////////////////
         // STREAM INPUT-OUTPUT CONFIGURATION

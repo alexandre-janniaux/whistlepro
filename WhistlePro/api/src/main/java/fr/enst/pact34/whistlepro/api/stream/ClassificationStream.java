@@ -3,7 +3,6 @@ package fr.enst.pact34.whistlepro.api.stream;
 import fr.enst.pact34.whistlepro.api.classification.SampleClassif;
 import fr.enst.pact34.whistlepro.api.common.DataSource;
 import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
-import fr.enst.pact34.whistlepro.api.common.FileOperator;
 import fr.enst.pact34.whistlepro.api.classification.MultipleStrongClassifiers;
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
@@ -21,16 +20,25 @@ public class ClassificationStream
     private DataSource<ArrayList<Double>> datasource = new DataSource<>();
     private ArrayList<SampleClassif> storedData = new ArrayList<>();
 
+    /* Replaced by string given in constructor
     private String classifierFileName = "data/voyelles.scs";
     MultipleStrongClassifiers classifier =
             new MultipleStrongClassifiers.Builder()
                     .fromString(FileOperator.getDataFromFile(classifierFileName))
                     .build();
+    */
 
+    MultipleStrongClassifiers classifier = null;
 
+    private ArrayList<String> classes = null;
 
-
-    private final ArrayList<String> classes = classifier.classes();
+    public ClassificationStream(String data) {
+        classifier =
+        new MultipleStrongClassifiers.Builder()
+                .fromString(data)
+                .build();
+        classes = classifier.classes();
+    }
 
     @Override
     public void subscribe(DataListenerInterface<ArrayList<Double>> listener) {

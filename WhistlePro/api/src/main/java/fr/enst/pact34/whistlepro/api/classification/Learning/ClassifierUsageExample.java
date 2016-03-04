@@ -2,10 +2,7 @@ package fr.enst.pact34.whistlepro.api.classification.Learning;
 
 import fr.enst.pact34.whistlepro.api.acquisition.WavFile;
 import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
-import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
-import fr.enst.pact34.whistlepro.api.common.DataSource;
-import fr.enst.pact34.whistlepro.api.common.Spectrum;
-import fr.enst.pact34.whistlepro.api.common.transformers;
+import fr.enst.pact34.whistlepro.api.common.*;
 import fr.enst.pact34.whistlepro.api.stream.ClassificationStream;
 import fr.enst.pact34.whistlepro.api.stream.MfccFeatureStream;
 
@@ -23,7 +20,7 @@ public class ClassifierUsageExample {
 
         MfccFeatureStream mfccFeatureStream = new MfccFeatureStream();
         FakeSpectrumStream spectrumStream = new FakeSpectrumStream();
-        ClassificationStream classifStream = new ClassificationStream();
+        ClassificationStream classifStream = new ClassificationStream(FileOperator.getDataFromFile("data/voyelles.scs"));
         FakeReceiverClassif fakeReceiverClassif = new FakeReceiverClassif();
 
         spectrumStream.subscribe(mfccFeatureStream);
