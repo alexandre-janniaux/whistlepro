@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class MfccDataBaseGenerator {
 
     public static final String examplesFolder = "data/examples/";
-    public static final String databaseFileName = "data/examples/MFCC.db";
+    public static final String databaseFileName = "data/examples/MFCC_tmp.db";
 
     public static void main(String[] args) {
 

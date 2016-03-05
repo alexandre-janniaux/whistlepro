@@ -15,11 +15,7 @@ public class Spectrum {
         this.values = values;
         this.fs = fs;
 
-        scale = new double[values.length];
-        for(int i = 0; i < values.length; i++)
-        {
-            scale[i] = i*fs/nbPtsSig;
-        }
+        scale = null;
     }
 
     public double[] getSpectrumValues() {
@@ -27,6 +23,13 @@ public class Spectrum {
     }
 
     public double[] getSpectrumScale() {
+        if (scale == null)
+        {
+            scale = new double[values.length];
+            for (int i = 0; i < values.length; i++) {
+                scale[i] = i * fs / nbPtsSig;
+            }
+        }
         return scale.clone();
     }
 

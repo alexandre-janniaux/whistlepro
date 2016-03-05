@@ -31,15 +31,28 @@ public class MfccFeatureProvider implements FeatureProviderInterface
         return output;
     }
 
-    public double[] computeMelSpectrum(double[] signal, double[] echelleFreq)
+    private double lastFs = -1 , lastN = -1;
+    private double[][] filters =null;
+
+    public double[] computeMelSpectrum(double[] fft, double Fs, double N)
     {
         double[] output = new double[nbMelFilter];
-        double[][] filters = FilterBankMel.computeFilterBank(minFrequency, maxFrequency,nbMelFilter,echelleFreq);
 
+        if(lastFs!=Fs || lastN!=N)
+        {
+            double[] echelleFreq = new double[fft.length];
+            for (int i = 0; i < fft.length; i++) {
+                echelleFreq[i] = i * Fs / N;
+            }
+            filters = FilterBankMel.computeFilterBank(minFrequency, maxFrequency,nbMelFilter,echelleFreq);
+        }
+
+        lastN = N;
+        lastFs = Fs;
 
         for(int i=0; i < filters.length ; ++i)
         {
-            output[i] = computePower(applyFilter(signal,filters[i]));
+            output[i] = computePower(applyFilter(fft,filters[i]));
         }
         return output;
     }
@@ -70,10 +83,10 @@ public class MfccFeatureProvider implements FeatureProviderInterface
         for(int i=0; i<fftC.length; ++i)
             fftC[i] = fftC[i]*fftC[i];
 
-        spectrumIn = new Spectrum(spectrumIn.getNbPtsSig(),spectrumIn.getFs(),fftC);
+        //spectrumIn = new Spectrum(spectrumIn.getNbPtsSig(),spectrumIn.getFs(),fftC);
 
         // FILTERING
-        double[] filtered = computeMelSpectrum(spectrumIn.getSpectrumValues(), spectrumIn.getSpectrumScale());
+        double[] filtered = computeMelSpectrum(fftC, spectrumIn.getFs(),spectrumIn.getNbPtsSig());
 
         for(int i = 0; i < filtered.length; i++)
         {
