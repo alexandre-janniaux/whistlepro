@@ -14,13 +14,17 @@ public class SpectrumStream
         // Output an arraylist of double (the spectrum)
         DataSourceInterface<Spectrum>,
         // Receive an arraylist of double as input (the signal itself, smoothed or not)
-        DataListenerInterface<Double>,
-        // Define a possible parallel job 
-        JobProviderInterface
+        DataListenerInterface<Double>
 {
     private DataSource<Spectrum> datasource = new DataSource<>();
 
-    private ArrayList<Double> storedData = new ArrayList<>();
+    private final int windowSize;
+    private final int overlap;
+
+    public SpectrumStream(int windowSize, int overlap) {
+        this.windowSize = windowSize;
+        this.overlap = overlap;
+    }
 
     @Override
     public void unsubscribe(DataListenerInterface<Spectrum> listener) {
@@ -33,32 +37,23 @@ public class SpectrumStream
     }
 
     @Override
-    public void onPushData(DataSource<Double> source, ArrayList<Double> data) {
-       synchronized (this.storedData) {
-           this.storedData.addAll(data);
-       }
-    }
+    public void onPushData(DataSource<Double> source, ArrayList<Double> inputData) {
 
-    @Override
-    public void doWork() {
+        ArrayList<Spectrum> outputData = new ArrayList<>();
+
         double[] inputs;
-        synchronized (this.storedData) {
-            inputs = new double[this.storedData.size()];
-            for (int i = 0; i < this.storedData.size(); ++i) {
-                inputs[i] = (double) this.storedData.get(i);
-            }
-            this.storedData.clear();
+        inputs = new double[inputData.size()];
+        for (int i = 0; i < inputData.size(); ++i) {
+            inputs[i] = (double) inputData.get(i);
         }
 
+
         double[] output = transformers.fft(inputs);
-        //TODO: push output
+        Spectrum spectrum = new Spectrum(this.windowSize, 16000, output); //TODO: don't hardcode F_e
 
-    }
 
-    @Override
-    public boolean isWorkAvailable() {
-        // TODO: If enough data is available for work, return true
-        return false;
+        outputData.add(spectrum);
+        this.datasource.push(outputData);
     }
 
 }

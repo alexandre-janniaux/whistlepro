@@ -36,11 +36,6 @@ public class ClassifierUsageExample {
 
         spectrumStream.calcOnWav(fileToClassify);
 
-        while (mfccFeatureStream.isWorkAvailable()) mfccFeatureStream.doWork();
-
-        while (classifStream.isWorkAvailable()) classifStream.doWork();
-
-
         ArrayList<Double> res = fakeReceiverClassif.getVal();
         ArrayList<String> classes = classifStream.getClasses();
         for (int i = 0; i < res.size(); i ++)

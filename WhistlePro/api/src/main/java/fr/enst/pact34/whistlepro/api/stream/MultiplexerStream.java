@@ -13,8 +13,7 @@ import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
 public class MultiplexerStream<E,F>
     implements
         DataSourceInterface<ArrayList<F>>,
-        DataListenerInterface<ArrayList<E>>,
-        JobProviderInterface
+        DataListenerInterface<ArrayList<E>>
 {
     private int n;
     private DataSource<ArrayList<F>> datasource = new DataSource<>();
@@ -85,15 +84,5 @@ public class MultiplexerStream<E,F>
             ArrayList<E> data = inputData.get(i);
             this.loops.get(i).push(data);
         }
-    }
-
-    @Override
-    public boolean isWorkAvailable() {
-        return false;
-    }
-
-    @Override
-    public void doWork() {
-
     }
 }

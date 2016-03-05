@@ -50,7 +50,6 @@ public class MfccDataBaseGenerator {
             System.out.println("Working on classe '"+classe+"' in the directory : '"+examplesFolder + classe+"/'");
 
             spectrumStream.prepareData(examplesFolder + classe+"/");
-            while (mfccFeatureStream.isWorkAvailable()) mfccFeatureStream.doWork();
             fakeReceiverMFCC.save(classe);
         }
 

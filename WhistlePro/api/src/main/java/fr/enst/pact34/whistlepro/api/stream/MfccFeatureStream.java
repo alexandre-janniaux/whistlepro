@@ -15,16 +15,12 @@ public class MfccFeatureStream
         DataSourceInterface<ArrayList<Double>>,
         // Receive an arraylist of double as input (the signal itself, smoothed or not)
         DataListenerInterface<Spectrum>,
-        // Define a possible parallel job 
-        JobProviderInterface,
         // Notice feature provider
         FeatureProviderInterface
 {
     private DataSource<ArrayList<Double>> datasource = new DataSource<>();
 
     private MfccFeatureProvider mfcc = new MfccFeatureProvider();
-    private ArrayList<Spectrum> storedData = new ArrayList<>(); 
-    private int index = 0;
 
     @Override
     public int countFeatures() {
@@ -42,29 +38,17 @@ public class MfccFeatureStream
     }
 
     @Override
-    public void onPushData(DataSource<Spectrum> source, ArrayList<Spectrum> data) {
-       this.storedData.addAll(data);
-    }
-
-    @Override
-    public void doWork() {
+    public void onPushData(DataSource<Spectrum> source, ArrayList<Spectrum> inputData) {
         // TODO: do the computation work and put the data (cf DataSource)
         // TODO: lock data when processing
         ArrayList<ArrayList<Double>> results = new ArrayList<>();
-        results.ensureCapacity(this.storedData.size());
-        for(int index=0; index < this.storedData.size(); ++index)
+        results.ensureCapacity(inputData.size());
+        for(int index=0; index < inputData.size(); ++index)
         {
-            results.add(mfcc.processMfcc(this.storedData.get(index)));
+            results.add(mfcc.processMfcc(inputData.get(index)));
         }
-        this.storedData.clear();
 
         this.datasource.push(results);
-    }
-
-    @Override
-    public boolean isWorkAvailable() {
-        // TODO: If enough data is available for work, return true
-        return this.storedData.size()>0;
     }
 
 }

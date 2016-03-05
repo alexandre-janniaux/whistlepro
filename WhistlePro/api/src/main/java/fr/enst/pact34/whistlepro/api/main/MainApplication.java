@@ -10,7 +10,7 @@ class MainApplication {
         // STREAM INITIALIZATION
         //////////////////////////////
         AcquisitionStream acquisitionStream = new AcquisitionStream();
-        SpectrumStream spectrumStream = new SpectrumStream();
+        SpectrumStream spectrumStream = new SpectrumStream(200,100);
         MfccFeatureStream mfccFeatureStream = new MfccFeatureStream();
         ClassificationStream classificationStream = new ClassificationStream();
 

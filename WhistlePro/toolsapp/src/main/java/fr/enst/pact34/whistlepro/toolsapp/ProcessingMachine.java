@@ -95,11 +95,6 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
 
             spectrumStream.calcOnWav(toProcess, Fs);
 
-            while (mfccFeatureStream.isWorkAvailable()) mfccFeatureStream.doWork();
-
-            while (classifStream.isWorkAvailable()) classifStream.doWork();
-
-
             ArrayList<Double> res = fakeReceiverClassif.getVal();
             ArrayList<String> classes = classifStream.getClasses();
             String max_c = "-";
