@@ -63,12 +63,12 @@ public class MfccFeatureProviderTest {
 
             for(i=0; i < fft.length; i++)
             {
-                fft[i]=2*(fft[i]/fft.length);
+                fft[i]=2*(fft[i]/nbPts);
 
             }
 
 
-            Spectrum sp = new Spectrum(fft.length,Fs,fft);
+            Spectrum sp = new Spectrum(nbPts,Fs,fft);
 
             ArrayList<Double> coef = mfcc.processMfcc(sp);
 

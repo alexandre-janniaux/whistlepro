@@ -161,10 +161,10 @@ public class MfccDataBaseGenerator {
 
                     for(i=0; i < fft.length; i++)
                     {
-                        fft[i]=2*(fft[i]/fft.length);
+                        fft[i]=2*(fft[i]/nbPts);
                     }
 
-                    sps.add(new Spectrum(fft.length,Fs,fft));
+                    sps.add(new Spectrum(nbPts,Fs,fft));
 
                 }
 

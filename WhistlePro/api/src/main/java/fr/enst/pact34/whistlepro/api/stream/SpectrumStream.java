@@ -1,11 +1,6 @@
 package fr.enst.pact34.whistlepro.api.stream;
 
-import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
-import fr.enst.pact34.whistlepro.api.common.DataSource;
-import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
-import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
-import fr.enst.pact34.whistlepro.api.common.Spectrum;
-import fr.enst.pact34.whistlepro.api.common.transformers;
+import fr.enst.pact34.whistlepro.api.common.*;
 
 import java.util.ArrayList;
 
@@ -14,13 +9,13 @@ public class SpectrumStream
         // Output an arraylist of double (the spectrum)
         DataSourceInterface<Spectrum>,
         // Receive an arraylist of double as input (the signal itself, smoothed or not)
-        DataListenerInterface<Double>,
+        DataListenerInterface<SignalSample>,
         // Define a possible parallel job 
         JobProviderInterface
 {
     private DataSource<Spectrum> datasource = new DataSource<>();
 
-    private ArrayList<Double> storedData = new ArrayList<>();
+    private ArrayList<SignalSample> storedData = new ArrayList<>();
 
     @Override
     public void unsubscribe(DataListenerInterface<Spectrum> listener) {
@@ -33,7 +28,7 @@ public class SpectrumStream
     }
 
     @Override
-    public void onPushData(DataSource<Double> source, ArrayList<Double> data) {
+    public void onPushData(DataSource<SignalSample> source, ArrayList<SignalSample> data) {
        synchronized (this.storedData) {
            this.storedData.addAll(data);
        }
@@ -41,34 +36,44 @@ public class SpectrumStream
 
     @Override
     public void doWork() {
-        double[] inputs;
+        ArrayList<SignalSample> inputs= new ArrayList<>();
         synchronized (this.storedData) {
-            inputs = new double[this.storedData.size()];
-            for (int i = 0; i < this.storedData.size(); ++i) {
-                inputs[i] = (double) this.storedData.get(i);
+            while(storedData.size()>0){
+                inputs.add(storedData.remove(0));
             }
-            this.storedData.clear();
         }
 
-        double[] output = transformers.fft(inputs);
-        //TODO: push output
+        ArrayList<Spectrum> spectrums_out= new ArrayList<>();
+        while(inputs.size()>0) {
+            SignalSample tmp = inputs.remove(0);
+            double[] fft = transformers.fft(tmp.getSignal());
+            double coefAdap = 2/tmp.getSignal().length;
+            for(int i=0; i < fft.length; i++)
+            {
+                fft[i]=fft[i]*coefAdap;
+            }
+            spectrums_out.add(new Spectrum(tmp.getSignal().length,tmp.getFs(),fft));
+        }
 
+        this.datasource.transaction();
+        this.datasource.push(spectrums_out);
+        this.datasource.commit();
+        //TODO: push output
     }
 
     @Override
     public boolean isWorkAvailable() {
         // TODO: If enough data is available for work, return true
-        return false;
+        return (storedData.size()>0);
     }
 
     @Override
-    public void onCommit(DataSource<Double> source) {
+    public void onCommit(DataSource<SignalSample> source) {
 
     }
 
     @Override
-    public void onTransaction(DataSource<Double> source) {
-
+    public void onTransaction(DataSource<SignalSample> source) {
 
     }
 

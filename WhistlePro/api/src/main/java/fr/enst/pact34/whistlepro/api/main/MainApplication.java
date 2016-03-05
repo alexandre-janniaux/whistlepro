@@ -20,7 +20,7 @@ class MainApplication {
         //////////////////////////////
         
         // ACQUISITION ---> SPECTRUM
-        acquisitionStream.subscribe(spectrumStream);
+        // TODO : acquisitionStream.subscribe(spectrumStream);
 
         // SPECTRUM ---> MFCC
         spectrumStream.subscribe(mfccFeatureStream);
