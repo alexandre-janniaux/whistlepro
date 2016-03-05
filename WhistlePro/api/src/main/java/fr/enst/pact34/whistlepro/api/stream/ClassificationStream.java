@@ -77,9 +77,7 @@ public class ClassificationStream
         }
         this.storedData.clear();
 
-        this.datasource.transaction();
         this.datasource.push(results);
-        this.datasource.commit();
     }
 
     @Override

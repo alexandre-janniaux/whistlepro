@@ -49,7 +49,7 @@ public class MfccFeatureStream
     @Override
     public void doWork() {
         // TODO: do the computation work and put the data (cf DataSource)
-        // TODO: lock data when processing, then unlocked it and activate the transaction lock to send the data in push
+        // TODO: lock data when processing
         ArrayList<ArrayList<Double>> results = new ArrayList<>();
         results.ensureCapacity(this.storedData.size());
         for(int index=0; index < this.storedData.size(); ++index)
@@ -58,9 +58,7 @@ public class MfccFeatureStream
         }
         this.storedData.clear();
 
-        this.datasource.transaction();
         this.datasource.push(results);
-        this.datasource.commit();
     }
 
     @Override
