@@ -11,6 +11,32 @@ import java.util.ArrayList;
  */
 public class transformers {
 
+
+    public static double[] fft(double sig[],int nbCoeffs)
+    {
+        int N = sig.length;
+        double fft_c[] = new double[nbCoeffs];
+        double fft_s[] = new double[nbCoeffs];
+
+        for (int k = 0; k < nbCoeffs; k++)
+        {
+            fft_c[k] = 0;
+            fft_s[k] = 0;
+
+            for(int j = 0; j < N; j++)
+            {
+                double tmp = -2.0*(Math.PI*j*k)/N;
+                fft_c[k] = fft_c[k]+ sig[j]*Math.cos(tmp);
+                fft_s[k] = fft_s[k]+ sig[j]*Math.sin(tmp);
+            }
+        }
+
+        //reusing fft_c for result
+        for(int i = 0; i < nbCoeffs;i ++) fft_c[i] = 2.0*Math.sqrt(fft_c[i]*fft_c[i]+fft_s[i]*fft_s[i])/N;
+
+        return fft_c;
+    }
+
     public static double[] fft(double sig[])
     {
         int N = sig.length;
