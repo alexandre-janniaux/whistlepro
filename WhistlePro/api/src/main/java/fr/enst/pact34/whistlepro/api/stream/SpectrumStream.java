@@ -3,6 +3,9 @@ package fr.enst.pact34.whistlepro.api.stream;
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 import fr.enst.pact34.whistlepro.api.common.DataSource;
 import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal2D;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal2DInterface;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignalInterface;
 import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
 import fr.enst.pact34.whistlepro.api.common.Spectrum;
 import fr.enst.pact34.whistlepro.api.common.transformers;
@@ -12,11 +15,11 @@ import java.util.ArrayList;
 public class SpectrumStream
     implements
         // Output an arraylist of double (the spectrum)
-        DataSourceInterface<Spectrum>,
+        DataSourceInterface<DoubleSignal2DInterface>,
         // Receive an arraylist of double as input (the signal itself, smoothed or not)
-        DataListenerInterface<Double>
+        DataListenerInterface<DoubleSignalInterface>
 {
-    private DataSource<Spectrum> datasource = new DataSource<>();
+    private DataSource<DoubleSignal2DInterface> datasource = new DataSource<>();
 
     private final int windowSize;
     private final int overlap;
@@ -27,32 +30,30 @@ public class SpectrumStream
     }
 
     @Override
-    public void unsubscribe(DataListenerInterface<Spectrum> listener) {
+    public void unsubscribe(DataListenerInterface<DoubleSignal2DInterface> listener) {
         datasource.unsubscribe(listener);
     }
 
     @Override
-    public void subscribe(DataListenerInterface<Spectrum> listener) {
+    public void subscribe(DataListenerInterface<DoubleSignal2DInterface> listener) {
         datasource.subscribe(listener);
     }
 
     @Override
-    public void onPushData(DataSource<Double> source, ArrayList<Double> inputData) {
+    public void onPushData(DataSource<DoubleSignalInterface> source, DoubleSignalInterface inputData) {
 
-        ArrayList<Spectrum> outputData = new ArrayList<>();
+        int signalLength = inputData.getSignal().length;
+        double[] signal = inputData.getSignal();
+        double[][] output = new double[1][]; //TODO: windowing with overlapping
 
-        double[] inputs;
-        inputs = new double[inputData.size()];
-        for (int i = 0; i < inputData.size(); ++i) {
-            inputs[i] = (double) inputData.get(i);
-        }
+        double[] spectrum = transformers.fft(signal);
 
+        DoubleSignal2DInterface outputData = new DoubleSignal2D(
+                output,
+                this.windowSize,
+                inputData.getSampleFrequency()
+        );
 
-        double[] output = transformers.fft(inputs);
-        Spectrum spectrum = new Spectrum(this.windowSize, 16000, output); //TODO: don't hardcode F_e
-
-
-        outputData.add(spectrum);
         this.datasource.push(outputData);
     }
 

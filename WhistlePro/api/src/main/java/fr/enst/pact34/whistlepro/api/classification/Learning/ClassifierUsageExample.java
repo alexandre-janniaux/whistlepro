@@ -4,6 +4,10 @@ import fr.enst.pact34.whistlepro.api.acquisition.WavFile;
 import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 import fr.enst.pact34.whistlepro.api.common.DataSource;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal2D;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal2DInterface;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignalInterface;
 import fr.enst.pact34.whistlepro.api.common.Spectrum;
 import fr.enst.pact34.whistlepro.api.common.transformers;
 import fr.enst.pact34.whistlepro.api.stream.ClassificationStream;
@@ -44,7 +48,7 @@ public class ClassifierUsageExample {
         }
     }
 
-    public static class FakeReceiverClassif implements DataListenerInterface<ArrayList<Double>>
+    public static class FakeReceiverClassif implements DataListenerInterface<DoubleSignal2DInterface>
     {
 
         private ArrayList<ArrayList<Double>> storedData = new ArrayList<>();
@@ -58,17 +62,18 @@ public class ClassifierUsageExample {
         }
 
         @Override
-        public void onPushData(DataSource<ArrayList<Double>> source, ArrayList<ArrayList<Double>> inputData) {
+        public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
             //System.out.print("pushdata ");
+            double[][] signal = inputData.getSignal();
 
-            for(int j = 0; j < inputData.size(); j++) {
-                storedData.add(inputData.get(j));
+            for(int i = 0; i < signal.length; i++) {
+                storedData.add(transformers.doubleToArray(signal[i]));
             }
         }
 
     }
 
-    public static  class FakeSpectrumStream extends DataSource<Spectrum>
+    public static  class FakeSpectrumStream extends DataSource<DoubleSignal2DInterface>
     {
 
         public void calcOnWav(String fileName)
@@ -92,7 +97,7 @@ public class ClassifierUsageExample {
                 buffer = new double[nbPts];
 
 
-                ArrayList<Spectrum> sps = new ArrayList<>();
+                double[][] output = new double[1][]; //FIXME: bigger buffer
 
                 while(readWavFile.readFrames(buffer,nbPts) == nbPts)
                 {
@@ -104,13 +109,18 @@ public class ClassifierUsageExample {
                         fft[i]=2*(fft[i]/fft.length);
                     }
 
-                    sps.add(new Spectrum(fft.length,Fs,fft));
+                    output[1] = fft;
+                    DoubleSignal2DInterface outputData = new DoubleSignal2D(
+                            output,
+                            nbPts,
+                            Fs
+                    );
+
+                    push(outputData);
 
                 }
 
                 readWavFile.close();
-
-                this.push(sps);
 
             } catch (IOException e) {
                 e.printStackTrace();

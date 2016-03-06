@@ -28,7 +28,7 @@ public class SynchronizedStream<E,F>
         }
 
         @Override
-        public void onPushData(DataSource<F> source, ArrayList<F> inputData) {
+        public void onPushData(DataSource<F> source, F inputData) {
             this.root.output.push(inputData);
         }
 
@@ -40,7 +40,7 @@ public class SynchronizedStream<E,F>
     }
 
     @Override
-    public void onPushData(DataSource<E> source, ArrayList<E> inputData) {
+    public void onPushData(DataSource<E> source, E inputData) {
         this.input.push(inputData);//FIXME: bypass, need to implement synchronization
     }
 

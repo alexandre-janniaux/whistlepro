@@ -58,12 +58,12 @@ public class tests {
 
             Spectrum sp = new Spectrum(fft.length,Fs,fft);
 
-            ArrayList<Double> coef = mfcc.processMfcc(sp);
+            double[] coef = mfcc.processMfcc(sp);
 
             System.out.println();
-            for(i = 0; i < coef.size(); i ++)
+            for(i = 0; i < coef.length; i ++)
             {
-                System.out.print(coef.get(i) + ";");
+                System.out.print(coef[i] + ";");
             }
 
             System.out.println();

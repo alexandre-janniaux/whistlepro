@@ -3,6 +3,8 @@ package fr.enst.pact34.whistlepro.toolsapp;
 import android.util.Log;
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 import fr.enst.pact34.whistlepro.api.common.DataSource;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal2D;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal2DInterface;
 import fr.enst.pact34.whistlepro.api.common.Spectrum;
 import fr.enst.pact34.whistlepro.api.common.transformers;
 import fr.enst.pact34.whistlepro.api.stream.ClassificationStream;
@@ -115,7 +117,7 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
     }
 
 
-    public static class FakeReceiverClassif implements DataListenerInterface<ArrayList<Double>>
+    public static class FakeReceiverClassif implements DataListenerInterface<DoubleSignal2DInterface>
     {
 
         private ArrayList<ArrayList<Double>> storedData = new ArrayList<>();
@@ -129,23 +131,25 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
         }
 
         @Override
-        public void onPushData(DataSource<ArrayList<Double>> source, ArrayList<ArrayList<Double>> inputData) {
+        public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
             //System.out.print("pushdata ");
 
-            for(int j = 0; j < inputData.size(); j++) {
-                storedData.add(inputData.get(j));
+            double[][] signal = inputData.getSignal();
+
+            for(int j = 0; j < signal.length; j++) {
+                storedData.add(transformers.doubleToArray(signal[j]));
             }
         }
 
     }
 
-    public static  class FakeSpectrumStream extends DataSource<Spectrum>
+    public static  class FakeSpectrumStream extends DataSource<DoubleSignal2DInterface>
     {
 
         public void calcOnWav(double[] buffer,double Fs)
         {
 
-            ArrayList<Spectrum> sps = new ArrayList<>();
+            double[][] output = new double[1][];
 
             double[] fft = transformers.fft(buffer);
 
@@ -154,13 +158,10 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
                 fft[i]=2*(fft[i]/fft.length);
             }
 
-            sps.add(new Spectrum(fft.length,Fs,fft));
+            output[0] = fft;
 
-
-
-            this.push(sps);
-
-
+            DoubleSignal2DInterface outputData = new DoubleSignal2D(output, buffer.length, Fs);
+            this.push(outputData);
         }
     }
 }

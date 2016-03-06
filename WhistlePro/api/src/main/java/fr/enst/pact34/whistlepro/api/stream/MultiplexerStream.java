@@ -6,21 +6,24 @@ import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 import fr.enst.pact34.whistlepro.api.common.DataSource;
 import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
 import fr.enst.pact34.whistlepro.api.common.DataStreamInterface;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal2DInterface;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignalInterface;
 import fr.enst.pact34.whistlepro.api.common.FactoryInterface;
 import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
 
-
-public class MultiplexerStream<E,F>
+/*
+public class DoubleMultiplexerStream
     implements
-        DataSourceInterface<ArrayList<F>>,
-        DataListenerInterface<ArrayList<E>>
+        DataSourceInterface<DoubleSignal2DInterface>,
+        DataListenerInterface<DoubleSignal2DInterface>
 {
     private int n;
-    private DataSource<ArrayList<F>> datasource = new DataSource<>();
+    private DataSource<ArrayList<DoubleSignal2DInterface>> datasource = new DataSource<>();
 
-    private ArrayList<DataStreamInterface<E,F>> sources = new ArrayList<>();
+    private ArrayList<DataStreamInterface<DoubleSignalInterface,DoubleSignalInterface>> sources = new ArrayList<>();
     private ArrayList<FakeLoopStream> loops = new ArrayList<>();
-    private ArrayList<ArrayList<F>> outputs = new ArrayList<>();
+    private ArrayList<ArrayList<Double>> outputs = new ArrayList<>();
 
     private int computed = 0;
 
@@ -86,3 +89,4 @@ public class MultiplexerStream<E,F>
         }
     }
 }
+*/

@@ -3,20 +3,24 @@ package fr.enst.pact34.whistlepro.api.stream;
 import fr.enst.pact34.whistlepro.api.classification.SampleClassif;
 import fr.enst.pact34.whistlepro.api.common.DataSource;
 import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal2D;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal2DInterface;
 import fr.enst.pact34.whistlepro.api.common.FileOperator;
 import fr.enst.pact34.whistlepro.api.classification.MultipleStrongClassifiers;
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
+import fr.enst.pact34.whistlepro.api.common.transformers;
+
 import java.util.ArrayList;
 
 public class ClassificationStream
     implements
-        DataSourceInterface<ArrayList<Double>>,
+        DataSourceInterface<DoubleSignal2DInterface>,
         // Receive an arraylist of double as input (the features) 
-        DataListenerInterface<ArrayList<Double>>
+        DataListenerInterface<DoubleSignal2DInterface>
 {
 
-    private DataSource<ArrayList<Double>> datasource = new DataSource<>();
+    private DataSource<DoubleSignal2DInterface> datasource = new DataSource<>();
     private ArrayList<SampleClassif> storedData = new ArrayList<>();
 
     private String classifierFileName = "data/voyelles.scs";
@@ -31,12 +35,12 @@ public class ClassificationStream
     private final ArrayList<String> classes = classifier.classes();
 
     @Override
-    public void subscribe(DataListenerInterface<ArrayList<Double>> listener) {
+    public void subscribe(DataListenerInterface<DoubleSignal2DInterface> listener) {
         this.datasource.subscribe(listener);
     }
 
     @Override
-    public void unsubscribe(DataListenerInterface<ArrayList<Double>> listener) {
+    public void unsubscribe(DataListenerInterface<DoubleSignal2DInterface> listener) {
         this.datasource.unsubscribe(listener);
     }
 
@@ -51,27 +55,30 @@ public class ClassificationStream
     }
 
     @Override
-    public void onPushData(DataSource<ArrayList<Double>> source, ArrayList<ArrayList<Double>> data) {
+    public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface data) {
 
-        for (int i = 0; i < data.size(); i++) {
+        int signalLength = data.getSignal().length;
 
-            if(data.get(i).size() != 13) continue; //FIXME: hardcoded size of features
+        for (int i = 0; i < data.getSignal().length; i++) {
 
-            SampleClassif s =  new SampleClassif.Builder().fromValues(data.get(i)).build();
+            if(data.getSignal()[i].length != 13) continue; //FIXME: hardcoded size of features
+
+            SampleClassif s =  new SampleClassif.Builder().fromValues(transformers.doubleToArray(data.getSignal()[i])).build();
 
             if(s!=null) storedData.add(s);
         }
 
-        ArrayList<ArrayList<Double>> results = new ArrayList<>();
-        results.ensureCapacity(this.storedData.size());
+        double[][] results = new double[signalLength][];
 
-        for(int index=0; index < this.storedData.size(); ++index)
+        for(int index=0; index < signalLength; ++index)
         {
-            results.add(classifier.classify(storedData.get(index)));
+            results[index] = transformers.arrayToDouble(classifier.classify(storedData.get(index)));
         }
         this.storedData.clear();
 
-        this.datasource.push(results);
+        DoubleSignal2DInterface outputData = new DoubleSignal2D(results, data.getNbPoints(), data.getFrequencySample());
+
+        this.datasource.push(outputData);
     }
 
 }

@@ -1,7 +1,7 @@
 package fr.enst.pact34.whistlepro.api.common;
 
 
-public class DoubleSignal {
+public class DoubleSignal implements DoubleSignalInterface {
 
     private final double[] signal;
     private final int nbSamples;

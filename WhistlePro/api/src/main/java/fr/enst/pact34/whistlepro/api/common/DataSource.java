@@ -31,7 +31,7 @@ public class DataSource<E> implements DataSourceInterface<E>{
     /// @brief push data to listeners
     /// @param outputData the data to broadcast
     //////////////////////////////
-    public final void push(ArrayList<E> outputData) {
+    public final void push(E outputData) {
         for (DataListenerInterface<E> out : this.listeners)
         {
             out.onPushData(this, outputData);

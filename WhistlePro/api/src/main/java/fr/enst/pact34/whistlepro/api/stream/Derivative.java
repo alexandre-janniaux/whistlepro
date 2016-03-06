@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 import fr.enst.pact34.whistlepro.api.common.DataSource;
 import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignalInterface;
 import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
 import fr.enst.pact34.whistlepro.api.common.ConvolutionInterface;
 import fr.enst.pact34.whistlepro.api.common.Convolution1D;
@@ -12,10 +14,10 @@ import fr.enst.pact34.whistlepro.api.common.Convolution1D;
 class Derivative
     //extends DataSource<ArrayList<Double>>
     implements
-        DataSourceInterface<Double>,
-        DataListenerInterface<Double>
+        DataSourceInterface<DoubleSignalInterface>,
+        DataListenerInterface<DoubleSignalInterface>
 {
-    private DataSource<Double> datasource = new DataSource<>();
+    private DataSource<DoubleSignalInterface> datasource = new DataSource<>();
 
     private ConvolutionInterface convolution;
     private int n;
@@ -33,41 +35,38 @@ class Derivative
         convolution = new Convolution1D(2*nbMean, kernel);
     }
 
-    public void onPushData(DataSource<Double> source, ArrayList<Double> inputData) {
+    public void onPushData(DataSource<DoubleSignalInterface> source, DoubleSignalInterface inputData) {
         // TODO: use previous array
         // -n is for bounds of the array
         // TODO: check and test impl (fast change done)
 
         boolean useLastBuffer = this.lastbuffer.length>this.n;
         int start = useLastBuffer ? this.n : 0;
-        int ssize = inputData.size();
-        int size = useLastBuffer ? this.n + inputData.size() : inputData.size();
+        int ssize = inputData.getSignal().length;
+        int size = useLastBuffer ? this.n + ssize : ssize;
         this.buffer = new double[size];
 
         if (useLastBuffer) for(int i=0; i<n; ++i) this.buffer[i] = this.lastbuffer[i];
         for(int i=start; i < size; ++i) {
-            this.buffer[i] = inputData.get(i);
+            this.buffer[i] = inputData.getSignal()[i];
             if (ssize-i <= this.n) {
-                this.lastbuffer[i-ssize+this.n] = inputData.get(i);
+                this.lastbuffer[i-ssize+this.n] = inputData.getSignal()[i];
             }
         }
 
         double[] output = convolution.convoluate(this.buffer,0, buffer.length-this.n);
-        ArrayList<Double> toPush = new ArrayList<>();
-        toPush.ensureCapacity(output.length);
-        for(int i=0; i<output.length; ++i) toPush.add(output[i]);
-
-        this.datasource.push(toPush);
+        DoubleSignalInterface outputData = new DoubleSignal(output,inputData.getNbSamples(),inputData.getSampleFrequency());
+        this.datasource.push(outputData);
     }
 
 
     @Override
-    public void subscribe(DataListenerInterface<Double> listener) {
+    public void subscribe(DataListenerInterface<DoubleSignalInterface> listener) {
         this.datasource.unsubscribe(listener);
     }
 
     @Override
-    public void unsubscribe(DataListenerInterface<Double> listener) {
+    public void unsubscribe(DataListenerInterface<DoubleSignalInterface> listener) {
         this.datasource.unsubscribe(listener);
     }
 }

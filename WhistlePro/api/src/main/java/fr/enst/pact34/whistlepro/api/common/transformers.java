@@ -2,6 +2,9 @@ package fr.enst.pact34.whistlepro.api.common;
 
 import org.apache.commons.math3.complex.Complex;
 
+import java.awt.geom.Arc2D;
+import java.util.ArrayList;
+
 /**
  * Created by Mohamed  on 25/02/16.
  * Implémentations following MATLAB method.
@@ -31,17 +34,30 @@ public class transformers {
     }
 
 
-    public static double[] dct(double[] signal) {
+    public static double[] arrayToDouble(ArrayList<Double> array) {
+        double[] output = new double[array.size()];
+        for(int i=0; i<array.size(); ++i) output[i] = array.get(i);
+        return output;
+    }
+
+    public static ArrayList<Double> doubleToArray(double[] array) {
+        ArrayList<Double> output = new ArrayList<>();
+        output.ensureCapacity(array.length);
+        for(int i=0; i<array.length; ++i) output.set(i, array[i]);
+        return output;
+    }
+
+    public static double[] dct(double[] signal, int nbCoeffs) {
         int N = signal.length;
-        double dct[] = new double[N];
+        double dct[] = new double[nbCoeffs];
         dct[0] = 0;
-        for(int n = 0; n < N; n++)
+        for(int n = 0; n < nbCoeffs; n++)
         {
             dct[0] += signal[n]* 1;//1=cos(0)=>Math.cos((Math.PI*(2*n+1)*k)/(2*N)) k = 0;
         }
         dct[0]= dct[0]/Math.sqrt(N);
 
-        for(int k = 1; k < N ; k++)
+        for(int k = 1; k < nbCoeffs ; k++)
         {
             dct[k] = 0;
             for(int n = 0; n < N; n++)
