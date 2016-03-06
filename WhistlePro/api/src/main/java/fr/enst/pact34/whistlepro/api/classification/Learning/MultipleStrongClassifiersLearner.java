@@ -48,7 +48,7 @@ public class MultipleStrongClassifiersLearner {
 
 			}
 			errors[i] = (float)errorCounter/partTest.size();
-			System.out.println( (float)errors[i]);
+			//System.out.println( (float)errors[i]);
 		}
 
 		double mean=0;
