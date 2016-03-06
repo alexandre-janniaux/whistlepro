@@ -1,10 +1,12 @@
 package fr.enst.pact34.whistlepro.api.stream;
 
 import fr.enst.pact34.whistlepro.api.common.DataSource;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignalInterface;
 
 // TODO: documentation
 public class AcquisitionStream 
-    extends DataSource<Double>
+    extends DataSource<DoubleSignalInterface>
 {
     //TODO: implement recording [ACQUISITION]
     //

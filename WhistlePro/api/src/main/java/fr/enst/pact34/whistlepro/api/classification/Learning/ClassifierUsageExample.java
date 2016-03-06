@@ -33,11 +33,6 @@ public class ClassifierUsageExample {
 
         spectrumStream.calcOnWav(fileToClassify);
 
-        while (mfccFeatureStream.isWorkAvailable()) mfccFeatureStream.doWork();
-
-        while (classifStream.isWorkAvailable()) classifStream.doWork();
-
-
         ArrayList<Double> res = fakeReceiverClassif.getVal();
         ArrayList<String> classes = classifStream.getClasses();
         for (int i = 0; i < res.size(); i ++)
@@ -46,7 +41,7 @@ public class ClassifierUsageExample {
         }
     }
 
-    public static class FakeReceiverClassif implements DataListenerInterface<ArrayList<Double>>
+    public static class FakeReceiverClassif implements DataListenerInterface<DoubleSignal2DInterface>
     {
 
         private ArrayList<ArrayList<Double>> storedData = new ArrayList<>();
@@ -60,28 +55,18 @@ public class ClassifierUsageExample {
         }
 
         @Override
-        public void onPushData(DataSource<ArrayList<Double>> source, ArrayList<ArrayList<Double>> inputData) {
+        public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
             //System.out.print("pushdata ");
+            double[][] signal = inputData.getSignal();
 
-            for(int j = 0; j < inputData.size(); j++) {
-                storedData.add(inputData.get(j));
+            for(int i = 0; i < signal.length; i++) {
+                storedData.add(transformers.doubleToArray(signal[i]));
             }
-        }
-
-        @Override
-        public void onCommit(DataSource<ArrayList<Double>> source) {
-            //System.out.println("source");
-        }
-
-        @Override
-        public void onTransaction(DataSource<ArrayList<Double>> source) {
-            //System.out.println("transaction");
-
         }
 
     }
 
-    public static  class FakeSpectrumStream extends DataSource<Spectrum>
+    public static  class FakeSpectrumStream extends DataSource<DoubleSignal2DInterface>
     {
 
         public void calcOnWav(String fileName)
@@ -105,25 +90,25 @@ public class ClassifierUsageExample {
                 buffer = new double[nbPts];
 
 
-                ArrayList<Spectrum> sps = new ArrayList<>();
+                double[][] output = new double[1][]; //FIXME: bigger buffer
 
                 while(readWavFile.readFrames(buffer,nbPts) == nbPts)
                 {
 
                     double[] fft = transformers.fft(buffer);
 
-                    for(i=0; i < fft.length; i++)
-                    {
-                        fft[i]=2*(fft[i]/fft.length);
-                    }
+                    output[1] = fft;
+                    DoubleSignal2DInterface outputData = new DoubleSignal2D(
+                            output,
+                            nbPts,
+                            Fs
+                    );
 
-                    sps.add(new Spectrum(fft.length,Fs,fft));
+                    push(outputData);
 
                 }
 
                 readWavFile.close();
-
-                this.push(sps);
 
             } catch (IOException e) {
                 e.printStackTrace();

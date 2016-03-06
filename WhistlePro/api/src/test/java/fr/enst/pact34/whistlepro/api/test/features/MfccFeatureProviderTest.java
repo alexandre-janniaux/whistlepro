@@ -1,6 +1,7 @@
 package fr.enst.pact34.whistlepro.api.test.features;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import fr.enst.pact34.whistlepro.api.acquisition.WavFile;
 import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
@@ -28,7 +29,7 @@ public class MfccFeatureProviderTest {
     {
         MfccFeatureProvider mfcc = new MfccFeatureProvider();
         double[] signal = {0,1.,2.,3.,4.,5.,6.,7.};
-        assertEquals(mfcc.computePower(signal),28., Double.MIN_VALUE);
+        assertTrue(mfcc.computePower(signal) - 28. <= Double.MIN_VALUE);
     }
 
 
@@ -61,16 +62,9 @@ public class MfccFeatureProviderTest {
 
             double[] fft = transformers.fft(buffer);
 
-            for(i=0; i < fft.length; i++)
-            {
-                fft[i]=2*(fft[i]/nbPts);
-
-            }
-
-
             Spectrum sp = new Spectrum(nbPts,Fs,fft);
 
-            ArrayList<Double> coef = mfcc.processMfcc(sp);
+            double[] coef = mfcc.processMfcc(sp);
 
 
             ArrayList<String> lines = FileOperator.getLinesFromFile("../testData/features/a_matlab.mfcc");
@@ -81,14 +75,14 @@ public class MfccFeatureProviderTest {
 
             assertEquals(13,line.length);
 
-            for(i = 0; i < coef.size(); i ++)
+            for(i = 0; i < coef.length; i ++)
             {
 
                 double tmp = Double.parseDouble(line[i]);
                 if(tmp != 0)
-                    assertEquals(tmp,coef.get(i),Math.abs(tmp*0.001));
+                    assertEquals(tmp,coef[i],Math.abs(tmp*0.001));
                 else
-                    assertEquals(tmp,coef.get(i),1e-14);
+                    assertEquals(tmp,coef[i],1e-14);
             }
 
 
@@ -98,6 +92,7 @@ public class MfccFeatureProviderTest {
         } catch (WavFileException e) {
             e.printStackTrace();
         }
+
 
     }
 

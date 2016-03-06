@@ -31,31 +31,11 @@ public class DataSource<E> implements DataSourceInterface<E>{
     /// @brief push data to listeners
     /// @param outputData the data to broadcast
     //////////////////////////////
-    public final void push(ArrayList<E> outputData) {
+    public final void push(E outputData) {
         for (DataListenerInterface<E> out : this.listeners)
         {
             out.onPushData(this, outputData);
         }
     }
 
-
-    //////////////////////////////
-    /// @brief allow following module to process data
-    //////////////////////////////
-    public final void commit() {
-        for (DataListenerInterface<E> out : this.listeners)
-        {
-            out.onCommit(this);
-        }
-    }
-
-    //////////////////////////////
-    /// @brief allow following module to process data
-    //////////////////////////////
-    public final void transaction() {
-        for (DataListenerInterface<E> out : this.listeners)
-        {
-            out.onTransaction(this);
-        }
-    }
 }

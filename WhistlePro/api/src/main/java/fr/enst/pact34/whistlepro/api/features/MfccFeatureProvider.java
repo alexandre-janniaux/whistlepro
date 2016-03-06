@@ -71,7 +71,7 @@ public class MfccFeatureProvider implements FeatureProviderInterface
     }
 
 
-    public ArrayList<Double> processMfcc(Spectrum spectrumIn)
+    public double[] processMfcc(Spectrum spectrumIn)
     {
         //limit to maxFrequency (3500 Hz)
         int iMax = (int)(Math.round(maxFrequency*spectrumIn.getNbPtsSig()/spectrumIn.getFs())+1);
@@ -93,14 +93,8 @@ public class MfccFeatureProvider implements FeatureProviderInterface
             filtered[i] = Math.log(filtered[i]);
         }
 
-        double mfcc[] = transformers.dct(filtered);
-        
-        ArrayList<Double> coeffs = new ArrayList<>();
-        coeffs.ensureCapacity(13);
-        for(int i=0; i<13; ++i)
-            coeffs.add(mfcc[i]);
-
-        return coeffs;
+        double mfcc[] = transformers.dct(filtered, 13);
+        return mfcc;
     }
 
 
