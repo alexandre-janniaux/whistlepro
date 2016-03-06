@@ -1,15 +1,12 @@
 package fr.enst.pact34.whistlepro.api.features;
 
-import fr.enst.pact34.whistlepro.api.acquisition.AffichageFFT;
 import fr.enst.pact34.whistlepro.api.acquisition.WavFile;
 import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
-import fr.enst.pact34.whistlepro.api.classification.FeatureProviderInterface;
 import fr.enst.pact34.whistlepro.api.common.Spectrum;
 import fr.enst.pact34.whistlepro.api.common.transformers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by mms on 22/02/16.
@@ -49,21 +46,15 @@ public class tests {
 
             double[] fft = transformers.fft(buffer);
 
-            for(i=0; i < fft.length; i++)
-            {
-                fft[i]=2*(fft[i]/nbPts);
-
-            }
-
 
             Spectrum sp = new Spectrum(nbPts,Fs,fft);
 
-            ArrayList<Double> coef = mfcc.processMfcc(sp);
+            double[] coef = mfcc.processMfcc(sp);
 
             System.out.println();
-            for(i = 0; i < coef.size(); i ++)
+            for(i = 0; i < coef.length; i ++)
             {
-                System.out.print(coef.get(i) + ";");
+                System.out.print(coef[i] + ";");
             }
 
             System.out.println();

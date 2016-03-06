@@ -3,7 +3,8 @@ package fr.enst.pact34.whistlepro.toolsapp;
 import android.util.Log;
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 import fr.enst.pact34.whistlepro.api.common.DataSource;
-import fr.enst.pact34.whistlepro.api.common.Spectrum;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal2D;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal2DInterface;
 import fr.enst.pact34.whistlepro.api.common.transformers;
 import fr.enst.pact34.whistlepro.api.stream.ClassificationStream;
 import fr.enst.pact34.whistlepro.api.stream.MfccFeatureStream;
@@ -47,7 +48,7 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
         FakeSpectrumStream spectrumStream = new FakeSpectrumStream();
 
         Log.e("e","err3");
-        ClassificationStream classifStream = new ClassificationStream(Main.CLASSIFIER_DATA);
+        ClassificationStream classifStream = new ClassificationStream(Main.CLASSIFIER_DATA); //TODO: add a way to inject Main.CLASSIFIER_DATA;
 
         Log.e("e","err4");
         FakeReceiverClassif fakeReceiverClassif = new FakeReceiverClassif();
@@ -95,11 +96,6 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
 
             spectrumStream.calcOnWav(toProcess, Fs);
 
-            while (mfccFeatureStream.isWorkAvailable()) mfccFeatureStream.doWork();
-
-            while (classifStream.isWorkAvailable()) classifStream.doWork();
-
-
             ArrayList<Double> res = fakeReceiverClassif.getVal();
             ArrayList<String> classes = classifStream.getClasses();
             String max_c = "-";
@@ -120,7 +116,7 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
     }
 
 
-    public static class FakeReceiverClassif implements DataListenerInterface<ArrayList<Double>>
+    public static class FakeReceiverClassif implements DataListenerInterface<DoubleSignal2DInterface>
     {
 
         private ArrayList<ArrayList<Double>> storedData = new ArrayList<>();
@@ -134,49 +130,32 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
         }
 
         @Override
-        public void onPushData(DataSource<ArrayList<Double>> source, ArrayList<ArrayList<Double>> inputData) {
+        public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
             //System.out.print("pushdata ");
 
-            for(int j = 0; j < inputData.size(); j++) {
-                storedData.add(inputData.get(j));
+            double[][] signal = inputData.getSignal();
+
+            for(int j = 0; j < signal.length; j++) {
+                storedData.add(transformers.doubleToArray(signal[j]));
             }
-        }
-
-        @Override
-        public void onCommit(DataSource<ArrayList<Double>> source) {
-            //System.out.println("source");
-        }
-
-        @Override
-        public void onTransaction(DataSource<ArrayList<Double>> source) {
-            //System.out.println("transaction");
-
         }
 
     }
 
-    public static  class FakeSpectrumStream extends DataSource<Spectrum>
+    public static  class FakeSpectrumStream extends DataSource<DoubleSignal2DInterface>
     {
 
         public void calcOnWav(double[] buffer,double Fs)
         {
 
-            ArrayList<Spectrum> sps = new ArrayList<>();
+            double[][] output = new double[1][];
 
             double[] fft = transformers.fft(buffer);
 
-            for(int i=0; i < fft.length; i++)
-            {
-                fft[i]=2*(fft[i]/fft.length);
-            }
+            output[0] = fft;
 
-            sps.add(new Spectrum(fft.length,Fs,fft));
-
-
-
-            this.push(sps);
-
-
+            DoubleSignal2DInterface outputData = new DoubleSignal2D(output, buffer.length, Fs);
+            this.push(outputData);
         }
     }
 }

@@ -3,6 +3,8 @@ package fr.enst.pact34.whistlepro.api.classification.Learning;
 import fr.enst.pact34.whistlepro.api.acquisition.WavFile;
 import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
 import fr.enst.pact34.whistlepro.api.common.DataSource;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal2D;
+import fr.enst.pact34.whistlepro.api.common.DoubleSignal2DInterface;
 import fr.enst.pact34.whistlepro.api.common.FileOperator;
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 import fr.enst.pact34.whistlepro.api.common.Spectrum;
@@ -50,7 +52,6 @@ public class MfccDataBaseGenerator {
             System.out.println("Working on classe '"+classe+"' in the directory : '"+examplesFolder + classe+"/'");
 
             spectrumStream.prepareData(examplesFolder + classe+"/");
-            while (mfccFeatureStream.isWorkAvailable()) mfccFeatureStream.doWork();
             fakeReceiverMFCC.save(classe);
         }
 
@@ -63,7 +64,7 @@ public class MfccDataBaseGenerator {
 
     }
 
-    public static class FakeReceiverMFCC implements DataListenerInterface<ArrayList<Double>>
+    public static class FakeReceiverMFCC implements DataListenerInterface<DoubleSignal2DInterface>
     {
 
         private ArrayList<String> mfccs = new ArrayList<>();
@@ -82,16 +83,17 @@ public class MfccDataBaseGenerator {
         }
 
         @Override
-        public void onPushData(DataSource<ArrayList<Double>> source, ArrayList<ArrayList<Double>> inputData) {
-            //System.out.print("pushdata ");
-            for(int j = 0; j < inputData.size(); j++) {
-                ArrayList<Double> dd = inputData.get(j);
+        public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
+            double[][] signal = inputData.getSignal();
+
+            for(int j = 0; j < signal.length; j++) {
+                double[] dd = signal[j];
                 //if(dd.size()!=13)continue;
 
                 //System.out.println("=>" );
                 String tmp = "";
-                for (int i = 0; i < dd.size(); i++) {
-                    tmp += dd.get(i)+";";
+                for (int i = 0; i < dd.length; i++) {
+                    tmp += dd[i]+";";
                     //System.out.print(dd.get(i)+";");
 
                 }
@@ -99,19 +101,9 @@ public class MfccDataBaseGenerator {
             }
         }
 
-        @Override
-        public void onCommit(DataSource<ArrayList<Double>> source) {
-            //System.out.println("source");
-        }
-
-        @Override
-        public void onTransaction(DataSource<ArrayList<Double>> source) {
-            //System.out.println("transaction");
-
-        }
     }
 
-    public static  class FakeSpectrumStream extends DataSource<Spectrum>
+    public static  class FakeSpectrumStream extends DataSource<DoubleSignal2DInterface>
     {
 
         public void prepareData(String folderName) {
@@ -159,18 +151,25 @@ public class MfccDataBaseGenerator {
 
                     double[] fft = transformers.fft(buffer);
 
-                    for(i=0; i < fft.length; i++)
-                    {
-                        fft[i]=2*(fft[i]/nbPts);
-                    }
-
                     sps.add(new Spectrum(nbPts,Fs,fft));
 
                 }
 
                 readWavFile.close();
 
-                this.push(sps);
+                double[][] output = new double[sps.size()][];
+                for(int k=0; k< output.length; ++k) {
+                    output[k] = sps.get(k).getSpectrumValues();
+                }
+
+                DoubleSignal2DInterface outputData = new DoubleSignal2D(
+                        output,
+                        nbPts,
+                        readWavFile.getSampleRate()
+                );
+
+
+                this.push(outputData);
 
             } catch (IOException e) {
                 e.printStackTrace();
