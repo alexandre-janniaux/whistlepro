@@ -2,6 +2,7 @@ package fr.enst.pact34.whistlepro.api.features;
 
 import java.util.ArrayList;
 import java.lang.Math;
+import java.util.Arrays;
 
 import fr.enst.pact34.whistlepro.api.classification.FeatureProviderInterface;
 import fr.enst.pact34.whistlepro.api.common.Spectrum;
@@ -75,9 +76,7 @@ public class MfccFeatureProvider implements FeatureProviderInterface
     {
         //limit to maxFrequency (3500 Hz)
         int iMax = (int)(Math.round(maxFrequency*spectrumIn.getNbPtsSig()/spectrumIn.getFs())+1);
-        double fftC[] = new double[iMax];
-        double[] spectrum = spectrumIn.getSpectrumValues();
-        for(int i = 0; i < iMax; i++) fftC[i]=spectrum[i];
+        double fftC[] = Arrays.copyOf(spectrumIn.getSpectrumValues(),iMax);
 
         // COMPUTE THE POWER SPECTRUM
         for(int i=0; i<fftC.length; ++i)
