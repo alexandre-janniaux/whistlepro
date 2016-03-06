@@ -13,9 +13,7 @@ public class ClassificationStream
     implements
         DataSourceInterface<ArrayList<Double>>,
         // Receive an arraylist of double as input (the features) 
-        DataListenerInterface<ArrayList<Double>>,
-        // Define a possible parallel job 
-        JobProviderInterface
+        DataListenerInterface<ArrayList<Double>>
 {
 
     private DataSource<ArrayList<Double>> datasource = new DataSource<>();
@@ -57,17 +55,13 @@ public class ClassificationStream
 
         for (int i = 0; i < data.size(); i++) {
 
-            if(data.get(i).size() != 13) continue;
+            if(data.get(i).size() != 13) continue; //FIXME: hardcoded size of features
 
             SampleClassif s =  new SampleClassif.Builder().fromValues(data.get(i)).build();
 
             if(s!=null) storedData.add(s);
-
         }
-    }
 
-    @Override
-    public void doWork() {
         ArrayList<ArrayList<Double>> results = new ArrayList<>();
         results.ensureCapacity(this.storedData.size());
 
@@ -78,12 +72,6 @@ public class ClassificationStream
         this.storedData.clear();
 
         this.datasource.push(results);
-    }
-
-    @Override
-    public boolean isWorkAvailable() {
-        // TODO: If enough data is available for work, return true
-        return (storedData.size()>0);
     }
 
 }
