@@ -65,7 +65,7 @@ public class MultipleStrongClassifiers implements MultipleClassifierInterface<Fe
 		
 		public Builder fromString(String data)
 		{ 
-			Pattern pattern = Pattern.compile("<MultipleClassifierItem [ ]*classe[ ]*=[ ]*'[a-zA-Z0-9]*'[ ]*>.*?</MultipleClassifierItem>", Pattern.DOTALL);
+			Pattern pattern = Pattern.compile("<MultipleClassifierItem[ ]*classe[ ]*=[ ]*'[a-zA-Z0-9]*'[ ]*>.*?</MultipleClassifierItem[ ]*>", Pattern.DOTALL);
 			Matcher matcher = pattern.matcher(data);
 			
 			Pattern patternClasse = Pattern.compile("classe[ ]*=[ ]*'[a-zA-Z0-9]*'");
@@ -87,7 +87,7 @@ public class MultipleStrongClassifiers implements MultipleClassifierInterface<Fe
 					if(strs[0].equals("classe") && strs.length == 2)
 					{
 						//System.out.println("classe = "+strs[1]);
-						tmp = tmp.replaceAll("<MultipleClassifierItem[a-zA-Z0-9=\' .-]*>|</MultipleClassifierItem>", "");  
+						tmp = tmp.replaceAll("<MultipleClassifierItem[a-zA-Z0-9=\' .-]*>|</MultipleClassifierItem[ ]*>", "");
 						//System.out.println("data = "+tmp);
 						classifiersList.add( new StrongClassifierItem(strs[1],
 								new StrongClassifier.Builder().fromString(tmp).build()));
