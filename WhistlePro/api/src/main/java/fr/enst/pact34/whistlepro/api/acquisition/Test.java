@@ -1,3 +1,5 @@
+package fr.enst.pact34.whistlepro.api.acquisition;
+
 import java.io.File;
 import java.io.IOException;
 

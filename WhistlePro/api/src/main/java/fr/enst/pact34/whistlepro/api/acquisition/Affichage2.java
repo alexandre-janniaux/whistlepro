@@ -1,3 +1,5 @@
+package fr.enst.pact34.whistlepro.api.acquisition;
+
 import javax.swing.JFrame;
 
 import org.math.plot.Plot2DPanel;

@@ -1,3 +1,5 @@
+package fr.enst.pact34.whistlepro.api.acquisition;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
@@ -12,7 +14,7 @@ public class NewSound implements NewSoundInterface {
 
 	Thread thread = new Thread();
 	static boolean stopped = false;
-	boolean isRecording = false; //quand la personne appuie sur le bouton record, devient true, quand elle ré-appuie pour arrêter le record, redevient false
+	boolean isRecording = false; //quand la personne appuie sur le bouton record, devient true, quand elle rï¿½-appuie pour arrï¿½ter le record, redevient false
 	
 	AudioFormat getAudioFormat() {
         float sampleRate = 16000;
@@ -40,7 +42,7 @@ public class NewSound implements NewSoundInterface {
 		         long frameCounter = 0; //on compte localement le nb de frames
 		         while (frameCounter < nbFrames) //condition d'arret = toutes les frames sont ecrites
 		         {
-		            long NbFramesRestantes = wavFile.getFramesRemaining(); //cela dépend de la taille du buffer
+		            long NbFramesRestantes = wavFile.getFramesRemaining(); //cela dï¿½pend de la taille du buffer
 		            int toWrite = (NbFramesRestantes > 100) ? 100 : (int) NbFramesRestantes ;
 		            for (int s=0 ; s<toWrite ; s++, frameCounter++) //on remplit le buffer channel par channel (une note par channel)
 		            {
@@ -62,8 +64,8 @@ public class NewSound implements NewSoundInterface {
 	public void captureAndPlay()
 	{
 			AudioFormat format = getAudioFormat();
-			SourceDataLine sourceLine; //sert à capturer
-			TargetDataLine targetLine; //sert à jouer (play)
+			SourceDataLine sourceLine; //sert ï¿½ capturer
+			TargetDataLine targetLine; //sert ï¿½ jouer (play)
 			DataLine.Info infoSource = new DataLine.Info(SourceDataLine.class, format);
 			DataLine.Info infoTarget = new DataLine.Info(TargetDataLine.class, format);
 			if (!AudioSystem.isLineSupported(infoSource)|| !AudioSystem.isLineSupported(infoTarget)) 

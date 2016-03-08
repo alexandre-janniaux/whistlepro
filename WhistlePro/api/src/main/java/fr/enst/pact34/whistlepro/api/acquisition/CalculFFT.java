@@ -1,3 +1,5 @@
+package fr.enst.pact34.whistlepro.api.acquisition;
+
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;
@@ -5,7 +7,7 @@ import org.apache.commons.math3.transform.TransformType;
 
 public class CalculFFT {
 
-	//calcule la transformée de Fourier et renvoie les valeurs de cette TF
+	//calcule la transformï¿½e de Fourier et renvoie les valeurs de cette TF
 	public static double[] calculFFT_C(Complex[] x, String name)
 	{
 		double[] y = new double[(int)Math.pow(2,20)];

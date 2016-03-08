@@ -1,5 +1,6 @@
+package fr.enst.pact34.whistlepro.api.acquisition;
 
-public class NotesDeMusique { //renvoie la fréquence des notes jouées
+public class NotesDeMusique { //renvoie la frï¿½quence des notes jouï¿½es
 	
 	public static double do3() {
 		return 261.63;

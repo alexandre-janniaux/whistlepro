@@ -1,5 +1,4 @@
-
-
+package fr.enst.pact34.whistlepro.api.acquisition;
 
 import java.util.ArrayList;
 
