@@ -1,3 +1,5 @@
+package fr.enst.pact34.whistlepro.api.attaque;
+
 import edu.emory.mathcs.jtransforms.fft.DoubleFFT_1D;
 import java.util.Arrays;
 

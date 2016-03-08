@@ -1,3 +1,5 @@
+package fr.enst.pact34.whistlepro.api.attaque;
+
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;

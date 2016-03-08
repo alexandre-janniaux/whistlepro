@@ -1,3 +1,5 @@
+package fr.enst.pact34.whistlepro.api.attaque;
+
 public class WavFileException extends Exception
 {
 	public WavFileException()
