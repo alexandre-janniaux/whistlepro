@@ -9,7 +9,6 @@ import fr.enst.pact34.whistlepro.api.common.DataSource;
 import fr.enst.pact34.whistlepro.api.common.DataStreamInterface;
 import fr.enst.pact34.whistlepro.api.common.DoubleSignal;
 import fr.enst.pact34.whistlepro.api.common.DoubleSignalInterface;
-import sun.reflect.generics.tree.DoubleSignature;
 
 public class PowerFilterStream
     implements DataStreamInterface<DoubleSignalInterface, DoubleSignalInterface> {
