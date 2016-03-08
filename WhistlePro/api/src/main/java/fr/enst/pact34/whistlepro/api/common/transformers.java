@@ -90,14 +90,17 @@ public class transformers {
 
     public static double[] arrayToDouble(ArrayList<Double> array) {
         double[] output = new double[array.size()];
-        for(int i=0; i<array.size(); ++i) output[i] = array.get(i);
+        for(int i=0; i<array.size(); i++) output[i] = array.get(i);
         return output;
     }
 
     public static ArrayList<Double> doubleToArray(double[] array) {
         ArrayList<Double> output = new ArrayList<>();
         output.ensureCapacity(array.length);
-        for(int i=0; i<array.length; ++i) output.set(i, array[i]);
+        for(int i=0; i<array.length; i++)
+        {
+            output.add(array[i]);
+        }
         return output;
     }
 
