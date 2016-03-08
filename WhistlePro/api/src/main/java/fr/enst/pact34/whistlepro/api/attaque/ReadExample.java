@@ -1,5 +1,3 @@
-package fr.enst.pact34.whistlepro.api.attaque;
-
 import java.io.*;
 import java.util.ArrayList;
 
