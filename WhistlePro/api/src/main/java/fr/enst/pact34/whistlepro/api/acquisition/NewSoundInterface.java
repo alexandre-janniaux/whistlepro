@@ -1,4 +1,3 @@
-package fr.enst.pact34.whistlepro.api.acquisition;
 
 public interface NewSoundInterface 
 {

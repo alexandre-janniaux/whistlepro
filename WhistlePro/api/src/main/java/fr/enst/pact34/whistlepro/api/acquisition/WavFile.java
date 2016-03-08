@@ -8,8 +8,6 @@
 
 // Version 1.0
 
-package fr.enst.pact34.whistlepro.api.acquisition;
-
 import java.io.*;
 
 public class WavFile
