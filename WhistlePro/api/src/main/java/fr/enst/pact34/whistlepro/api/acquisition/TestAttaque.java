@@ -36,8 +36,8 @@ public class TestAttaque {
 				
 		File file = new File("data/testVoice.wav");
 		
-		//double[] x = ReadExample.audioRead(file);
-		//System.out.println(x);
+		double[] x = ReadExample.audioRead(file);
+		System.out.println(x);
 		
 		
 		double[] e = Enveloppe.enveloppe(0.99, x);
