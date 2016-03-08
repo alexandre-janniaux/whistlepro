@@ -8,7 +8,7 @@ public class Enveloppe {
 		int len = x.length;
 		double[] e = new double[len];
 		e[0] = x[0];
-		for (int i = 0; i<len; i++) {
+		for (int i = 0; i<len-1; i++) {
 			e[i+1] = a*e[i] + (1-a)*(x[i+1]*x[i+1]);	
 		}
 		return e;

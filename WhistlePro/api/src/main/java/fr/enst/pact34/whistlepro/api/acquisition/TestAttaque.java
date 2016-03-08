@@ -41,8 +41,9 @@ public class TestAttaque {
 		
 		
 		double[] e = Enveloppe.enveloppe(0.99, x);
-		
 
+		Affichage2.affichage(x, "signal");
+		Affichage2.affichage(e, "Détection de l'enveloppe");
 		
 	}
 
