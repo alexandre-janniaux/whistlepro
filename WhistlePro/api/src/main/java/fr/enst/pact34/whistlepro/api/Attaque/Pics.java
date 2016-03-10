@@ -61,8 +61,10 @@ public class Pics {
             picDouble[i] = (double) pics.get(i);
         }
 
-        return picDouble;
-
+        return picDouble;  //pour tester, mais en vrai il faudra mettre "return picIndice" pour avoir les temps ou l'attaque a lieu
     }
+
+
+
 
 }
