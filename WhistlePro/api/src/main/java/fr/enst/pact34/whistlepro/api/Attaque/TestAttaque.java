@@ -62,7 +62,7 @@ public class TestAttaque {
 
 		//double[] derive = convolution.convoluate(e2,0, e2.length);*/
 
-		
+
 		double[] derive = Enveloppe.derive(10,e2);
 		//Affichage2.affichage(derive,"fonction de derivation");
 	}
