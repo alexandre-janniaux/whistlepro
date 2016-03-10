@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import fr.enst.pact34.whistlepro.api.acquisition.Affichage2;
 import fr.enst.pact34.whistlepro.api.acquisition.ReadExample;
+import fr.enst.pact34.whistlepro.api.common.Convolution1D;
 
 public class TestAttaque {
 	
@@ -49,8 +50,21 @@ public class TestAttaque {
 		double[] e2 = Enveloppe.sousEchantillonne(200,e);
 		//Affichage2.affichage(e2,"Enveloppe ssEch");
 
+
+		///FONCTION DERIVATION AVEC CONVOLUTION///
+		/*Convolution1D convolution;
+
+		double[] kernel = new double[20];
+		for(int i=0; i<20; ++i) {
+			kernel[i] = i < 10 ? 1 : -1;
+		}
+		convolution = new Convolution1D(0, kernel);
+
+		//double[] derive = convolution.convoluate(e2,0, e2.length);*/
+
+		
 		double[] derive = Enveloppe.derive(10,e2);
-		Affichage2.affichage(derive,"fonction de derivation");
+		//Affichage2.affichage(derive,"fonction de derivation");
 	}
 
 }
