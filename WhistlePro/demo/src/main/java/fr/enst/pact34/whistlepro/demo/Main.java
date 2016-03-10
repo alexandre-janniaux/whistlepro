@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -158,4 +159,8 @@ public class Main extends Activity implements UserInterface {
         };
 
     }
+
+    NumberPicker np = (NumberPicker) findViewById(R.id.np);
+    np.setMaxValue(200);
+    np.setMinValue(40);
 }
