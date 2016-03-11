@@ -51,15 +51,14 @@ public class ClassifierBuildingTest {
             }
         }
 
-        double mean = MultipleStrongClassifiersLearner.buildAndValidate(classes,samples,
-                NB_FEATURES,
-                NB_CLASSIFIERS_TO_CREATE
-        );
+        double mean = MultipleStrongClassifiersLearner.buildAndValidate(classes, samples,
+                    NB_FEATURES,
+                    NB_CLASSIFIERS_TO_CREATE
+            );
 
-        System.out.print(mean);
-
+        // résultat normalement entre 5% et 20%;
         assertTrue(mean > 0.05);
-        assertTrue(mean < 0.15);
+        assertTrue(mean < 0.2);
     }
 
 
