@@ -1,5 +1,6 @@
 package fr.enst.pact34.whistlepro.demo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -55,6 +56,15 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 type = 1;
+            }
+        });
+
+        //Le bouton qui mène à l'activité suivante
+        Button captBtn = (Button)findViewById(R.id.firstEnregiBtn);
+        melodieBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(FirstActivity.this, EnregistrementActivity.class));
             }
         });
 
