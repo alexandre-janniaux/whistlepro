@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class ValidationCorrActivity extends AppCompatActivity {
+public class ValidationTreatActivity extends AppCompatActivity {
 
 /** /!\ IMPORTANT /!\
  NOTE TO READER :
@@ -20,7 +20,7 @@ public class ValidationCorrActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_validation_corr);
+        setContentView(R.layout.activity_validation_treat);
 
         //Le bouton pour accepter les modifications
         Button acceptBtn = (Button)findViewById(R.id.validYesBtn);
@@ -28,7 +28,7 @@ public class ValidationCorrActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 validSound = modifiedSound ; //implémenter ces variables
-                startActivity(new Intent(ValidationCorrActivity.this, TODO.class)); //point to ajouter piste activity
+                startActivity(new Intent(ValidationTreatActivity.this, TODO.class)); //point to ajouter piste activity
             }
         });
 
@@ -38,7 +38,7 @@ public class ValidationCorrActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 validSound = originalUserSound ; //implémenter ces variables
-                startActivity(new Intent(ValidationCorrActivity.this, TODO.class)); //idem
+                startActivity(new Intent(ValidationTreatActivity.this, TODO.class)); //idem
             }
         });
     }
