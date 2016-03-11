@@ -98,13 +98,11 @@ public class MfccFeatureStreamTest {
 
                 ArrayList<Spectrum> sps = new ArrayList<>();
 
-                while (readWavFile.readFrames(buffer, nbPts) == nbPts) {
+                readWavFile.readFrames(buffer, nbPts);
 
-                    double[] fft = transformers.fft(buffer);
+                double[] fft = transformers.fft(buffer);
 
-                    sps.add(new Spectrum(nbPts, Fs, fft));
-
-                }
+                sps.add(new Spectrum(nbPts, Fs, fft));
 
                 readWavFile.close();
 
