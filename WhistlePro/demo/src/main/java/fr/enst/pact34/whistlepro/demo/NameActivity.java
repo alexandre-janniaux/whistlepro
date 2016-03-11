@@ -19,7 +19,7 @@ public class NameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.name);
-        ImageButton listenBtn = (ImageButton)findViewById(R.id.listen);
+        ImageButton listenBtn = (ImageButton) findViewById(R.id.listen);
         listenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -27,8 +27,8 @@ public class NameActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton backBtn = (ImageButton)findViewById(R.id.back);
-        backBtn.setOnClickListener(new ImageButton.OnClickListener() {
+        ImageButton backBtn = (ImageButton) findViewById(R.id.back);
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TO DO : put intent to switch to previous activity
@@ -48,6 +48,14 @@ public class NameActivity extends AppCompatActivity {
         });
         String strName = nom.getText().toString();
         // TO DO : put function saveFile
+
+        ImageButton nextBtn = (ImageButton)findViewById(R.id.next);
+        nextBtn.setOnClickListener(new ImageButton.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TO DO : put intent to switch to next activity
+            }
+        });
 
     }
 }
