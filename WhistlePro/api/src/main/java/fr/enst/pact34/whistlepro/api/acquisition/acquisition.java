@@ -1,3 +1,5 @@
+import java.util.concurrent.TimeUnit;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
@@ -10,7 +12,9 @@ public class acquisition
 	private TargetDataLine dataLine;
     private AudioFormat format;
     private SourceDataLine sourceLine;
-    private byte[] buffer = new byte[sourceLine.getBufferSize() / 5];
+    private byte[] buffer;
+    private int bufferSize ;
+
     public acquisition()
     {
         this.format = new AudioFormat(
@@ -20,6 +24,7 @@ public class acquisition
                 true, // SIGNED
                 true // BIGENDIAN
         );
+        this.buffer = new byte[this.bufferSize / 5];
     }
     
     public void startRecording()
@@ -42,8 +47,8 @@ public class acquisition
 		{
 			System.out.println("unsupported line");
 		}
-    	dataLine.read(this.buffer, 0, sourceLine.getBufferSize() / 5); // BUFFER, START, LENGTH (blocking)
-        double[] output = new double[sourceLine.getBufferSize() / 5];
+    	dataLine.read(this.buffer, 0, this.buffer.length / 5); // BUFFER, START, LENGTH (blocking)
+        double[] output = new double[this.buffer.length / 5];
         for(int i=0; i<this.buffer.length; ++i)
         {
             output[i] = (double)buffer[i];
@@ -54,7 +59,28 @@ public class acquisition
     public void stopRecording()
     {
         dataLine.close();
-    } 
+    }
+
+    public static void main(String args[]) throws NullPointerException
+    {
+        acquisition acq = new acquisition();
+        try {
+            acq.startRecording();
+        } catch (NullPointerException n)
+        {
+            n.printStackTrace();
+        }
+
+        try {
+            TimeUnit.SECONDS.sleep(4);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        acq.stopRecording();
+        acq.readData();
+
+    }
 	
 }
 
