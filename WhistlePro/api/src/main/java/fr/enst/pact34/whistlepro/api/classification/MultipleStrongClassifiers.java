@@ -81,7 +81,7 @@ public class MultipleStrongClassifiers implements MultipleClassifierInterface<Fe
 				{
 
 					String found = matcherClasse.group();
-					System.out.println(found);
+					//System.out.println(found);
 					String[] strs = found.split("[ ]*=[ ]*'|'");
 
 					if(strs[0].equals("classe") && strs.length == 2)
