@@ -1,31 +1,19 @@
 package fr.enst.pact34.whistlepro.api.stream;
 
-import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
-import fr.enst.pact34.whistlepro.api.common.DataSource;
-import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
-import fr.enst.pact34.whistlepro.api.common.DoubleSignal2D;
-import fr.enst.pact34.whistlepro.api.common.DoubleSignal2DInterface;
-import fr.enst.pact34.whistlepro.api.common.DoubleSignalInterface;
-import fr.enst.pact34.whistlepro.api.common.transformers;
+import fr.enst.pact34.whistlepro.api.common.*;
 
 public class SpectrumStream
     implements
         // Output an arraylist of double (the spectrum)
         DataSourceInterface<DoubleSignal2DInterface>,
         // Receive an arraylist of double as input (the signal itself, smoothed or not)
-        DataListenerInterface<DoubleSignalInterface>
+        DataListenerInterface<DoubleSignal2DInterface>
 
 {
     private DataSource<DoubleSignal2DInterface> datasource = new DataSource<>();
 
+    public SpectrumStream() {
 
-    private final int windowSize;
-    private final int overlap;
-
-
-    public SpectrumStream(int windowSize, int overlap) {
-        this.windowSize = windowSize;
-        this.overlap = overlap;
     }
 
     @Override
@@ -39,21 +27,16 @@ public class SpectrumStream
     }
 
     @Override
-    public void onPushData(DataSource<DoubleSignalInterface> source, DoubleSignalInterface inputData) {
+    public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
 
-        int signalLength = inputData.getSignal().length;
-        double[] signal = inputData.getSignal();
-        double[][] output = new double[1][]; //TODO: windowing with overlapping
+        double[][] results = new double[inputData.getSignal().length][];
 
+        for(int index=0; index < inputData.getSignal().length; ++index)
+        {
+            results[index] = transformers.fft(inputData.getSignal()[index]);
+        }
 
-        double[] spectrum = transformers.fft(signal);
-
-        DoubleSignal2DInterface outputData = new DoubleSignal2D(
-                output,
-                this.windowSize,
-                inputData.getSampleFrequency()
-        );
-
+        DoubleSignal2DInterface outputData = new DoubleSignal2D(results, inputData.getNbPoints(), inputData.getFrequencySample());
         this.datasource.push(outputData);
     }
 
