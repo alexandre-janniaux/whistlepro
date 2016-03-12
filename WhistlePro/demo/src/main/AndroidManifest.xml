@@ -41,8 +41,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ValidationTreatActivity" />
-        <activity android:name=".NewTrackActivity"></activity>
+        <activity android:name=".ValidationProcActivity" />
+        <activity android:name=".NewTrackActivity" />
+        <activity android:name=".ProcessingActiviy" />
+        <activity android:name=".InstrChoiceActivity"></activity>
     </application>
 
 </manifest>

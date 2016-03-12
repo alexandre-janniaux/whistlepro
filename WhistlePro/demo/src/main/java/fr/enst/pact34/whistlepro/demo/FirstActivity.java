@@ -1,6 +1,7 @@
 package fr.enst.pact34.whistlepro.demo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ public class FirstActivity extends AppCompatActivity {
      TO DO: Point the button "morceaux" (pistesBtn, id firstAccesPistes to the activity giving access to the saved tracks
      */
 
+    SharedPreferences prefInstru = getSharedPreferences("preferences_instruments", MODE_PRIVATE);
     int type = 0; //cette variable contient le type d'enregistrement : 0 tant qu'il n'y a pas de choix, 1 pour percussions, et 2 pour melodie
 
     @Override
