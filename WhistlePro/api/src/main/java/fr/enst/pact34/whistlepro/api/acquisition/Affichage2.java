@@ -5,13 +5,15 @@ import javax.swing.JFrame;
 import org.math.plot.Plot2DPanel;
 
 public class Affichage2 {
-	
-	public static void affichage(double[] x, String name) {
+
+	public void setOrigin(double x) {}
+
+	public void affichage(double[] x, String name) {
 		
 		double[] t = new double[x.length];
 		
 		for (int i = 0; i<x.length; i++) {
-			t[i] = (double) i;
+			t[i] = (double) i-x.length/2;
 		}
 		
 		if (t.length == x.length) {
