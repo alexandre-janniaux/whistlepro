@@ -24,21 +24,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".NameActivity"
-            android:label="WhistleProDemo">
-        </activity>activity>
-
+            android:label="WhistleProDemo" />
+        activity>
         <activity
             android:name=".CorrectionActivity"
-            android:label="WhistleProDemo">
-        </activity>
-
+            android:label="WhistleProDemo" />
         <activity
             android:name=".EnregistrementActivity"
-            android:label="WhistleProDemo">
+            android:label="WhistleProDemo" />
+        <activity android:name=".FirstActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity android:name=".ValidationTreatActivity" />
+        <activity android:name=".NewTrackActivity"></activity>
     </application>
 
 </manifest>

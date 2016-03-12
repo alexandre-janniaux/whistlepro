@@ -10,6 +10,10 @@ import android.widget.Toast;
 
 public class EnregistrementActivity extends AppCompatActivity {
 
+/** /!\ IMPORTANT /!\
+ NOTE TO READER :
+ TO DO : put the record function (module acquisition)
+ */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
