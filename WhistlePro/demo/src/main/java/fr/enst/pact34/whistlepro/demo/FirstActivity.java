@@ -15,7 +15,7 @@ public class FirstActivity extends AppCompatActivity {
      Important variables : type (int), = 0as long as the user hasn't chosen, = 1 if the user chooses percussions, = 2 if he chooses melodie
                            tempo (int) contains the tempo
 
-     TO DO: Point the button "morceaux" (pistesBtn, id firstAccesPistes to the activity giving access to the saved tracks
+     TO DO: implement a charedPreferences object to make the variable type global over the app
      */
 
     SharedPreferences prefInstru = getSharedPreferences("preferences_instruments", MODE_PRIVATE);
@@ -39,7 +39,7 @@ public class FirstActivity extends AppCompatActivity {
         pistesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TO DO : donner accès à l'activité qui permet d'accéder aux pistes locales
+                startActivity(new Intent(FirstActivity.this, AddTrackActivity.class));
             }
         });
 
@@ -69,6 +69,8 @@ public class FirstActivity extends AppCompatActivity {
                 startActivity(new Intent(FirstActivity.this, EnregistrementActivity.class));
             }
         });
+
+
 
 
     }
