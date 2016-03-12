@@ -161,8 +161,6 @@ public class Main extends Activity implements UserInterface {
     }
 
     NumberPicker np = (NumberPicker) findViewById(R.id.np);
-
-    NumberPicker n = new NumberPicker(this);
     np.setMaxValue(200);
     np.setMinValue(40);
 }

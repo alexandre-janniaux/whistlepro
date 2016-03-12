@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="fr.enst.pact34.whistlepro.demo.Percussions">
+
+    //première ligne
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="69dp"
+                android:id = "@+id/guitarImg"
+                android:src="@drawable/guitare"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guitare"
+                android:layout_below="@+id/guitarImg"
+                android:layout_alignLeft="@+id/guitarImg"
+                android:layout_alignStart="@+id/guitarImg"
+                android:id="@+id/guitBtn" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="61dp"
+                android:id="@+id/bassImg"
+                android:src="@drawable/guitare_basse"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Basse "
+                android:layout_below="@+id/bassImg"
+                android:layout_alignRight="@+id/bassImg"
+                android:layout_alignEnd="@+id/bassImg"
+                android:id="@+id/baBtn" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    //deuxième ligne
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="61dp"
+                android:id = "@+id/trompImg"
+                android:src="@drawable/trompette"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trompette"
+                android:layout_below="@+id/trompImg"
+                android:layout_alignLeft="@+id/trompImg"
+                android:layout_alignStart="@+id/trompImg"
+                android:id="@+id/tromBtn" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="61dp"
+                android:id="@+id/clarinetteImg"
+                android:src="@drawable/clarinette"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Clarinette "
+                android:layout_below="@+id/clarinetteImg"
+                android:id="@+id/clariBtn"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
