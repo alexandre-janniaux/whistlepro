@@ -1,14 +1,18 @@
 package fr.enst.pact34.whistlepro.demo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class CorrectionActivity extends AppCompatActivity {
 
+/** /!\ IMPORTANT /!\
+ NOTE TO READER :
+ TO DO : implement the correction (to come)
+ */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +28,7 @@ public class CorrectionActivity extends AppCompatActivity {
         btnNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TO DO : point to next activity
+                startActivity(new Intent(CorrectionActivity.this, ProcessingActivity.class));
             }
         });
     }

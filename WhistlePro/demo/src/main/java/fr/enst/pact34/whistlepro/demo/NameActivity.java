@@ -1,6 +1,7 @@
 package fr.enst.pact34.whistlepro.demo;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -14,24 +15,27 @@ import android.widget.Toast;
 public class NameActivity extends AppCompatActivity {
 
     EditText nom;
-
+/** /!\ IMPORTANT /!\
+ NOTE TO READER :
+ TO DO : point to the right functions
+ */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.name);
-        ImageButton listenBtn = (ImageButton) findViewById(R.id.listen);
+        ImageButton listenBtn = (ImageButton)findViewById(R.id.playBack);
         listenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TO DO : put function play sound tha was captured in the last activity
+                // TO DO : put function play sound that was captured in the last activity
             }
         });
 
-        ImageButton backBtn = (ImageButton) findViewById(R.id.back);
+        ImageButton backBtn = (ImageButton)findViewById(R.id.goBack);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TO DO : put intent to switch to previous activity
+                startActivity(new Intent(NameActivity.this, EnregistrementActivity.class));
             }
         });
 
@@ -53,7 +57,7 @@ public class NameActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new ImageButton.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TO DO : put intent to switch to next activity
+                startActivity(new Intent(NameActivity.this, CorrectionActivity.class));
             }
         });
 

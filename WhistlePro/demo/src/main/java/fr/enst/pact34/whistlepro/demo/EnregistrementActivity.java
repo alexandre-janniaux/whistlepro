@@ -18,6 +18,7 @@ public class EnregistrementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enregistrement);
+
         ImageButton okBtn = (ImageButton)findViewById(R.id.enregistrementStop);
         okBtn.setOnClickListener(new View.OnClickListener()
         {

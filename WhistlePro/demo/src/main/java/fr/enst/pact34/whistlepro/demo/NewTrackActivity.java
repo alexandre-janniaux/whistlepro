@@ -29,7 +29,7 @@ public class NewTrackActivity extends AppCompatActivity {
         addTrack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(NewTrackActivity.this, FirstActivity.class));
+                startActivity(new Intent(NewTrackActivity.this, AddTrackActivity.class));
             }
         });
 

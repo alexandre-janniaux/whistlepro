@@ -11,7 +11,6 @@ public class InstrChoiceActivity extends AppCompatActivity {
 /** /!\ IMPORTANT /!\
  NOTE TO READER :
  TO DO : Put the code behind the buttons, to synthesize sounds with the right instrument (4buttons for the moment)
-        Put the right destination activity (the one with the partition)
  */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +21,8 @@ public class InstrChoiceActivity extends AppCompatActivity {
         guitarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TO DO : Get the guitar to play the thing ! + go to the activity with the partition, etc.
-                startActivity(new Intent(InstrChoiceActivity.this, TODO.class));
+                //TO DO : Get the guitar to play the thing !
+                startActivity(new Intent(InstrChoiceActivity.this, KeepActivity.class));
             }
         });
 
@@ -31,8 +30,8 @@ public class InstrChoiceActivity extends AppCompatActivity {
         clarinetteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TO DO : Get the clarinette to play the thing ! + go to the activity with the partition, etc.
-                startActivity(new Intent(InstrChoiceActivity.this, TODO.class));
+                //TO DO : Get the clarinette to play the thing !
+                startActivity(new Intent(InstrChoiceActivity.this, KeepActivity.class));
             }
         });
 
@@ -40,8 +39,8 @@ public class InstrChoiceActivity extends AppCompatActivity {
         bassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TO DO : Get the bass to play the thing ! + go to the activity with the partition, etc.
-                startActivity(new Intent(InstrChoiceActivity.this, TODO.class));
+                //TO DO : Get the bass to play the thing !
+                startActivity(new Intent(InstrChoiceActivity.this, KeepActivity.class));
             }
         });
 
@@ -49,8 +48,8 @@ public class InstrChoiceActivity extends AppCompatActivity {
         trompetteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TO DO : Get the trompette to play the thing ! + go to the activity with the partition, etc.
-                startActivity(new Intent(InstrChoiceActivity.this, TODO.class));
+                //TO DO : Get the trompette to play the thing !
+                startActivity(new Intent(InstrChoiceActivity.this, KeepActivity.class));
             }
         });
 

@@ -23,7 +23,7 @@ public class AddTrackActivity extends AppCompatActivity {
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AddTrackActivity.this, AddTrackActivity.class));
+                startActivity(new Intent(AddTrackActivity.this, FirstActivity.class));
             }
         });
 
@@ -35,5 +35,12 @@ public class AddTrackActivity extends AppCompatActivity {
             }
         });
 
+        Button nvelEnregistr = (Button)findViewById(R.id.newCaptureBtn);
+        nvelEnregistr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AddTrackActivity.this, FirstActivity.class));
+            }
+        });
     }
 }

@@ -43,9 +43,10 @@
         </activity>
         <activity android:name=".ValidationProcActivity" />
         <activity android:name=".NewTrackActivity" />
-        <activity android:name=".ProcessingActiviy" />
+        <activity android:name=".ProcessingActivity" />
         <activity android:name=".InstrChoiceActivity" />
-        <activity android:name=".AddTrackActivity"></activity>
+        <activity android:name=".AddTrackActivity" />
+        <activity android:name=".KeepActivity"></activity>
     </application>
 
 </manifest>
