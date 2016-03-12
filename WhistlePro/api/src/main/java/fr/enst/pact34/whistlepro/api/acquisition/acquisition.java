@@ -17,8 +17,9 @@ public class acquisition
     private byte[] buffer;
     private int bufferSize ;
 
-    public acquisition()
+    public acquisition(int bufferSize)
     {
+        this.bufferSize = bufferSize;
         this.format = new AudioFormat(
                 16000, // SAMPLE RATE
                 8, // SAMPLE SIZE IN BYTE
@@ -79,7 +80,7 @@ public class acquisition
 
     public static void main(String args[]) throws NullPointerException
     {
-        acquisition acq = new acquisition();
+        acquisition acq = new acquisition(16000);
         try {
             acq.startRecording();
         } catch (NullPointerException n)
