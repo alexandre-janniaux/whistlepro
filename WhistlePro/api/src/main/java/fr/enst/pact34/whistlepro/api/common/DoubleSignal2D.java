@@ -6,7 +6,7 @@ package fr.enst.pact34.whistlepro.api.common;
 public class DoubleSignal2D implements DoubleSignal2DInterface {
 
 
-    final double[][] signal;
+    double[][] signal;
     final int nbPoints;
     final double frequency;
 
@@ -29,5 +29,10 @@ public class DoubleSignal2D implements DoubleSignal2DInterface {
     @Override
     public int getNbPoints() {
         return nbPoints;
+    }
+
+    @Override
+    public void setSignal(double[][] signal) {
+        this.signal = signal;
     }
 }

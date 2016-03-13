@@ -10,4 +10,6 @@ public interface DoubleSignal2DInterface {
     double getFrequencySample();
 
     int getNbPoints();
+
+    void setSignal(double[][] signal);
 }
