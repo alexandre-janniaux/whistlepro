@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.api.Acquisition;
+package fr.enst.pact34.whistlepro.api.acquisition;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
