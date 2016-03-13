@@ -45,7 +45,7 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
         FakeSpectrumStream spectrumStream = new FakeSpectrumStream();
 
         //Log.e("e","err3");
-        ClassificationStream classifStream = new ClassificationStream(Main.CLASSIFIER_DATA);
+        ClassificationStream classifStream = new ClassificationStream(PercussionTest.CLASSIFIER_DATA);
 
         //Log.e("e","err4");
         FakeReceiverClassif fakeReceiverClassif = new FakeReceiverClassif();
@@ -113,7 +113,7 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
                 }
             }
 
-            if (max < 1)
+            if (max < 0.1)
                 max_c = "-";
 
             ui.showText(max_c);

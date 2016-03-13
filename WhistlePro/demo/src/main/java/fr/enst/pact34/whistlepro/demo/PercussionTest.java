@@ -13,10 +13,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Main extends Activity implements UserInterface {
+public class PercussionTest extends Activity implements UserInterface {
     AudioIn recorder ;
     ProcessingMachine machine ;
     public static String CLASSIFIER_DATA;
@@ -48,9 +50,6 @@ public class Main extends Activity implements UserInterface {
         affichage = (TextView)findViewById(R.id.view);
 
 
-        NumberPicker np = (NumberPicker) findViewById(R.id.np);
-        np.setMaxValue(200);
-        np.setMinValue(40);
     }
 
 
@@ -106,7 +105,7 @@ public class Main extends Activity implements UserInterface {
 
         //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
 
-        timer.schedule(timerTask, 0, 200); //
+        timer.schedule(timerTask, 0, 50); //
 
     }
 
@@ -124,7 +123,9 @@ public class Main extends Activity implements UserInterface {
 
     }
 
-
+    final int len = 25;
+    String max = "";
+    HashSet<String> classes = new HashSet<>();
     public void initializeTimerTask() {
 
 
@@ -140,21 +141,37 @@ public class Main extends Activity implements UserInterface {
 
                     public void run() {
 
-                        synchronized (strs)
-                        {
+
                             while(strs.size()>0)
                             {
-                                affichage.append(strs.remove(0));
+                                String str;
+                                synchronized (strs)
+                                {
+                                str = strs.remove(0);
+                                }
+                                if(classes.contains(str)==false) classes.add(str);
+                                max=max.concat(str);
+                            }
+
+                            if(max.length()> len)
+                            {
+                                max=max.substring(max.length()-len);
+                            }
+
+
+                        int max_o = 0;
+                        String max_c = "_";
+                        for (String s: classes
+                             ) {
+                            if(s==null || s.equals(".") || s.equals("-") ) continue;
+                            int tmp = len - max.replace(s, "").length();
+                            if(tmp > max_o && tmp > len/5)
+                            {
+                                max_o=tmp;
+                                max_c=s;
                             }
                         }
-
-                        if(affichage.getText().length()> 2000)
-                        {
-                            CharSequence tmp = affichage.getText();
-                            affichage.setText(tmp.subSequence(500,tmp.length()-500));
-                        }
-
-
+                        affichage.setText(max_c);
                     }
 
                 });

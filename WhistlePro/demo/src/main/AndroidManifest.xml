@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main"  />
+        <activity android:name=".PercussionTest"  />
         <activity android:name=".NameActivity"  />
         <activity android:name=".CorrectionActivity" />
         <activity android:name=".EnregistrementActivity" />

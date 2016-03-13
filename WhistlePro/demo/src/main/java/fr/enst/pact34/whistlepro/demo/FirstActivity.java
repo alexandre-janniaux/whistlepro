@@ -53,16 +53,17 @@ public class FirstActivity extends Activity {
 
         //Le bouton qui oriente vers la voie "Percussions"
         Button percuBtn = (Button)findViewById(R.id.firstPercu);
-        melodieBtn.setOnClickListener(new View.OnClickListener() {
+        percuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 type = 1;
+                startActivity(new Intent(FirstActivity.this, PercussionTest.class));
             }
         });
 
         //Le bouton qui mène à l'activité suivante
         Button captBtn = (Button)findViewById(R.id.firstEnregiBtn);
-        melodieBtn.setOnClickListener(new View.OnClickListener() {
+        captBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(FirstActivity.this, EnregistrementActivity.class));

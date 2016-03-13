@@ -32,10 +32,10 @@ public class AudioIn extends Thread {
 
         try { // ... initialise
 
-            int N = AudioRecord.getMinBufferSize(Main.Fs,AudioFormat.CHANNEL_IN_MONO,AudioFormat.ENCODING_PCM_16BIT);
+            int N = AudioRecord.getMinBufferSize(PercussionTest.Fs,AudioFormat.CHANNEL_IN_MONO,AudioFormat.ENCODING_PCM_16BIT);
 
             recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
-                    Main.Fs,
+                    PercussionTest.Fs,
                     AudioFormat.CHANNEL_IN_MONO,
                     AudioFormat.ENCODING_PCM_16BIT,
                     N*10);
