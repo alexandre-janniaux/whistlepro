@@ -1,11 +1,9 @@
-package fr.enst.pact34.whistlepro.api.acquisition;
+package fr.enst.pact34.whistlepro.api.Acquisition;
 
-import java.util.concurrent.TimeUnit;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.Mixer;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
 
@@ -13,13 +11,9 @@ public class acquisition
 {
     private TargetDataLine dataLine;
     private AudioFormat format;
-    private SourceDataLine sourceLine;
-    private byte[] buffer;
-    private int bufferSize ;
 
-    public acquisition(int bufferSize)
+    public acquisition()
     {
-        this.bufferSize = bufferSize;
         this.format = new AudioFormat(
                 16000, // SAMPLE RATE
                 8, // SAMPLE SIZE IN BYTE
@@ -27,7 +21,6 @@ public class acquisition
                 true, // SIGNED
                 true // BIGENDIAN
         );
-        this.buffer = new byte[this.bufferSize];
     }
 
     public void startRecording()
@@ -58,13 +51,17 @@ public class acquisition
         {
             System.out.println("unsupported line");
         }
-        dataLine.read(this.buffer, 0, this.buffer.length); // BUFFER, START, LENGTH (blocking)
-        double[] output = new double[this.buffer.length];
-        for(int i=0; i<this.buffer.length; ++i)
+        this.startRecording();
+        byte[] output = new byte[dataLine.getBufferSize()/5];
+        int numBytes;
+        numBytes=dataLine.read(output, 0, output.length); // BUFFER, START, LENGTH (blocking)
+	    System.out.write(output,0,numBytes);
+	    double[] sortie = new double[output.length];
+        for (int i=0;i<output.length;i++)
         {
-            output[i] = (double)buffer[i];
+        	sortie[i] = (double)output[i];
         }
-        return output;
+        return sortie;
     }
 
     public void stopRecording()
@@ -80,26 +77,26 @@ public class acquisition
 
     public static void main(String args[]) throws NullPointerException
     {
-        acquisition acq = new acquisition(16000);
+        // TEST
+    	acquisition acq = new acquisition();
         try {
-            acq.startRecording();
+        	acq.startRecording();
         } catch (NullPointerException n)
         {
             n.printStackTrace();
         }
-
         try {
-            TimeUnit.SECONDS.sleep(4);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Thread.sleep(3000);                 //3 secondes
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
         }
-        acq.stopRecording();
-        acq.readData();
+
         acq.stopRecording();
         double[] b = acq.readData();
+        
         System.out.println("Le signal comporte "+ b.length + " echantillons");
         for(int i=0;i<b.length;++i)System.out.print(b[i]);
         System.out.println("\nFin du signal");
+        
     }
 }
