@@ -1,12 +1,11 @@
 package fr.enst.pact34.whistlepro.demo;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class ValidationProcActivity extends AppCompatActivity {
+public class ValidationProcActivity extends Activity {
 
 /** /!\ IMPORTANT /!\
  NOTE TO READER :
@@ -27,8 +26,8 @@ public class ValidationProcActivity extends AppCompatActivity {
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validSound = modifiedSound ; //implémenter ces variables
-                startActivity(new Intent(ValidationProcActivity.this, TODO.class)); //point to ajouter piste activity
+                //TODO validSound = modifiedSound ; //implémenter ces variables
+                //TODO startActivity(new Intent(ValidationProcActivity.this, TODO.class)); //point to ajouter piste activity
             }
         });
 
@@ -37,8 +36,8 @@ public class ValidationProcActivity extends AppCompatActivity {
         noAcceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validSound = originalUserSound ; //implémenter ces variables
-                startActivity(new Intent(ValidationProcActivity.this, TODO.class)); //idem
+                //TODO validSound = originalUserSound ; //implémenter ces variables
+                //TODO startActivity(new Intent(ValidationProcActivity.this, TODO.class)); //idem
             }
         });
     }

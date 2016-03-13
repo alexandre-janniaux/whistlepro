@@ -1,13 +1,14 @@
 package fr.enst.pact34.whistlepro.demo;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class KeepActivity extends AppCompatActivity {
+public class KeepActivity extends Activity {
 
     /** /!\ IMPORTANT /!\
      NOTE TO READER :
@@ -29,7 +30,7 @@ public class KeepActivity extends AppCompatActivity {
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validSound = modifiedSound; //implémenter ces variables
+                // TODO validSound = modifiedSound; //implémenter ces variables
                 startActivity(new Intent(KeepActivity.this, NewTrackActivity.class));
             }
         });
@@ -39,13 +40,13 @@ public class KeepActivity extends AppCompatActivity {
         noAcceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validSound = originalUserSound ; //implémenter ces variables
+                // TODO validSound = originalUserSound ; //implémenter ces variables
                 startActivity(new Intent(KeepActivity.this, FirstActivity.class));
             }
         });
 
         //Le bouton pour écouter
-        Button listenBtn = (Button)findViewById(R.id.listenBtn);
+        ImageButton listenBtn = (ImageButton)findViewById(R.id.listenBtn);
         listenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,7 +55,7 @@ public class KeepActivity extends AppCompatActivity {
         });
 
         //Le bouton pour accéder à la partition
-        Button partitionBtn = (Button)findViewById(R.id.partiBtn);
+        ImageButton partitionBtn = (ImageButton)findViewById(R.id.partiBtn);
         partitionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

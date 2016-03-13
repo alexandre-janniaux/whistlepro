@@ -1,12 +1,12 @@
 package fr.enst.pact34.whistlepro.demo;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class InstrChoiceActivity extends AppCompatActivity {
+public class InstrChoiceActivity extends Activity {
 
 /** /!\ IMPORTANT /!\
  NOTE TO READER :

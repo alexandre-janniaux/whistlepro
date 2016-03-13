@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            android:src="@drawable/you"
+            android:src="@drawable/homepage"
             android:id="@+id/youBtn" />
 
         <TextView

@@ -1,14 +1,13 @@
 package fr.enst.pact34.whistlepro.demo;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 
-public class FirstActivity extends AppCompatActivity {
+public class FirstActivity extends Activity {
 
     /** /!\ IMPORTANT /!\
      NOTE TO READER :
@@ -18,7 +17,7 @@ public class FirstActivity extends AppCompatActivity {
      TO DO: implement a charedPreferences object to make the variable type global over the app
      */
 
-    SharedPreferences prefInstru = getSharedPreferences("preferences_instruments", MODE_PRIVATE);
+    //SharedPreferences prefInstru = getSharedPreferences("preferences_instruments", MODE_PRIVATE);
     int type = 0; //cette variable contient le type d'enregistrement : 0 tant qu'il n'y a pas de choix, 1 pour percussions, et 2 pour melodie
 
     @Override

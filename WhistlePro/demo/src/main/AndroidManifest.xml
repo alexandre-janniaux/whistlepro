@@ -8,39 +8,25 @@
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:icon="@drawable/ic_launcher"
         android:label="WhistleProDemo">
         <activity
-            android:name=".Main"
+            android:name=".FirstActivity"
             android:label="WhistleProDemo>">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".NameActivity"
-            android:label="WhistleProDemo" />
-        activity>
-        <activity
-            android:name=".CorrectionActivity"
-            android:label="WhistleProDemo" />
-        <activity
-            android:name=".EnregistrementActivity"
-            android:label="WhistleProDemo" />
-        <activity android:name=".FirstActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".Main"  />
+        <activity android:name=".NameActivity"  />
+        <activity android:name=".CorrectionActivity" />
+        <activity android:name=".EnregistrementActivity" />
         <activity android:name=".ValidationProcActivity" />
         <activity android:name=".NewTrackActivity" />
         <activity android:name=".ProcessingActivity" />

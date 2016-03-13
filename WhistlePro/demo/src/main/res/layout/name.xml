@@ -74,7 +74,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Entrez le nom de la piste"
         android:id="@+id/titre1"
-        android:layout_alignParentleft="true"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/listen"
         android:layout_alignStart="@+id/listen" />

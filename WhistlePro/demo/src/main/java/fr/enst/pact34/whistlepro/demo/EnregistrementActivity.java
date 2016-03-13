@@ -1,14 +1,12 @@
 package fr.enst.pact34.whistlepro.demo;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-public class EnregistrementActivity extends AppCompatActivity {
+public class EnregistrementActivity extends Activity {
 
 /** /!\ IMPORTANT /!\
  NOTE TO READER :

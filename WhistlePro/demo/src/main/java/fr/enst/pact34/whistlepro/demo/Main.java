@@ -33,7 +33,7 @@ public class Main extends Activity implements UserInterface {
         setContentView(R.layout.main);
 
 
-        CLASSIFIER_DATA = readRawTextFile(getApplicationContext(),R.raw.voyelles_k100);
+        CLASSIFIER_DATA = readRawTextFile(getApplicationContext(),R.raw.voyelles_k50);
 
         recorder = new AudioIn();
 
@@ -46,6 +46,11 @@ public class Main extends Activity implements UserInterface {
         processor.start();
 
         affichage = (TextView)findViewById(R.id.view);
+
+
+        NumberPicker np = (NumberPicker) findViewById(R.id.np);
+        np.setMaxValue(200);
+        np.setMinValue(40);
     }
 
 
@@ -160,7 +165,4 @@ public class Main extends Activity implements UserInterface {
 
     }
 
-    NumberPicker np = (NumberPicker) findViewById(R.id.np);
-    np.setMaxValue(200);
-    np.setMinValue(40);
 }

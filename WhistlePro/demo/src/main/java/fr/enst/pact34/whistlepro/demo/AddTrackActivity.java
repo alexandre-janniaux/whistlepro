@@ -1,15 +1,14 @@
 package fr.enst.pact34.whistlepro.demo;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class AddTrackActivity extends AppCompatActivity {
+public class AddTrackActivity extends Activity {
 
     //Ne sera pas utilisé pour la démo, a priori
 
