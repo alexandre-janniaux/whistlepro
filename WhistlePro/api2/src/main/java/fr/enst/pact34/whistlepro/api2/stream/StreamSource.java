@@ -1,13 +1,12 @@
 package main.java.fr.enst.pact34.whistlepro.api2.stream;
 
-//TODO: documentation
-public abstract class StreamBase<E extends StreamDataInterface<E>,F extends StreamDataInterface<F>>
-        extends StreamSource<F> implements  DataListenerInterface<E>{
+/**
+ * Created by mms on 15/03/16.
+ */
+public abstract class StreamSource<F extends StreamDataInterface<F>> extends StreamSourceBase<F> {
 
-    @Override
-    public void bufferFilled() {
-        //signal that indicate to start process
-
+    public void pushData()
+    {
         for (DataListenerInterface<F> listener: this.getListeners())
         {
             F buffer = listener.getBufferToFill();
@@ -17,5 +16,4 @@ public abstract class StreamBase<E extends StreamDataInterface<E>,F extends Stre
     }
 
     protected abstract F getBufferOut();
-
 }

@@ -3,9 +3,8 @@ package main.java.fr.enst.pact34.whistlepro.api2.stream;
 import java.util.HashSet;
 
 //TODO: documentation
-public abstract class StreamStreamDataSource<E> implements StreamDataSourceInterface<E> {
-
-
+public  class StreamSourceBase<E> implements StreamDataSourceInterface<E>
+{
 
     private HashSet<DataListenerInterface<E>> listeners = new HashSet<>();
 

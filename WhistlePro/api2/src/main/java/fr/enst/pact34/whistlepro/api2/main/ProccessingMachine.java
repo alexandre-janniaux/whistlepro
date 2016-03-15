@@ -3,7 +3,9 @@ package main.java.fr.enst.pact34.whistlepro.api2.main;
 import main.java.fr.enst.pact34.whistlepro.api2.DataTypes.*;
 import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamDestination;
 import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamSimple;
-import main.java.fr.enst.pact34.whistlepro.api2.stream.SignalStreamSourceStreamStream;
+import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamSource;
+import main.java.fr.enst.pact34.whistlepro.api2.transcription.CorrectionBase;
+import main.java.fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
 
 /**
  * Created by mms on 15/03/16.
@@ -11,7 +13,7 @@ import main.java.fr.enst.pact34.whistlepro.api2.stream.SignalStreamSourceStreamS
 public class ProccessingMachine {
 
     //Acquisition
-    SignalStreamSourceStreamStream source = null;
+    StreamSource<Signal> source = null;
 
     //power filter
     StreamSimple<Signal, Signal> powerFilterStream = null;
@@ -40,8 +42,17 @@ public class ProccessingMachine {
     StreamDestination<AttackTimes> destAttak = null;
     StreamDestination<ClassifResults> destClassif = null;
 
+    //transcription module
+    TranscriptionBase transcriptionBase = null;
+
+    //correction module
+    CorrectionBase correctionBase = null;
 
     public ProccessingMachine() {
+
+        //TODO initialisations
+
+        //Set up connexions
 
         source.subscribe(splitterStream);
 
@@ -59,6 +70,7 @@ public class ProccessingMachine {
         attaqueStream.subscribe(destAttak);
         classifStream.subscribe(destClassif);
 
+        transcriptionBase.subscribe(correctionBase);
 
     }
 }
