@@ -1,4 +1,4 @@
-package main.java.fr.enst.pact34.whistlepro.api2.stream;
+package  fr.enst.pact34.whistlepro.api2.stream;
 
 //TODO: documentation
 public abstract class StreamBase<E extends StreamDataInterface<E>,F extends StreamDataInterface<F>>

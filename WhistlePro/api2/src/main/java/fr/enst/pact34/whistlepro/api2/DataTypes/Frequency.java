@@ -1,6 +1,6 @@
-package main.java.fr.enst.pact34.whistlepro.api2.dataTypes;
+package  fr.enst.pact34.whistlepro.api2.dataTypes;
 
-import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamDataInterface;
+import  fr.enst.pact34.whistlepro.api2.stream.StreamDataInterface;
 
 /**
  * Created by mms on 15/03/16.

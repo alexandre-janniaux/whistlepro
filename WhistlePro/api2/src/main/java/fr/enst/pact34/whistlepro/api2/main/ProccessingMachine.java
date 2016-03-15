@@ -1,15 +1,15 @@
-package main.java.fr.enst.pact34.whistlepro.api2.main;
+package fr.enst.pact34.whistlepro.api2.main;
 
-import main.java.fr.enst.pact34.whistlepro.api2.dataTypes.*;
-import main.java.fr.enst.pact34.whistlepro.api2.phantoms.FakeCorrection;
-import main.java.fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessCopy;
-import main.java.fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessOutValue;
-import main.java.fr.enst.pact34.whistlepro.api2.phantoms.FakeTranscription;
-import main.java.fr.enst.pact34.whistlepro.api2.stream.DataListenerInterface;
-import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamSimple;
-import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamSource;
-import main.java.fr.enst.pact34.whistlepro.api2.transcription.CorrectionBase;
-import main.java.fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
+import fr.enst.pact34.whistlepro.api2.dataTypes.*;
+import fr.enst.pact34.whistlepro.api2.phantoms.FakeCorrection;
+import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessCopy;
+import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessOutValue;
+import fr.enst.pact34.whistlepro.api2.phantoms.FakeTranscription;
+import fr.enst.pact34.whistlepro.api2.stream.DataListenerInterface;
+import fr.enst.pact34.whistlepro.api2.stream.StreamSimple;
+import fr.enst.pact34.whistlepro.api2.stream.StreamSource;
+import fr.enst.pact34.whistlepro.api2.transcription.CorrectionBase;
+import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
 
 /**
  * Created by mms on 15/03/16.

@@ -1,4 +1,4 @@
-package main.java.fr.enst.pact34.whistlepro.api2.stream;
+package  fr.enst.pact34.whistlepro.api2.stream;
 
 /**
  * Created by  Mohamed on 15/03/16.

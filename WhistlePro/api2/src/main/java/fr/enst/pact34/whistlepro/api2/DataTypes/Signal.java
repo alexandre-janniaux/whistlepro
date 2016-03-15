@@ -1,6 +1,6 @@
-package main.java.fr.enst.pact34.whistlepro.api2.dataTypes;
+package  fr.enst.pact34.whistlepro.api2.dataTypes;
 
-import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamDataInterface;
+import  fr.enst.pact34.whistlepro.api2.stream.StreamDataInterface;
 
 /**
  * Created by  Mohamed on 14/03/16.
@@ -8,14 +8,18 @@ import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamDataInterface;
 
 public class Signal implements SignalGetInterface,SignalSetInterface,StreamDataInterface<Signal> {
 
+    private int length = 100;
+    private double[] datas = new double[length];
+
     @Override
     public void setValue(int i, double v) {
-
+        datas[i] = v;
     }
 
     @Override
     public void setLength(int newLength) {
-
+        length = newLength;
+        datas = new double[length];
     }
 
     @Override
@@ -25,12 +29,12 @@ public class Signal implements SignalGetInterface,SignalSetInterface,StreamDataI
 
     @Override
     public double getValue(int i) {
-        return 0;
+        return datas[i];
     }
 
     @Override
     public int length() {
-        return 0;
+        return length;
     }
 
     @Override
@@ -41,5 +45,10 @@ public class Signal implements SignalGetInterface,SignalSetInterface,StreamDataI
     @Override
     public void copyTo(Signal signal) {
 
+        signal.setLength(this.length);
+
+        for (int i = 0; i < signal.length; i++) {
+            signal.setValue(i,this.datas[i]);
+        }
     }
 }

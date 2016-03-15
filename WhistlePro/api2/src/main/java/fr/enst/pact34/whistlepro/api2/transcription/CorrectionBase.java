@@ -1,7 +1,7 @@
-package main.java.fr.enst.pact34.whistlepro.api2.transcription;
+package  fr.enst.pact34.whistlepro.api2.transcription;
 
-import main.java.fr.enst.pact34.whistlepro.api2.dataTypes.MusicTrack;
-import main.java.fr.enst.pact34.whistlepro.api2.stream.DataListenerInterface;
+import  fr.enst.pact34.whistlepro.api2.dataTypes.MusicTrack;
+import  fr.enst.pact34.whistlepro.api2.stream.DataListenerInterface;
 
 /**
  * Created by mms on 15/03/16.

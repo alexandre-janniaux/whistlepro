@@ -1,4 +1,4 @@
-package main.java.fr.enst.pact34.whistlepro.api2.stream;
+package  fr.enst.pact34.whistlepro.api2.stream;
 
 public interface DataListenerInterface<E> {
 

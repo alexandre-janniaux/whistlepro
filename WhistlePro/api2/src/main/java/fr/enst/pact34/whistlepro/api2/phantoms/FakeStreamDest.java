@@ -1,6 +1,6 @@
-package main.java.fr.enst.pact34.whistlepro.api2.phantoms;
+package  fr.enst.pact34.whistlepro.api2.phantoms;
 
-import main.java.fr.enst.pact34.whistlepro.api2.stream.DataListenerInterface;
+import  fr.enst.pact34.whistlepro.api2.stream.DataListenerInterface;
 
 /**
  * Created by mms on 15/03/16.
