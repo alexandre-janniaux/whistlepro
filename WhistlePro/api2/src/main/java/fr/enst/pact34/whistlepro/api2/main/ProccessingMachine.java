@@ -1,11 +1,13 @@
 package fr.enst.pact34.whistlepro.api2.main;
 
+import fr.enst.pact34.whistlepro.api2.common.SpectrumProcess;
 import fr.enst.pact34.whistlepro.api2.dataTypes.*;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeCorrection;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessCopy;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessOutValue;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeTranscription;
 import fr.enst.pact34.whistlepro.api2.stream.DataListenerInterface;
+import fr.enst.pact34.whistlepro.api2.stream.ProcessInterface;
 import fr.enst.pact34.whistlepro.api2.stream.StreamSimple;
 import fr.enst.pact34.whistlepro.api2.stream.StreamSource;
 import fr.enst.pact34.whistlepro.api2.transcription.CorrectionBase;
@@ -31,8 +33,9 @@ public class ProccessingMachine {
     //Attaque
     StreamSimple<Signal, AttackTimes> attaqueStream = null;
 
-    //FFTp
-    StreamSimple<Signal, Signal> fftStream = null;
+    //FFT
+    StreamSimple<Signal , Signal> fftStream = null;
+    ProcessInterface<Signal,Signal> fftProcess = new SpectrumProcess();
 
     //MFCC
     StreamSimple<Signal, Signal> mfccStream = null;
@@ -70,7 +73,7 @@ public class ProccessingMachine {
         attaqueStream = new StreamSimple<>(new Signal(),new AttackTimes(), new FakeProcessOutValue<Signal,AttackTimes>(new AttackTimes()));
 
         //FFTp
-        fftStream = new StreamSimple<>(new Signal(),new Signal(), new FakeProcessCopy<Signal>());
+        fftStream = new StreamSimple<>(new Signal(),new Signal(), fftProcess);
 
         //MFCC
         mfccStream = new StreamSimple<>(new Signal(),new Signal(), new FakeProcessCopy<Signal>());
