@@ -1,4 +1,4 @@
-package main.java.fr.enst.pact34.whistlepro.api2.DataTypes;
+package main.java.fr.enst.pact34.whistlepro.api2.dataTypes;
 
 /**
  * Created by mms on 14/03/16.

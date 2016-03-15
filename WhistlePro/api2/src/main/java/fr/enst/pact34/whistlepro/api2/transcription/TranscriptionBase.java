@@ -1,10 +1,11 @@
 package main.java.fr.enst.pact34.whistlepro.api2.transcription;
 
-import main.java.fr.enst.pact34.whistlepro.api2.DataTypes.AttackTimes;
-import main.java.fr.enst.pact34.whistlepro.api2.DataTypes.ClassifResults;
-import main.java.fr.enst.pact34.whistlepro.api2.DataTypes.Frequency;
-import main.java.fr.enst.pact34.whistlepro.api2.DataTypes.MusicTrack;
-import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamDestination;
+import main.java.fr.enst.pact34.whistlepro.api2.dataTypes.AttackTimes;
+import main.java.fr.enst.pact34.whistlepro.api2.dataTypes.ClassifResults;
+import main.java.fr.enst.pact34.whistlepro.api2.dataTypes.Frequency;
+import main.java.fr.enst.pact34.whistlepro.api2.dataTypes.MusicTrack;
+import main.java.fr.enst.pact34.whistlepro.api2.phantoms.FakeStreamDest;
+import main.java.fr.enst.pact34.whistlepro.api2.stream.DataListenerInterface;
 import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamSource;
 
 /**
@@ -13,14 +14,14 @@ import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamSource;
 
 public abstract class TranscriptionBase extends StreamSource<MusicTrack>
 {
-    StreamDestination<Frequency> destFreqs = null;
-    StreamDestination<AttackTimes> destAttak = null;
-    StreamDestination<ClassifResults> destClassif = null;
+    DataListenerInterface<Frequency> destFreqs = new FakeStreamDest<>(new Frequency());
+    DataListenerInterface<AttackTimes> destAttak = new FakeStreamDest<>(new AttackTimes());
+    DataListenerInterface<ClassifResults> destClassif = new FakeStreamDest<>(new ClassifResults());
 
 
-    public StreamDestination<Frequency> getDestFreqs() { return destFreqs;}
+    public DataListenerInterface<Frequency> getStreamDestFreqs() { return destFreqs;}
 
-    public StreamDestination<AttackTimes> getDestAttak() { return destAttak;}
+    public DataListenerInterface<AttackTimes> getStreamDestAttak() { return destAttak;}
 
-    public StreamDestination<ClassifResults> getDestClassif() { return destClassif;}
+    public DataListenerInterface<ClassifResults> getStreamDestClassif() { return destClassif;}
 }

@@ -1,25 +1,17 @@
 package main.java.fr.enst.pact34.whistlepro.api2.transcription;
 
-import main.java.fr.enst.pact34.whistlepro.api2.DataTypes.MusicTrack;
-import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamDestination;
+import main.java.fr.enst.pact34.whistlepro.api2.dataTypes.MusicTrack;
+import main.java.fr.enst.pact34.whistlepro.api2.stream.DataListenerInterface;
 
 /**
  * Created by mms on 15/03/16.
  */
-public  class CorrectionBase extends StreamDestination<MusicTrack>
-{
+public abstract class CorrectionBase implements DataListenerInterface<MusicTrack> {
 
-    MusicTrack buffer = null;
-
-    public CorrectionBase() {
-        super(new MusicTrack());
-        buffer = getBufferToFill();
-    }
-
-    protected MusicTrack getMusikTrack() {return buffer;}
+    MusicTrack bufferIn = new MusicTrack();
 
     @Override
-    public void bufferFilled() {
-
+    public MusicTrack getBufferToFill() {
+        return bufferIn;
     }
 }
