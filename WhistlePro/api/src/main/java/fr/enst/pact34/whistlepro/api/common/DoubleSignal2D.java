@@ -1,14 +1,12 @@
 package fr.enst.pact34.whistlepro.api.common;
 
-/**
- * Created by alexandre on 06/03/16.
- */
+
 public class DoubleSignal2D implements DoubleSignal2DInterface {
 
-
     double[][] signal;
-    final int nbPoints;
-    final double frequency;
+    int nbPoints;
+    double frequency;
+    int bufferId;
 
     public DoubleSignal2D(double[][] signal, int nbPoints, double frequency) {
         this.signal = signal;
@@ -17,14 +15,16 @@ public class DoubleSignal2D implements DoubleSignal2DInterface {
     }
 
     @Override
-    public double[][] getSignal() {
-        return signal;
-    }
+    public int getBufferId() { return this.bufferId; }
 
     @Override
-    public double getFrequencySample() {
-        return frequency;
-    }
+    public void setBufferId(int bufferId) { this.bufferId = bufferId; }
+
+    @Override
+    public double[][] getSignal() { return signal; }
+
+    @Override
+    public double getFrequencySample() { return frequency; }
 
     @Override
     public int getNbPoints() {
@@ -35,4 +35,10 @@ public class DoubleSignal2D implements DoubleSignal2DInterface {
     public void setSignal(double[][] signal) {
         this.signal = signal;
     }
+
+    @Override
+    public void setNbPoints(int nbPoints) { this.nbPoints = nbPoints; }
+
+    @Override
+    public void setFrequencySample(double frequency) { this.frequency = frequency; }
 }
