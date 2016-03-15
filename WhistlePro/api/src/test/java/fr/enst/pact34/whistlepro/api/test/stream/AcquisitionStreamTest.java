@@ -15,6 +15,8 @@ import static org.junit.Assert.assertTrue;
 
 public class AcquisitionStreamTest {
 
+
+    // IMPORTANT : le micro ne doit pas êeêêtre muté !!!!
     @Test
     public void isRecording() {
         final AcquisitionStream stream = new AcquisitionStream();
