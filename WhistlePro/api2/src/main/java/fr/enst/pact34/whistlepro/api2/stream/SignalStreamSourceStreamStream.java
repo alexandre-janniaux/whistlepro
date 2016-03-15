@@ -1,12 +1,12 @@
 package main.java.fr.enst.pact34.whistlepro.api2.stream;
 
-import DataTypes.Signal;
-import DataTypes.SignalSetInterface;
+import main.java.fr.enst.pact34.whistlepro.api2.DataTypes.Signal;
+import main.java.fr.enst.pact34.whistlepro.api2.DataTypes.SignalSetInterface;
 
 /**
  * Created by  Mohamed on 15/03/16.
  */
-public abstract class SignalStreamSource extends DataSource<SignalSetInterface> {
+public abstract class SignalStreamSourceStreamStream extends StreamStreamDataSource<SignalSetInterface> {
 
     SignalSetInterface bufferOut = new Signal();
 

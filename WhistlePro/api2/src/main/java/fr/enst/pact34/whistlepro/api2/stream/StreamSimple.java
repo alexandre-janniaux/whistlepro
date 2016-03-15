@@ -4,7 +4,7 @@ package main.java.fr.enst.pact34.whistlepro.api2.stream;
 /**
  * Created by mms on 14/03/16.
  */
-public class SimpleStream<E extends StreamDataInterface,F extends StreamDataInterface> extends StreamBase{
+public class StreamSimple<E extends StreamDataInterface,F extends StreamDataInterface> extends StreamBase{
 
     //Shouldn't be edited internally
     E bufferIn = null;
@@ -12,7 +12,7 @@ public class SimpleStream<E extends StreamDataInterface,F extends StreamDataInte
     F bufferOut = null;
     ProcessInterface<E, F> processor = null;
 
-    public SimpleStream(E bufferIn, F bufferOut, ProcessInterface<E, F> processor) {
+    public StreamSimple(E bufferIn, F bufferOut, ProcessInterface<E, F> processor) {
         this.bufferIn = bufferIn;
         this.bufferOut = bufferOut;
         this.processor = processor;

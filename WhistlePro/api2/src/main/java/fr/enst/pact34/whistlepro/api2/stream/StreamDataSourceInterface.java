@@ -1,7 +1,7 @@
 package main.java.fr.enst.pact34.whistlepro.api2.stream;
 
 
-public interface DataSourceInterface<E> {
+public interface StreamDataSourceInterface<E> {
 
     //////////////////////////////
     /// @brief add a DataListenerInterface as output

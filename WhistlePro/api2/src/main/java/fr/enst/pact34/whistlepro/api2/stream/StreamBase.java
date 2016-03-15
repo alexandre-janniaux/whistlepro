@@ -2,7 +2,7 @@ package main.java.fr.enst.pact34.whistlepro.api2.stream;
 
 //TODO: documentation
 public abstract class StreamBase<E extends StreamDataInterface<E>,F extends StreamDataInterface<F>>
-        extends DataSource<F> implements  DataListenerInterface<E>{
+        extends StreamStreamDataSource<F> implements  DataListenerInterface<E>{
 
     @Override
     public void bufferFilled() {

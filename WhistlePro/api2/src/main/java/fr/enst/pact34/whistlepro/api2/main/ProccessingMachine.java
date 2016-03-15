@@ -1,10 +1,9 @@
 package main.java.fr.enst.pact34.whistlepro.api2.main;
 
-import DataTypes.*;
-import main.java.fr.enst.pact34.whistlepro.api2.stream.DoubleStreamListener;
-import main.java.fr.enst.pact34.whistlepro.api2.stream.DoubleToSimpleStream;
-import main.java.fr.enst.pact34.whistlepro.api2.stream.SimpleStream;
-import main.java.fr.enst.pact34.whistlepro.api2.stream.SignalStreamSource;
+import main.java.fr.enst.pact34.whistlepro.api2.DataTypes.*;
+import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamDestination;
+import main.java.fr.enst.pact34.whistlepro.api2.stream.StreamSimple;
+import main.java.fr.enst.pact34.whistlepro.api2.stream.SignalStreamSourceStreamStream;
 
 /**
  * Created by mms on 15/03/16.
@@ -12,35 +11,35 @@ import main.java.fr.enst.pact34.whistlepro.api2.stream.SignalStreamSource;
 public class ProccessingMachine {
 
     //Acquisition
-    SignalStreamSource source = null;
+    SignalStreamSourceStreamStream source = null;
 
     //power filter
-    SimpleStream<Signal, Signal> powerFilterStream = null;
+    StreamSimple<Signal, Signal> powerFilterStream = null;
 
     //split stream
-    SimpleStream<Signal, Signal> splitterStream = null;
+    StreamSimple<Signal, Signal> splitterStream = null;
 
     //Estimation hauteur
-    SimpleStream<Signal, Frequency> estimationStream = null;
+    StreamSimple<Signal, Frequency> estimationFreqStream = null;
 
     //Attaque
-    SimpleStream<Signal, AttackTimes> attaqueStream = null;
+    StreamSimple<Signal, AttackTimes> attaqueStream = null;
 
     //FFTp
-    SimpleStream<Signal, Signal> fftStream = null;
+    StreamSimple<Signal, Signal> fftStream = null;
 
     //MFCC
-    SimpleStream<Signal, Signal> mfccStream = null;
+    StreamSimple<Signal, Signal> mfccStream = null;
 
 
     //classif
-    SimpleStream<Signal, ClassifResults> classifStream = null;
+    StreamSimple<Signal, ClassifResults> classifStream = null;
 
+    //Ends of the stream
+    StreamDestination<Frequency> destFreqs = null;
+    StreamDestination<AttackTimes> destAttak = null;
+    StreamDestination<ClassifResults> destClassif = null;
 
-    //resutlt merging attaque & hauteur
-    DoubleToSimpleStream<Frequency,AttackTimes, FreqAttackPacket> freqAttackStream = null;
-
-    DoubleStreamListener<ClassifResults,FreqAttackPacket> transcriptionReceiver = null;
 
     public ProccessingMachine() {
 
@@ -48,7 +47,7 @@ public class ProccessingMachine {
 
         splitterStream.subscribe(powerFilterStream);
 
-        powerFilterStream.subscribe(estimationStream);
+        powerFilterStream.subscribe(estimationFreqStream);
         powerFilterStream.subscribe(attaqueStream);
         powerFilterStream.subscribe(fftStream);
 
@@ -56,11 +55,10 @@ public class ProccessingMachine {
 
         mfccStream.subscribe(classifStream);
 
-        attaqueStream.subscribe(freqAttackStream.getListenerE());
-        estimationStream.subscribe(freqAttackStream.getListenerF());
+        estimationFreqStream.subscribe(destFreqs);
+        attaqueStream.subscribe(destAttak);
+        classifStream.subscribe(destClassif);
 
-        classifStream.subscribe(transcriptionReceiver.getListenerE());
-        freqAttackStream.subscribe(transcriptionReceiver.getListenerF());
 
     }
 }
