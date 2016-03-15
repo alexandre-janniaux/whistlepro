@@ -13,7 +13,7 @@ public class AcquisitionStream
         implements DataSourceInterface<DoubleSignalInterface>
 {
     private final Recorder recorder;
-    private DataSource<DoubleSignalInterface> dataSource;
+    private DataSource<DoubleSignalInterface> dataSource = new DataSource<>();
 
     Thread thread;
 
@@ -68,17 +68,24 @@ public class AcquisitionStream
     }
 
     public void startRecording()  {
-        assert(this.thread != null);
+        assert(this.thread == null);
 
         this.recorder.start();
-        this.thread = new Thread(new Recorder(this.dataSource));
+        this.thread = new Thread(this.recorder);
         this.thread.start();
+    }
+
+    public void waitThread() throws InterruptedException{
+        if (this.thread != null)
+            this.thread.join();
+        else System.out.println("thread was not active");
     }
 
     public void stopRecording() {
         this.recorder.stop();
         this.thread = null;
     }
+
 
     //TODO: implement recording [ACQUISITION]
     //
