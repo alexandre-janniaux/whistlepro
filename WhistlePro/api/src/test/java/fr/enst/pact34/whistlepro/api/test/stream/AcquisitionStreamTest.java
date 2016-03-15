@@ -25,7 +25,7 @@ public class AcquisitionStreamTest {
                 double[] signal = inputData.getSignal();
                 boolean isNotNull = false;
                 for (int i = 0; i < signal.length; ++i) {
-                    System.out.print(signal[i]);
+                    //System.out.print(signal[i]);
                     isNotNull |= signal[i] != 0.;
                 }
                 stream.stopRecording();

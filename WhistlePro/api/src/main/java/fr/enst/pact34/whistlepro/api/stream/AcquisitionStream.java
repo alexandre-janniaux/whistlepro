@@ -45,10 +45,12 @@ public class AcquisitionStream
 
         public void start() {
             this.isRunning = true;
+            this.acq.startRecording();
         }
 
         public void stop() {
             this.isRunning = false;
+            this.acq.stopRecording();
         }
     }
 
