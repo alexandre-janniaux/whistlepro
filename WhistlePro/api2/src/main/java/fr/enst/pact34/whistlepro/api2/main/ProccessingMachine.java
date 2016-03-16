@@ -6,10 +6,7 @@ import fr.enst.pact34.whistlepro.api2.phantoms.FakeCorrection;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessCopy;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessOutValue;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeTranscription;
-import fr.enst.pact34.whistlepro.api2.stream.DataListenerInterface;
-import fr.enst.pact34.whistlepro.api2.stream.ProcessInterface;
-import fr.enst.pact34.whistlepro.api2.stream.StreamSimple;
-import fr.enst.pact34.whistlepro.api2.stream.StreamSource;
+import fr.enst.pact34.whistlepro.api2.stream.*;
 import fr.enst.pact34.whistlepro.api2.transcription.CorrectionBase;
 import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
 
@@ -19,35 +16,35 @@ import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
 public class ProccessingMachine {
 
     //Acquisition
-    StreamSource<Signal> source = null;
+    StreamSourceBase<Signal> source = null;
 
     //power filter
-    StreamSimple<Signal, Signal> powerFilterStream = null;
+    StreamSimpleBase<Signal, Signal> powerFilterStream = null;
 
     //split stream
-    StreamSimple<Signal, Signal> splitterStream = null;
+    StreamSimpleBase<Signal, Signal> splitterStream = null;
 
     //Estimation hauteur
-    StreamSimple<Signal, Frequency> estimationFreqStream = null;
+    StreamSimpleBase<Signal, Frequency> estimationFreqStream = null;
 
     //Attaque
-    StreamSimple<Signal, AttackTimes> attaqueStream = null;
+    StreamSimpleBase<Signal, AttackTimes> attaqueStream = null;
 
     //FFT
-    StreamSimple<Signal , Signal> fftStream = null;
+    StreamSimpleBase<Signal , Signal> fftStream = null;
     ProcessInterface<Signal,Signal> fftProcess = new SpectrumProcess();
 
     //MFCC
-    StreamSimple<Signal, Signal> mfccStream = null;
+    StreamSimpleBase<Signal, Signal> mfccStream = null;
 
 
     //classif
-    StreamSimple<Signal, ClassifResults> classifStream = null;
+    StreamSimpleBase<Signal, ClassifResults> classifStream = null;
 
     //Ends of the stream
-    DataListenerInterface<ClassifResults> destFreqs = null;
-    DataListenerInterface<AttackTimes> destAttak = null;
-    DataListenerInterface<ClassifResults> destClassif = null;
+    StreamDest<Frequency> destFreqs = null;
+    StreamDest<AttackTimes> destAttak = null;
+    StreamDest<ClassifResults> destClassif = null;
 
     //transcription module
     TranscriptionBase transcriptionBase = null;
@@ -55,32 +52,32 @@ public class ProccessingMachine {
     //correction module
     CorrectionBase correctionBase = null;
 
-    public ProccessingMachine(StreamSource<Signal> audioSignalSource) {
+    public ProccessingMachine(StreamSourceBase<Signal> audioSignalSource) {
 
         //TODO initialisations
 
         this.source = audioSignalSource;
 
-        powerFilterStream = new StreamSimple<>(new Signal(),new Signal(), new FakeProcessCopy<Signal>());
+        powerFilterStream = new StreamSimpleBase<>(new Signal(),new Signal(), new FakeProcessCopy<Signal>());
 
         //split stream
-        splitterStream = new StreamSimple<>(new Signal(),new Signal(), new FakeProcessCopy<Signal>());
+        splitterStream = new StreamSimpleBase<>(new Signal(),new Signal(), new FakeProcessCopy<Signal>());
 
         //Estimation hauteur
-        estimationFreqStream = new StreamSimple<>(new Signal(),new Frequency(), new FakeProcessOutValue<Signal,Frequency>(new Frequency()));
+        estimationFreqStream = new StreamSimpleBase<>(new Signal(),new Frequency(), new FakeProcessOutValue<Signal,Frequency>(new Frequency()));
 
         //Attaque
-        attaqueStream = new StreamSimple<>(new Signal(),new AttackTimes(), new FakeProcessOutValue<Signal,AttackTimes>(new AttackTimes()));
+        attaqueStream = new StreamSimpleBase<>(new Signal(),new AttackTimes(), new FakeProcessOutValue<Signal,AttackTimes>(new AttackTimes()));
 
         //FFTp
-        fftStream = new StreamSimple<>(new Signal(),new Signal(), fftProcess);
+        fftStream = new StreamSimpleBase<>(new Signal(),new Signal(), fftProcess);
 
         //MFCC
-        mfccStream = new StreamSimple<>(new Signal(),new Signal(), new FakeProcessCopy<Signal>());
+        mfccStream = new StreamSimpleBase<>(new Signal(),new Signal(), new FakeProcessCopy<Signal>());
 
 
         //classif
-        classifStream = new StreamSimple<>(new Signal(),new ClassifResults(), new FakeProcessOutValue<Signal,ClassifResults>(new ClassifResults()));
+        classifStream = new StreamSimpleBase<>(new Signal(),new ClassifResults(), new FakeProcessOutValue<Signal,ClassifResults>(new ClassifResults()));
 
         transcriptionBase = new FakeTranscription();
         correctionBase = new FakeCorrection();

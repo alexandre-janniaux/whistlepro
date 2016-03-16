@@ -2,7 +2,7 @@ package fr.enst.pact34.whistlepro.api2.test.phantoms;
 
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessCopy;
-import fr.enst.pact34.whistlepro.api2.stream.StreamSimple;
+import fr.enst.pact34.whistlepro.api2.stream.StreamSimpleBase;
 import fr.enst.pact34.whistlepro.api2.test.common.StreamDataEnd;
 import fr.enst.pact34.whistlepro.api2.test.common.StreamDataPutter;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public class FakeProcessCopyTest {
         // setup
         StreamDataPutter<Signal> start = new StreamDataPutter<>(inputData);
 
-        StreamSimple<Signal, Signal> powerFilterStream = new StreamSimple<>(new Signal(), new Signal(), new FakeProcessCopy<Signal>());
+        StreamSimpleBase<Signal, Signal> powerFilterStream = new StreamSimpleBase<>(new Signal(), new Signal(), new FakeProcessCopy<Signal>());
 
         start.subscribe(powerFilterStream);
 
@@ -42,7 +42,7 @@ public class FakeProcessCopyTest {
         start.pushData();
 
         //outData
-        Signal outputData = end.getBufferToFill();
+        Signal outputData = end.getBuffer();
 
         for (int i = 0; i < outputData.length(); i++) {
             assertEquals(inputData.getValue(i),outputData.getValue(i),0.01);

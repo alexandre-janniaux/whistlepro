@@ -1,34 +1,20 @@
 package  fr.enst.pact34.whistlepro.api2.stream;
 
-import java.util.HashSet;
+/**
+ * Created by mms on 15/03/16.
+ */
+public abstract class StreamSourceBase<F extends StreamDataInterface<F>> extends StreamSourceS<F> {
 
-//TODO: documentation
-public  class StreamSourceBase<E> implements StreamDataSourceInterface<E>
-{
-
-    private HashSet<DataListenerInterface<E>> listeners = new HashSet<>();
-
-    //////////////////////////////
-    /// @brief add a DataListenerInterface as output
-    /// @param listener the chained ouput
-    //////////////////////////////
-    public final void subscribe(DataListenerInterface<E> listener) {
-        if (this.listeners.contains(listener)) return;
-        this.listeners.add(listener);
-    }
-
-    //////////////////////////////
-    /// @brief remove a DataListenerInterface as output
-    /// @param listener the listener to remove as chained output
-    //////////////////////////////
-    public final void unsubscribe(DataListenerInterface<E> listener) {
-        if (!this.listeners.contains(listener)) return;
-        this.listeners.remove(listener);
-    }
-
-    protected HashSet<DataListenerInterface<E>> getListeners()
+    protected void pushData()
     {
-        return listeners;
+        for (DataListenerInterface<F> listener: this.getListeners())
+        {
+            F buffer = getBufferOut();
+            synchronized (buffer) {
+                listener.fillBufferIn(buffer);
+            }
+        }
     }
 
+    protected abstract F getBufferOut();
 }

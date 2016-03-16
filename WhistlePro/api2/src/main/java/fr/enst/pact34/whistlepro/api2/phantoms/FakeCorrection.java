@@ -1,5 +1,6 @@
 package  fr.enst.pact34.whistlepro.api2.phantoms;
 
+import fr.enst.pact34.whistlepro.api2.dataTypes.MusicTrack;
 import  fr.enst.pact34.whistlepro.api2.transcription.CorrectionBase;
 
 /**
@@ -7,8 +8,9 @@ import  fr.enst.pact34.whistlepro.api2.transcription.CorrectionBase;
  */
 public class FakeCorrection extends CorrectionBase {
 
-    @Override
-    public void bufferFilled() {
 
+    public FakeCorrection() {
+        super(new MusicTrack());
     }
+
 }
