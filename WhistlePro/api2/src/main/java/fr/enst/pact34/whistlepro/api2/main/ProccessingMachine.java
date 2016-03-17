@@ -16,41 +16,41 @@ import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
 public class ProccessingMachine {
 
     //Acquisition
-    StreamSourceBase<Signal> source = null;
+    private StreamSourceBase<Signal> source = null;
 
     //power filter
-    StreamSimpleBase<Signal, Signal> powerFilterStream = null;
+    private StreamSimpleBase<Signal, Signal> powerFilterStream = null;
 
     //split stream
-    StreamSimpleBase<Signal, Signal> splitterStream = null;
+    private StreamSimpleBase<Signal, Signal> splitterStream = null;
 
     //Estimation hauteur
-    StreamSimpleBase<Signal, Frequency> estimationFreqStream = null;
+    private StreamSimpleBase<Signal, Frequency> estimationFreqStream = null;
 
     //Attaque
-    StreamSimpleBase<Signal, AttackTimes> attaqueStream = null;
+    private StreamSimpleBase<Signal, AttackTimes> attaqueStream = null;
 
     //FFT
-    StreamSimpleBase<Signal , Signal> fftStream = null;
-    ProcessInterface<Signal,Signal> fftProcess = new SpectrumProcess();
+    private StreamSimpleBase<Signal , Signal> fftStream = null;
+    private StreamProcessInterface<Signal,Signal> fftProcess = new SpectrumProcess();
 
     //MFCC
-    StreamSimpleBase<Signal, Signal> mfccStream = null;
+    private StreamSimpleBase<Signal, Signal> mfccStream = null;
 
 
     //classif
-    StreamSimpleBase<Signal, ClassifResults> classifStream = null;
+    private StreamSimpleBase<Signal, ClassifResults> classifStream = null;
 
     //Ends of the stream
-    StreamDest<Frequency> destFreqs = null;
-    StreamDest<AttackTimes> destAttak = null;
-    StreamDest<ClassifResults> destClassif = null;
+    private StreamDestBase<Frequency> destFreqs = null;
+    private StreamDestBase<AttackTimes> destAttak = null;
+    private StreamDestBase<ClassifResults> destClassif = null;
 
     //transcription module
-    TranscriptionBase transcriptionBase = null;
+    private TranscriptionBase transcriptionBase = null;
 
     //correction module
-    CorrectionBase correctionBase = null;
+    private CorrectionBase correctionBase = null;
 
     public ProccessingMachine(StreamSourceBase<Signal> audioSignalSource) {
 
@@ -79,7 +79,7 @@ public class ProccessingMachine {
         //classif
         classifStream = new StreamSimpleBase<>(new Signal(),new ClassifResults(), new FakeProcessOutValue<Signal,ClassifResults>(new ClassifResults()));
 
-        transcriptionBase = new FakeTranscription();
+        transcriptionBase = new FakeTranscription(new MusicTrack());
         correctionBase = new FakeCorrection();
 
         //Set up uconnexions

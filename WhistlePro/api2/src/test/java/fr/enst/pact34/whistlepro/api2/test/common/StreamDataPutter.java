@@ -8,19 +8,8 @@ import fr.enst.pact34.whistlepro.api2.stream.StreamSourceBase;
  */
 public class StreamDataPutter<E extends StreamDataInterface<E>> extends StreamSourceBase<E> {
 
-    E buffer = null;
 
-    public StreamDataPutter(E buffer) {
-        this.buffer = buffer;
-    }
-
-    @Override
-    protected E getBufferOut() {
-        return buffer;
-    }
-
-    public void pushData()
-    {
-        super.pushData();
+    public StreamDataPutter(E bufferOut) {
+        super(bufferOut);
     }
 }

@@ -5,44 +5,60 @@ package  fr.enst.pact34.whistlepro.api2.stream;
  * Created by mms on 14/03/16.
  */
 public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamDataInterface<F>>
-        extends StreamSourceBase<F> implements DataListenerInterface<E>
+        implements StreamDataListenerInterface<E>, StreamDataSourceInterface<F>
 {
 
-    //Shouldn't be edited internally
-    E bufferIn = null;
-    //Should be filled by process
-    F bufferOut = null;
-    ProcessInterface<E, F> processor = null;
+    private E bufferIn = null;
+    private F bufferOut = null;
+    private StreamProcessInterface<E, F> processor = null;
+    private StreamDestBase<E> receiverDelegate = null;
+    private StreamSourceBase<F> sourceDelegate = null;
 
-    @Override
-    public void fillBufferIn(E data) {
-        //synchronized internally
-        receiverDelegate.fillBufferIn(data);
-
-        synchronized (bufferIn)
-        {
-            synchronized (bufferOut)
-            {
-                processor.process(bufferIn,bufferOut);
-            }
-        }
-        super.pushData();
-    }
-
-    StreamDestBase<E> receiverDelegate = null;
-
-    public StreamSimpleBase(E bufferIn, F bufferOut, ProcessInterface<E, F> processor) {
+    public StreamSimpleBase(E bufferIn, F bufferOut, StreamProcessInterface<E, F> processor) {
         this.bufferIn = bufferIn;
         this.bufferOut = bufferOut;
         this.processor = processor;
 
         receiverDelegate = new StreamDestBase<>(bufferIn);
+        sourceDelegate = new StreamSourceBase<>(bufferOut);
 
     }
 
     @Override
-    protected F getBufferOut() {
-        return bufferOut;
+    public final void subscribe(StreamDataListenerInterface<F> listener) {
+        sourceDelegate.subscribe(listener);
     }
+
+    @Override
+    public final void unsubscribe(StreamDataListenerInterface<F> listener) {
+        sourceDelegate.unsubscribe(listener);
+    }
+
+    private final void processAndPush()
+    {
+        // TODO add stream treatment (timestamping ...)
+
+        //synchronized (bufferIn)
+        //{
+        //    synchronized (bufferOut)
+        //    {
+                processor.process(bufferIn,bufferOut);
+        //    }
+        //}
+
+        //synchronized internally
+        sourceDelegate.pushData();
+
+    }
+
+    @Override
+    public final void fillBufferIn(E data) {
+        //synchronized internally
+        receiverDelegate.fillBufferIn(data);
+
+        processAndPush();
+    }
+
+
 
 }

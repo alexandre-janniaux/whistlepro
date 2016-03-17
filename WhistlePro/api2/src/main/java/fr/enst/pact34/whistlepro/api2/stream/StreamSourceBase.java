@@ -1,20 +1,53 @@
 package  fr.enst.pact34.whistlepro.api2.stream;
 
+import java.util.HashSet;
+
 /**
  * Created by mms on 15/03/16.
  */
-public abstract class StreamSourceBase<F extends StreamDataInterface<F>> extends StreamSourceS<F> {
+public class StreamSourceBase<E extends StreamDataInterface<E>>
+    implements StreamDataSourceInterface<E>
+{
 
-    protected void pushData()
+    private E bufferOut = null;
+
+    public StreamSourceBase(E bufferOut) {
+        this.bufferOut = bufferOut;
+    }
+
+    protected final E getBufferOut()
     {
-        for (DataListenerInterface<F> listener: this.getListeners())
+        return bufferOut;
+    }
+
+    public final void pushData()
+    {
+        for (StreamDataListenerInterface<E> listener: listeners)
         {
-            F buffer = getBufferOut();
-            synchronized (buffer) {
-                listener.fillBufferIn(buffer);
-            }
+            //synchronized (bufferOut) {
+                listener.fillBufferIn(bufferOut);
+            //}
         }
     }
 
-    protected abstract F getBufferOut();
+    private HashSet<StreamDataListenerInterface<E>> listeners = new HashSet<>();
+
+    //////////////////////////////
+    /// @brief add a StreamDataListenerInterface as output
+    /// @param listener the chained ouput
+    //////////////////////////////
+    public final void subscribe(StreamDataListenerInterface<E> listener) {
+        if (this.listeners.contains(listener)) return;
+        this.listeners.add(listener);
+    }
+
+    //////////////////////////////
+    /// @brief remove a StreamDataListenerInterface as output
+    /// @param listener the listener to remove as chained output
+    //////////////////////////////
+    public final void unsubscribe(StreamDataListenerInterface<E> listener) {
+        if (!this.listeners.contains(listener)) return;
+        this.listeners.remove(listener);
+    }
+
 }

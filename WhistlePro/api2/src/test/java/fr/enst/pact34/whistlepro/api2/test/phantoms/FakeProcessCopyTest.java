@@ -5,6 +5,7 @@ import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessCopy;
 import fr.enst.pact34.whistlepro.api2.stream.StreamSimpleBase;
 import fr.enst.pact34.whistlepro.api2.test.common.StreamDataEnd;
 import fr.enst.pact34.whistlepro.api2.test.common.StreamDataPutter;
+import fr.enst.pact34.whistlepro.api2.test.common.TestBuilder;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -17,32 +18,26 @@ public class FakeProcessCopyTest {
     @Test
     public void test()
     {
-        //input data setup
+        //variables
         Signal inputData = new Signal();
+        Signal outputData = new Signal();
 
+        //input data setup
         inputData.setLength(5);
-
         for (int i = 0; i < inputData.length(); i++) {
 
             inputData.setValue(i,i);
         }
 
-        // setup
-        StreamDataPutter<Signal> start = new StreamDataPutter<>(inputData);
+        // test setup
+        TestBuilder<Signal,Signal> test = new TestBuilder<>(inputData,outputData,
+                new StreamSimpleBase<>(inputData, outputData, new FakeProcessCopy<Signal>())
+                );
 
-        StreamSimpleBase<Signal, Signal> powerFilterStream = new StreamSimpleBase<>(new Signal(), new Signal(), new FakeProcessCopy<Signal>());
+        // test start
+        test.startTest();
 
-        start.subscribe(powerFilterStream);
-
-        StreamDataEnd<Signal> end = new StreamDataEnd<>(new Signal());
-        powerFilterStream.subscribe(end);
-
-        //start
-
-        start.pushData();
-
-        //outData
-        Signal outputData = end.getBuffer();
+        //outputData verification
 
         for (int i = 0; i < outputData.length(); i++) {
             assertEquals(inputData.getValue(i),outputData.getValue(i),0.01);

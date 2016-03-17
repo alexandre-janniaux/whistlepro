@@ -4,8 +4,8 @@ import  fr.enst.pact34.whistlepro.api2.dataTypes.AttackTimes;
 import  fr.enst.pact34.whistlepro.api2.dataTypes.ClassifResults;
 import  fr.enst.pact34.whistlepro.api2.dataTypes.Frequency;
 import  fr.enst.pact34.whistlepro.api2.dataTypes.MusicTrack;
-import  fr.enst.pact34.whistlepro.api2.phantoms.FakeStreamDest;
-import  fr.enst.pact34.whistlepro.api2.stream.StreamDest;
+import fr.enst.pact34.whistlepro.api2.phantoms.FakeStreamDest;
+import fr.enst.pact34.whistlepro.api2.stream.StreamDestBase;
 import  fr.enst.pact34.whistlepro.api2.stream.StreamSourceBase;
 
 /**
@@ -14,14 +14,18 @@ import  fr.enst.pact34.whistlepro.api2.stream.StreamSourceBase;
 
 public abstract class TranscriptionBase extends StreamSourceBase<MusicTrack>
 {
-    StreamDest<Frequency> destFreqs = new FakeStreamDest<>(new Frequency());
-    StreamDest<AttackTimes> destAttak = new FakeStreamDest<>(new AttackTimes());
-    StreamDest<ClassifResults> destClassif = new FakeStreamDest<>(new ClassifResults());
+    StreamDestBase<Frequency> destFreqs = new FakeStreamDest<>(new Frequency());
+    StreamDestBase<AttackTimes> destAttak = new FakeStreamDest<>(new AttackTimes());
+    StreamDestBase<ClassifResults> destClassif = new FakeStreamDest<>(new ClassifResults());
+
+    public TranscriptionBase(MusicTrack bufferOut) {
+        super(bufferOut);
+    }
 
 
-    public StreamDest<Frequency> getStreamDestFreqs() { return destFreqs;}
+    public StreamDestBase<Frequency> getStreamDestBaseFreqs() { return destFreqs;}
 
-    public StreamDest<AttackTimes> getStreamDestAttak() { return destAttak;}
+    public StreamDestBase<AttackTimes> getStreamDestBaseAttak() { return destAttak;}
 
-    public StreamDest<ClassifResults> getStreamDestClassif() { return destClassif;}
+    public StreamDestBase<ClassifResults> getStreamDestBaseClassif() { return destClassif;}
 }
