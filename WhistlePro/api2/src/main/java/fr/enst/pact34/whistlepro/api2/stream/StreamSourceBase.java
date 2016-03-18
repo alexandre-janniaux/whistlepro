@@ -24,9 +24,9 @@ public class StreamSourceBase<E extends StreamDataInterface<E>>
     {
         for (StreamDataListenerInterface<E> listener: listeners)
         {
-            //synchronized (bufferOut) {
+            synchronized (bufferOut) {
                 listener.fillBufferIn(bufferOut);
-            //}
+            }
         }
     }
 
