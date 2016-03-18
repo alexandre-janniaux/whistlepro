@@ -1,11 +1,13 @@
 package  fr.enst.pact34.whistlepro.api2.stream;
 
 
+import fr.enst.pact34.whistlepro.api2.threading.JobProviderInterface;
+
 /**
  * Created by mms on 14/03/16.
  */
 public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamDataInterface<F>>
-        implements StreamDataListenerInterface<E>, StreamDataSourceInterface<F>
+        implements StreamDataListenerInterface<E>, StreamDataSourceInterface<F>, JobProviderInterface
 {
 
     private E bufferIn = null;
@@ -38,27 +40,37 @@ public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamD
     {
         // TODO add stream treatment (timestamping ...)
 
-        //synchronized (bufferIn)
-        //{
-        //    synchronized (bufferOut)
-        //    {
+        synchronized (bufferIn)
+        {
+            synchronized (bufferOut)
+            {
                 processor.process(bufferIn,bufferOut);
-        //    }
-        //}
+            }
+        }
 
         //synchronized internally
         sourceDelegate.pushData();
 
     }
 
+    private boolean inputValid = false;
+
     @Override
     public final void fillBufferIn(E data) {
         //synchronized internally
         receiverDelegate.fillBufferIn(data);
-
-        processAndPush();
+        inputValid = true;
     }
 
 
+    @Override
+    public boolean isWorkAvailable() {
+        return inputValid;
+    }
 
+    @Override
+    public void doWork() {
+        processAndPush();
+        inputValid = false;
+    }
 }
