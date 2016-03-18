@@ -18,11 +18,11 @@ public class StreamDestBase<E extends StreamDataInterface<E>> implements StreamD
 
     @Override
     public final void fillBufferIn(E data) {
-        //synchronized (data)
-        //{
-        //    synchronized (bufferIn) {
+        synchronized (data)
+        {
+            synchronized (bufferIn) {
                 data.copyTo(bufferIn);
-        //    }
-        //}
+            }
+        }
     }
 }
