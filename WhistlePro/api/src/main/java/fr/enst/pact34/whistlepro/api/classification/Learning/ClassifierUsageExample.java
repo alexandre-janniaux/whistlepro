@@ -55,7 +55,7 @@ public class ClassifierUsageExample {
         }
 
         @Override
-        public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
+        public void fillIn(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
             //System.out.print("pushdata ");
             double[][] signal = inputData.getSignal();
 
@@ -104,7 +104,7 @@ public class ClassifierUsageExample {
                             Fs
                     );
 
-                    push(outputData);
+                    fillOut(outputData);
 
                 }
 

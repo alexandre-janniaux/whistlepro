@@ -8,7 +8,7 @@ public interface DataListenerInterface<E> {
     //////////////////////////////
     /// @brief called whenever data is ready to be processed by the listener
     //////////////////////////////
-    void onPushData(DataSource<E> source, E inputData);
+    void fillIn(DataSource<E> source, E inputData);
 
 
 }

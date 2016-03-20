@@ -1,13 +1,10 @@
 package fr.enst.pact34.whistlepro.api.stream;
 
-import java.util.ArrayList;
-
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 import fr.enst.pact34.whistlepro.api.common.DataSource;
 import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
 import fr.enst.pact34.whistlepro.api.common.DoubleSignal;
 import fr.enst.pact34.whistlepro.api.common.DoubleSignalInterface;
-import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
 import fr.enst.pact34.whistlepro.api.common.ConvolutionInterface;
 import fr.enst.pact34.whistlepro.api.common.Convolution1D;
 
@@ -35,7 +32,7 @@ class Derivative
         convolution = new Convolution1D(2*nbMean, kernel);
     }
 
-    public void onPushData(DataSource<DoubleSignalInterface> source, DoubleSignalInterface inputData) {
+    public void fillIn(DataSource<DoubleSignalInterface> source, DoubleSignalInterface inputData) {
         // TODO: use previous array
         // -n is for bounds of the array
         // TODO: check and test impl (fast change done)
@@ -56,7 +53,7 @@ class Derivative
 
         double[] output = convolution.convoluate(this.buffer,0, buffer.length-this.n);
         DoubleSignalInterface outputData = new DoubleSignal(output,inputData.getNbSamples(),inputData.getSampleFrequency());
-        this.datasource.push(outputData);
+        this.datasource.fillOut(outputData);
     }
 
 

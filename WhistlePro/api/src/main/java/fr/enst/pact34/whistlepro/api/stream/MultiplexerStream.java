@@ -44,7 +44,7 @@ public class DoubleMultiplexerStream
         }
 
         @Override
-        public void onPushData(DataSource<F> source, ArrayList<F> inputData) {
+        public void fillIn(DataSource<F> source, ArrayList<F> inputData) {
             this.root.outputs.set(this.index,inputData);
             this.root.computed += 1;
             if (this.root.computed == this.root.n) {
@@ -56,7 +56,7 @@ public class DoubleMultiplexerStream
                         array.add(this.root.outputs.get(j).get(i));
                     }
                 }
-                this.root.datasource.push(outputs);
+                this.root.datasource.fillOut(outputs);
             }
         }
 
@@ -80,12 +80,12 @@ public class DoubleMultiplexerStream
     }
 
     @Override
-    public void onPushData(DataSource<ArrayList<E>> source, ArrayList<ArrayList<E>> inputData) {
+    public void fillIn(DataSource<ArrayList<E>> source, ArrayList<ArrayList<E>> inputData) {
         assert(inputData.size() == this.n);
 
         for(int i=0; i<n; ++i) {
             ArrayList<E> data = inputData.get(i);
-            this.loops.get(i).push(data);
+            this.loops.get(i).fillOut(data);
         }
     }
 }

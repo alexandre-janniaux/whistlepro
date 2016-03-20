@@ -3,13 +3,10 @@ package fr.enst.pact34.whistlepro.api.stream;
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 import fr.enst.pact34.whistlepro.api.common.DataSource;
 import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
-import fr.enst.pact34.whistlepro.api.common.DoubleSignal;
 import fr.enst.pact34.whistlepro.api.common.DoubleSignal2D;
 import fr.enst.pact34.whistlepro.api.common.DoubleSignal2DInterface;
-import fr.enst.pact34.whistlepro.api.common.JobProviderInterface;
 import fr.enst.pact34.whistlepro.api.features.MfccFeatureProvider;
 import fr.enst.pact34.whistlepro.api.classification.FeatureProviderInterface;
-import java.util.ArrayList;
 
 import fr.enst.pact34.whistlepro.api.common.Spectrum;
 
@@ -41,7 +38,7 @@ public class MfccFeatureStream
     }
 
     @Override
-    public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
+    public void fillIn(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
         // TODO: do the computation work and put the data (cf DataSource)
         // TODO: lock data when processing
 
@@ -54,7 +51,7 @@ public class MfccFeatureStream
         }
 
         DoubleSignal2DInterface outputData = new DoubleSignal2D(results, inputData.getNbPoints(), inputData.getFrequencySample());
-        this.datasource.push(outputData);
+        this.datasource.fillOut(outputData);
     }
 
 }

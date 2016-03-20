@@ -1,7 +1,6 @@
 package fr.enst.pact34.whistlepro.api.stream;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
@@ -25,7 +24,7 @@ public class PowerFilterStream
     }
 
     @Override
-    public void onPushData(DataSource<DoubleSignalInterface> source, DoubleSignalInterface inputData) {
+    public void fillIn(DataSource<DoubleSignalInterface> source, DoubleSignalInterface inputData) {
         int signalLength = inputData.getSignal().length;
         for(int i=0; i<signalLength; i += this.step) {
             int power = 0;
@@ -45,11 +44,11 @@ public class PowerFilterStream
                     inputData.getNbSamples(),
                     inputData.getSampleFrequency()
             );
-            this.outputSource.push(output);
+            this.outputSource.fillOut(output);
             i+=this.windowSize-this.step;
         }
 
-        this.outputSource.push(inputData);
+        this.outputSource.fillOut(inputData);
     }
 
     @Override

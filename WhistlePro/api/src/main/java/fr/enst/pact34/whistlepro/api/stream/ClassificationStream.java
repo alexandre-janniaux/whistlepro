@@ -54,7 +54,7 @@ public class ClassificationStream
     }
 
     @Override
-    public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface data) {
+    public void fillIn(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface data) {
 
         int signalLength = data.getSignal().length;
 
@@ -77,7 +77,7 @@ public class ClassificationStream
 
         DoubleSignal2DInterface outputData = new DoubleSignal2D(results, data.getNbPoints(), data.getFrequencySample());
 
-        this.datasource.push(outputData);
+        this.datasource.fillOut(outputData);
     }
 
 }

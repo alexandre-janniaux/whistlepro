@@ -24,7 +24,7 @@ public class SplitWindowStream implements DataStreamInterface<DoubleSignalInterf
     }
 
     @Override
-    public void onPushData(DataSource<DoubleSignalInterface> source, DoubleSignalInterface inputData) {
+    public void fillIn(DataSource<DoubleSignalInterface> source, DoubleSignalInterface inputData) {
 
         // TODO: improve code when the last window can't be completed (delay the computation).
 
@@ -53,7 +53,7 @@ public class SplitWindowStream implements DataStreamInterface<DoubleSignalInterf
             }
         }
 
-        this.dataSource.push(this.output);
+        this.dataSource.fillOut(this.output);
     }
 
     @Override

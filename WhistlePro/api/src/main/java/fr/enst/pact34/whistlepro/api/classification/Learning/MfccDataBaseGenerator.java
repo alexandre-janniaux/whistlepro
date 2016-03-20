@@ -59,7 +59,7 @@ public class MfccDataBaseGenerator {
         System.out.println("Done in " + (System.currentTimeMillis()-time)/1000 + "s.");
 
         // transaction
-        // push
+        // fillOut
         // source
 
     }
@@ -83,7 +83,7 @@ public class MfccDataBaseGenerator {
         }
 
         @Override
-        public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
+        public void fillIn(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
             double[][] signal = inputData.getSignal();
 
             for(int j = 0; j < signal.length; j++) {
@@ -169,7 +169,7 @@ public class MfccDataBaseGenerator {
                 );
 
 
-                this.push(outputData);
+                this.fillOut(outputData);
 
             } catch (IOException e) {
                 e.printStackTrace();
