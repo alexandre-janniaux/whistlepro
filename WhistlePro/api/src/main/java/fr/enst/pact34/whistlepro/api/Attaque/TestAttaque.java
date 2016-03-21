@@ -38,17 +38,18 @@ public class TestAttaque {
 
 	public static void main(String[] args) {
 				
-		File file = new File("data/testVoice.wav");
+		File file = new File("data/Jean caisse claire/Jean caisse claire 2.wav");
+		Affichage2 affich = new Affichage2();
 		
 		double[] x = ReadExample.audioRead(file);
 		//System.out.println(x);
-		//Affichage2.affichage(x, "signal");
+		//affich.affichage(x, "signal");
 		
 		double[] e = Enveloppe.enveloppe(0.99, x);
-		//Affichage2.affichage(e, "Détection de l'enveloppe");
+		//affich.affichage(e, "Détection de l'enveloppe");
 
 		double[] e2 = Enveloppe.sousEchantillonne(200,e);
-		//Affichage2.affichage(e2,"Enveloppe ssEch");
+		//affich.affichage(e2,"Enveloppe ssEch");
 
 
 		///FONCTION DERIVATION AVEC CONVOLUTION///
@@ -64,7 +65,13 @@ public class TestAttaque {
 
 
 		double[] derive = Enveloppe.derive(10,e2);
-		//Affichage2.affichage(derive,"fonction de derivation");
+		affich.affichage(derive,"fonction de derivation");
+
+		Pics pics = new Pics();
+		double[] y = pics.DetectionPics(derive);
+		for (int i=0; i<y.length; i++) {
+			System.out.println(y[i]);
+		}
 	}
 
 }

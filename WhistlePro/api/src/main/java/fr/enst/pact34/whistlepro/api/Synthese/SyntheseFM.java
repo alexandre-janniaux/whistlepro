@@ -3,7 +3,7 @@ package fr.enst.pact34.whistlepro.api.Synthese;
 public class SyntheseFM {
 	
 	//Synthese numerique d'un sinus modul� en fr�quence
-	public static double[] oscFM(double[] f, double m, int Fe) {
+	public static double[] oscFM(double[] f, double[] m, int Fe) {
 		
 		int length = f.length;
 		double[] phi = new double[length];
@@ -17,14 +17,14 @@ public class SyntheseFM {
 			}
 			
 			phi[n] = 2*Math.PI/Fe*fCumul;
-			x[n] = m*Math.cos(phi[n]);		//calculer le signal x(n)=m*cos(phi)
+			x[n] = m[n]*Math.cos(phi[n]);		//calculer le signal x(n)=m*cos(phi)
 		}
 		
 		return x;	
 	}
 	
 	//Synth�se num�rique d'un instrument FM
-	public static double[] instFM(double [] fp, double[] fm, double d, double m, int Fe) {
+	public static double[] instFM(double [] fp, double[] fm, double[] d, double[] m, int Fe) {
 		
 		int length = fm.length;
 		double[] x1 = new double[length];

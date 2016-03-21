@@ -17,13 +17,13 @@ public class TestSynthese {
 			fp[k] = fm[k] * r;
 		}
 		
-		double[] x = SyntheseFM.oscFM(fm,d,Fe);
+		/*double[] x = fr.enst.pact34.whistlepro.api.Synthese.SyntheseFM.oscFM(fm, d, Fe);
 		
 		System.out.println(x);
 		
-		double[] y = SyntheseFM.instFM(fp, fm, d, m, Fe);
+		double[] y = fr.enst.pact34.whistlepro.api.Synthese.SyntheseFM.instFM(fp, fm, d, m, Fe);
 		
-		System.out.println(y);
+		System.out.println(y);*/
 
 	}
 
