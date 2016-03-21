@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.demo;
+package fr.enst.pact34.whistlepro.demo.activities;
 
 import fr.enst.pact34.whistlepro.api.common.*;
 import fr.enst.pact34.whistlepro.api.stream.ClassificationStream;

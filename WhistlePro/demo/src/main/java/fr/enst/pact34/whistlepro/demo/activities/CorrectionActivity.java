@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.demo;
+package fr.enst.pact34.whistlepro.demo.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import fr.enst.pact34.whistlepro.demo.R;
 
 public class CorrectionActivity extends Activity {
 

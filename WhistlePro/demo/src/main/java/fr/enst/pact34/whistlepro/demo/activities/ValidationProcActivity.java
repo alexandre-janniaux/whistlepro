@@ -1,9 +1,11 @@
-package fr.enst.pact34.whistlepro.demo;
+package fr.enst.pact34.whistlepro.demo.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import fr.enst.pact34.whistlepro.demo.R;
 
 public class ValidationProcActivity extends Activity {
 

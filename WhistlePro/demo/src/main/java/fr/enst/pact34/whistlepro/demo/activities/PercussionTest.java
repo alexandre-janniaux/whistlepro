@@ -1,11 +1,10 @@
-package fr.enst.pact34.whistlepro.demo;
+package fr.enst.pact34.whistlepro.demo.activities;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -14,9 +13,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import fr.enst.pact34.whistlepro.demo.R;
 
 public class PercussionTest extends Activity implements UserInterface {
     AudioIn recorder ;
