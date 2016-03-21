@@ -1,7 +1,26 @@
-package fr.enst.pact34.whistlepro.api.Synthese;
+﻿package fr.enst.pact34.whistlepro.api.Synthese;
 
 public class NotesDeMusique { //renvoie la fr�quence des notes jou�es
 	
+	private double frequency ;
+	private double intensity ;
+
+	public void setFrequency(double frequency) {
+	this.frequence = frequence ;
+	}
+
+	public void setIntensity(double intensity) {
+	this.intensity = intensity ; 
+	}
+
+	public double getIntensity() {
+	return this.intensity ; 
+	}
+
+	public double getFrequency(){
+	return this.frequency ;
+	}
+
 	public static double do3() {
 		return 261.63;
 	}
