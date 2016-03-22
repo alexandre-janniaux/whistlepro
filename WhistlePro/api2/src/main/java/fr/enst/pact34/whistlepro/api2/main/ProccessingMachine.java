@@ -2,6 +2,7 @@ package fr.enst.pact34.whistlepro.api2.main;
 
 import fr.enst.pact34.whistlepro.api2.common.SpectrumProcess;
 import fr.enst.pact34.whistlepro.api2.dataTypes.*;
+import fr.enst.pact34.whistlepro.api2.features.MfccProcess;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeCorrection;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessCopy;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessOutValue;
@@ -36,6 +37,7 @@ public class ProccessingMachine {
 
     //MFCC
     private StreamSimpleBase<Signal, Signal> mfccStream = null;
+    private StreamProcessInterface<Signal,Signal> mfccProcess = new MfccProcess();
 
 
     //classif
@@ -73,7 +75,7 @@ public class ProccessingMachine {
         fftStream = new StreamSimpleBase<>(new Signal(),new Signal(), fftProcess);
 
         //MFCC
-        mfccStream = new StreamSimpleBase<>(new Signal(),new Signal(), new FakeProcessCopy<Signal>());
+        mfccStream = new StreamSimpleBase<>(new Signal(),new Signal(), mfccProcess);
 
 
         //classif

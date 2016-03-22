@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.api2.test.phantoms;
+package fr.enst.pact34.whistlepro.api2.test.threading;
 
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessCopy;
@@ -9,16 +9,18 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by mms on 15/03/16.
+ * Created by mms on 17/03/16.
  */
-public class FakeProcessCopyTest {
-
+public class TestStreamFlow {
     @Test
     public void test()
     {
+        //TODO amelioration a faire
         //variables
         Signal inputData = new Signal();
         Signal outputData = new Signal();
+
+        StreamSimpleBase<Signal,Signal> s = new StreamSimpleBase<>(new Signal(), new Signal(), new FakeProcessCopy<Signal>());
 
         //input data setup
         inputData.setLength(5);
@@ -28,18 +30,18 @@ public class FakeProcessCopyTest {
         }
 
         // test setup
-        TestBuilder<Signal,Signal> test = new TestBuilder<>(inputData,outputData,
-                new StreamSimpleBase<>(new Signal(), new Signal(), new FakeProcessCopy<Signal>())
-                );
+        TestBuilder<Signal,Signal> test = new TestBuilder<>(inputData,outputData,s);
 
         // test start
-        test.startTest();
+        for (int j = 0; j < 10; j++) {
 
-        //outputData verification
+            test.startTest();
 
-        for (int i = 0; i < outputData.length(); i++) {
-            assertEquals(inputData.getValue(i),outputData.getValue(i),0.01);
+            for (int i = 0; i < outputData.length(); i++) {
+                assertEquals(inputData.getValue(i),outputData.getValue(i),0.01);
+            }
         }
 
     }
+
 }
