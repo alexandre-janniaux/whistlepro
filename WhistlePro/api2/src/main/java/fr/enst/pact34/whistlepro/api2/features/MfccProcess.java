@@ -3,12 +3,13 @@ package fr.enst.pact34.whistlepro.api2.features;
 import fr.enst.pact34.whistlepro.api2.classification.FeatureProviderInterface;
 import fr.enst.pact34.whistlepro.api2.common.transformers;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
+import fr.enst.pact34.whistlepro.api2.dataTypes.Spectrum;
 import fr.enst.pact34.whistlepro.api2.stream.StreamProcessInterface;
 
 import java.util.Arrays;
 
 
-public class MfccProcess implements FeatureProviderInterface, StreamProcessInterface<Signal,Signal>
+public class MfccProcess implements FeatureProviderInterface, StreamProcessInterface<Spectrum,Signal>
 {
     private final int nbMelFilter = 24;
     private double minFrequency = 0, maxFrequency = 3500;
@@ -71,17 +72,11 @@ public class MfccProcess implements FeatureProviderInterface, StreamProcessInter
     }
 
 
-    public void process(Signal sigIn, Signal sigOut)
+    public void process(Spectrum sigIn, Signal sigOut)
     {
-        int N = sigIn.length();
-        double Fs = sigIn.getSamplingFrequency();
-        double[] data = new double[N];
-        for (int i = 0; i < N; i++) {
-            data[i]=sigIn.getValue(i);
-        }
         //limit to maxFrequency (3500 Hz)
-        int iMax = (int)(Math.round(maxFrequency*N/Fs)+1);
-        double fftC[] = Arrays.copyOf(data,iMax);
+        int iMax = (int)(Math.round(maxFrequency*sigIn.getNbPtsSig()/sigIn.getFs())+1);
+        double fftC[] = Arrays.copyOf(sigIn.getSpectrumValues(),iMax);
 
         // COMPUTE THE POWER SPECTRUM
         for(int i=0; i<fftC.length; ++i)
@@ -90,7 +85,7 @@ public class MfccProcess implements FeatureProviderInterface, StreamProcessInter
         //spectrumIn = new Spectrum(spectrumIn.getNbPtsSig(),spectrumIn.getFs(),fftC);
 
         // FILTERING
-        double[] filtered = computeMelSpectrum(fftC, Fs,N);
+        double[] filtered = computeMelSpectrum(fftC, sigIn.getFs(),sigIn.getNbPtsSig());
 
         for(int i = 0; i < filtered.length; i++)
         {
@@ -103,6 +98,8 @@ public class MfccProcess implements FeatureProviderInterface, StreamProcessInter
         for (int i = 0; i < mfcc.length; i++) {
             sigOut.setValue(i,mfcc[i]);
         }
+
+        sigOut.setSamplingFrequency(sigIn.getFs());
     }
 
 

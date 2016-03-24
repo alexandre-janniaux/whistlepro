@@ -16,93 +16,76 @@ import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
  */
 public class ProccessingMachine {
 
-    //Acquisition
+
+    //TODO initialisations
+
+    //Acquisition filled by constructor
     private StreamSourceBase<Signal> source = null;
 
-    //power filter
-    private StreamSimpleBase<Signal, Signal> powerFilterStream = null;
-
     //split stream
-    private StreamSimpleBase<Signal, Signal> splitterStream = null;
+    private StreamProcessInterface<Signal,Signal> splitterProcess = new FakeProcessCopy<>(); //TODO put real process
+    private StreamSimpleBase<Signal, Signal> splitterStream = new StreamSimpleBase<>(new Signal(),new Signal(), splitterProcess);
+
+    //power filter
+    private StreamProcessInterface<Signal,Signal> powFilterProcess = new FakeProcessCopy<>(); //TODO put real process
+    private StreamSimpleBase<Signal, Signal> powerFilterStream = new StreamSimpleBase<>(new Signal(),new Signal(), powFilterProcess);
+
 
     //Estimation hauteur
-    private StreamSimpleBase<Signal, Frequency> estimationFreqStream = null;
+    private StreamProcessInterface<Signal,Frequency> estFreqProcess = new FakeProcessOutValue<>(new Frequency()); //TODO put real process
+    private StreamSimpleBase<Signal, Frequency> estFreqStream = new StreamSimpleBase<>(new Signal(),new Frequency(), estFreqProcess);
 
     //Attaque
-    private StreamSimpleBase<Signal, AttackTimes> attaqueStream = null;
+    private StreamProcessInterface<Signal,AttackTimes> attackProcess = new FakeProcessOutValue<>(new AttackTimes()); //TODO put real process
+    private StreamSimpleBase<Signal, AttackTimes> attackStream = new StreamSimpleBase<>(new Signal(),new AttackTimes(), attackProcess);
 
     //FFT
-    private StreamSimpleBase<Signal , Signal> fftStream = null;
-    private StreamProcessInterface<Signal,Signal> fftProcess = new SpectrumProcess();
+    private StreamProcessInterface<Signal,Spectrum> fftProcess = new SpectrumProcess();
+    private StreamSimpleBase<Signal , Spectrum> fftStream = new StreamSimpleBase<>(new Signal(),new Spectrum(), fftProcess);
 
     //MFCC
-    private StreamSimpleBase<Signal, Signal> mfccStream = null;
-    private StreamProcessInterface<Signal,Signal> mfccProcess = new MfccProcess();
+    private StreamProcessInterface<Spectrum,Signal> mfccProcess = new MfccProcess();
+    private StreamSimpleBase<Spectrum, Signal> mfccStream = new StreamSimpleBase<>(new Spectrum(),new Signal(), mfccProcess);
 
 
     //classif
-    private StreamSimpleBase<Signal, ClassifResults> classifStream = null;
+    private StreamProcessInterface<Signal, ClassifResults> classifProcess = new FakeProcessOutValue<>(new ClassifResults()); //TODO put real process
+    private StreamSimpleBase<Signal, ClassifResults> classifStream = new StreamSimpleBase<>(new Signal(),new ClassifResults(), classifProcess);
 
-    //Ends of the stream
-    private StreamDestBase<Frequency> destFreqs = null;
-    private StreamDestBase<AttackTimes> destAttak = null;
-    private StreamDestBase<ClassifResults> destClassif = null;
 
     //transcription module
-    private TranscriptionBase transcriptionBase = null;
+    private TranscriptionBase transcriptionBase = new FakeTranscription(new MusicTrack());
+
+
+    //Ends of the stream
+    private StreamDestBase<Frequency> destFreqs = transcriptionBase.getStreamDestBaseFreqs();
+    private StreamDestBase<AttackTimes> destAttak = transcriptionBase.getStreamDestBaseAttak();
+    private StreamDestBase<ClassifResults> destClassif = transcriptionBase.getStreamDestBaseClassif();
 
     //correction module
-    private CorrectionBase correctionBase = null;
+    private CorrectionBase correctionBase = new FakeCorrection();
 
     public ProccessingMachine(StreamSourceBase<Signal> audioSignalSource) {
 
-        //TODO initialisations
-
-        this.source = audioSignalSource;
-
-        powerFilterStream = new StreamSimpleBase<>(new Signal(),new Signal(), new FakeProcessCopy<Signal>());
-
-        //split stream
-        splitterStream = new StreamSimpleBase<>(new Signal(),new Signal(), new FakeProcessCopy<Signal>());
-
-        //Estimation hauteur
-        estimationFreqStream = new StreamSimpleBase<>(new Signal(),new Frequency(), new FakeProcessOutValue<Signal,Frequency>(new Frequency()));
-
-        //Attaque
-        attaqueStream = new StreamSimpleBase<>(new Signal(),new AttackTimes(), new FakeProcessOutValue<Signal,AttackTimes>(new AttackTimes()));
-
-        //FFTp
-        fftStream = new StreamSimpleBase<>(new Signal(),new Signal(), fftProcess);
-
-        //MFCC
-        mfccStream = new StreamSimpleBase<>(new Signal(),new Signal(), mfccProcess);
-
-
-        //classif
-        classifStream = new StreamSimpleBase<>(new Signal(),new ClassifResults(), new FakeProcessOutValue<Signal,ClassifResults>(new ClassifResults()));
-
-        transcriptionBase = new FakeTranscription(new MusicTrack());
-        correctionBase = new FakeCorrection();
-
-        //Set up uconnexions
-
-        source.subscribe(splitterStream);
-
-        splitterStream.subscribe(powerFilterStream);
-
-        powerFilterStream.subscribe(estimationFreqStream);
-        powerFilterStream.subscribe(attaqueStream);
-        powerFilterStream.subscribe(fftStream);
-
-        fftStream.subscribe(mfccStream);
-
-        mfccStream.subscribe(classifStream);
-
-        estimationFreqStream.subscribe(destFreqs);
-        attaqueStream.subscribe(destAttak);
-        classifStream.subscribe(destClassif);
-
-        transcriptionBase.subscribe(correctionBase);
+        this.source = audioSignalSource;                            //           Audio
+                                                                    //            ||
+        source.subscribe(splitterStream);                           //         Splitter
+                                                                    //            ||
+        splitterStream.subscribe(powerFilterStream);                //         PowerFilter ======||==========||
+                                                                    //            ||             ||          ||
+        powerFilterStream.subscribe(estFreqStream);                 //            ||             ||        estFreq
+        powerFilterStream.subscribe(attackStream);                  //            ||           attack
+        powerFilterStream.subscribe(fftStream);                     //            FFT
+                                                                    //            ||
+        fftStream.subscribe(mfccStream);                            //           MFCC
+                                                                    //            ||
+        mfccStream.subscribe(classifStream);                        //          Classif =========||==========||
+                                                                    //  |=====    ||             ||          ||     ======|
+        estFreqStream.subscribe(destFreqs);                         //  ||        ||             ||       destFreqs      ||
+        attackStream.subscribe(destAttak);                          //  ||        ||          destAttack                 ||   Transcription
+        classifStream.subscribe(destClassif);                       //  ||     destClassif                               ||         ||
+                                                                    //  |=====                                      ======|         ||
+        transcriptionBase.subscribe(correctionBase);                //                                                          Correction
 
     }
 }

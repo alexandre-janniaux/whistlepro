@@ -2,6 +2,7 @@ package fr.enst.pact34.whistlepro.api2.common;
 
 import fr.enst.pact34.whistlepro.api2.dataTypes.SignalGetInterface;
 import fr.enst.pact34.whistlepro.api2.dataTypes.SignalSetInterface;
+import fr.enst.pact34.whistlepro.api2.dataTypes.Spectrum;
 
 import static java.lang.StrictMath.ceil;
 import static java.lang.StrictMath.floor;
@@ -14,7 +15,7 @@ import static java.lang.StrictMath.round;
  */
 public class transformers {
 
-    public static void fft(SignalGetInterface sig, SignalSetInterface fft) {
+    public static void fft(SignalGetInterface sig, Spectrum fft) {
         int N = sig.length();
 
         // TODO avoid using new
@@ -23,6 +24,7 @@ public class transformers {
         double fft_s[] = new double[N];
 
         fft.setLength((int) ceil((N+1)/2));
+        fft.setNbPtsSig(N);
 
         for (int k = 0; k < fft.length(); k++) {
             fft_c[k] = 0;
