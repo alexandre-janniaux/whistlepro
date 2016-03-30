@@ -6,7 +6,7 @@ public class NotesDeMusique { //renvoie la fr�quence des notes jou�es
 	private double intensity ;
 
 	public void setFrequency(double frequency) {
-	this.frequence = frequence ;
+	this.frequency = frequency ;
 	}
 
 	public void setIntensity(double intensity) {
