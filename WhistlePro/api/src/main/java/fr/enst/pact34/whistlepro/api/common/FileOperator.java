@@ -38,8 +38,9 @@ public class FileOperator {
 	public static void saveToFile(String fileName, String data)
 	{ 
 		BufferedWriter bos;  
-	    try { 
-	    	bos = new BufferedWriter(new FileWriter(new File(fileName))); 
+	    try {
+			createFile(fileName);
+	    	bos = new BufferedWriter(new FileWriter(new File(fileName)));
 	    	 
 	    	bos.write(data);
 	      	 
@@ -53,10 +54,20 @@ public class FileOperator {
  
 	}
 
+	private static void createFile(String fileName) throws IOException {
+			File f = new File(fileName);
+			if(f.exists()==false)
+			{
+				new File(f.getParent()).mkdir();
+				f.createNewFile();
+			}
+	}
+
 	public static void appendToFile(String fileName, String data)
 	{
 		BufferedWriter bos;
 		try {
+			createFile(fileName);
 			bos = new BufferedWriter(new FileWriter(new File(fileName),true));
 
 			bos.write(data);
