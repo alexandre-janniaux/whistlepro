@@ -113,7 +113,7 @@ public class MfccDb {
         while (matcher.find())
         {
         String tmp = matcher.group();
-        System.out.print(tmp);
+        //System.out.print(tmp);
         Matcher matcherClass = patternClass.matcher(tmp);
         if(matcherClass.find())
         {
