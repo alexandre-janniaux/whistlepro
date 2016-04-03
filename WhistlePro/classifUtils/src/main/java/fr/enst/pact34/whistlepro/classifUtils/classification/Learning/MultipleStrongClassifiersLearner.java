@@ -1,6 +1,9 @@
-package fr.enst.pact34.whistlepro.api.classification.Learning;
+package fr.enst.pact34.whistlepro.classifUtils.classification.Learning;
 
-import fr.enst.pact34.whistlepro.api.classification.*;
+
+import fr.enst.pact34.whistlepro.api.classification.MultipleStrongClassifiers;
+import fr.enst.pact34.whistlepro.api.classification.StrongClassifier;
+import fr.enst.pact34.whistlepro.api.classification.TrainExampleInterface;
 
 import java.util.ArrayList;
 

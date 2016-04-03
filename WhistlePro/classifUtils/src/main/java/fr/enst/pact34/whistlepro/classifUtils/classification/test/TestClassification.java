@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.api.classification.test;
+package fr.enst.pact34.whistlepro.classifUtils.classification.test;
  
 import fr.enst.pact34.whistlepro.api.common.FileOperator;
 import fr.enst.pact34.whistlepro.api.classification.MultipleStrongClassifiers;
