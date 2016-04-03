@@ -25,6 +25,11 @@ public class textAreaFileChooser extends JPanel implements ActionListener{
         add(this.label,BorderLayout.WEST);
     }
 
+    public void setTextAreaModifiable(boolean b)
+    {
+        fileName.setEnabled(b);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         dialogue.showOpenDialog(null);
@@ -40,4 +45,5 @@ public class textAreaFileChooser extends JPanel implements ActionListener{
         fileName.setText(s);
         fileName.setText(dialogue.getSelectedFile().getAbsolutePath());
     }
+
 }
