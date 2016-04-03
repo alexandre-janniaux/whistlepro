@@ -28,8 +28,16 @@ public class MfccDbTree extends JTree implements KeyListener{
 
     }
 
+    boolean modifiable = true;
+
+    public void setModifiable(boolean b)
+    {
+        modifiable = false;
+    }
+
     public boolean addClass(String classe)
     {
+        if(modifiable==false) return false;
         if(db.addClass(classe))
         {
             DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(classe);
@@ -44,6 +52,7 @@ public class MfccDbTree extends JTree implements KeyListener{
     }
 
     public boolean addSample(String classe, String path) {
+        if(modifiable==false) return false;
         if(db.contains(classe))
         {
             db.addSample(classe, path);
@@ -130,12 +139,14 @@ public class MfccDbTree extends JTree implements KeyListener{
         }
     }
     public void calculateMfccs() {
+        if(modifiable==false) return;
         db.calculateMfccs();
         updateTree();
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
+        if(modifiable==false) return;
         for (TreePath i : this.getSelectionPaths()
              ) {
             if(i==null) continue;
