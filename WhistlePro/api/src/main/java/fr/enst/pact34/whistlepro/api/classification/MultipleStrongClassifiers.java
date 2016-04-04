@@ -53,7 +53,15 @@ public class MultipleStrongClassifiers implements MultipleClassifierInterface<Fe
 		
 		public MultipleStrongClassifiers build()
 		{
-			return new MultipleStrongClassifiers(this);
+			if(classifiersList.size()>0)
+			{
+				for (StrongClassifierItem c :classifiersList) {
+					if(c.sc == null) return null;
+				}
+				return new MultipleStrongClassifiers(this);
+			}
+
+			return  null;
 		}
 		
 		public Builder addClassifier(String classe, StrongClassifier sc)
