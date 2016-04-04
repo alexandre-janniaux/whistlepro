@@ -1,6 +1,7 @@
 package fr.enst.pact34.whistlepro.classifUtils.classification;
 
 import fr.enst.pact34.whistlepro.classifUtils.classification.Panels.classifBuilderPanel;
+import fr.enst.pact34.whistlepro.classifUtils.classification.Panels.classifUserPanel;
 import fr.enst.pact34.whistlepro.classifUtils.classification.Panels.mfccPanel;
 
 import java.awt.*;
@@ -31,7 +32,7 @@ public class main {
 
             onglets.addTab("MFCC db manager", new mfccPanel());
             onglets.addTab("Classifier Learner tool", new classifBuilderPanel());
-            onglets.addTab("Classifieur User tool", buildClassifPanel());
+            onglets.addTab("Classifieur User tool", new classifUserPanel());
 
             onglets.setOpaque(true);
             pannel.add(onglets);
@@ -39,14 +40,6 @@ public class main {
         }
 
 
-
-        private JPanel buildClassifPanel()
-        {
-            JPanel classifLearn = new JPanel();
-            JLabel titreClassifLearn = new JLabel("Classifieur");
-            classifLearn.add(titreClassifLearn);
-            return classifLearn;
-        }
     }
 
 
