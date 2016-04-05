@@ -15,13 +15,11 @@ import fr.enst.pact34.whistlepro.api.common.FileOperator;
 /**
  * Created by mms on 02/04/16.
  */
-public class classifUserPanel extends JPanel implements ActionListener{
+public class classifUserPanel extends JPanel implements ActionListener, UserInterface {
     private JButton  btnLoadClassifier = new JButton("Load classifier");
     private JButton  btnRec = new JButton("Start Recording...");
     private JLabel classifierLoaded = new JLabel("No classifier loaded.");
-    private JTextArea affReco = new JTextArea();
-
-    private MfccDbTree dbTree = new MfccDbTree();
+    private JLabel recoText = new JLabel("--");
 
     JPanel mainPanel = new JPanel();
 
@@ -41,6 +39,10 @@ public class classifUserPanel extends JPanel implements ActionListener{
     private JPanel centerPanel()
     {
         JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        panel.add(recoText,BorderLayout.CENTER);
+
         return panel;
     }
 
@@ -90,12 +92,12 @@ public class classifUserPanel extends JPanel implements ActionListener{
                 if(dataRec  == null)
                     continue;
 
-                //TODO calculate mfcc
+                processor.pushData(dataRec);
             }
 
 
             if(recorder.isRecording())
-                timer.schedule(recTask,10);
+                timer.schedule(this,10);
         }
     };
     @Override
@@ -120,16 +122,35 @@ public class classifUserPanel extends JPanel implements ActionListener{
         else if(sender == btnRec)
         {
             if(recorder.isRecording()==false) {
-                recorder.start();
-                timer.schedule(recTask, 10);
+
+                File file = new File(classifierLoaded.getText().replace("Loaded classifier : " ,""));
+                if (file.exists()) {
+
+                    recorder.start();
+                    processor = new Processor(recorder.getSampleRate(), this, FileOperator.getDataFromFile(file.getAbsolutePath()));
+
+
+                    processingThread = new Thread(processor);
+                    processingThread.start();
+
+                    timer.schedule(recTask, 10);
+                }
+                else JOptionPane.showMessageDialog(null,"File does not exist...");
             }
             else
             {
                 recorder.stop();
+                processingThread = null;
             }
         }
     }
 
+    Thread processingThread = null;
+    Processor processor = null;
 
 
+    @Override
+    public void showText(String text) {
+
+    }
 }

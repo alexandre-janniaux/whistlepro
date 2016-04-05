@@ -124,4 +124,7 @@ public class JavaSoundRecorder {
         return rec;
     }
 
+    public double getSampleRate() {
+        return getAudioFormat().getSampleRate();
+    }
 }
