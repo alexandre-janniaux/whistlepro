@@ -1,21 +1,13 @@
 package fr.enst.pact34.whistlepro.classifUtils.classification.Panels;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.text.NumberFormat;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import fr.enst.pact34.whistlepro.api.classification.MultipleStrongClassifiers;
 import fr.enst.pact34.whistlepro.api.common.FileOperator;
@@ -25,7 +17,9 @@ import fr.enst.pact34.whistlepro.api.common.FileOperator;
  */
 public class classifUserPanel extends JPanel implements ActionListener{
     private JButton  btnLoadClassifier = new JButton("Load classifier");
+    private JButton  btnRec = new JButton("Start Recording...");
     private JLabel classifierLoaded = new JLabel("No classifier loaded.");
+    private JTextArea affReco = new JTextArea();
 
     private MfccDbTree dbTree = new MfccDbTree();
 
@@ -47,7 +41,6 @@ public class classifUserPanel extends JPanel implements ActionListener{
     private JPanel centerPanel()
     {
         JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
         return panel;
     }
 
@@ -63,11 +56,13 @@ public class classifUserPanel extends JPanel implements ActionListener{
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         btnLoadClassifier.addActionListener(this);
+        btnRec.addActionListener(this);
 
         panel.add(btnLoadClassifier);
         panel.add(classifierLoaded);
+        panel.add(btnRec);
 
-        gl.setRows(2);
+        gl.setRows(3);
         return panel;
     }
 
@@ -80,6 +75,29 @@ public class classifUserPanel extends JPanel implements ActionListener{
 
     MultipleStrongClassifiers classifier  = null;
     JFileChooser classifierSelector = new JFileChooser(new File("."));
+    JavaSoundRecorder recorder = new JavaSoundRecorder(0.020);
+    Timer timer = new Timer();
+
+    double[] dataRec = null;
+
+    TimerTask recTask = new TimerTask() {
+        @Override
+        public void run() {
+
+            while(recorder.available())
+            {
+                dataRec  = recorder.getData();
+                if(dataRec  == null)
+                    continue;
+
+                //TODO calculate mfcc
+            }
+
+
+            if(recorder.isRecording())
+                timer.schedule(recTask,10);
+        }
+    };
     @Override
     public void actionPerformed(ActionEvent e) {
         Object sender = e.getSource();
@@ -99,6 +117,19 @@ public class classifUserPanel extends JPanel implements ActionListener{
             }
             else JOptionPane.showMessageDialog(null,"File does not exist...");
         }
+        else if(sender == btnRec)
+        {
+            if(recorder.isRecording()==false) {
+                recorder.start();
+                timer.schedule(recTask, 10);
+            }
+            else
+            {
+                recorder.stop();
+            }
+        }
     }
+
+
 
 }
