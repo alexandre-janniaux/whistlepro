@@ -13,9 +13,13 @@ import java.util.*;
  */
 public class JavaSoundRecorder {
 
+    public JavaSoundRecorder(double tempsRec)
+    {
+        tps_rec = tempsRec;
+    }
 
     List<double[]> arrays = Collections.synchronizedList(new LinkedList<double[]>());
-    private double tps_rec = 0.010; //(10ms)
+    private double tps_rec ; //(10ms)
 
     /**
      * Defines an audio format
@@ -50,18 +54,19 @@ public class JavaSoundRecorder {
 
             // checks if system supports the data line
             if (!AudioSystem.isLineSupported(info)) {
-                System.out.println("Line not supported");
-                System.exit(0);
+                //System.out.println("Line not supported");
+                //System.exit(0);
+                return;
             }
             line = (TargetDataLine) AudioSystem.getLine(info);
             line.open(format);
             line.start();   // start capturing
 
-            System.out.println("Start capturing...");
+            //System.out.println("Start capturing...");
 
             AudioInputStream ais = new AudioInputStream(line);
 
-            System.out.println("Start recording...");
+            //System.out.println("Start recording...");
 
             int nbSamples = (int)(tps_rec*format.getFrameRate());
 
@@ -86,7 +91,7 @@ public class JavaSoundRecorder {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            System.out.println("Finished");
+            //System.out.println("Finished");
             rec = false;
         }
 
@@ -98,32 +103,25 @@ public class JavaSoundRecorder {
     /**
      * Closes the target data line to finish capturing and recording
      */
-    void finish() {
-        System.out.println("Finish...");
+    void stop() {
+        //System.out.println("Finish...");
         rec = false;
     }
 
-    /**
-     * Entry to run the program
-     */
-    public static void main(String[] args) {
-        JavaSoundRecorder s = new JavaSoundRecorder();
-        s.start();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        s.finish();
-    }
 
-    boolean available()
+    public boolean available()
     {
         return (arrays.size()>0);
     }
 
-    double[] getData()
+    public double[] getData()
     {
         return arrays.remove(0);
     }
+
+    public boolean isRecording()
+    {
+        return rec;
+    }
+
 }
