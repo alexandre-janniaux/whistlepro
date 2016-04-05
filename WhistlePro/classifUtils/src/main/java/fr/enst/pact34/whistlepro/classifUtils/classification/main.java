@@ -22,7 +22,8 @@ public class main {
         public mainWindow() {
             super("Classification learning tools");
 
-            this.setSize(320, 150);
+
+            this.setSize(1000,1000);
             this.setResizable(true);
 
             JPanel pannel = new JPanel();

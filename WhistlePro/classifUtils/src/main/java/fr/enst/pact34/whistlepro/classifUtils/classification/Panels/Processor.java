@@ -18,6 +18,7 @@ import fr.enst.pact34.whistlepro.api.stream.MfccFeatureStream;
  */
 public class Processor implements AudioDataListener,Runnable {
 
+    private boolean continuee =true;
     LinkedList<double[]> datas = new LinkedList<>();
     double Fs ;
     UserInterface ui = null;
@@ -36,6 +37,11 @@ public class Processor implements AudioDataListener,Runnable {
         synchronized (datas) {
             datas.add(data);
         }
+    }
+
+    public void end()
+    {
+        continuee = true;
     }
 
     @Override
@@ -69,15 +75,16 @@ public class Processor implements AudioDataListener,Runnable {
 
         ArrayList<String> classes = classifStream.getClasses();
 
-        while(true) {
+        while(continuee) {
 
             double toProcess[] = null;
 
-            synchronized (datas) {
 
-                if(datas.size()>0)
-                {
-                    toProcess = datas.remove(0);
+                if(datas.size()>0) {
+                    synchronized (datas) {
+                        toProcess = datas.remove(0);
+                    }
+
                     double sum=0;
                     for(int i = 0; i < toProcess.length; i++)
                     {
@@ -91,8 +98,16 @@ public class Processor implements AudioDataListener,Runnable {
                         continue;
                     }
                 }
+                else {
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    continue;
+                }
 
-            }
+
 
             spectrumStream.calcOnWav(toProcess, Fs);
 
@@ -112,9 +127,12 @@ public class Processor implements AudioDataListener,Runnable {
                     max = res[i];
                     max_c = classes.get(i);
                 }
+                //System.out.print( res[i]);
             }
 
-            if (max < 0.1)
+            //System.out.println();
+
+            if (max < 0)
                 max_c = "-";
 
             ui.showText(max_c);

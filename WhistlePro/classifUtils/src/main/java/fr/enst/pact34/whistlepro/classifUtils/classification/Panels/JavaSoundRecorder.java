@@ -13,12 +13,18 @@ import java.util.*;
  */
 public class JavaSoundRecorder {
 
+    public void setListener(AudioDataListener listener) {
+        this.listener = listener;
+    }
+
+    private AudioDataListener listener = null;
+
     public JavaSoundRecorder(double tempsRec)
     {
         tps_rec = tempsRec;
     }
 
-    List<double[]> arrays = Collections.synchronizedList(new LinkedList<double[]>());
+
     private double tps_rec ; //(10ms)
 
     /**
@@ -54,7 +60,7 @@ public class JavaSoundRecorder {
 
             // checks if system supports the data line
             if (!AudioSystem.isLineSupported(info)) {
-                //System.out.println("Line not supported");
+                System.out.println("Line not supported");
                 //System.exit(0);
                 return;
             }
@@ -72,15 +78,19 @@ public class JavaSoundRecorder {
 
             byte[] bytes = new byte[ais.getFormat().getFrameSize()*nbSamples];
 
+            double[][]   buffers  = new double[1024][nbSamples];
+            int         ix       = 0;
             while(rec)
             {
-                ais.read(bytes);
-                double[] sample = new double[nbSamples];
+                ais.read(bytes,0,bytes.length);
+
+                double[] buffer = buffers[ix++ % buffers.length];
                 for(int i =0; i < nbSamples; i++)
                 {
-                    sample[i] = ( (bytes[2*i] << 8) + bytes[2*i+1] ) / Short.MAX_VALUE;
+                    buffer[i] = ( (bytes[2*i] << 8) + bytes[2*i+1] ) / Short.MAX_VALUE;
                 }
-                arrays.add(sample);
+
+                listener.pushData(buffer);
 
             }
             line.stop();
@@ -108,16 +118,6 @@ public class JavaSoundRecorder {
         rec = false;
     }
 
-
-    public boolean available()
-    {
-        return (arrays.size()>0);
-    }
-
-    public double[] getData()
-    {
-        return arrays.remove(0);
-    }
 
     public boolean isRecording()
     {

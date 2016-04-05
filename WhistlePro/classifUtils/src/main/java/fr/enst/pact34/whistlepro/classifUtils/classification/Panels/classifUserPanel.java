@@ -33,7 +33,9 @@ public class classifUserPanel extends JPanel implements ActionListener, UserInte
         mainPanel.add(bottomPanel(), BorderLayout.SOUTH);
 
         this.setLayout(new BorderLayout());
-        this.add(mainPanel,BorderLayout.CENTER);
+        this.add(mainPanel, BorderLayout.CENTER);
+
+        setupTimerRecoAff();
     }
 
     private JPanel centerPanel()
@@ -78,28 +80,9 @@ public class classifUserPanel extends JPanel implements ActionListener, UserInte
     MultipleStrongClassifiers classifier  = null;
     JFileChooser classifierSelector = new JFileChooser(new File("."));
     JavaSoundRecorder recorder = new JavaSoundRecorder(0.020);
-    Timer timer = new Timer();
-
-    double[] dataRec = null;
-
-    TimerTask recTask = new TimerTask() {
-        @Override
-        public void run() {
-
-            while(recorder.available())
-            {
-                dataRec  = recorder.getData();
-                if(dataRec  == null)
-                    continue;
-
-                processor.pushData(dataRec);
-            }
 
 
-            if(recorder.isRecording())
-                timer.schedule(this,10);
-        }
-    };
+    private String fileToUse = null;
     @Override
     public void actionPerformed(ActionEvent e) {
         Object sender = e.getSource();
@@ -114,6 +97,7 @@ public class classifUserPanel extends JPanel implements ActionListener, UserInte
                     JOptionPane.showMessageDialog(null,"Bad data...");
                 else {
                     classifierLoaded.setText("Loaded classifier : " + file.getAbsolutePath());
+                    fileToUse = file.getAbsolutePath();
                     JOptionPane.showMessageDialog(null, "File loaded !");
                 }
             }
@@ -121,36 +105,53 @@ public class classifUserPanel extends JPanel implements ActionListener, UserInte
         }
         else if(sender == btnRec)
         {
-            if(recorder.isRecording()==false) {
+            if(recorder.isRecording()==false && fileToUse != null) {
 
-                File file = new File(classifierLoaded.getText().replace("Loaded classifier : " ,""));
+                File file = new File(fileToUse);
                 if (file.exists()) {
 
-                    recorder.start();
                     processor = new Processor(recorder.getSampleRate(), this, FileOperator.getDataFromFile(file.getAbsolutePath()));
 
+                    new Thread(processor).start();
 
-                    processingThread = new Thread(processor);
-                    processingThread.start();
+                    recorder.setListener(processor);
 
-                    timer.schedule(recTask, 10);
+                    recorder.start();
+                    btnRec.setText("Stop");
                 }
                 else JOptionPane.showMessageDialog(null,"File does not exist...");
             }
             else
             {
                 recorder.stop();
-                processingThread = null;
+                btnRec.setText("Start");
             }
         }
     }
 
-    Thread processingThread = null;
     Processor processor = null;
 
 
+    private String recoTextStr = "";
     @Override
     public void showText(String text) {
+        synchronized (recoTextStr) {
+            recoTextStr += text;
+        }
+    }
+
+    private  Timer timer = new Timer();
+    private void setupTimerRecoAff()
+    {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                synchronized (recoTextStr) {
+                    if (recoTextStr.length() > 100) recoTextStr = recoTextStr.substring(90);
+                }
+                recoText.setText(recoTextStr);
+            }
+        }, 0,200);
 
     }
 }
