@@ -35,7 +35,7 @@ public class PercussionTest extends Activity implements UserInterface {
         setContentView(R.layout.main);
 
 
-        CLASSIFIER_DATA = readRawTextFile(getApplicationContext(),R.raw.voyelles_k50);
+        CLASSIFIER_DATA = readRawTextFile(getApplicationContext(),R.raw.beatbox);
 
         recorder = new AudioIn();
 
