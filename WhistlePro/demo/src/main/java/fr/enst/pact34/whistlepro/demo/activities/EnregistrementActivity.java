@@ -33,7 +33,7 @@ public class EnregistrementActivity extends Activity {
         //TO DO : put the record function
     }
 
-
+    //Code for the metronome switching
     final int[] imageArray = {R.drawable.metronome, R.drawable.metronome_flip};
 
 
