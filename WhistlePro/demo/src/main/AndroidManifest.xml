@@ -16,23 +16,23 @@
         android:icon="@drawable/ic_launcher"
         android:label="WhistleProDemo">
         <activity
-            android:name=".FirstActivity"
+            android:name=".activities.FirstActivity"
             android:label="WhistleProDemo>">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PercussionTest"  />
-        <activity android:name=".NameActivity"  />
-        <activity android:name=".CorrectionActivity" />
-        <activity android:name=".EnregistrementActivity" />
-        <activity android:name=".ValidationProcActivity" />
-        <activity android:name=".NewTrackActivity" />
-        <activity android:name=".ProcessingActivity" />
-        <activity android:name=".InstrChoiceActivity" />
-        <activity android:name=".AddTrackActivity" />
-        <activity android:name=".KeepActivity"></activity>
+        <activity android:name=".activities.PercussionTest"  />
+        <activity android:name=".activities.NameActivity"  />
+        <activity android:name=".activities.CorrectionActivity" />
+        <activity android:name=".activities.EnregistrementActivity" />
+        <activity android:name=".activities.ValidationProcActivity" />
+        <activity android:name=".activities.NewTrackActivity" />
+        <activity android:name=".activities.ProcessingActivity" />
+        <activity android:name=".activities.InstrChoiceActivity" />
+        <activity android:name=".activities.AddTrackActivity" />
+        <activity android:name=".activities.KeepActivity"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,6 @@
-﻿package fr.enst.pact34.whistlepro.api.Synthese;
+package fr.enst.pact34.whistlepro.api.Synthese;
 
-public class NotesDeMusique { //renvoie la fr�quence des notes jou�es
+public class NotesDeMusique { //renvoie la frequence des notes jouees
 	
 	private double frequency ;
 	private double intensity ;
