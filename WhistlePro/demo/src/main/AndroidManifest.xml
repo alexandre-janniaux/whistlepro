@@ -7,7 +7,6 @@
     <uses-sdk android:minSdkVersion="15" />
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -20,11 +19,12 @@
             android:label="WhistleProDemo>">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.PercussionTest"  />
-        <activity android:name=".activities.NameActivity"  />
+        <activity android:name=".activities.PercussionTest" />
+        <activity android:name=".activities.NameActivity" />
         <activity android:name=".activities.CorrectionActivity" />
         <activity android:name=".activities.EnregistrementActivity" />
         <activity android:name=".activities.ValidationProcActivity" />
@@ -32,7 +32,8 @@
         <activity android:name=".activities.ProcessingActivity" />
         <activity android:name=".activities.InstrChoiceActivity" />
         <activity android:name=".activities.AddTrackActivity" />
-        <activity android:name=".activities.KeepActivity"></activity>
+        <activity android:name=".activities.KeepActivity" />
+        <activity android:name=".TrackSelection"></activity>
     </application>
 
 </manifest>
