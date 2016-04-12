@@ -10,5 +10,5 @@ public class TrackSelection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_selection);
     }
-    
+
 }
