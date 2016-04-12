@@ -15,15 +15,12 @@ public class Enveloppe {
 	}
 	
 	public static double[] sousEchantillonne(int n, double[] x) {
-		int l = x.length;
-		int compteur = 0;
-		double[] x2 = new double[l/n];
-		for (int k=0; k<l; k++) {
-			compteur++;
-			if (compteur==n) {
-				compteur = 0;
-				x2[k/n] = x[k];
-			}
+		int l = (int)Math.floor(x.length/n)+1;
+		int i = 0;
+		double[] x2 = new double[l];
+		for (int k=0; k<x.length; k+=n) {
+			x2[i] = x[k];
+			i++;
 		}
 		return x2;
 	}
@@ -32,7 +29,7 @@ public class Enveloppe {
 		
 		ArrayList<Double> derive = new ArrayList<Double>();
 		
-		for (int k=2; k<x.length-2*N; k++) {
+		for (int k=1; k<x.length-2*N-1; k++) {
 			double d1 = 0;
 			double d2 = 0;
 			

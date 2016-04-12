@@ -51,6 +51,7 @@ public class Pics {
         return picIndiceDouble;   //picDouble pour la valeur du signal, picIndiceDouble pour l'abscisse des valeurs du signal
     }
 
+    //on va PEUT ETRE donc pas sûr, pas s'en servir
     public double[] tAttaque(File file) {
 
         Affichage2 affich = new Affichage2();

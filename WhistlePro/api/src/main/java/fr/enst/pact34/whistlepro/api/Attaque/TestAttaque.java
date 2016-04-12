@@ -39,11 +39,17 @@ public class TestAttaque {
 	public static void main(String[] args) {
 				
 		File file = new File("data/Jean caisse claire/Jean caisse claire 2.wav");
+
+		//Pics pics = new Pics();
+
 		Affichage2 affich = new Affichage2();
+
+		//double[] attaque = pics.tAttaque(file);
+		//affich.affichage(attaque, "fonction stylée");
 		
 		double[] x = ReadExample.audioRead(file);
 		//System.out.println(x);
-		//affich.affichage(x, "signal");
+		affich.affichage(x, "signal");
 		
 		double[] e = Enveloppe.enveloppe(0.99, x);
 		//affich.affichage(e, "Détection de l'enveloppe");
@@ -65,12 +71,16 @@ public class TestAttaque {
 
 
 		double[] derive = Enveloppe.derive(10,e2);
-		affich.affichage(derive,"fonction de derivation");
+		//affich.affichage(derive,"fonction de derivation");
+		//for (int i=0; i<derive.length; i++) {
+		//	System.out.println(derive[i]);
+		//}
 
 		Pics pics = new Pics();
 		double[] y = pics.DetectionPics(derive);
+		//affich.affichage(y,"Pics d'attaque");
 		for (int i=0; i<y.length; i++) {
-			System.out.println(y[i]);
+			System.out.println(y[i]/(44100/200));
 		}
 	}
 
