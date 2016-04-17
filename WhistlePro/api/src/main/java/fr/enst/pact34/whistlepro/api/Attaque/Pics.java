@@ -12,6 +12,7 @@ import fr.enst.pact34.whistlepro.api.acquisition.ReadExample;
  */
 public class Pics {
 
+    //methode retournant la valeur maximale de la liste de double
     private double max(double[] x) {
         if(x.length==0) return 0;
         double max = x[0];
@@ -51,7 +52,7 @@ public class Pics {
         return picIndiceDouble;   //picDouble pour la valeur du signal, picIndiceDouble pour l'abscisse des valeurs du signal
     }
 
-    //on va PEUT ETRE donc pas sûr, pas s'en servir
+    //methode effectuant toutes les operations precedentes en 1 appel
     public double[] tAttaque(File file) {
 
         Affichage2 affich = new Affichage2();

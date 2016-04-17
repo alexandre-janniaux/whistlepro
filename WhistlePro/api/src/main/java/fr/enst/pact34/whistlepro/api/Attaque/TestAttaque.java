@@ -36,9 +36,7 @@ public class TestAttaque {
 		
 	}
 
-	public static void main(String[] args) {
-				
-		File file = new File("data/Jean caisse claire/Jean caisse claire 2.wav");
+	public static double[] testDetection(File file) {
 
 		//Pics pics = new Pics();
 
@@ -46,11 +44,11 @@ public class TestAttaque {
 
 		//double[] attaque = pics.tAttaque(file);
 		//affich.affichage(attaque, "fonction stylée");
-		
+
 		double[] x = ReadExample.audioRead(file);
 		//System.out.println(x);
 		affich.affichage(x, "signal");
-		
+
 		double[] e = Enveloppe.enveloppe(0.99, x);
 		//affich.affichage(e, "Détection de l'enveloppe");
 
@@ -82,6 +80,16 @@ public class TestAttaque {
 		for (int i=0; i<y.length; i++) {
 			System.out.println(y[i]/(44100/200));
 		}
+
+		return y;
+	}
+
+	public static void main(String[] args) {
+
+		File file = new File("data/Jean caisse claire/Jean caisse claire 2.wav");
+
+		double[] y = testDetection(file);
+
 	}
 
 }

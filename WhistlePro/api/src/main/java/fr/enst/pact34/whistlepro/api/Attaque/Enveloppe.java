@@ -3,17 +3,19 @@ package fr.enst.pact34.whistlepro.api.Attaque;
 import java.util.ArrayList;
 
 public class Enveloppe {
-	
+
+	//extraction de l'enveloppe par la methode du reservoir d'energie
 	public static double[] enveloppe(double a, double[] x) {
 		int len = x.length;
 		double[] e = new double[len];
 		e[0] = x[0];
-		for (int i = 0; i<len-1; i++) {
+		for (int i = 0; i<len-1; i++) {	//application du filtre recursif
 			e[i+1] = a*e[i] + (1-a)*(x[i+1]*x[i+1]);	
 		}
 		return e;
 	}
-	
+
+	//sous-echantillonnage pour diminuer la quantite de calculs en respectant le critere de Shannon-Nyquist
 	public static double[] sousEchantillonne(int n, double[] x) {
 		int l = (int)Math.floor(x.length/n)+1;
 		int i = 0;
@@ -24,7 +26,8 @@ public class Enveloppe {
 		}
 		return x2;
 	}
-	
+
+	//calcul de la derive "large"
 	public static double[] derive(int N, double[] x) {
 		
 		ArrayList<Double> derive = new ArrayList<Double>();
@@ -32,7 +35,8 @@ public class Enveloppe {
 		for (int k=1; k<x.length-2*N-1; k++) {
 			double d1 = 0;
 			double d2 = 0;
-			
+
+			//on calcule la somme des N coefficients precedents et on lui soustrait la somme des N coefficients les precedents
 			for (int i=0; i<N-1; i++) {
 				d1 = d1 + x[2*N-1+k-i]; 
 			}
