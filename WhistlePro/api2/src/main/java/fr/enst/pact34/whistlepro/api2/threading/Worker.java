@@ -31,7 +31,6 @@ public class Worker {
     private Thread thread = new Thread(new Runnable() {
         @Override
         public void run() {
-            Runnable tmp ;
             while(true) {
                 if(toDo==null) {
                     isWorking = false;

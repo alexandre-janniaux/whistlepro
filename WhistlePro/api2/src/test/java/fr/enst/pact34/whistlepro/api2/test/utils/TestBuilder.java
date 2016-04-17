@@ -1,5 +1,9 @@
 package fr.enst.pact34.whistlepro.api2.test.utils;
 
+import java.util.HashSet;
+import java.util.Iterator;
+
+import fr.enst.pact34.whistlepro.api2.stream.States;
 import fr.enst.pact34.whistlepro.api2.stream.StreamDataInterface;
 import fr.enst.pact34.whistlepro.api2.stream.StreamSimpleBase;
 
@@ -30,9 +34,12 @@ public class TestBuilder<E extends StreamDataInterface<E>,F extends StreamDataIn
 
         public void startTest()
         {
+                //TODO
                 start.pushData();
+                streamToTest.process();
+                streamToTest.pushData();
 
-                while(streamToTest.isWorkAvailable())
-                        streamToTest.doWork();
+
+
         }
 }

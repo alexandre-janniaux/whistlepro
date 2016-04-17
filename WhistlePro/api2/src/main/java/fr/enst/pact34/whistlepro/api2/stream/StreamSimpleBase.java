@@ -1,24 +1,35 @@
 package  fr.enst.pact34.whistlepro.api2.stream;
 
+import java.util.HashSet;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import fr.enst.pact34.whistlepro.api2.threading.JobProviderInterface;
-
-/**
- * Created by mms on 14/03/16.
- */
 public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamDataInterface<F>>
-        implements StreamDataListenerInterface<E>, StreamDataSourceInterface<F>, JobProviderInterface
+        implements StreamDataListenerInterface<E>, StreamDataSourceInterface<F>
 {
 
     private E bufferIn = null;
     private F bufferOut = null;
+    private E bufferInD = null;
+    private F bufferOutD = null;
+
     private StreamProcessInterface<E, F> processor = null;
     private StreamDestBase<E> receiverDelegate = null;
     private StreamSourceBase<F> sourceDelegate = null;
 
+
+    private States inputState = States.INPUT_WAITING;
+
+    //private AtomicInteger processState = new AtomicInteger(States.PROCESS_WAITING);
+    //private AtomicInteger outputState = new AtomicInteger(States.OUTPUT_WAITING);
+    private States processState = States.PROCESS_WAITING;
+    private States outputState = States.OUTPUT_WAITING;
+
+
     public StreamSimpleBase(E bufferIn, F bufferOut, StreamProcessInterface<E, F> processor) {
         this.bufferIn = bufferIn;
         this.bufferOut = bufferOut;
+        this.bufferInD = bufferIn.getNew();
+        this.bufferOutD = bufferOut.getNew();
         this.processor = processor;
 
         receiverDelegate = new StreamDestBase<>(bufferIn);
@@ -36,41 +47,82 @@ public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamD
         sourceDelegate.unsubscribe(listener);
     }
 
-    private final void processAndPush()
+    public final void process()
     {
-        // TODO add stream treatment (timestamping ...)
 
-        synchronized (bufferIn)
-        {
-            synchronized (bufferOut)
-            {
-                processor.process(bufferIn,bufferOut);
+            if (processState != States.PROCESS_WAITING) {
+                throw new RuntimeException("process wasn't waiting");
             }
-        }
+            processState = States.PROCESS_BUSY;
 
-        //synchronized internally
-        sourceDelegate.pushData();
+
+            if (inputState != States.INPUT_BUSY) {
+                throw new RuntimeException("data were not ready for the process");
+            }
+
+        bufferIn.copyTo(bufferInD);
+
+            inputState = States.INPUT_WAITING;
+
+        // TODO add stream treatment (timestamping ...)
+        processor.process(bufferInD, bufferOutD);
+
+            processState = States.PROCESS_DONE;
+
+
 
     }
 
-    private boolean inputValid = false;
+    public final void endProcess()
+    {
+
+            if (outputState == States.OUTPUT_BUSY) {
+                throw new RuntimeException("output was not ready to get data from process");
+            }
+
+        bufferOutD.copyTo(bufferOut);
+
+            outputState = States.OUTPUT_BUSY;
+            processState = States.PROCESS_WAITING;
+    }
+
+    public final void pushData()
+    {
+
+            if (outputState != States.OUTPUT_BUSY) {
+                throw new RuntimeException("data were not ready to be pushed");
+            }
+        //synchronized internally
+        sourceDelegate.pushData();
+            outputState = States.OUTPUT_WAITING;
+    }
 
     @Override
     public final void fillBufferIn(E data) {
-        //synchronized internally
-        receiverDelegate.fillBufferIn(data);
-        inputValid = true;
+
+            if (inputState == States.INPUT_BUSY) {
+                throw new RuntimeException("Buffer was busy");
+            }
+            //synchronized internally
+            receiverDelegate.fillBufferIn(data);
+
+            inputState = States.INPUT_BUSY;
     }
 
 
-    @Override
-    public boolean isWorkAvailable() {
-        return inputValid;
+    public States getInputState() {
+            return inputState;
     }
 
-    @Override
-    public void doWork() {
-        processAndPush();
-        inputValid = false;
+    public States getProcessState() {
+            return processState;
+    }
+
+    public States getOutputState() {
+            return outputState;
+    }
+
+    public HashSet<StreamDataListenerInterface<F>> getSubscriberList() {
+        return sourceDelegate.getListeners();
     }
 }

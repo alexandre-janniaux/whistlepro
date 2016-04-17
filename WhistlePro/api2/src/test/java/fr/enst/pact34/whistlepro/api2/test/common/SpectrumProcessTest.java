@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class SpectrumProcessTest {
 
     @Test
-    public void test()
+    public void spectrumTest()
     {
         String inputDataFile = "../testData/features/signal.data";
         String outputDataFile = "../testData/features/fft.data";

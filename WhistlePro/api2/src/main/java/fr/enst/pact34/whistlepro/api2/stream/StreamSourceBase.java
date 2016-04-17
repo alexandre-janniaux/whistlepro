@@ -30,6 +30,10 @@ public class StreamSourceBase<E extends StreamDataInterface<E>>
         }
     }
 
+    public HashSet<StreamDataListenerInterface<E>> getListeners() {
+        return listeners;
+    }
+
     private HashSet<StreamDataListenerInterface<E>> listeners = new HashSet<>();
 
     //////////////////////////////
