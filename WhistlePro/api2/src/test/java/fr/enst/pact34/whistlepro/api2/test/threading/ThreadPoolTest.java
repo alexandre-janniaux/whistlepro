@@ -18,8 +18,8 @@ public class ThreadPoolTest {
     public void threadPoolTest()
     {
         System.out.println("thread id " + Thread.currentThread().getId());
-        ThreadPool threadPool = new ThreadPool(1000);
-        int nbCalc = 1000000;
+        ThreadPool threadPool = new ThreadPool(10);
+        int nbCalc = 1000;
         final LinkedList<Long> res = new LinkedList<>();
 
         for (int i = 0; i < nbCalc; i++) {

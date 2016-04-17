@@ -22,7 +22,7 @@ public class streamTest implements StreamDataListenerInterface<Signal> {
     @Test
     public void streamTest() {
         System.out.println("start");
-        final StreamManager threadPool = new StreamManager(100);
+        final StreamManager threadPool = new StreamManager(10);
 
         final StreamSimpleBase<Signal, Signal> copy1 = new StreamSimpleBase<>(
                 new Signal(), new Signal(), new FakeProcessCopy<Signal>()
@@ -48,7 +48,7 @@ public class streamTest implements StreamDataListenerInterface<Signal> {
         threadPool.addStream(copy3);
         threadPool.addStream(copy4);
 
-        final int nbPush = 500;
+        final int nbPush = 100;
 
         final ArrayList<Signal> signals = new ArrayList<>();
         signals.ensureCapacity(nbPush);

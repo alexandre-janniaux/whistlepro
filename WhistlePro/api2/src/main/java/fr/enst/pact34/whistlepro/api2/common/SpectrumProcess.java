@@ -12,8 +12,6 @@ public class SpectrumProcess implements StreamProcessInterface<Signal,Spectrum> 
     @Override
     public void process(Signal inputData, Spectrum outputData) {
 
-        //TODO do transfert in Stream ?
-        //outputData.setSamplingFrequency(inputData.getSamplingFrequency());
         outputData.setFs(inputData.getSamplingFrequency());
 
         transformers.fft(inputData,outputData);

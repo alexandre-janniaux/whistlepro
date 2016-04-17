@@ -37,6 +37,7 @@ public class TestBuilder<E extends StreamDataInterface<E>,F extends StreamDataIn
                 //TODO
                 start.pushData();
                 streamToTest.process();
+                streamToTest.endProcess();
                 streamToTest.pushData();
 
 
