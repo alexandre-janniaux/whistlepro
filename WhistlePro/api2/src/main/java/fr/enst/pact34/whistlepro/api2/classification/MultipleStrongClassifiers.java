@@ -100,6 +100,18 @@ public class MultipleStrongClassifiers implements MultipleClassifierInterface<Fe
 		 
 	}
 
+
+	@Override
+	public void classify(FeaturedObjectInterface sample,double[] outPut) {
+
+		for(int i = 0; i < classifiersList.length; i ++)
+		{
+			outPut[i] = classifiersList[i].sc.classify(sample);
+		}
+
+	}
+
+
 	@Override
 	public ArrayList<Double> classify(FeaturedObjectInterface sample) {
 		ArrayList<Double> rets= new ArrayList<>();

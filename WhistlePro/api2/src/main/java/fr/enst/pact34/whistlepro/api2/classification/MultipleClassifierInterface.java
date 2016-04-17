@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public interface MultipleClassifierInterface<E> {
 
+	void classify(FeaturedObjectInterface sample, double[] outPut);
+
 	//classify et classes retournes les elements dans le meme ordre
 	//classify()[i] correspond a la classe classes()[i]
 	ArrayList<Double> classify(E sample);
