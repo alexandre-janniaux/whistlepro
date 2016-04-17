@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import fr.enst.pact34.whistlepro.api2.classification.ClassifProcess;
 import fr.enst.pact34.whistlepro.api2.classification.MultipleStrongClassifiers;
+import fr.enst.pact34.whistlepro.api2.common.PowerFilterProcess;
 import fr.enst.pact34.whistlepro.api2.common.SpectrumProcess;
 import fr.enst.pact34.whistlepro.api2.common.SplitterProcess;
 import fr.enst.pact34.whistlepro.api2.dataTypes.*;
@@ -34,7 +35,7 @@ public class ProccessingMachine {
     private StreamInputWraper<double[], Signal> splitterStream = new StreamInputWraper<>(new Signal(), splitterProcess);
 
     //power filter
-    private StreamProcessInterface<Signal,Signal> powFilterProcess = new FakeProcessCopy<>(); //TODO put real process
+    private StreamProcessInterface<Signal,Signal> powFilterProcess = new PowerFilterProcess();
     private StreamSimpleBase<Signal, Signal> powerFilterStream = new StreamSimpleBase<>(new Signal(),new Signal(), powFilterProcess);
 
 
