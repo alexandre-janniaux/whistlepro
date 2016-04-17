@@ -15,12 +15,14 @@ import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessOutValue;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeTranscription;
 import fr.enst.pact34.whistlepro.api2.stream.*;
 import fr.enst.pact34.whistlepro.api2.transcription.CorrectionBase;
+import fr.enst.pact34.whistlepro.api2.transcription.PartialDataStreamDest;
 import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
 
 /**
  * Created by mms on 15/03/16.
  */
-public class ProccessingMachine {
+public class ProccessingMachine implements StreamDataListenerInterface<Signal> {
+    private static final double TIME_ANALYSE = 0.020;
 
 
     //TODO initialisations
@@ -28,60 +30,111 @@ public class ProccessingMachine {
     //Acquisition filled by constructor
     private StreamSourceInput<double[]> source = null;
 
-    private int nbSample; //TODO fill values
-    private double Fs;
     //split stream
-    private StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess = new SplitterProcess(nbSample, Fs);
-    private StreamInputWraper<double[], Signal> splitterStream = new StreamInputWraper<>(new Signal(), splitterProcess);
+    private StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess ;
+    private StreamInputWraper<double[], Signal> splitterStream ;
 
     //power filter
-    private StreamProcessInterface<Signal,Signal> powFilterProcess = new PowerFilterProcess();
-    private StreamSimpleBase<Signal, Signal> powerFilterStream = new StreamSimpleBase<>(new Signal(),new Signal(), powFilterProcess);
+    private StreamProcessInterface<Signal,Signal> powFilterProcess ;
+    private StreamSimpleBase<Signal, Signal> powerFilterStream ;
 
 
     //Estimation hauteur
-    private StreamProcessInterface<Signal,Frequency> estFreqProcess = new FakeProcessOutValue<>(new Frequency()); //TODO put real process
-    private StreamSimpleBase<Signal, Frequency> estFreqStream = new StreamSimpleBase<>(new Signal(),new Frequency(), estFreqProcess);
+    private StreamProcessInterface<Signal,Frequency> estFreqProcess ;
+    private StreamSimpleBase<Signal, Frequency> estFreqStream ;
 
     //Attaque
-    private StreamProcessInterface<Signal,AttackTimes> attackProcess = new FakeProcessOutValue<>(new AttackTimes()); //TODO put real process
-    private StreamSimpleBase<Signal, AttackTimes> attackStream = new StreamSimpleBase<>(new Signal(),new AttackTimes(), attackProcess);
+    private StreamProcessInterface<Signal,AttackTimes> attackProcess ;
+    private StreamSimpleBase<Signal, AttackTimes> attackStream ;
 
     //FFT
-    private StreamProcessInterface<Signal,Spectrum> fftProcess = new SpectrumProcess();
-    private StreamSimpleBase<Signal , Spectrum> fftStream = new StreamSimpleBase<>(new Signal(),new Spectrum(), fftProcess);
+    private StreamProcessInterface<Signal,Spectrum> fftProcess ;
+    private StreamSimpleBase<Signal , Spectrum> fftStream ;
 
     //MFCC
-    private StreamProcessInterface<Spectrum,Signal> mfccProcess = new MfccProcess();
-    private StreamSimpleBase<Spectrum, Signal> mfccStream = new StreamSimpleBase<>(new Spectrum(),new Signal(), mfccProcess);
+    private StreamProcessInterface<Spectrum,Signal> mfccProcess ;
+    private StreamSimpleBase<Spectrum, Signal> mfccStream ;
 
 
     //classif
     //TODO find a way to initialise from string
-    private MultipleStrongClassifiers classifier = new MultipleStrongClassifiers.Builder().fromString("").build();
-    private StreamProcessInterface<Signal, ClassifResults> classifProcess = new ClassifProcess(classifier);
-    private StreamSimpleBase<Signal, ClassifResults> classifStream = new StreamSimpleBase<>(new Signal(),new ClassifResults(), classifProcess);
+    private MultipleStrongClassifiers classifier ;
+    private StreamProcessInterface<Signal, ClassifResults> classifProcess ;
+    private StreamSimpleBase<Signal, ClassifResults> classifStream ;
 
 
     //transcription module
-    private TranscriptionBase transcriptionBase = new FakeTranscription(new MusicTrack());
+    private TranscriptionBase transcriptionBase ;
 
 
     //Ends of the stream
-    private StreamDestBase<Frequency> destFreqs = transcriptionBase.getStreamDestBaseFreqs();
-    private StreamDestBase<AttackTimes> destAttak = transcriptionBase.getStreamDestBaseAttak();
-    private StreamDestBase<ClassifResults> destClassif = transcriptionBase.getStreamDestBaseClassif();
+    private PartialDataStreamDest<Frequency> destFreqs ;
+    private PartialDataStreamDest<AttackTimes> destAttak ;
+    private PartialDataStreamDest<ClassifResults> destClassif ;
 
     //correction module
-    private CorrectionBase correctionBase = new FakeCorrection();
+    private CorrectionBase correctionBase ;
 
-    public ProccessingMachine(StreamSourceInput<double[]> audioSignalSource) {
+    //threadpool
+    StreamManager streamMaster = new StreamManager(1);
 
-        this.source = audioSignalSource;                            //           Audio
+    public ProccessingMachine(StreamSourceInput<double[]> audioSignalSource,double Fs, String classifierData) {
+
+        //initialisations
+
+        this.source = audioSignalSource;
+
+        //split stream
+        splitterProcess = new SplitterProcess((int)(TIME_ANALYSE*Fs), Fs);
+        splitterStream = new StreamInputWraper<>(new Signal(), splitterProcess);
+
+
+        //power filter
+        powFilterProcess = new PowerFilterProcess();
+        powerFilterStream = new StreamSimpleBase<>(new Signal(),new Signal(), powFilterProcess);
+
+
+        //Estimation hauteur
+        estFreqProcess = new FakeProcessOutValue<>(new Frequency()); //TODO put real process
+        estFreqStream = new StreamSimpleBase<>(new Signal(),new Frequency(), estFreqProcess);
+
+        //Attaque
+        attackProcess = new FakeProcessOutValue<>(new AttackTimes()); //TODO put real process
+         attackStream = new StreamSimpleBase<>(new Signal(),new AttackTimes(), attackProcess);
+
+        //FFT
+        fftProcess = new SpectrumProcess();
+        fftStream = new StreamSimpleBase<>(new Signal(),new Spectrum(), fftProcess);
+
+        //MFCC
+        mfccProcess = new MfccProcess();
+        mfccStream = new StreamSimpleBase<>(new Spectrum(),new Signal(), mfccProcess);
+
+
+        //classif
+        classifier = new MultipleStrongClassifiers.Builder().fromString(classifierData).build();
+        classifProcess = new ClassifProcess(classifier);
+        classifStream = new StreamSimpleBase<>(new Signal(),new ClassifResults(), classifProcess);
+
+
+        //transcription module
+        transcriptionBase = new FakeTranscription(new MusicTrack());
+
+
+        //Ends of the stream
+        destFreqs = transcriptionBase.getStreamDestBaseFreqs();
+        destAttak = transcriptionBase.getStreamDestBaseAttak();
+        destClassif = transcriptionBase.getStreamDestBaseClassif();
+
+        //correction module
+        correctionBase = new FakeCorrection();
+
+        //connexions                                                //            Audio
                                                                     //            ||
         source.subscribe(splitterStream);                           //         Splitter
                                                                     //            ||
-        splitterStream.subscribe(powerFilterStream);                //         PowerFilter ======||==========||
+        splitterStream.subscribe(powerFilterStream);                //    ====PowerFilter ======||==========||
+        splitterStream.subscribe(this);                             //   this     ||             ||          ||
                                                                     //            ||             ||          ||
         powerFilterStream.subscribe(estFreqStream);                 //            ||             ||        estFreq
         powerFilterStream.subscribe(attackStream);                  //            ||           attack
@@ -97,5 +150,44 @@ public class ProccessingMachine {
                                                                     //  |=====                                      ======|         ||
         transcriptionBase.subscribe(correctionBase);                //                                                          Correction
 
+        //setup stream manager
+        streamMaster.addStream(splitterStream);
+
+        streamMaster.addStream(powerFilterStream);
+
+        streamMaster.addStream(estFreqStream);
+
+        streamMaster.addStream(attackStream);
+
+        streamMaster.addStream(fftStream);
+
+        streamMaster.addStream(mfccStream);
+
+        streamMaster.addStream(classifStream);
+
+    }
+
+
+    public boolean transcriptionEnded()
+    {
+        return (transcriptionBase.getNbReceived() == dataRecevied) && (dataRecevied > 0);
+    }
+
+    private int dataRecevied = 0;
+
+    public void newSong()
+    {
+        dataRecevied = 0;
+        transcriptionBase.clear();
+    }
+
+    @Override
+    public void fillBufferIn(Signal data) {
+        dataRecevied++;
+    }
+
+    @Override
+    public int getInputState() {
+        return States.INPUT_WAITING;
     }
 }

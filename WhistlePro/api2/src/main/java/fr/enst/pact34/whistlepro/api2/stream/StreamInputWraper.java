@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class StreamInputWraper<E,F extends StreamDataInterface<F>>
-        implements StreamDataListenerInterface<E>, StreamDataSourceInterface<F>
+        implements StreamDataListenerInterface<E>, StreamDataSourceInterface<F>, manageableStream<F>
 {
 
     private F bufferOutM = null;
@@ -19,7 +19,7 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
 
 
 
-    private AtomicInteger inputState = new AtomicInteger(States.INPUT_WAITING);
+    private AtomicInteger inputState = new AtomicInteger(States.INPUT_BUSY);
     private AtomicInteger processState = new AtomicInteger(States.PROCESS_WAITING);
     private AtomicInteger outputState = new AtomicInteger(States.OUTPUT_WAITING);
     //private States inputState = States.INPUT_WAITING;
@@ -45,6 +45,7 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
         sourceDelegate.unsubscribe(listener);
     }
 
+    @Override
     public final void process()
     {
         if (processState.get() != States.PROCESS_WAITING) {
@@ -60,9 +61,9 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
 
         //new id calcul todo
         //id = bufferIn.getId();
-        bufferInD.add(bufferIn.get(0));
+        bufferInD.add(bufferIn.remove(0));
 
-        //inputState .set(States.INPUT_WAITING);
+        if(bufferIn.size()==0) inputState .set(States.INPUT_WAITING);
 
         //TODO timestamp ...
         processor.process(bufferInD, bufferOutD);
@@ -80,6 +81,7 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
         //System.out.println("attente fin process");
     }
 
+    @Override
     public final void endProcess()
     {
         // ! Should not come here
@@ -106,6 +108,7 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
     {
         id = 0;
     }
+    @Override
     public final void pushData()
     {
         //System.out.println("push data");
@@ -142,24 +145,43 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
         //synchronized internally
         bufferIn.add(data);
 
+        processState.set(States.PROCESS_WAITING);
         //inputState.set(States.INPUT_BUSY);
         //System.out.println("new data in waiting process");
+        if(streamManager != null)
+        {
+            if(streamManager.isWorking()==false)
+            {
+                streamManager.notifyWork();
+                //System.out.println("manager wakeup");
+            }
+        }
     }
 
 
+    @Override
     public int getInputState() {
             return inputState.get();
     }
 
+    @Override
     public int getProcessState() {
             return processState.get();
     }
 
+    @Override
     public int getOutputState() {
             return outputState.get();
     }
 
+    @Override
     public HashSet<StreamDataListenerInterface<F>> getSubscriberList() {
         return sourceDelegate.getListeners();
+    }
+
+    private StreamManager streamManager = null;
+    @Override
+    public void setManager(StreamManager sm) {
+        this.streamManager = sm;
     }
 }

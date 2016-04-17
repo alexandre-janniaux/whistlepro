@@ -14,7 +14,7 @@ public class streamWorker implements Runnable{
          c = (int) (Math.random() * 100);
     }
 
-    public StreamSimpleBase getStream() {
+    public manageableStream getStream() {
         return stream;
     }
 
@@ -29,10 +29,10 @@ public class streamWorker implements Runnable{
     }
 
     WorkTypes toDo = null;
-    StreamSimpleBase stream = null;
+    manageableStream stream = null;
     boolean valid = false;
 
-    void setUpWorker(StreamSimpleBase stream, WorkTypes toDo)
+    void setUpWorker(manageableStream stream, WorkTypes toDo)
     {
         valid = true;
         this.toDo = toDo;

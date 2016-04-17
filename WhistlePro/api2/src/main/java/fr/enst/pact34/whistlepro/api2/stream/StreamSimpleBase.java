@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamDataInterface<F>>
-        implements StreamDataListenerInterface<E>, StreamDataSourceInterface<F>
+        implements StreamDataListenerInterface<E>, StreamDataSourceInterface<F> , manageableStream<F>
 {
 
     private E bufferIn = null;
@@ -51,6 +51,7 @@ public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamD
 
     private int id;
     private boolean valid ;
+    @Override
     public final void process()
     {
         if (processState.get() != States.PROCESS_WAITING) {
@@ -82,6 +83,7 @@ public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamD
         //System.out.println("attente fin process");
     }
 
+    @Override
     public final void endProcess()
     {
         //System.out.println("Entre fin process");
@@ -102,6 +104,7 @@ public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamD
         //System.out.println("fin fin process");
     }
 
+    @Override
     public final void pushData()
     {
         //System.out.println("push data");
@@ -133,22 +136,35 @@ public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamD
 
         inputState.set(States.INPUT_BUSY);
         //System.out.println("new data in waiting process");
+        if(streamManager != null)
+        {
+            if(streamManager.isWorking()==false) streamManager.notifyWork();
+        }
     }
 
-
+    @Override
     public int getInputState() {
             return inputState.get();
     }
 
+    @Override
     public int getProcessState() {
             return processState.get();
     }
 
+    @Override
     public int getOutputState() {
             return outputState.get();
     }
 
+    @Override
     public HashSet<StreamDataListenerInterface<F>> getSubscriberList() {
         return sourceDelegate.getListeners();
+    }
+
+    private StreamManager streamManager = null;
+    @Override
+    public void setManager(StreamManager sm) {
+        this.streamManager = sm;
     }
 }

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 import fr.enst.pact34.whistlepro.api2.threading.ThreadPool;
 import fr.enst.pact34.whistlepro.api2.threading.Worker;
 
@@ -23,12 +24,12 @@ public class StreamManager extends ThreadPool {
         }
     }
 
-    List<StreamSimpleBase> streamsProcess = Collections.synchronizedList(new LinkedList<StreamSimpleBase>());
-    List<StreamSimpleBase> streamsInput   = Collections.synchronizedList(new LinkedList<StreamSimpleBase>());
-    List<StreamSimpleBase> streamsOutput  = Collections.synchronizedList(new LinkedList<StreamSimpleBase>());
+    List<manageableStream> streamsProcess = Collections.synchronizedList(new LinkedList<manageableStream>());
+    List<manageableStream> streamsInput   = Collections.synchronizedList(new LinkedList<manageableStream>());
+    List<manageableStream> streamsOutput  = Collections.synchronizedList(new LinkedList<manageableStream>());
     List<streamWorker> streamWorkers = Collections.synchronizedList(new LinkedList<streamWorker>());
 
-    public synchronized void addStream(StreamSimpleBase stream)
+    public synchronized void addStream(manageableStream stream)
     {
         //synchronized (streamsProcess) {
             streamsProcess.add(stream);
@@ -39,6 +40,7 @@ public class StreamManager extends ThreadPool {
         //synchronized (streamsOutput) {
             streamsOutput.add(stream);
         //}
+        stream.setManager(this);
     }
 
     @Override
@@ -93,12 +95,12 @@ public class StreamManager extends ThreadPool {
 
     private  void findInputWork( ) {
         //System.out.println("in work");
-        List<StreamSimpleBase> streams = streamsInput;
+        List<manageableStream> streams = streamsInput;
         //synchronized (streams) {
             for (int i = streams.size(); i > 0; i--) {
                 if(i-1 >= streams.size()) i = streams.size()-1;
                 if(i == -1) return;
-                StreamSimpleBase s = streams.get(i - 1);
+                manageableStream s = streams.get(i - 1);
                 if (streamWorkers.size() <= 0 || s == null) return;
 
                 if (s.getOutputState() == States.OUTPUT_BUSY) {
@@ -129,12 +131,12 @@ public class StreamManager extends ThreadPool {
 
     private  void findProcessWork() {
         //System.out.println("process work");
-        List<StreamSimpleBase> streams = streamsProcess;
+        List<manageableStream> streams = streamsProcess;
         //synchronized (streams) {
             for (int i = streams.size(); i > 0; i--) {
                 if(i-1 >= streams.size()) i = streams.size()-1;
                 if(i == -1) return;
-                StreamSimpleBase s = streams.get(i - 1);
+                manageableStream s = streams.get(i - 1);
                 if (streamWorkers.size() <= 0 || s == null) return;
                 if (s.getProcessState() == States.PROCESS_WAITING && s.getInputState() == States.INPUT_BUSY) {
                     // on passe les data du buffer in au process
@@ -151,12 +153,12 @@ public class StreamManager extends ThreadPool {
 
     private  void findOutputWork() {
         //System.out.println("output  work ");
-        List<StreamSimpleBase> streams = streamsOutput;
+        List<manageableStream> streams = streamsOutput;
         //synchronized (streams) {
             for (int i = streams.size(); i > 0; i--) {
                 if(i-1 >= streams.size()) i = streams.size()-1;
                 if(i == -1) return;
-                StreamSimpleBase s = streams.get(i - 1);
+                manageableStream s = streams.get(i - 1);
                 if (streamWorkers.size() <= 0 || s == null) return;
                 if (s.getProcessState() == States.PROCESS_DONE && s.getOutputState() == States.OUTPUT_WAITING) {
                     // on passe les data du process au buffer

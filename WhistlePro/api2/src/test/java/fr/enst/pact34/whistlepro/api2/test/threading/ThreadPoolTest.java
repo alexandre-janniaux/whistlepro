@@ -17,9 +17,9 @@ public class ThreadPoolTest {
     @Test
     public void threadPoolTest()
     {
-        System.out.println("thread id " + Thread.currentThread().getId());
-        ThreadPool threadPool = new ThreadPool(10);
-        int nbCalc = 1000;
+        //System.out.println("thread id " + Thread.currentThread().getId());
+        ThreadPool threadPool = new ThreadPool(100);
+        int nbCalc = 10000;
         final LinkedList<Long> res = new LinkedList<>();
 
         for (int i = 0; i < nbCalc; i++) {
@@ -67,10 +67,12 @@ public class ThreadPoolTest {
             }
 
         }
-
+/*
+        // displays number of works done by each thread
         for (Long id: ids.keySet()
              ) {
             System.out.println("Thread " + id + " has done " + ids.get(id) + " works.");
         }
+        */
     }
 }

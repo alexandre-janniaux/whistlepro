@@ -17,12 +17,12 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by mms on 16/04/16.
  */
-public class streamTest implements StreamDataListenerInterface<Signal> {
+public class streamManagerTest implements StreamDataListenerInterface<Signal> {
 
     @Test
-    public void streamTest() {
-        System.out.println("start");
-        final StreamManager threadPool = new StreamManager(10);
+    public void streamManagerTest() {
+        //System.out.println("start");
+        final StreamManager threadPool = new StreamManager(5);
 
         final StreamSimpleBase<Signal, Signal> copy1 = new StreamSimpleBase<>(
                 new Signal(), new Signal(), new FakeProcessCopy<Signal>()
@@ -69,8 +69,8 @@ public class streamTest implements StreamDataListenerInterface<Signal> {
                         while ( i < nbPush ) {
                             if(copy1.getInputState() == States.INPUT_WAITING) {
                                 copy1.fillBufferIn(signals.get(i));
-                                threadPool.notifyWork();
-                                System.out.println("pushed " + i);
+                                //threadPool.notifyWork();
+                                //System.out.println("pushed " + i);
                                 i++;
 
                             }
@@ -84,24 +84,20 @@ public class streamTest implements StreamDataListenerInterface<Signal> {
                 }
         );
         tmpThread.start();
-        threadPool.notifyWork();
+        //threadPool.notifyWork();
         //while (threadPool.isWorking() == false);
 
         while(ends.size() < nbPush){
-            while (threadPool.isWorking()
-                    )
-            //   || true)
+            while (threadPool.isWorking() )
             {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                threadPool.notifyWork();
-                if (threadPool.isWorking() == false)
-                    System.out.println(threadPool.isWorking());
+                //threadPool.notifyWork();
             }
-            threadPool.notifyWork();
+            //threadPool.notifyWork();
         }
 
         assertEquals(nbPush,ends.size());
@@ -126,7 +122,7 @@ public class streamTest implements StreamDataListenerInterface<Signal> {
         data.copyTo(s);
         //System.out.print("id recu " + String.valueOf(data.getId()));
         ends.put(String.valueOf(data.getId()),s);
-        System.out.println("end" + ++i);
+        //System.out.println("end" + ++i);
     }
 
     @Override
