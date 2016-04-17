@@ -12,9 +12,10 @@ public class ClassifResults implements StreamDataInterface<ClassifResults> {
     public void copyTo(ClassifResults classifResults) {
 
         classifResults.setNbRes(this.res.length);
-        System.arraycopy(this.res,0,classifResults.res,0,this.res.length);
+        System.arraycopy(this.res, 0, classifResults.res, 0, this.res.length);
         System.arraycopy(this.classes,0,classifResults.classes,0,this.classes.length);
         classifResults.id=this.id;
+        classifResults.valid=this.valid;
     }
 
     @Override
@@ -84,5 +85,17 @@ public class ClassifResults implements StreamDataInterface<ClassifResults> {
 
         }
         return reco;
+    }
+
+    boolean valid = true;
+
+    @Override
+    public boolean isValid() {
+        return valid;
+    }
+
+    @Override
+    public void setValid(boolean v) {
+        valid =v;
     }
 }

@@ -72,6 +72,7 @@ public class Signal implements SignalGetInterface,SignalSetInterface,StreamDataI
         arraycopy(this.datas, 0, signal.datas, 0, this.length);
 
         signal.id=this.id;
+        signal.valid=this.valid;
     }
 
     int id = -1;
@@ -90,5 +91,17 @@ public class Signal implements SignalGetInterface,SignalSetInterface,StreamDataI
         // TODO
         Signal s = new Signal();
         return s;
+    }
+
+    boolean valid = true;
+
+    @Override
+    public boolean isValid() {
+        return valid;
+    }
+
+    @Override
+    public void setValid(boolean v) {
+        valid =v;
     }
 }

@@ -43,13 +43,14 @@ public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamD
         sourceDelegate.subscribe(listener);
     }
 
-    int id;
 
     @Override
     public final void unsubscribe(StreamDataListenerInterface<F> listener) {
         sourceDelegate.unsubscribe(listener);
     }
 
+    private int id;
+    private boolean valid ;
     public final void process()
     {
         if (processState.get() != States.PROCESS_WAITING) {
@@ -63,14 +64,18 @@ public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamD
         }
         processState.set(States.PROCESS_BUSY);
 
+        //TODO timestamp ...
         id = bufferIn.getId();
-        bufferIn.copyTo(bufferInD);
+        valid = bufferIn.isValid();
 
+        if(valid) bufferIn.copyTo(bufferInD);
         inputState .set(States.INPUT_WAITING);
 
-
-        //TODO timestamp ...
-        processor.process(bufferInD, bufferOutD);
+        if(valid) {
+            bufferOutD.setValid(true);
+            processor.process(bufferInD, bufferOutD);
+            valid = bufferOutD.isValid();
+        }
 
         processState.set(States.PROCESS_DONE);
 
@@ -86,8 +91,9 @@ public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamD
             return;
         }
 
-        bufferOutD.copyTo(bufferOut);
+        if(valid)bufferOutD.copyTo(bufferOut);
         bufferOut.setId(id);
+        bufferOut.setValid(valid);
 
         outputState.set(States.OUTPUT_BUSY);
 

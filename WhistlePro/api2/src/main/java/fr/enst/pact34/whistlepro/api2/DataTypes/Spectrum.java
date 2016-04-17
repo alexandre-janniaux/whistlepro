@@ -53,6 +53,7 @@ public class Spectrum implements StreamDataInterface<Spectrum> {
         spectrum.fs=this.fs;
         spectrum.nbPtsSig=this.nbPtsSig;
         spectrum.id=this.id;
+        spectrum.valid=this.valid;
     }
 
     @Override
@@ -78,4 +79,16 @@ public class Spectrum implements StreamDataInterface<Spectrum> {
         this.id = id;
     }
 
+
+    boolean valid = true;
+
+    @Override
+    public boolean isValid() {
+        return valid;
+    }
+
+    @Override
+    public void setValid(boolean v) {
+        valid =v;
+    }
 }

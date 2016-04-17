@@ -11,6 +11,7 @@ public class Frequency implements StreamDataInterface<Frequency> {
     public void copyTo(Frequency o) {
 
         o.id = this.id;
+        o.valid=this.valid;
     }
 
     @Override
@@ -28,5 +29,18 @@ public class Frequency implements StreamDataInterface<Frequency> {
     @Override
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    boolean valid = true;
+
+    @Override
+    public boolean isValid() {
+        return valid;
+    }
+
+    @Override
+    public void setValid(boolean v) {
+        valid =v;
     }
 }

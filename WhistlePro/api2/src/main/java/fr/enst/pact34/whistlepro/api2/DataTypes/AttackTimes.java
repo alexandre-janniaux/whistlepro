@@ -10,6 +10,7 @@ public class AttackTimes implements StreamDataInterface<AttackTimes> {
     public void copyTo(AttackTimes attaqueTimes) {
 
         attaqueTimes.id=this.id;
+        attaqueTimes.valid=this.valid;
     }
 
     @Override
@@ -30,4 +31,16 @@ public class AttackTimes implements StreamDataInterface<AttackTimes> {
         this.id = id;
     }
 
+
+    boolean valid = true;
+
+    @Override
+    public boolean isValid() {
+        return valid;
+    }
+
+    @Override
+    public void setValid(boolean v) {
+        valid =v;
+    }
 }
