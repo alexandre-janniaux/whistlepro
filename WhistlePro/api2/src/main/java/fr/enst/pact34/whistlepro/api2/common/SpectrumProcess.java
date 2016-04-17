@@ -9,12 +9,14 @@ import fr.enst.pact34.whistlepro.api2.stream.StreamProcessInterface;
  */
 public class SpectrumProcess implements StreamProcessInterface<Signal,Spectrum> {
 
+    transformers fftCalc = new transformers();
+
     @Override
     public void process(Signal inputData, Spectrum outputData) {
 
         outputData.setFs(inputData.getSamplingFrequency());
 
-        transformers.fft(inputData,outputData);
+        fftCalc.fft(inputData,outputData);
 
     }
 }

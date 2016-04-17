@@ -15,25 +15,29 @@ import static java.lang.StrictMath.round;
  */
 public class transformers {
 
-    public static void fft(SignalGetInterface sig, Spectrum fft) {
+    double[] fft_c= new double[1],fft_s= new double[1] ;
+    public void fft(SignalGetInterface sig, Spectrum fft) {
         int N = sig.length();
 
-        // TODO avoid using new
 
-        double fft_c[] = new double[N];
-        double fft_s[] = new double[N];
-
-        fft.setLength((int) ceil((N+1)/2));
+        fft.setLength((int) ceil((N + 1) / 2));
         fft.setNbPtsSig(N);
 
-        for (int k = 0; k < fft.length(); k++) {
+        int fftLen = fft.length();
+
+        // TODO avoid using new (almost done)
+        if(fft_c.length < fftLen) fft_c = new double[fftLen];
+        if(fft_s.length < fftLen) fft_s = new double[fftLen];
+
+        double cste = -2.0 * Math.PI / N;
+        for (int k = 0; k < fftLen; k++) {
             fft_c[k] = 0;
             fft_s[k] = 0;
-
+            double tmp = cste * k;
             for (int j = 0; j < N; j++) {
-                double tmp = -2.0 * (Math.PI * j * k) / N;
-                fft_c[k] = fft_c[k] + sig.getValue(j) * Math.cos(tmp);
-                fft_s[k] = fft_s[k] + sig.getValue(j) * Math.sin(tmp);
+                double tmp2 = tmp * j; //-2.0 * (Math.PI * j * k) / N;
+                fft_c[k] = fft_c[k] + sig.getValue(j) * Math.cos(tmp2);
+                fft_s[k] = fft_s[k] + sig.getValue(j) * Math.sin(tmp2);
             }
         }
 

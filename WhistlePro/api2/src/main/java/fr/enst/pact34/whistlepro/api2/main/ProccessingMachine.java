@@ -27,10 +27,10 @@ public class ProccessingMachine {
     //Acquisition filled by constructor
     private StreamSourceInput<double[]> source = null;
 
-    private int nbSample;
+    private int nbSample; //TODO fill values
     private double Fs;
     //split stream
-    private StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess = new SplitterProcess(nbSample, Fs); //new FakeProcessCopy<>(); //TODO put real process
+    private StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess = new SplitterProcess(nbSample, Fs);
     private StreamInputWraper<double[], Signal> splitterStream = new StreamInputWraper<>(new Signal(), splitterProcess);
 
     //power filter
