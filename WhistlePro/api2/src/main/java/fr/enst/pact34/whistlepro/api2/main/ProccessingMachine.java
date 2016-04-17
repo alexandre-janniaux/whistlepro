@@ -1,6 +1,11 @@
 package fr.enst.pact34.whistlepro.api2.main;
 
+import java.util.LinkedList;
+
+import fr.enst.pact34.whistlepro.api2.classification.ClassifProcess;
+import fr.enst.pact34.whistlepro.api2.classification.MultipleStrongClassifiers;
 import fr.enst.pact34.whistlepro.api2.common.SpectrumProcess;
+import fr.enst.pact34.whistlepro.api2.common.SplitterProcess;
 import fr.enst.pact34.whistlepro.api2.dataTypes.*;
 import fr.enst.pact34.whistlepro.api2.features.MfccProcess;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeCorrection;
@@ -20,11 +25,13 @@ public class ProccessingMachine {
     //TODO initialisations
 
     //Acquisition filled by constructor
-    private StreamSourceBase<Signal> source = null;
+    private StreamSourceInput<double[]> source = null;
 
+    private int nbSample;
+    private double Fs;
     //split stream
-    private StreamProcessInterface<Signal,Signal> splitterProcess = new FakeProcessCopy<>(); //TODO put real process
-    private StreamSimpleBase<Signal, Signal> splitterStream = new StreamSimpleBase<>(new Signal(),new Signal(), splitterProcess);
+    private StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess = new SplitterProcess(nbSample, Fs); //new FakeProcessCopy<>(); //TODO put real process
+    private StreamInputWraper<double[], Signal> splitterStream = new StreamInputWraper<>(new Signal(), splitterProcess);
 
     //power filter
     private StreamProcessInterface<Signal,Signal> powFilterProcess = new FakeProcessCopy<>(); //TODO put real process
@@ -49,7 +56,9 @@ public class ProccessingMachine {
 
 
     //classif
-    private StreamProcessInterface<Signal, ClassifResults> classifProcess = new FakeProcessOutValue<>(new ClassifResults()); //TODO put real process
+    //TODO find a way to initialise from string
+    private MultipleStrongClassifiers classifier = new MultipleStrongClassifiers.Builder().fromString("").build();
+    private StreamProcessInterface<Signal, ClassifResults> classifProcess = new ClassifProcess(classifier);
     private StreamSimpleBase<Signal, ClassifResults> classifStream = new StreamSimpleBase<>(new Signal(),new ClassifResults(), classifProcess);
 
 
@@ -65,7 +74,7 @@ public class ProccessingMachine {
     //correction module
     private CorrectionBase correctionBase = new FakeCorrection();
 
-    public ProccessingMachine(StreamSourceBase<Signal> audioSignalSource) {
+    public ProccessingMachine(StreamSourceInput<double[]> audioSignalSource) {
 
         this.source = audioSignalSource;                            //           Audio
                                                                     //            ||
