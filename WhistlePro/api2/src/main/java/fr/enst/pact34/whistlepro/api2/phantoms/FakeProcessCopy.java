@@ -10,7 +10,7 @@ public class FakeProcessCopy<E extends StreamDataInterface> implements StreamPro
     int c = (int) (Math.random()*100);
     @Override
     public void process(E inputData, E outputData) {
-        System.out.println("=>"+c+" copy");
+        //System.out.println("=>"+c+" copy" + " id "+inputData.getId());
         inputData.copyTo(outputData);
     }
 }

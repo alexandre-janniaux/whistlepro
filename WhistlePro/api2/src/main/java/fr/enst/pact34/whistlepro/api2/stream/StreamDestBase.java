@@ -27,7 +27,7 @@ public class StreamDestBase<E extends StreamDataInterface<E>> implements StreamD
     }
 
     @Override
-    public States getInputState() {
+    public int getInputState() {
         return States.INPUT_WAITING;
     }
 }

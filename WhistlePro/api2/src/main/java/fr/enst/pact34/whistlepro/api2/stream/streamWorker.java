@@ -46,22 +46,22 @@ public class streamWorker implements Runnable{
             return;
         }
 
-        System.out.print(Thread.currentThread().getId() + ", "+c+" : " );
+        //System.out.print(Thread.currentThread().getId() + ", "+c+" : " );
 
         switch (toDo)
         {
             case PROCESS:
-                System.out.println("process");
+                //System.out.println("process");
                 stream.process();
                 break;
 
             case FILL_OUTPUT:
-                System.out.println("out");
+                //System.out.println("out");
                 stream.endProcess();
                 break;
 
             case PUSH:
-                System.out.println("push");
+                //System.out.println("push");
                 stream.pushData();
                 break;
 

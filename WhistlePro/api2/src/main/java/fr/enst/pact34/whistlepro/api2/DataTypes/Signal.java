@@ -54,8 +54,20 @@ public class Signal implements SignalGetInterface,SignalSetInterface,StreamDataI
 
         signal.setLength(this.length);
 
-        arraycopy(this.datas, 0, signal.datas, 0,this.length );
+        arraycopy(this.datas, 0, signal.datas, 0, this.length);
 
+        signal.id=this.id;
+    }
+
+    int id = -1;
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

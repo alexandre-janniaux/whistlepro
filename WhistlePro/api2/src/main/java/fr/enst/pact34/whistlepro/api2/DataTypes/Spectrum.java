@@ -52,6 +52,7 @@ public class Spectrum implements StreamDataInterface<Spectrum> {
         spectrum.values = Arrays.copyOf(this.values,this.values.length);
         spectrum.fs=this.fs;
         spectrum.nbPtsSig=this.nbPtsSig;
+        spectrum.id=this.id;
     }
 
     @Override
@@ -64,4 +65,17 @@ public class Spectrum implements StreamDataInterface<Spectrum> {
     public double getValue(int i) {
         return values[i];
     }
+
+
+    int id = -1;
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

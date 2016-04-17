@@ -17,12 +17,13 @@ public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamD
     private StreamSourceBase<F> sourceDelegate = null;
 
 
-    private States inputState = States.INPUT_WAITING;
 
-    //private AtomicInteger processState = new AtomicInteger(States.PROCESS_WAITING);
-    //private AtomicInteger outputState = new AtomicInteger(States.OUTPUT_WAITING);
-    private States processState = States.PROCESS_WAITING;
-    private States outputState = States.OUTPUT_WAITING;
+    private AtomicInteger inputState = new AtomicInteger(States.INPUT_WAITING);
+    private AtomicInteger processState = new AtomicInteger(States.PROCESS_WAITING);
+    private AtomicInteger outputState = new AtomicInteger(States.OUTPUT_WAITING);
+    //private States inputState = States.INPUT_WAITING;
+    //private States processState = States.PROCESS_WAITING;
+    //private States outputState = States.OUTPUT_WAITING;
 
 
     public StreamSimpleBase(E bufferIn, F bufferOut, StreamProcessInterface<E, F> processor) {
@@ -42,6 +43,8 @@ public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamD
         sourceDelegate.subscribe(listener);
     }
 
+    int id;
+
     @Override
     public final void unsubscribe(StreamDataListenerInterface<F> listener) {
         sourceDelegate.unsubscribe(listener);
@@ -49,77 +52,94 @@ public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamD
 
     public final void process()
     {
+        if (processState.get() != States.PROCESS_WAITING) {
+            //throw new RuntimeException("process wasn't waiting");
+            return;
+        }
+        //System.out.println("Entre process");
+        if (inputState.get() != States.INPUT_BUSY) {
+            //throw new RuntimeException("data were not ready for the process");
+            return;
+        }
+        processState.set(States.PROCESS_BUSY);
 
-            if (processState != States.PROCESS_WAITING) {
-                throw new RuntimeException("process wasn't waiting");
-            }
-            processState = States.PROCESS_BUSY;
-
-
-            if (inputState != States.INPUT_BUSY) {
-                throw new RuntimeException("data were not ready for the process");
-            }
-
+        id = bufferIn.getId();
         bufferIn.copyTo(bufferInD);
 
-            inputState = States.INPUT_WAITING;
+        inputState .set(States.INPUT_WAITING);
 
-        // TODO add stream treatment (timestamping ...)
+
+        //TODO timestamp ...
         processor.process(bufferInD, bufferOutD);
 
-            processState = States.PROCESS_DONE;
+        processState.set(States.PROCESS_DONE);
 
-
-
+        //System.out.println("attente fin process");
     }
 
     public final void endProcess()
     {
-
-            if (outputState == States.OUTPUT_BUSY) {
-                throw new RuntimeException("output was not ready to get data from process");
-            }
+        //System.out.println("Entre fin process");
+        //System.out.println("ending "+id);
+        if (outputState.get() == States.OUTPUT_BUSY) {
+            //throw new RuntimeException("output was not ready to get data from process");
+            return;
+        }
 
         bufferOutD.copyTo(bufferOut);
+        bufferOut.setId(id);
 
-            outputState = States.OUTPUT_BUSY;
-            processState = States.PROCESS_WAITING;
+        outputState.set(States.OUTPUT_BUSY);
+
+        processState.set(States.PROCESS_WAITING);
+
+        //System.out.println("fin fin process");
     }
 
     public final void pushData()
     {
+        //System.out.println("push data");
 
-            if (outputState != States.OUTPUT_BUSY) {
-                throw new RuntimeException("data were not ready to be pushed");
-            }
+        if (outputState.get() != States.OUTPUT_BUSY) {
+            //throw new RuntimeException("data were not ready to be pushed");
+            return;
+        }
+
         //synchronized internally
         sourceDelegate.pushData();
-            outputState = States.OUTPUT_WAITING;
+
+        outputState.set( States.OUTPUT_WAITING);
+
+        //System.out.println("waiting new data");
     }
 
     @Override
     public final void fillBufferIn(E data) {
+        //System.out.println("new data in ");
 
-            if (inputState == States.INPUT_BUSY) {
-                throw new RuntimeException("Buffer was busy");
-            }
-            //synchronized internally
-            receiverDelegate.fillBufferIn(data);
+        if (inputState.get() == States.INPUT_BUSY) {
+            //throw new RuntimeException("Buffer was busy");
+            return;
+        }
 
-            inputState = States.INPUT_BUSY;
+        //synchronized internally
+        receiverDelegate.fillBufferIn(data);
+
+        inputState.set(States.INPUT_BUSY);
+        //System.out.println("new data in waiting process");
     }
 
 
-    public States getInputState() {
-            return inputState;
+    public int getInputState() {
+            return inputState.get();
     }
 
-    public States getProcessState() {
-            return processState;
+    public int getProcessState() {
+            return processState.get();
     }
 
-    public States getOutputState() {
-            return outputState;
+    public int getOutputState() {
+            return outputState.get();
     }
 
     public HashSet<StreamDataListenerInterface<F>> getSubscriberList() {

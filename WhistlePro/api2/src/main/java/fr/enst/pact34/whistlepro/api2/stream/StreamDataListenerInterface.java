@@ -4,5 +4,5 @@ public interface StreamDataListenerInterface<E> {
 
     void fillBufferIn(E data);
 
-    States getInputState();
+    int getInputState();
 }

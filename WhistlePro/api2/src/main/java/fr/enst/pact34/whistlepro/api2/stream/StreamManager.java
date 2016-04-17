@@ -71,7 +71,7 @@ public class StreamManager extends ThreadPool {
 
     public boolean isWorking()
     {
-        return (worksToDoCount() > 0);
+        return (worksToDoCount() > 0) ;
     }
 
     public void notifyWork()
@@ -79,20 +79,28 @@ public class StreamManager extends ThreadPool {
         findWork();
     }
 
+    boolean searchingWork = false;
     private void findWork()
     {
-        findOutputWork();
+        if(searchingWork == true) return;
+        searchingWork =true;
         findProcessWork();
+        findOutputWork();
         findInputWork();
+        searchingWork =false;
     }
 
 
     private  void findInputWork( ) {
+        //System.out.println("in work");
         List<StreamSimpleBase> streams = streamsInput;
         //synchronized (streams) {
             for (int i = streams.size(); i > 0; i--) {
+                if(i-1 >= streams.size()) i = streams.size()-1;
+                if(i == -1) return;
                 StreamSimpleBase s = streams.get(i - 1);
-                if (streamWorkers.size() <= 0) break;
+                if (streamWorkers.size() <= 0 || s == null) return;
+
                 if (s.getOutputState() == States.OUTPUT_BUSY) {
                     // on push si on peut
                     HashSet<StreamDataListenerInterface> sub = s.getSubscriberList();
@@ -107,48 +115,60 @@ public class StreamManager extends ThreadPool {
                     }
 
                     if (ok) {
+                        if (streamWorkers.size() <= 0) return;
                         streamWorker r = streamWorkers.remove(0);
                         r.setUpWorker(s, streamWorker.WorkTypes.PUSH);
                         addWorkToDo(r);
-                        streamsOutput.remove(s);
+                        streams.remove(s);
                     }
                 }
             }
         //}
+        //System.out.println("in work end");
     }
 
     private  void findProcessWork() {
+        //System.out.println("process work");
         List<StreamSimpleBase> streams = streamsProcess;
         //synchronized (streams) {
             for (int i = streams.size(); i > 0; i--) {
+                if(i-1 >= streams.size()) i = streams.size()-1;
+                if(i == -1) return;
                 StreamSimpleBase s = streams.get(i - 1);
-                if (streamWorkers.size() <= 0) break;
+                if (streamWorkers.size() <= 0 || s == null) return;
                 if (s.getProcessState() == States.PROCESS_WAITING && s.getInputState() == States.INPUT_BUSY) {
                     // on passe les data du buffer in au process
+                    if (streamWorkers.size() <= 0) return;
                     streamWorker r = streamWorkers.remove(0);
                     r.setUpWorker(s, streamWorker.WorkTypes.PROCESS);
                     addWorkToDo(r);
-                    streamsOutput.remove(s);
+                    streams.remove(s);
                 }
             }
         //}
+        //System.out.println("process work end");
     }
 
     private  void findOutputWork() {
+        //System.out.println("output  work ");
         List<StreamSimpleBase> streams = streamsOutput;
         //synchronized (streams) {
             for (int i = streams.size(); i > 0; i--) {
+                if(i-1 >= streams.size()) i = streams.size()-1;
+                if(i == -1) return;
                 StreamSimpleBase s = streams.get(i - 1);
-                if (streamWorkers.size() <= 0) break;
+                if (streamWorkers.size() <= 0 || s == null) return;
                 if (s.getProcessState() == States.PROCESS_DONE && s.getOutputState() == States.OUTPUT_WAITING) {
                     // on passe les data du process au buffer
+                    if (streamWorkers.size() <= 0) break;
                     streamWorker r = streamWorkers.remove(0);
                     r.setUpWorker(s, streamWorker.WorkTypes.FILL_OUTPUT);
                     addWorkToDo(r);
-                    streamsOutput.remove(s);
+                    streams.remove(s);
                 }
             }
         //}
+        //System.out.println("output  work end");
     }
 
 }

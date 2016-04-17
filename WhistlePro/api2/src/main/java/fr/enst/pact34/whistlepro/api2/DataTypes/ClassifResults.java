@@ -9,6 +9,7 @@ public class ClassifResults implements StreamDataInterface<ClassifResults> {
     @Override
     public void copyTo(ClassifResults classifResults) {
 
+        classifResults.id=this.id;
     }
 
     @Override
@@ -16,4 +17,16 @@ public class ClassifResults implements StreamDataInterface<ClassifResults> {
         //TODO
         return null;
     }
+
+    int id = -1;
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

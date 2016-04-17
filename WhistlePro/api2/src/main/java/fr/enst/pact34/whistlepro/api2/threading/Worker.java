@@ -20,7 +20,7 @@ public class Worker {
 
     public synchronized void addWork(Runnable runnable)
     {
-        if(isWorking) return;
+        if(isWorking ) return;
         toDo = runnable;
         isWorking = true;
         synchronized (thread) {
@@ -31,20 +31,30 @@ public class Worker {
     private Thread thread = new Thread(new Runnable() {
         @Override
         public void run() {
-            while(true) {
-                if(toDo==null) {
-                    isWorking = false;
-                    try {
-                        synchronized (thread) {
-                            thread.wait();
+            //while(true) {
+            //    try {
+                    while (true) {
+                        if (toDo == null) {
+                            try {
+                                synchronized (thread) {
+                                    isWorking = false;
+                                    thread.wait();
+                                }
+                                //Thread.sleep(1);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        if (toDo != null) {
+                            toDo.run();
+                            toDo = manager.done(thisWorker, toDo);
+                        }
                     }
-                }
-                toDo.run();
-                toDo = manager.done(thisWorker,toDo);
-            }
+
+            //    } catch (RuntimeException e) {
+            //        System.out.print("Run error threadpool");
+            //    }
+            //}
         }
     });
 

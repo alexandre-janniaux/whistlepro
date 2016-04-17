@@ -26,7 +26,7 @@ public class ThreadPool implements WorkerManagerI {
     }
 
     @Override
-    public Runnable done(Worker w, Runnable r) {
+    public synchronized Runnable done(Worker w, Runnable r) {
         if(worksToDo.isEmpty()) return null;
         return worksToDo.remove(0);
     }

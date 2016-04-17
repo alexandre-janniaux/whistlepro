@@ -5,5 +5,7 @@ package  fr.enst.pact34.whistlepro.api2.stream;
  */
 public interface StreamDataInterface<E> {
     void copyTo(E e);
+    int getId();
+    void setId(int id);
     E getNew();
 }

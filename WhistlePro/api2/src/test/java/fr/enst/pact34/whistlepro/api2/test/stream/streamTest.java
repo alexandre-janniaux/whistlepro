@@ -3,7 +3,7 @@ package fr.enst.pact34.whistlepro.api2.test.stream;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Hashtable;
 
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessCopy;
@@ -20,24 +20,24 @@ import static org.junit.Assert.assertEquals;
 public class streamTest implements StreamDataListenerInterface<Signal> {
 
     @Test
-    public void streamTest()
-    {
-        final StreamManager threadPool = new StreamManager(2);
+    public void streamTest() {
+        System.out.println("start");
+        final StreamManager threadPool = new StreamManager(100);
 
-        final StreamSimpleBase<Signal,Signal> copy1 = new StreamSimpleBase<>(
-                new Signal(),new Signal(), new FakeProcessCopy<Signal>()
+        final StreamSimpleBase<Signal, Signal> copy1 = new StreamSimpleBase<>(
+                new Signal(), new Signal(), new FakeProcessCopy<Signal>()
         );
 
-        StreamSimpleBase<Signal,Signal> copy2 = new StreamSimpleBase<>(
-                new Signal(),new Signal(), new FakeProcessCopy<Signal>()
+        StreamSimpleBase<Signal, Signal> copy2 = new StreamSimpleBase<>(
+                new Signal(), new Signal(), new FakeProcessCopy<Signal>()
         );
         copy1.subscribe(copy2);
-        StreamSimpleBase<Signal,Signal> copy3 = new StreamSimpleBase<>(
-                new Signal(),new Signal(), new FakeProcessCopy<Signal>()
+        StreamSimpleBase<Signal, Signal> copy3 = new StreamSimpleBase<>(
+                new Signal(), new Signal(), new FakeProcessCopy<Signal>()
         );
         copy2.subscribe(copy3);
-        StreamSimpleBase<Signal,Signal> copy4 = new StreamSimpleBase<>(
-                new Signal(),new Signal(), new FakeProcessCopy<Signal>()
+        StreamSimpleBase<Signal, Signal> copy4 = new StreamSimpleBase<>(
+                new Signal(), new Signal(), new FakeProcessCopy<Signal>()
         );
         copy3.subscribe(copy4);
 
@@ -48,15 +48,16 @@ public class streamTest implements StreamDataListenerInterface<Signal> {
         threadPool.addStream(copy3);
         threadPool.addStream(copy4);
 
-        final int nbPush = 10;
+        final int nbPush = 500;
 
         final ArrayList<Signal> signals = new ArrayList<>();
         signals.ensureCapacity(nbPush);
 
         for (int i = 0; i < nbPush; i++) {
-            Signal s =new Signal();
+            Signal s = new Signal();
             s.setLength(1);
-            s.setValue(0,Math.random());
+            s.setValue(0, Math.random());
+            s.setId(i);
             signals.add(s);
         }
 
@@ -64,25 +65,41 @@ public class streamTest implements StreamDataListenerInterface<Signal> {
                 new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < nbPush; i++) {
-                            while(copy1.getInputState() != States.INPUT_WAITING);
-                            copy1.fillBufferIn(signals.get(i));
-                            System.out.println("pushed");
-                            threadPool.notifyWork();
+                        int i = 0;
+                        while ( i < nbPush ) {
+                            if(copy1.getInputState() == States.INPUT_WAITING) {
+                                copy1.fillBufferIn(signals.get(i));
+                                threadPool.notifyWork();
+                                System.out.println("pushed " + i);
+                                i++;
 
+                            }
+                            try {
+                                Thread.sleep(20);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
         );
         tmpThread.start();
         threadPool.notifyWork();
+        //while (threadPool.isWorking() == false);
 
-        while(threadPool.isWorking() || true)
-        {
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        while(ends.size() < nbPush){
+            while (threadPool.isWorking()
+                    )
+            //   || true)
+            {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                threadPool.notifyWork();
+                if (threadPool.isWorking() == false)
+                    System.out.println(threadPool.isWorking());
             }
             threadPool.notifyWork();
         }
@@ -90,20 +107,30 @@ public class streamTest implements StreamDataListenerInterface<Signal> {
         assertEquals(nbPush,ends.size());
 
         for (int i = 0; i < nbPush; i++) {
-            assertEquals(signals.get(i),ends.get((i+1)%nbPush));
+            Signal ref = signals.get(i) ;
+            Signal comp = ends.get(String.valueOf(ref.getId()));
+            assertEquals(ref.length(), comp.length());
+
+            for (int j = 0; j < ref.length(); j++) {
+                assertEquals(ref.getValue(j),comp.getValue(j),Double.MIN_VALUE);
+            }
         }
 
     }
 
-    LinkedList<Signal> ends = new LinkedList<>();
+    Hashtable<String,Signal> ends = new Hashtable<>();
+    int i =0;
     @Override
     public synchronized void fillBufferIn(Signal data) {
-        ends.add(data);
-        System.out.print("er");
+        Signal s = new Signal();
+        data.copyTo(s);
+        //System.out.print("id recu " + String.valueOf(data.getId()));
+        ends.put(String.valueOf(data.getId()),s);
+        System.out.println("end" + ++i);
     }
 
     @Override
-    public States getInputState() {
+    public synchronized int getInputState() {
         return States.INPUT_WAITING;
     }
 }
