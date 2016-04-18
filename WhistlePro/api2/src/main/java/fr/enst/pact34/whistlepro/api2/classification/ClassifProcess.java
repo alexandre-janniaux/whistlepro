@@ -26,7 +26,7 @@ public class ClassifProcess implements StreamProcessInterface<Signal, ClassifRes
 
         @Override
         public int countFeatures() {
-            return 13; //TODO ne pas noter en dur
+            return 39; //TODO ne pas noter en dur
         }
     }
 
