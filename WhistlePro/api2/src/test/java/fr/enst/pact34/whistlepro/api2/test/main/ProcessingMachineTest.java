@@ -4,8 +4,7 @@ import org.junit.Test;
 
 import fr.enst.pact34.whistlepro.api2.common.FileOperator;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
-import fr.enst.pact34.whistlepro.api2.main.ProccessingMachine;
-import fr.enst.pact34.whistlepro.api2.stream.StreamSourceInput;
+import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
 import fr.enst.pact34.whistlepro.api2.test.utils.TestUtils;
 
 import static org.junit.Assert.assertTrue;
@@ -31,7 +30,7 @@ public class ProcessingMachineTest {
         bufferToSend = new double[inputData.length()];
         inputData.fillArray(bufferToSend);
 
-        ProccessingMachine pm = new ProccessingMachine(bufferToSend.length,44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"));
+        ProcessingMachine pm = new ProcessingMachine(bufferToSend.length,44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),2);
 
 
         pm.pushData(bufferToSend);

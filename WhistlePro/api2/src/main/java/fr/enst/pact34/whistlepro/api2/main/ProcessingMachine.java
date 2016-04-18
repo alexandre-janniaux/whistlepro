@@ -20,11 +20,8 @@ import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
 /**
  * Created by mms on 15/03/16.
  */
-public class ProccessingMachine implements DoubleDataListener {
+public class ProcessingMachine implements DoubleDataListener {
     private static final double TIME_ANALYSE = 0.020;
-
-
-    //TODO initialisations
 
     //Acquisition filled by constructor
     //private StreamSourceInput<double[]> source = null;
@@ -56,7 +53,6 @@ public class ProccessingMachine implements DoubleDataListener {
 
 
     //classif
-    //TODO find a way to initialise from string
     private MultipleStrongClassifiers classifier ;
     private StreamProcessInterface<Signal, ClassifResults> classifProcess ;
     private StreamSimpleBase<Signal, ClassifResults> classifStream ;
@@ -75,11 +71,12 @@ public class ProccessingMachine implements DoubleDataListener {
     private CorrectionBase correctionBase ;
 
     //threadpool
-    StreamManager streamMaster = new StreamManager(1);
+    StreamManager streamMaster  ;
 
-    public ProccessingMachine(int dataPushedSize, double Fs, String classifierData) {
+    public ProcessingMachine(int dataPushedSize, double Fs, String classifierData, int nbThread) {
 
         //initialisations
+        streamMaster = new StreamManager(nbThread);
 
         //this.source = new StreamSourceInput<>(new double[dataPushedSize]);
 
@@ -197,4 +194,6 @@ public class ProccessingMachine implements DoubleDataListener {
         splitterStream.fillBufferIn(data.clone());
         //TODO use memory pool
     }
+
+
 }
