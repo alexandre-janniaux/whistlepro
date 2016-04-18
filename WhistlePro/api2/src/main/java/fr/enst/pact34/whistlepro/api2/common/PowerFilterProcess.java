@@ -19,11 +19,11 @@ public class PowerFilterProcess implements StreamProcessInterface<Signal,Signal>
         for(int i = 0; i < inputData.length(); i++)
         {
             tmp = Math.abs(inputData.getValue(i));
-            sum+= tmp*tmp;
+            sum+=tmp;
             if(tmp>max_audio) max_audio = tmp;
         }
 
-        if(max_audio==0 || sum/inputData.length()<max_audio*0.125) {
+        if( (max_audio > 0 && sum/inputData.length()<max_audio*0.125) || sum == 0) {
             outputData.setValid(false);
         }
         else

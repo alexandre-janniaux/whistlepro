@@ -8,6 +8,8 @@ import fr.enst.pact34.whistlepro.api2.main.ProccessingMachine;
 import fr.enst.pact34.whistlepro.api2.stream.StreamSourceInput;
 import fr.enst.pact34.whistlepro.api2.test.utils.TestUtils;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * Created by mms on 17/04/16.
  */
@@ -43,6 +45,8 @@ public class ProcessingMachineTest extends StreamSourceInput<double[]> {
                 e.printStackTrace();
             }
         }
+
+        assertTrue(pm.transcriptionEnded());
 //*/
     }
 }
