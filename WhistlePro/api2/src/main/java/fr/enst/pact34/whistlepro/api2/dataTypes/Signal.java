@@ -24,8 +24,7 @@ public class Signal implements SignalGetInterface,SignalSetInterface,StreamDataI
 
     public void fromArray(double[] d, int start, int len)
     {
-        setLength(len);
-        arraycopy(d, 0, this.datas, start, len);
+        arraycopy(d, 0, this.datas, start, (start+len<this.datas.length)?len:(this.datas.length-start));
     }
 
     @Override
