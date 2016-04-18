@@ -9,7 +9,7 @@ public class SyntheseFM {
 		double[] phi = new double[length];
 		double[] x = new double[length];
 		
-		for (int n = 0; n<length; n++) {	//calcul de la sommu cumul�e de phi
+		for (int n = 0; n<length; n++) {	//calcul de la somme cumul�e de phi
 			double fCumul = 0;
 			
 			for (int k = 0; k<n; k++) {		//calcul de la somme sur f
