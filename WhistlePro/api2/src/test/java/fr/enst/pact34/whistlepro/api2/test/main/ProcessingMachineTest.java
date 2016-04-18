@@ -36,11 +36,11 @@ public class ProcessingMachineTest extends StreamSourceInput<double[]> {
 
         pushData();
 
-        while(pm.transcriptionEnded()==false)
-        {
+
+        for (int i = 0; i < 10 && pm.transcriptionEnded()==false ; i++) {
 
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

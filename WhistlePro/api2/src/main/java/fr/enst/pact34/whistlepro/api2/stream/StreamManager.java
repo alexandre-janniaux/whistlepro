@@ -5,8 +5,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
-import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
+
 import fr.enst.pact34.whistlepro.api2.threading.ThreadPool;
 import fr.enst.pact34.whistlepro.api2.threading.Worker;
 
@@ -16,6 +17,7 @@ import fr.enst.pact34.whistlepro.api2.threading.Worker;
 public class StreamManager extends ThreadPool {
 
     private final int streamWorkersSize ;
+
     public StreamManager(int nbThread) {
         super(nbThread);
         streamWorkersSize = nbThread*10;
@@ -67,13 +69,15 @@ public class StreamManager extends ThreadPool {
                 break;
         }
         streamWorkers.add(worker);
+        worksToDo.decrementAndGet();
         findWork();
+
         return super.done(w, r);
     }
 
     public boolean isWorking()
     {
-        return (worksToDoCount() > 0) ;
+        return (worksToDo.get() > 0) ;
     }
 
     public void notifyWork()
@@ -81,7 +85,10 @@ public class StreamManager extends ThreadPool {
         findWork();
     }
 
-    boolean searchingWork = false;
+    private boolean searchingWork = false;
+
+    private AtomicLong worksToDo = new AtomicLong(0);
+
     private void findWork()
     {
         if(searchingWork == true) return;
@@ -90,6 +97,7 @@ public class StreamManager extends ThreadPool {
         findOutputWork();
         findInputWork();
         searchingWork =false;
+
     }
 
 
@@ -122,6 +130,7 @@ public class StreamManager extends ThreadPool {
                         r.setUpWorker(s, streamWorker.WorkTypes.PUSH);
                         addWorkToDo(r);
                         streams.remove(s);
+                        worksToDo.incrementAndGet();
                     }
                 }
             }
@@ -145,6 +154,7 @@ public class StreamManager extends ThreadPool {
                     r.setUpWorker(s, streamWorker.WorkTypes.PROCESS);
                     addWorkToDo(r);
                     streams.remove(s);
+                    worksToDo.incrementAndGet();
                 }
             }
         //}
@@ -167,6 +177,7 @@ public class StreamManager extends ThreadPool {
                     r.setUpWorker(s, streamWorker.WorkTypes.FILL_OUTPUT);
                     addWorkToDo(r);
                     streams.remove(s);
+                    worksToDo.incrementAndGet();
                 }
             }
         //}

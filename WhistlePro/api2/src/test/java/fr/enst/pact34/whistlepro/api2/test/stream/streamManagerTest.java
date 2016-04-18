@@ -87,6 +87,10 @@ public class streamManagerTest implements StreamDataListenerInterface<Signal> {
         //threadPool.notifyWork();
         //while (threadPool.isWorking() == false);
 
+
+        while (threadPool.isWorking()){ try{ Thread.sleep(200);}catch (Exception e){}};
+
+
         while(ends.size() < nbPush){
             while (threadPool.isWorking() )
             {

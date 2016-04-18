@@ -25,9 +25,10 @@ public class MfccProcessTest {
         Signal outputData = new Signal();
         Signal outputDataRef = TestUtils.createSignalFromFile(outputDataFile);
 
+        MfccProcess mfccProcess = new MfccProcess();
         // test setup
         TestBuilder<Spectrum,Signal> test = new TestBuilder<>(inputData,outputData,
-                new StreamSimpleBase<>(new Spectrum(), new Signal(), new MfccProcess())
+                new StreamSimpleBase<>(new Spectrum(), new Signal(), mfccProcess)
         );
 
         // test start
@@ -35,11 +36,12 @@ public class MfccProcessTest {
 
         //outputData verification
 
-        assertEquals(outputDataRef.length(),outputData.length());
+        assertEquals(mfccProcess.countFeatures(),outputData.length());
 
         assertEquals(outputDataRef.getSamplingFrequency(),outputData.getSamplingFrequency(),
                 Math.max(outputDataRef.getSamplingFrequency()*1E-3,1E-14));
 
+        //No references for delta mfccs, so no test
         for (int i = 0; i < outputDataRef.length(); i++) {
             assertEquals(outputDataRef.getValue(i),outputData.getValue(i),
                     Math.max(Math.abs(outputDataRef.getValue(i)*1E-3),1E-14));
