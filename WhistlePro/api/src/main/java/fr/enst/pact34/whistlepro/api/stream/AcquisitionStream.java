@@ -39,7 +39,7 @@ public class AcquisitionStream
                 );
 
 
-                this.source.push(signal); // TODO: parallelize
+                this.source.fillOut(²signal); // TODO: parallelize
             }
         }
 
