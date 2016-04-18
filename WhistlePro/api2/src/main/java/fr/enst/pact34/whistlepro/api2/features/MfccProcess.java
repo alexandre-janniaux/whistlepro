@@ -13,6 +13,14 @@ public class MfccProcess implements FeatureProviderInterface, StreamProcessInter
 {
     private final int nbMelFilter = 24;
     private double minFrequency = 0, maxFrequency = 3500;
+    private double[][] lastMfcc = new double[10][13];
+    private double[][] lastDMfcc = new double[10][13];
+
+    private double[] dmfcc = new double[13];
+    private double[] ddmfcc = new double[13];
+
+    private int mfcc_index = 0;
+    private int dmfcc_index = 0;
 
     public int countFeatures() 
     {
@@ -85,7 +93,7 @@ public class MfccProcess implements FeatureProviderInterface, StreamProcessInter
         //spectrumIn = new Spectrum(spectrumIn.getNbPtsSig(),spectrumIn.getFs(),fftC);
 
         // FILTERING
-        double[] filtered = computeMelSpectrum(fftC, sigIn.getFs(),sigIn.getNbPtsSig());
+        double[] filtered = computeMelSpectrum(fftC, sigIn.getFs(), sigIn.getNbPtsSig());
 
         for(int i = 0; i < filtered.length; i++)
         {
@@ -94,10 +102,28 @@ public class MfccProcess implements FeatureProviderInterface, StreamProcessInter
 
         double mfcc[] = transformers.dct(filtered, 13);
 
-        sigOut.setLength(mfcc.length);
-        for (int i = 0; i < mfcc.length; i++) {
-            sigOut.setValue(i,mfcc[i]);
+        System.arraycopy(mfcc, 0, lastMfcc[mfcc_index], 0, 13);
+        for (int i=0; i<lastMfcc.length; ++i) {
+            for(int j=0; j<13; ++j) {
+                dmfcc[j] += (i < lastMfcc.length / 2 ? (-1) : 1) * lastMfcc[(i + mfcc_index) % lastMfcc.length][j];
+            }
         }
+        System.arraycopy(dmfcc, 0, lastDMfcc[dmfcc_index], 0, 13);
+
+        for (int i=0; i<lastDMfcc.length; ++i) {
+            for(int j=0; j<13; ++j) {
+                ddmfcc[j] += (i < lastDMfcc.length / 2 ? (-1) : 1) * lastDMfcc[(i + dmfcc_index) % lastDMfcc.length][j];
+            }
+        }
+
+        mfcc_index += 1;
+        dmfcc_index += 1;
+
+        sigOut.setLength(39);
+        sigOut.fromArray(mfcc, 0, 13);
+        sigOut.fromArray(dmfcc, 13, 13);
+        sigOut.fromArray(ddmfcc, 26, 13);
+
 
         sigOut.setSamplingFrequency(sigIn.getFs());
     }

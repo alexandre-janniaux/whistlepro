@@ -25,6 +25,8 @@ public class SpectrumProcessTest {
         Spectrum outputData = new Spectrum();
         Spectrum outputDataRef = TestUtils.createSpectrumFromFile(outputDataFile);
 
+        System.out.println("Il y a " + inputData.length() + " échantillons");
+
         // test setup
         TestBuilder<Signal,Spectrum> test = new TestBuilder<>(inputData,outputData,
                 new StreamSimpleBase<>(new Signal(), new Spectrum(), new SpectrumProcess())
