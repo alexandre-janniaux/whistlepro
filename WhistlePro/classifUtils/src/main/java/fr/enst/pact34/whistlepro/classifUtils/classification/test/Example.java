@@ -1,8 +1,9 @@
-package fr.enst.pact34.whistlepro.api.classification.Learning;
+package fr.enst.pact34.whistlepro.classifUtils.classification.test;
+
+import java.util.ArrayList;
 
 import fr.enst.pact34.whistlepro.api.classification.TrainExampleInterface;
 
-import java.util.ArrayList;
 
 public class Example implements TrainExampleInterface {
 
@@ -41,28 +42,30 @@ public class Example implements TrainExampleInterface {
 		
 		public Builder fromString(String str)
 		{
-			String[] strs = str.split(";");
-
-			if(strs.length!= 14) return this;
-
+			String[] strs = str.split(",");
+			
 			dbl.clear();
-			for(int i = 0; i < 13; i++)
+			for(int i = 0; i < 20 && i < strs.length; i++)
 			{
 				dbl.add(i, new Double(strs[i]));
 			}
 			
-			classe = strs[13];
+			if(strs.length <= 22)
+				classe = strs[21];
 			
 			return this;
 		}
 		
 		public Example build()
 		{
-			if(classe.isEmpty() || dbl.size()!=13 ) return null;
-
 			return new Example(this);
 		}
-
-
+		
+		public boolean isValid()
+		{
+			if(dbl.size()==20) return true;
+				
+			return false;
+		}
 	}
 }

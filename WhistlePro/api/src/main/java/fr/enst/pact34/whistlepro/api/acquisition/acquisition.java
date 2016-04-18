@@ -55,7 +55,6 @@ public class acquisition
         byte[] output = new byte[dataLine.getBufferSize()/5];
         int numBytes;
         numBytes=dataLine.read(output, 0, output.length); // BUFFER, START, LENGTH (blocking)
-	    System.out.write(output,0,numBytes);
 	    double[] sortie = new double[output.length];
         for (int i=0;i<output.length;i++)
         {

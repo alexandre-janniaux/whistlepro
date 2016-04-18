@@ -1,9 +1,9 @@
-package fr.enst.pact34.whistlepro.api.classification.test;
+package fr.enst.pact34.whistlepro.classifUtils.classification.test;
 
 import java.util.ArrayList;
 
 import fr.enst.pact34.whistlepro.api.classification.*;
-import fr.enst.pact34.whistlepro.api.classification.Learning.MultipleStrongClassifiersLearner;
+import fr.enst.pact34.whistlepro.classifUtils.classification.Learning.MultipleStrongClassifiersLearner;
 import fr.enst.pact34.whistlepro.api.common.FileOperator;
 
 public class TestClassifierLearning {

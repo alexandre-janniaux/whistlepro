@@ -8,6 +8,10 @@ public interface DoubleSignalInterface {
     int getNbSamples();
 
     double getSampleFrequency();
+
+    int getBufferId();
+
+    void setBufferId(int bufferId);
 }
 
 

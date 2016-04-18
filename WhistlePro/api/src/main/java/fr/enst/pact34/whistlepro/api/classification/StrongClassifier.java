@@ -93,7 +93,10 @@ public class StrongClassifier implements ClassifierInterface<FeaturedObjectInter
 		
 		public StrongClassifier build()
 		{
-			return new StrongClassifier(this);
+			if(classifiers.size()>0)
+				return new StrongClassifier(this);
+			else
+				return  null;
 		}
 		
 	}

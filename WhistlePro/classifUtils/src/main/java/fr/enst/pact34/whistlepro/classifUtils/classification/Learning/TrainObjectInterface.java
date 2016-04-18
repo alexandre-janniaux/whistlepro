@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.api.classification.Learning;
+package fr.enst.pact34.whistlepro.classifUtils.classification.Learning;
 
 import fr.enst.pact34.whistlepro.api.classification.TrainExampleInterface;
 
