@@ -10,7 +10,6 @@ import fr.enst.pact34.whistlepro.api2.common.SplitterProcess;
 import fr.enst.pact34.whistlepro.api2.dataTypes.*;
 import fr.enst.pact34.whistlepro.api2.features.MfccProcess;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeCorrection;
-import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessCopy;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessOutValue;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeTranscription;
 import fr.enst.pact34.whistlepro.api2.stream.*;
@@ -21,14 +20,14 @@ import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
 /**
  * Created by mms on 15/03/16.
  */
-public class ProccessingMachine implements StreamDataListenerInterface<Signal> {
+public class ProccessingMachine implements DoubleDataListener {
     private static final double TIME_ANALYSE = 0.020;
 
 
     //TODO initialisations
 
     //Acquisition filled by constructor
-    private StreamSourceInput<double[]> source = null;
+    //private StreamSourceInput<double[]> source = null;
 
     //split stream
     private StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess ;
@@ -78,11 +77,11 @@ public class ProccessingMachine implements StreamDataListenerInterface<Signal> {
     //threadpool
     StreamManager streamMaster = new StreamManager(1);
 
-    public ProccessingMachine(StreamSourceInput<double[]> audioSignalSource,double Fs, String classifierData) {
+    public ProccessingMachine(int dataPushedSize, double Fs, String classifierData) {
 
         //initialisations
 
-        this.source = audioSignalSource;
+        //this.source = new StreamSourceInput<>(new double[dataPushedSize]);
 
         //split stream
         splitterProcess = new SplitterProcess((int)(TIME_ANALYSE*Fs), Fs);
@@ -131,10 +130,20 @@ public class ProccessingMachine implements StreamDataListenerInterface<Signal> {
 
         //connexions                                                //            Audio
                                                                     //            ||
-        source.subscribe(splitterStream);                           //         Splitter
+        //source.subscribe(splitterStream);                         //         Splitter
                                                                     //            ||
         splitterStream.subscribe(powerFilterStream);                //    ====PowerFilter ======||==========||
-        splitterStream.subscribe(this);                             //   this     ||             ||          ||
+        splitterStream.subscribe(new StreamDataListenerInterface<Signal>() {
+            @Override
+            public void fillBufferIn(Signal data) {
+                dataRecevied++;
+            }
+
+            @Override
+            public int getInputState() {
+                return States.INPUT_WAITING;
+            }
+        });                                                         //   this     ||             ||          ||
                                                                     //            ||             ||          ||
         powerFilterStream.subscribe(estFreqStream);                 //            ||             ||        estFreq
         powerFilterStream.subscribe(attackStream);                  //            ||           attack
@@ -181,13 +190,11 @@ public class ProccessingMachine implements StreamDataListenerInterface<Signal> {
         transcriptionBase.clear();
     }
 
-    @Override
-    public void fillBufferIn(Signal data) {
-        dataRecevied++;
-    }
+
 
     @Override
-    public int getInputState() {
-        return States.INPUT_WAITING;
+    public void pushData(double[] data) {
+        splitterStream.fillBufferIn(data.clone());
+        //TODO use memory pool
     }
 }

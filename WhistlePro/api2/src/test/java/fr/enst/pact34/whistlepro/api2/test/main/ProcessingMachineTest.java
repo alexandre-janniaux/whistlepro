@@ -13,28 +13,29 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by mms on 17/04/16.
  */
-public class ProcessingMachineTest extends StreamSourceInput<double[]> {
+public class ProcessingMachineTest {
 
     private final String inputDataFile = "../testData/features/signal.data";
 
-    private double[] bufferToSend;
+    private double[] bufferToSend ;
 
     public ProcessingMachineTest() {
-        super(new double[TestUtils.createSignalFromFile("../testData/features/signal.data").length()]);
-        bufferToSend=getBufferOut();
+
     }
 
     @Test
     public void proccessingMachineTest()
     {
         //*
-        ProccessingMachine pm = new ProccessingMachine(this,44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"));
-
         Signal inputData = TestUtils.createSignalFromFile(inputDataFile);
-
+        bufferToSend = new double[inputData.length()];
         inputData.fillArray(bufferToSend);
 
-        pushData();
+        ProccessingMachine pm = new ProccessingMachine(bufferToSend.length,44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"));
+
+
+        pm.pushData(bufferToSend);
+
 
 
         for (int i = 0; i < 10 && pm.transcriptionEnded()==false ; i++) {
