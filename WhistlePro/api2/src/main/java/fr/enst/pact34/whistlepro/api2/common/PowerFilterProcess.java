@@ -23,7 +23,7 @@ public class PowerFilterProcess implements StreamProcessInterface<Signal,Signal>
             if(tmp>max_audio) max_audio = tmp;
         }
 
-        if( (max_audio > 0 && sum/inputData.length()<max_audio*0.125) || sum == 0) {
+        if( (max_audio > 0 && sum/inputData.length()<max_audio*0.05) || sum == 0) {
             outputData.setValid(false);
         }
         else
