@@ -3,9 +3,22 @@ package fr.enst.pact34.whistlepro.classifUtils.classification.Panels;
 
 import fr.enst.pact34.whistlepro.api.acquisition.WavFile;
 import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
-import fr.enst.pact34.whistlepro.api.common.Spectrum;
-import fr.enst.pact34.whistlepro.api.common.transformers;
-import fr.enst.pact34.whistlepro.api.features.MfccFeatureProvider;
+import fr.enst.pact34.whistlepro.api.stream.MfccFeatureStream;
+import fr.enst.pact34.whistlepro.api2.dataTypes.Spectrum;
+import fr.enst.pact34.whistlepro.api2.common.PowerFilterProcess;
+import fr.enst.pact34.whistlepro.api2.common.SpectrumProcess;
+import fr.enst.pact34.whistlepro.api2.common.SplitterProcess;
+import fr.enst.pact34.whistlepro.api2.dataTypes.AttackTimes;
+import fr.enst.pact34.whistlepro.api2.dataTypes.Frequency;
+import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
+import fr.enst.pact34.whistlepro.api2.features.MfccProcess;
+import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessOutValue;
+import fr.enst.pact34.whistlepro.api2.stream.States;
+import fr.enst.pact34.whistlepro.api2.stream.StreamDataListenerInterface;
+import fr.enst.pact34.whistlepro.api2.stream.StreamInputWraper;
+import fr.enst.pact34.whistlepro.api2.stream.StreamManager;
+import fr.enst.pact34.whistlepro.api2.stream.StreamProcessInterface;
+import fr.enst.pact34.whistlepro.api2.stream.StreamSimpleBase;
 
 import java.io.File;
 import java.io.IOException;
@@ -216,7 +229,7 @@ public class MfccDb {
 
     public ArrayList<String> calcMfccOnFile(String file)
     {
-        MfccFeatureProvider mfcc = new MfccFeatureProvider();
+        //MfccFeatureProvider mfcc = new MfccFeatureProvider();
         ArrayList<String> str = new ArrayList<>();
         try {
 
@@ -233,9 +246,10 @@ public class MfccDb {
             readWavFile.readFrames(buffer,nbPtsIgnore);
 
             //reading useful part
-            buffer = new double[nbPts];
+            buffer = new double[(int) readWavFile.getNumFrames()];
 
-
+            readWavFile.readFrames(buffer,buffer.length);
+            /*
             ArrayList<Spectrum> sps = new ArrayList<>();
 
             while(readWavFile.readFrames(buffer,nbPts) == nbPts)
@@ -252,6 +266,69 @@ public class MfccDb {
             for (Spectrum sp: sps
                  ) {
                 double[] coef = mfcc.processMfcc(sp);
+
+                String tmp = "";
+                for (int i = 0; i < coef.length; i++) {
+                    tmp += coef[i]+";";
+                }
+
+                str.add(tmp);
+            }
+            */
+
+
+            //split stream
+            StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess = new SplitterProcess(nbPts,Fs);//(int) (TIME_ANALYSE * Fs), Fs);
+            StreamInputWraper<double[], Signal> splitterStream = new StreamInputWraper<>(new Signal(), splitterProcess);
+
+
+            //power filter
+            PowerFilterProcess powFilterProcess = new PowerFilterProcess();
+            StreamSimpleBase<Signal, Signal> powerFilterStream = new StreamSimpleBase<>(new Signal(), new Signal(), powFilterProcess);
+
+            //FFT
+            SpectrumProcess fftProcess = new SpectrumProcess();
+            StreamSimpleBase<Signal, Spectrum> fftStream = new StreamSimpleBase<>(new Signal(), new Spectrum(), fftProcess);
+
+            //MFCC
+            MfccProcess mfccProcess = new MfccProcess();
+            StreamSimpleBase<Spectrum,Signal> mfccStream = new StreamSimpleBase<>(new Spectrum(),new Signal(), mfccProcess);
+
+            splitterStream.subscribe(powerFilterStream);
+            powerFilterStream.subscribe(fftStream);
+            fftStream.subscribe(mfccStream);
+
+            final LinkedList<double[]> mfccs = new LinkedList<>();
+
+            mfccStream.subscribe(new StreamDataListenerInterface<Signal>() {
+                @Override
+                public void fillBufferIn(Signal data) {
+                    if (data.isValid() == false) return;
+                    double[] in = new double[data.length()];
+                    data.fillArray(in);
+                    mfccs.add(in);
+                }
+
+                @Override
+                public int getInputState() {
+                    return States.INPUT_WAITING;
+                }
+            });
+
+            StreamManager sm = new StreamManager(4);
+            sm.addStream(splitterStream);
+            sm.addStream(powerFilterStream);
+            sm.addStream(fftStream);
+            sm.addStream(mfccStream);
+
+            splitterStream.fillBufferIn(buffer);
+
+
+            while (sm.isWorking()){ try{ Thread.sleep(200);}catch (Exception e){}};
+
+
+            for (double[] coef: mfccs
+                    ) {
 
                 String tmp = "";
                 for (int i = 0; i < coef.length; i++) {

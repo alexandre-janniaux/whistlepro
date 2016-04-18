@@ -41,24 +41,25 @@ public class Example implements TrainExampleInterface {
 		
 		public Builder fromString(String str)
 		{
+			//TODO make less specific to mfcc
 			String[] strs = str.split(";");
 
-			if(strs.length!= 14) return this;
+			if(strs.length!= 40) return this;
 
 			dbl.clear();
-			for(int i = 0; i < 13; i++)
+			for(int i = 0; i < 39; i++)
 			{
 				dbl.add(i, new Double(strs[i]));
 			}
 			
-			classe = strs[13];
+			classe = strs[39];
 			
 			return this;
 		}
 		
 		public Example build()
 		{
-			if(classe.isEmpty() || dbl.size()!=13 ) return null;
+			if(classe.isEmpty() || dbl.size()!=39 ) return null;
 
 			return new Example(this);
 		}
