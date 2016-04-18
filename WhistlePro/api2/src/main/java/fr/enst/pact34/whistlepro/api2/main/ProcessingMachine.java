@@ -1,6 +1,7 @@
 package fr.enst.pact34.whistlepro.api2.main;
 
 import java.util.LinkedList;
+import java.util.concurrent.Semaphore;
 
 import fr.enst.pact34.whistlepro.api2.classification.ClassifProcess;
 import fr.enst.pact34.whistlepro.api2.classification.MultipleStrongClassifiers;
@@ -13,6 +14,7 @@ import fr.enst.pact34.whistlepro.api2.phantoms.FakeCorrection;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessOutValue;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeTranscription;
 import fr.enst.pact34.whistlepro.api2.stream.*;
+import fr.enst.pact34.whistlepro.api2.stream.StreamManagerListener;
 import fr.enst.pact34.whistlepro.api2.transcription.CorrectionBase;
 import fr.enst.pact34.whistlepro.api2.transcription.PartialDataStreamDest;
 import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
@@ -76,7 +78,25 @@ public class ProcessingMachine implements DoubleDataListener {
     public ProcessingMachine(int dataPushedSize, double Fs, String classifierData, int nbThread) {
 
         //initialisations
-        streamMaster = new StreamManager(nbThread);
+        streamMaster = new StreamManager(nbThread, new StreamManagerListener() {
+            @Override
+            public void oneJobDone() {
+                if(listener != null)
+                {
+                    if(transcriptionEnded()) {
+                        listener.newWorkEvent(ProcessingMachineEventListener.WorkEvent.AllWorkDone);
+                    }
+                    else
+                    {
+                        listener.newWorkEvent(ProcessingMachineEventListener.WorkEvent.OneWorkDone);
+                    }
+                }
+                if(transcriptionEnded()) {
+                    while(waitSem.hasQueuedThreads())
+                    waitSem.release();
+                }
+            }
+        });
 
         //this.source = new StreamSourceInput<>(new double[dataPushedSize]);
 
@@ -195,5 +215,20 @@ public class ProcessingMachine implements DoubleDataListener {
         //TODO use memory pool
     }
 
+    ProcessingMachineEventListener listener = null;
 
+    void setEventLister(ProcessingMachineEventListener l)
+    {
+        listener = l;
+    }
+
+    private Semaphore waitSem = new Semaphore(0);
+    public void waitEnd()
+    {
+        try {
+            waitSem.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

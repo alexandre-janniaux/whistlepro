@@ -18,13 +18,20 @@ public class StreamManager extends ThreadPool {
 
     private final int streamWorkersSize ;
 
-    public StreamManager(int nbThread) {
+    public StreamManager(int nbThread,StreamManagerListener listener) {
         super(nbThread);
         streamWorkersSize = nbThread*10;
         for (int i = 0; i < streamWorkersSize; i++) {
             streamWorkers.add(new streamWorker());
         }
+        this.listener=listener;
     }
+
+    public void setListener(StreamManagerListener listener) {
+        this.listener = listener;
+    }
+
+    private StreamManagerListener listener = null;
 
     List<manageableStream> streamsProcess = Collections.synchronizedList(new LinkedList<manageableStream>());
     List<manageableStream> streamsInput   = Collections.synchronizedList(new LinkedList<manageableStream>());
@@ -71,7 +78,7 @@ public class StreamManager extends ThreadPool {
         streamWorkers.add(worker);
         worksToDo.decrementAndGet();
         findWork();
-
+        if(listener!=null) listener.oneJobDone();
         return super.done(w, r);
     }
 

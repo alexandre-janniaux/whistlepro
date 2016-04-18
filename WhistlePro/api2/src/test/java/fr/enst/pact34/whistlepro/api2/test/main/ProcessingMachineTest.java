@@ -30,13 +30,13 @@ public class ProcessingMachineTest {
         bufferToSend = new double[inputData.length()];
         inputData.fillArray(bufferToSend);
 
-        ProcessingMachine pm = new ProcessingMachine(bufferToSend.length,44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),2);
+        final ProcessingMachine pm = new ProcessingMachine(bufferToSend.length,44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),2);
 
 
         pm.pushData(bufferToSend);
 
 
-
+/*
         for (int i = 0; i < 10 && pm.transcriptionEnded()==false ; i++) {
 
             try {
@@ -45,6 +45,10 @@ public class ProcessingMachineTest {
                 e.printStackTrace();
             }
         }
+        */
+
+        pm.waitEnd();
+        
 
         assertTrue(pm.transcriptionEnded());
 //*/

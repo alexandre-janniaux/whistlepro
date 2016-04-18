@@ -22,7 +22,7 @@ public class streamManagerTest implements StreamDataListenerInterface<Signal> {
     @Test
     public void streamManagerTest() {
         //System.out.println("start");
-        final StreamManager threadPool = new StreamManager(5);
+        final StreamManager threadPool = new StreamManager(5,null);
 
         final StreamSimpleBase<Signal, Signal> copy1 = new StreamSimpleBase<>(
                 new Signal(), new Signal(), new FakeProcessCopy<Signal>()
