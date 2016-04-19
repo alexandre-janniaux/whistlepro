@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Morceaux"
         android:layout_gravity="center"
+        android:background="#BBDEFB"
         android:id="@+id/firstAccesPistes" />
 
     <TextView
@@ -45,11 +46,13 @@
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:text="Mélodie"
+            android:background="#BBDEFB"
             android:id="@+id/firstMel" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#BBDEFB"
             android:text="Percussion"
             android:id="@+id/firstPercu" />
     </LinearLayout>
@@ -58,6 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enregistrement"
+        android:background="#BBDEFB"
         android:id="@+id/firstEnregiBtn"
         android:layout_gravity="center_horizontal" />
 

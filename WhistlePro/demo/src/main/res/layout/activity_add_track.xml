@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Nouvel Enregistrment"
+        android:text="Nouvel Enregistrement"
         android:id="@+id/newCaptureBtn"
         android:layout_gravity="center_horizontal" />
 
