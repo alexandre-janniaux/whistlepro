@@ -1,7 +1,36 @@
 package fr.enst.pact34.whistlepro.api.Synthese;
 
-public class NotesDeMusique { //renvoie la fr�quence des notes jou�es
+public class NotesDeMusique { //renvoie la frequence des notes jouees (????)
+    /* Est-ce que l'on garde l'attribut instrument ?*/
 	
+	private double frequency ;
+	private double intensity ;
+	private int instrument ;
+
+	public void setFrequency(double frequency) {
+	this.frequency = frequency ;
+	}
+
+	public void setIntensity(double intensity) {
+	this.intensity = intensity ; 
+	}
+
+	public double getIntensity() {
+	return this.intensity ; 
+	}
+
+	public double getFrequency(){
+	return this.frequency ;
+	}
+
+    public int getInstrument() {
+        return this.instrument ;
+    } //0 for grosse caisse, 1 for caisse claire, 2 for charleston, 3 for cymbale
+
+    public void setInstrument(int instrument) {
+        this.instrument = instrument ;
+    }
+
 	public static double do3() {
 		return 261.63;
 	}
