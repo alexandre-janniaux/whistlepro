@@ -30,22 +30,19 @@ public class EnregistrementActivity extends Activity {
             }
         });
 
-        //TO DO : put the record function
-    }
-
-    //Code for the metronome switching
-    final int[] imageArray = {R.drawable.metronome, R.drawable.metronome_flip};
+        //Code for the metronome switching
+        final int[] imageArray = {R.drawable.metronome, R.drawable.metronome_flip};
 
 
-    final Handler handler = new Handler();
+        final Handler handler = new Handler();
 
-    final ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        final ImageView imageView = (ImageView) findViewById(R.id.imageView);
 
-    Runnable runnable = new Runnable() {
-        int i = 0;
+        Runnable runnable = new Runnable() {
+            int i = 0;
 
-        public void run() {
-            imageView.setImageResource(imageArray[i]);
+            public void run() {
+                imageView.setImageResource(imageArray[i]);
                 /*
                 i++;
                 if(i>imageArray.length-1)
@@ -53,12 +50,17 @@ public class EnregistrementActivity extends Activity {
                     i=0;
                 }
                 */
-            i = (i + 1) % imageArray.length;
+                i = (i + 1) % imageArray.length;
 
-            handler.postDelayed(this, 500);  //for interval...
-        }
-    };
-    //handler.postDelayed(runnable, 20); //for initial delay..
+                handler.postDelayed(this, 500);  //for interval...
+            }
+        };
+        handler.postDelayed(runnable, 20); //for initial delay..
+
+
+        //TO DO : put the record function
+    }
+
 }
 
 
