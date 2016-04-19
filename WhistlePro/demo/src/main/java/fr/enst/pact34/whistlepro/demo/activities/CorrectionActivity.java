@@ -30,7 +30,7 @@ public class CorrectionActivity extends Activity {
         btnNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CorrectionActivity.this, ProcessingActivity.class));
+                startActivity(new Intent(CorrectionActivity.this, InstrChoiceActivity.class));
             }
         });
     }

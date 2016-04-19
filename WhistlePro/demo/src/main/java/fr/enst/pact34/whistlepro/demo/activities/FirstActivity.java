@@ -33,7 +33,7 @@ public class FirstActivity extends Activity {
         nbpicker.setMinValue(40);
         nbpicker.setWrapSelectorWheel(false);
 
-        int tempo = nbpicker.getValue(); //Here you can get the value of the ** T E M P O ** the user set
+        int tempo = nbpicker.getValue(); //Here you can get the value of the ** T E M P O ** the user sets
 
         //Le bouton qui donne accès aux pistes déjà enregistrées
         Button pistesBtn = (Button)findViewById(R.id.firstAccesPistes);
