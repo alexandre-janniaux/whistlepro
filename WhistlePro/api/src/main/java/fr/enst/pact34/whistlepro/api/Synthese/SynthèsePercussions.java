@@ -49,10 +49,10 @@ public class SynthèsePercussions
     public double[] synthèsePercu(ArrayList<Onomatopee> in) {
         double[] out = new double[in.size()*sizeOfThePercuSounds]; //change
         for (int i = 0; i < in.size(); i++) {
+            double intensite = in.get(i).getIntensity();
             double[] termeI = transposition(in.get(i));
-            for(int j=0; j < termeI.length ; j++)
-            {
-                out[i+j] = termeI[j] ;
+            for (int j = 0; j < termeI.length; j++) {
+                out[i + j] = intensite*termeI[j];
             }
         }
         return(out);
