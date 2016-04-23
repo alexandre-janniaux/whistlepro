@@ -25,18 +25,22 @@ public class transformersTest {
         Spectrum outputData ;
         long t;
         boolean skipAssertion = false;
-
-        //inputData.setLength((int)(0.020*inputData.getSamplingFrequency())); skipAssertion=true;// assertion will fail
+        int i_max =1;
+        //les premieres fois sont plus longue O.o
+        //inputData.setLength((int)(0.020*inputData.getSamplingFrequency())); skipAssertion=true;i_max=10;// assertion will fail
         System.out.println("input sig length :" + 1000 * inputData.length() / inputData.getSamplingFrequency() + " ms");
 
         // ************************************************************************ //
 
-        outputData = new Spectrum();
         transformers fftCalc = new transformers();
 
-        t = System.currentTimeMillis();
-        fftCalc.fft(inputData, outputData);
-        System.out.println("Time : " + (System.currentTimeMillis() - t));
+        outputData = new Spectrum();
+        for(int i = 0; i < i_max;i++) {
+            outputData = new Spectrum();
+            t = System.currentTimeMillis();
+            fftCalc.fft(inputData, outputData);
+            System.out.println("Time v1 : " + (System.currentTimeMillis() - t));
+        }
 
         if(skipAssertion==false) {
             assertEquals(outputDataRef.length(), outputData.length());
@@ -53,11 +57,12 @@ public class transformersTest {
         }
         // ************************************************************************ //
         FFTCalculator fftCalculator = new FFTCalculator(inputData.length());
-        outputData = new Spectrum();
-        t = System.currentTimeMillis();
-        fftCalculator.fft(inputData,outputData);
-        System.out.println("Time : " + (System.currentTimeMillis()-t));
-
+        for(int i = 0; i < i_max;i++) {
+            outputData = new Spectrum();
+            t = System.currentTimeMillis();
+            fftCalculator.fft(inputData, outputData);
+            System.out.println("Time v2 : " + (System.currentTimeMillis() - t));
+        }
         if(skipAssertion==false) {
             assertEquals(outputDataRef.length(), outputData.length());
 
