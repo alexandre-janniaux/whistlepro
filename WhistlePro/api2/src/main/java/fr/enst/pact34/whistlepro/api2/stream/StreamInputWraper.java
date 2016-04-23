@@ -10,7 +10,7 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
 
     private F bufferOutM = null;
     private LinkedList<E> bufferIn = new LinkedList<>();
-    private LinkedList<F> bufferOut = new LinkedList<>();
+    private LinkedList<F> bufferOut =  new LinkedList<>();
     private LinkedList<E> bufferInD = new LinkedList<>();
     private LinkedList<F> bufferOutD = new LinkedList<>();
 
@@ -46,9 +46,9 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
     }
 
     @Override
-    public final void process()
+    public synchronized final void process()
     {
-        if (processState.get() != States.PROCESS_WAITING) {
+        if (processState.get() != States.PROCESS_WAITING || inputState.get() != States.INPUT_BUSY) {
             //throw new RuntimeException("process wasn't waiting");
             return;
         }
@@ -61,20 +61,30 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
 
         //new id calcul todo
         //id = bufferIn.getId();
+        synchronized (bufferIn) {
         bufferInD.add(bufferIn.remove(0));
 
-        if(bufferIn.size()==0) inputState .set(States.INPUT_WAITING);
+        if (bufferIn.size() <= 0)
+        {
+            inputState.set(States.INPUT_WAITING);
+        }
+        }
 
         //TODO timestamp ...
         processor.process(bufferInD, bufferOutD);
 
-        bufferOut.addAll(bufferOutD);
+        bufferInD.clear();
+        synchronized (bufferOut) {
+            bufferOut.addAll(bufferOutD);
+        }
         bufferOutD.clear();
 
         //processState.set(States.PROCESS_DONE); => will never go to end process not needed
 
-        if(bufferOut.size()>0)
-            outputState.set(States.OUTPUT_BUSY);
+        synchronized (bufferOut) {
+            if (bufferOut.size() > 0)
+                outputState.set(States.OUTPUT_BUSY);
+        }
 
         processState.set(States.PROCESS_WAITING);
 
@@ -118,7 +128,9 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
         //    return;
         //}
 
-        bufferOut.remove(0).copyTo(bufferOutM) ;
+        synchronized (bufferOut) {
+            bufferOut.remove(0).copyTo(bufferOutM);
+        }
         bufferOutM.setId(id++);
 
         //synchronized internally
@@ -138,15 +150,17 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
         //System.out.println("new data in ");
 
         //if (inputState.get() == States.INPUT_BUSY) {
-            //throw new RuntimeException("Buffer was busy");
+        //throw new RuntimeException("Buffer was busy");
         //    return;
         //}
 
         //synchronized internally
-        bufferIn.add(data);
+        synchronized (bufferIn) {
+            bufferIn.add(data);
 
-        processState.set(States.PROCESS_WAITING);
-        //inputState.set(States.INPUT_BUSY);
+            //processState.set(States.PROCESS_WAITING);
+            inputState.set(States.INPUT_BUSY);
+        }
         //System.out.println("new data in waiting process");
         if(streamManager != null)
         {

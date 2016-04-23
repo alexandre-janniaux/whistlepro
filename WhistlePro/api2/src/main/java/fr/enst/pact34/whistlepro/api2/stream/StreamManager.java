@@ -154,7 +154,7 @@ public class StreamManager extends ThreadPool {
                 if(i == -1) return;
                 manageableStream s = streams.get(i - 1);
                 if (streamWorkers.size() <= 0 || s == null) return;
-                if (s.getProcessState() == States.PROCESS_WAITING && s.getInputState() == States.INPUT_BUSY) {
+                if (s.getInputState() == States.INPUT_BUSY && s.getProcessState() == States.PROCESS_WAITING) {
                     // on passe les data du buffer in au process
                     if (streamWorkers.size() <= 0) return;
                     streamWorker r = streamWorkers.remove(0);

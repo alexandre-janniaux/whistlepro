@@ -28,7 +28,7 @@ public class SplitterTest implements StreamDataListenerInterface<Signal> {
 
 
         // test setup
-        int nbSample = 2;
+        int nbSample = 4;
         double Fs = 123;
         StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess = new SplitterProcess(nbSample, Fs); //new FakeProcessCopy<>(); //TODO put real process
         StreamInputWraper<double[], Signal> splitterStream = new StreamInputWraper<>(new Signal(), splitterProcess);
@@ -64,5 +64,42 @@ public class SplitterTest implements StreamDataListenerInterface<Signal> {
     @Override
     public int getInputState() {
         return 0;
+    }
+
+    @Test
+    public void splitterTest2()
+    {
+        double[] inputData =  new double[]{0, 1, 2, 3, 4, 5, 6, 4, 8, 9, 10, 11};
+
+
+        // test setup
+        int nbSample = 4;
+        double Fs = 123;
+        StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess = new SplitterProcess(nbSample, Fs); //new FakeProcessCopy<>(); //TODO put real process
+        StreamInputWraper<double[], Signal> splitterStream = new StreamInputWraper<>(new Signal(), splitterProcess);
+
+        splitterStream.subscribe(this);
+
+
+        // test start
+        for(int i = 0; i < inputData.length; i++) {
+            splitterStream.fillBufferIn(new double[]{inputData[i]});
+        }
+        while(splitterStream.getInputState() == States.INPUT_BUSY)
+            if(splitterStream.getProcessState() == States.PROCESS_WAITING) splitterStream.process();
+
+        while(splitterStream.getOutputState() == States.OUTPUT_BUSY)
+            splitterStream.pushData();
+
+
+        //outputData verification
+        assertEquals((int)(Math.floor(inputData.length/nbSample)+Math.floor((inputData.length-nbSample)/nbSample)),outputData.size());
+
+        for (int i = 0; i < nbSample; i+=nbSample) {
+            for (int j = 0; j < nbSample; j++) {
+                assertEquals(outputData.get(i).getValue(j),inputData[i+j],Double.MIN_VALUE);
+            }
+        }
+
     }
 }
