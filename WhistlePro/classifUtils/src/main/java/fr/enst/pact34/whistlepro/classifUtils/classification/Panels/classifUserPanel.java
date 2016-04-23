@@ -112,8 +112,6 @@ public class classifUserPanel extends JPanel implements ActionListener, UserInte
 
                     processor = new Processor(recorder.getSampleRate(), this, FileOperator.getDataFromFile(file.getAbsolutePath()));
 
-                    new Thread(processor).start();
-
                     recorder.setListener(processor);
 
                     recorder.start();

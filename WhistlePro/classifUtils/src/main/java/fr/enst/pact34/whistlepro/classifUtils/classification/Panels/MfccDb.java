@@ -315,7 +315,7 @@ public class MfccDb {
                 }
             });
 
-            StreamManager sm = new StreamManager(4);
+            StreamManager sm = new StreamManager(4,null);
             sm.addStream(splitterStream);
             sm.addStream(powerFilterStream);
             sm.addStream(fftStream);
