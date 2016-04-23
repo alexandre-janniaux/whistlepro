@@ -35,7 +35,7 @@ public class FullStreamTest {
         StreamDataEnd<ClassifResults> end = new StreamDataEnd<>(output);
 
         //FFT
-        StreamProcessInterface<Signal,Spectrum> fftProcess = new SpectrumProcess();
+        StreamProcessInterface<Signal,Spectrum> fftProcess = new SpectrumProcess(inputData.length());
         StreamSimpleBase<Signal , Spectrum> fftStream = new StreamSimpleBase<>(new Signal(),new Spectrum(), fftProcess);
 
         //MFCC
@@ -84,7 +84,7 @@ public class FullStreamTest {
         StreamSimpleBase<Signal , Signal> powerFilterStream = new StreamSimpleBase<>(new Signal(),new Signal(), powFilterProcess);
 
         //FFT
-        StreamProcessInterface<Signal,Spectrum> fftProcess = new SpectrumProcess();
+        StreamProcessInterface<Signal,Spectrum> fftProcess = new SpectrumProcess(inputData.length());
         StreamSimpleBase<Signal , Spectrum> fftStream = new StreamSimpleBase<>(new Signal(),new Spectrum(), fftProcess);
 
         //MFCC

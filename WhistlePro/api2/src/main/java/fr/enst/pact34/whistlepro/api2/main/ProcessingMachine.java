@@ -73,10 +73,11 @@ public class ProcessingMachine implements DoubleDataListener {
     private CorrectionBase correctionBase ;
 
     //threadpool
-    StreamManager streamMaster  ;
+    private StreamManager streamMaster  ;
+
 
     public ProcessingMachine(double Fs, String classifierData, int nbThread) {
-
+        int sampleLen = (int)(TIME_ANALYSE*Fs);
         //initialisations
         streamMaster = new StreamManager(nbThread, new StreamManagerListener() {
             private int last_nb_done = 0;
@@ -106,7 +107,7 @@ public class ProcessingMachine implements DoubleDataListener {
         //this.source = new StreamSourceInput<>(new double[dataPushedSize]);
 
         //split stream
-        splitterProcess = new SplitterProcess((int)(TIME_ANALYSE*Fs), Fs);
+        splitterProcess = new SplitterProcess(sampleLen, Fs);
         splitterStream = new StreamInputWraper<>(new Signal(), splitterProcess);
 
 
@@ -124,7 +125,7 @@ public class ProcessingMachine implements DoubleDataListener {
          attackStream = new StreamSimpleBase<>(new Signal(),new AttackTimes(), attackProcess);
 
         //FFT
-        fftProcess = new SpectrumProcess();
+        fftProcess = new SpectrumProcess(sampleLen);
         fftStream = new StreamSimpleBase<>(new Signal(),new Spectrum(), fftProcess);
 
         //MFCC

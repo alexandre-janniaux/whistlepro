@@ -29,7 +29,7 @@ public class SpectrumProcessTest {
 
         // test setup
         TestBuilder<Signal,Spectrum> test = new TestBuilder<>(inputData,outputData,
-                new StreamSimpleBase<>(new Signal(), new Spectrum(), new SpectrumProcess())
+                new StreamSimpleBase<>(new Signal(), new Spectrum(), new SpectrumProcess(inputData.length()))
         );
 
         // test start

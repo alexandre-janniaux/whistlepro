@@ -9,7 +9,12 @@ import fr.enst.pact34.whistlepro.api2.stream.StreamProcessInterface;
  */
 public class SpectrumProcess implements StreamProcessInterface<Signal,Spectrum> {
 
-    transformers fftCalc = new transformers();
+    FFTCalculator fftCalc ;
+
+    public SpectrumProcess(int sigLength)
+    {
+        fftCalc = new FFTCalculator(sigLength);
+    }
 
     @Override
     public void process(Signal inputData, Spectrum outputData) {
