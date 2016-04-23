@@ -103,22 +103,24 @@ public class FullStreamTest {
         fftStream.subscribe(mfccStream);
         mfccStream.subscribe(classifStream);
         classifStream.subscribe(end);
-
-        start.pushData();
-        powerFilterStream.process();
-        powerFilterStream.endProcess();
-        powerFilterStream.pushData();
-        fftStream.process();
-        fftStream.endProcess();
-        fftStream.pushData();
-        mfccStream.process();
-        mfccStream.endProcess();
-        mfccStream.pushData();
-        classifStream.process();
-        classifStream.endProcess();
-        classifStream.pushData();
-
-        assertEquals("a",output.getRecoClass());
+        for (int i = 0; i < 10 ; i++) {
+            long t = System.currentTimeMillis();
+            start.pushData();
+            powerFilterStream.process();
+            powerFilterStream.endProcess();
+            powerFilterStream.pushData();
+            fftStream.process();
+            fftStream.endProcess();
+            fftStream.pushData();
+            mfccStream.process();
+            mfccStream.endProcess();
+            mfccStream.pushData();
+            classifStream.process();
+            classifStream.endProcess();
+            classifStream.pushData();
+            System.out.println("Full stream time (power -> classif) : " + (System.currentTimeMillis() - t));
+            assertEquals("a", output.getRecoClass());
+        }
     }
 
 }
