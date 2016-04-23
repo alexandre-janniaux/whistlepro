@@ -36,9 +36,10 @@ public class ClassifResults implements StreamDataInterface<ClassifResults> {
     }
 
 
-    double res[] = new double[0];
-    String classes[] = new String[0];
-    String reco = null;
+    private double res[] = new double[0];
+    private String classes[] = new String[0];
+    private String reco = null;
+    private double max = -1;
 
     public void setNbRes(int nb)
     {
@@ -72,10 +73,11 @@ public class ClassifResults implements StreamDataInterface<ClassifResults> {
         }
     }
 
+    private double seuil = 1;
     public String getRecoClass() {
         if(reco == null)
         {
-            double max = -Double.MAX_VALUE;
+            max = -Double.MAX_VALUE;
             for (int i = 0; i < res.length; i++) {
                 if (res[i] > max) {
                     max = res[i];
@@ -84,6 +86,7 @@ public class ClassifResults implements StreamDataInterface<ClassifResults> {
             }
 
         }
+        if(max < seuil || valid == false) return "_";
         return reco;
     }
 
@@ -92,6 +95,12 @@ public class ClassifResults implements StreamDataInterface<ClassifResults> {
     @Override
     public boolean isValid() {
         return valid;
+    }
+
+    public double recoLevel()
+    {
+        if(reco == null) getRecoClass();
+        return max;
     }
 
     @Override

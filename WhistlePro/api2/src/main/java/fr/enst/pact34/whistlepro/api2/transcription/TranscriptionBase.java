@@ -1,6 +1,8 @@
 package  fr.enst.pact34.whistlepro.api2.transcription;
 
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 import  fr.enst.pact34.whistlepro.api2.dataTypes.AttackTimes;
 import  fr.enst.pact34.whistlepro.api2.dataTypes.ClassifResults;
@@ -28,9 +30,9 @@ public class TranscriptionBase extends StreamSourceBase<MusicTrack> implements P
 
     public PartialDataStreamDest<ClassifResults> getStreamDestBaseClassif() { return destClassif;}
 
-    LinkedList<Frequency> freqs = new LinkedList<>();
-    LinkedList<AttackTimes> attacks = new LinkedList<>();
-    LinkedList<ClassifResults> classifs = new LinkedList<>();
+    List<Frequency> freqs = Collections.synchronizedList(new LinkedList<Frequency>());
+    List<AttackTimes> attacks = Collections.synchronizedList(new LinkedList<AttackTimes>());
+    List<ClassifResults> classifs = Collections.synchronizedList(new LinkedList<ClassifResults>());
 
     private int nbReceived = 0;
     public int getNbReceived()
@@ -62,5 +64,16 @@ public class TranscriptionBase extends StreamSourceBase<MusicTrack> implements P
         attacks.clear();
         classifs.clear();
         nbReceived = 0;
+    }
+
+    public String getLastClassifElement() {
+        String str = "_";
+        int i = classifs.size();
+        if(i>0) {
+            ClassifResults c = classifs.get(i - 1);
+            if (c.recoLevel() > 0.5)
+                str = c.getRecoClass();
+        }
+        return str;
     }
 }

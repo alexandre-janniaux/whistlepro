@@ -75,10 +75,11 @@ public class ProcessingMachine implements DoubleDataListener {
     //threadpool
     StreamManager streamMaster  ;
 
-    public ProcessingMachine(int dataPushedSize, double Fs, String classifierData, int nbThread) {
+    public ProcessingMachine(double Fs, String classifierData, int nbThread) {
 
         //initialisations
         streamMaster = new StreamManager(nbThread, new StreamManagerListener() {
+            private int last_nb_done = 0;
             @Override
             public void oneJobDone() {
                 if(listener != null)
@@ -88,7 +89,11 @@ public class ProcessingMachine implements DoubleDataListener {
                     }
                     else
                     {
-                        listener.newWorkEvent(ProcessingMachineEventListener.WorkEvent.OneWorkDone);
+                        int nb_done = transcriptionBase.getNbReceived();
+                        if(last_nb_done < nb_done) {
+                            listener.newWorkEvent(ProcessingMachineEventListener.WorkEvent.OneWorkDone);
+                            last_nb_done = nb_done;
+                        }
                     }
                 }
                 if(transcriptionEnded()) {
@@ -196,7 +201,7 @@ public class ProcessingMachine implements DoubleDataListener {
 
     public boolean transcriptionEnded()
     {
-        return (transcriptionBase.getNbReceived() == dataRecevied) && (dataRecevied > 0);
+        return splitterStream.getInputState() == States.INPUT_WAITING && (transcriptionBase.getNbReceived() == dataRecevied) && (dataRecevied > 0);
     }
 
     private int dataRecevied = 0;
@@ -217,7 +222,7 @@ public class ProcessingMachine implements DoubleDataListener {
 
     ProcessingMachineEventListener listener = null;
 
-    void setEventLister(ProcessingMachineEventListener l)
+    public void setEventLister(ProcessingMachineEventListener l)
     {
         listener = l;
     }
@@ -230,5 +235,9 @@ public class ProcessingMachine implements DoubleDataListener {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getLastReco() {
+        return transcriptionBase.getLastClassifElement();
     }
 }
