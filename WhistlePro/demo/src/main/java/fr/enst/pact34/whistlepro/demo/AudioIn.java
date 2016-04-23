@@ -10,6 +10,7 @@ import android.util.Log;
  * Created by mms on 29/02/16.
  */
 public class AudioIn extends Thread {
+    private static final int BUFFER_LENGTH = 160;
     private boolean stopped    = false;
     private AudioDataListener listener = null;
 
@@ -26,13 +27,13 @@ public class AudioIn extends Thread {
     @Override
     public void run() {
         Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO);
+        int N = AudioRecord.getMinBufferSize(PercussionTest.Fs,AudioFormat.CHANNEL_IN_MONO,AudioFormat.ENCODING_PCM_16BIT);
         AudioRecord recorder = null;
-        short[][]   buffers  = new short[256][160];
+        short[][]   buffers  = new short[256][BUFFER_LENGTH];
         int         ix       = 0;
 
         try { // ... initialise
 
-            int N = AudioRecord.getMinBufferSize(PercussionTest.Fs,AudioFormat.CHANNEL_IN_MONO,AudioFormat.ENCODING_PCM_16BIT);
 
             recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
                     PercussionTest.Fs,
@@ -50,7 +51,7 @@ public class AudioIn extends Thread {
                 N = recorder.read(buffer,0,buffer.length);
                 if(listener!=null)
                 {
-                    listener.dataReceiver(buffer.clone());
+                    listener.dataReceiver(buffer);
                 }
             }
 
@@ -68,4 +69,28 @@ public class AudioIn extends Thread {
         stopped = true;
     }
 
+    public int getSampleSize() {
+        return BUFFER_LENGTH;
+    }
+
+    public void pause() {
+        try {
+            synchronized (this) {
+                wait();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void restart() {
+        synchronized (this) {
+            notify();
+        }
+    }
+
+    public boolean isRunning() {
+
+        return isInterrupted()==false;
+    }
 }

@@ -1,11 +1,15 @@
 package fr.enst.pact34.whistlepro.demo;
 
+import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
+import fr.enst.pact34.whistlepro.api2.main.ProcessingMachineEventListener;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
-import android.widget.NumberPicker;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -14,16 +18,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Semaphore;
 
-public class PercussionTest extends Activity implements UserInterface {
+public class PercussionTest extends Activity implements UserInterface, AudioDataListener, ProcessingMachineEventListener {
     AudioIn recorder ;
     ProcessingMachine machine ;
     public static String CLASSIFIER_DATA;
     public static int Fs = 16000;
-    Thread processor ;
+    //Thread processor ;
     ArrayList<String> strs = new ArrayList<>();
     TextView affichage ;
     /**
@@ -35,17 +39,21 @@ public class PercussionTest extends Activity implements UserInterface {
         setContentView(R.layout.main);
 
 
-        CLASSIFIER_DATA = readRawTextFile(getApplicationContext(),R.raw.beatbox);
+        CLASSIFIER_DATA = readRawTextFile(getApplicationContext(),R.raw.voyelles_k20);
 
         recorder = new AudioIn();
 
-        machine = new ProcessingMachine(Fs,this);
+        dataTmp = new double[recorder.getSampleSize()];
 
-        recorder.setListener(machine);
+        machine = new ProcessingMachine(Fs,CLASSIFIER_DATA,2);
 
-        processor = new Thread(machine);
+        machine.setEventLister(this);
 
-        processor.start();
+        recorder.setListener(this);
+
+        //processor = new Thread(machine);
+
+        //processor.start();
 
         affichage = (TextView)findViewById(R.id.view);
 
@@ -77,9 +85,7 @@ public class PercussionTest extends Activity implements UserInterface {
     @Override
     public void showText(String text) {
         //Log.e("AUDIO","reco => "+text);
-        synchronized (strs) {
             strs.add(text);
-        }
         //((TextView)findViewById(R.id.view)).append(text);
     }
 
@@ -105,7 +111,7 @@ public class PercussionTest extends Activity implements UserInterface {
 
         //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
 
-        timer.schedule(timerTask, 0, 50); //
+        timer.schedule(timerTask, 0, 99); //
 
     }
 
@@ -142,6 +148,7 @@ public class PercussionTest extends Activity implements UserInterface {
                     public void run() {
 
 
+
                             while(strs.size()>0)
                             {
                                 String str;
@@ -159,19 +166,8 @@ public class PercussionTest extends Activity implements UserInterface {
                             }
 
 
-                        int max_o = 0;
-                        String max_c = "_";
-                        for (String s: classes
-                             ) {
-                            if(s==null || s.equals(".") || s.equals("-") ) continue;
-                            int tmp = len - max.replace(s, "").length();
-                            if(tmp > max_o && tmp > len/5)
-                            {
-                                max_o=tmp;
-                                max_c=s;
-                            }
-                        }
-                        affichage.setText(max_c);
+
+                        affichage.setText(max);
                     }
 
                 });
@@ -182,4 +178,38 @@ public class PercussionTest extends Activity implements UserInterface {
 
     }
 
+    double[] dataTmp ;
+    //Semaphore s = new Semaphore(1);
+    @Override
+    public void dataReceiver(short[] data) {
+        if(data.length == dataTmp.length) {
+            for (int i = 0; i < data.length; i++) {
+                dataTmp[i] = ((double)data[i]) / Short.MAX_VALUE;
+            }
+        }
+        else {
+            for (int i = 0; i < data.length; i++) {
+                dataTmp[i] = 0;
+            }
+        }
+
+        //try {
+         //   s.acquire();
+        //} catch (InterruptedException e) {
+          //  e.printStackTrace();
+        //}
+        machine.pushData(dataTmp);
+
+        Log.d("appli pact34", "pushh");
+    }
+
+    @Override
+    public void newWorkEvent(WorkEvent e) {
+        Log.d("appli pact34", "rrrr");
+        String tmp = machine.getLastReco();
+        showText(tmp);
+        Log.d("appli pact34", "reco : "+tmp);
+        Log.d("appli pact34", "rrrr2");
+        //s.release();
+    }
 }
