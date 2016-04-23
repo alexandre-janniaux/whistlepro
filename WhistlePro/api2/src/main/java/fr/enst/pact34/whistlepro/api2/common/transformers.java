@@ -22,6 +22,7 @@ public class transformers {
 
         fft.setLength((int) ceil((N + 1) / 2));
         fft.setNbPtsSig(N);
+        fft.setFs(sig.getSamplingFrequency());
 
         int fftLen = fft.length();
 
