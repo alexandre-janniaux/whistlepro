@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.demo;
+package fr.enst.pact34.whistlepro.demo.activities;
 
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachineEventListener;
@@ -21,8 +21,10 @@ import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
+import fr.enst.pact34.whistlepro.demo.R;
 
 public class PercussionTest extends Activity implements UserInterface, AudioDataListener, ProcessingMachineEventListener {
+
     AudioIn recorder ;
     ProcessingMachine machine ;
     public static String CLASSIFIER_DATA;

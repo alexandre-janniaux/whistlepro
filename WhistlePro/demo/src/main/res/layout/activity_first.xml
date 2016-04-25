@@ -15,6 +15,8 @@
         android:layout_height="wrap_content"
         android:text="Morceaux"
         android:layout_gravity="center"
+        android:background="#BBDEFB"
+        android:layout_marginTop="25dp"
         android:id="@+id/firstAccesPistes" />
 
     <TextView
@@ -23,6 +25,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:text="TEMPO"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="#2196F3"
         android:id="@+id/firstTempoTxt"
         android:textSize="25dp"/>
 
@@ -33,6 +37,15 @@
         android:layout_gravity="center"
         android:id="@+id/np" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  Enregistrement  "
+        android:background="#BBDEFB"
+        android:id="@+id/firstEnregiBtn"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,24 +53,20 @@
         android:paddingTop="40dp">
 
         <Button
-            android:layout_width="110dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Mélodie"
+            android:background="#BBDEFB"
+            android:layout_marginRight="10dp"
             android:id="@+id/firstMel" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Percussion"
+            android:background="#BBDEFB"
+            android:text=" Percussion "
             android:id="@+id/firstPercu" />
     </LinearLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enregistrment"
-        android:id="@+id/firstEnregiBtn"
-        android:layout_gravity="center_horizontal" />
 
 
 </LinearLayout>

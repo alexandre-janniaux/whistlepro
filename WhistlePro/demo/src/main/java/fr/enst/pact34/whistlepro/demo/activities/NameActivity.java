@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.demo;
+package fr.enst.pact34.whistlepro.demo.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import fr.enst.pact34.whistlepro.demo.R;
 
 public class NameActivity extends Activity {
 

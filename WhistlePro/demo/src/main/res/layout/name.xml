@@ -55,13 +55,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="NOM DE LA PISTE :"
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:id="@+id/entreeNom"
         android:inputType="textMultiLine"
         android:imeOptions="actionNext"
         android:imeActionLabel="@drawable/suivante"
         android:layout_below="@+id/titre2"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="15dp"
         android:layout_alignLeft="@+id/titre1"
         android:layout_alignStart="@+id/titre1"
         android:layout_alignRight="@+id/back"
@@ -97,7 +97,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/back"
         android:layout_alignStart="@+id/back"
-        android:layout_marginBottom="27dp" />
+        android:layout_marginBottom="27dp"
+        android:layout_marginTop="20dp"/>
 
 
 </RelativeLayout>
