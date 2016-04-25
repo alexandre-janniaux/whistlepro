@@ -287,7 +287,7 @@ public class MfccDb {
             StreamSimpleBase<Signal, Signal> powerFilterStream = new StreamSimpleBase<>(new Signal(), new Signal(), powFilterProcess);
 
             //FFT
-            SpectrumProcess fftProcess = new SpectrumProcess();
+            SpectrumProcess fftProcess = new SpectrumProcess(nbPts);
             StreamSimpleBase<Signal, Spectrum> fftStream = new StreamSimpleBase<>(new Signal(), new Spectrum(), fftProcess);
 
             //MFCC
