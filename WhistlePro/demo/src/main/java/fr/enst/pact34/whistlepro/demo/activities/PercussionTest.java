@@ -1,15 +1,13 @@
 package fr.enst.pact34.whistlepro.demo.activities;
 
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
-import fr.enst.pact34.whistlepro.api2.main.ProcessingMachineEventListener;
+import fr.enst.pact34.whistlepro.api2.main.ProcessorEventListener;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -20,10 +18,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.Semaphore;
+
 import fr.enst.pact34.whistlepro.demo.R;
 
-public class PercussionTest extends Activity implements UserInterface, AudioDataListener, ProcessingMachineEventListener {
+public class PercussionTest extends Activity implements UserInterface, AudioDataListener, ProcessorEventListener {
 
     AudioIn recorder ;
     ProcessingMachine machine ;
@@ -47,7 +45,7 @@ public class PercussionTest extends Activity implements UserInterface, AudioData
 
         dataTmp = new double[recorder.getSampleSize()];
 
-        machine = new ProcessingMachine(Fs,CLASSIFIER_DATA,2);
+        machine = new ProcessingMachine(Fs,CLASSIFIER_DATA,4);
 
         machine.setEventLister(this);
 
@@ -87,7 +85,9 @@ public class PercussionTest extends Activity implements UserInterface, AudioData
     @Override
     public void showText(String text) {
         //Log.e("AUDIO","reco => "+text);
+        synchronized (strs) {
             strs.add(text);
+        }
         //((TextView)findViewById(R.id.view)).append(text);
     }
 
@@ -202,16 +202,16 @@ public class PercussionTest extends Activity implements UserInterface, AudioData
         //}
         machine.pushData(dataTmp);
 
-        Log.d("appli pact34", "pushh");
+        //Log.d("appli pact34", "pushh");
     }
 
     @Override
     public void newWorkEvent(WorkEvent e) {
-        Log.d("appli pact34", "rrrr");
+        //Log.d("appli pact34", "rrrr");
         String tmp = machine.getLastReco();
         showText(tmp);
-        Log.d("appli pact34", "reco : "+tmp);
-        Log.d("appli pact34", "rrrr2");
+        //Log.d("appli pact34", "reco : "+tmp);
+        //Log.d("appli pact34", "rrrr2");
         //s.release();
     }
 }

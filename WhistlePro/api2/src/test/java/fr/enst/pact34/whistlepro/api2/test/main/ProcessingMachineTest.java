@@ -5,7 +5,7 @@ import org.junit.Test;
 import fr.enst.pact34.whistlepro.api2.common.FileOperator;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
-import fr.enst.pact34.whistlepro.api2.main.ProcessingMachineEventListener;
+import fr.enst.pact34.whistlepro.api2.main.ProcessorEventListener;
 import fr.enst.pact34.whistlepro.api2.test.utils.TestUtils;
 
 import static org.junit.Assert.assertEquals;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by mms on 17/04/16.
  */
-public class ProcessingMachineTest implements ProcessingMachineEventListener {
+public class ProcessingMachineTest implements ProcessorEventListener {
 
     private final String inputDataFile = "../testData/features/signal.data";
 
