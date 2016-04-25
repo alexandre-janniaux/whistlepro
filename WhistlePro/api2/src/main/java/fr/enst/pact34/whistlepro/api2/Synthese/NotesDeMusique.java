@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.api.Synthese;
+package fr.enst.pact34.whistlepro.api2.Synthese;
 
 public class NotesDeMusique { //renvoie la frequence des notes jouees (????)
     /* Est-ce que l'on garde l'attribut instrument ?*/
