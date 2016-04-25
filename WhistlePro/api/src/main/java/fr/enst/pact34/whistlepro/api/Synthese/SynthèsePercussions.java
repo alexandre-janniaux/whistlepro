@@ -1,11 +1,9 @@
 package fr.enst.pact34.whistlepro.api.Synthese;
 
 import fr.enst.pact34.whistlepro.api.acquisition.ReadExample;
-import com.sun.javafx.collections.ArrayListenerHelper;
-
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import fr.enst.pact34.whistlepro.api.Synthese.WavFile ;
 
 import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
 
@@ -22,31 +20,34 @@ public class SynthèsePercussions
         int numFramesToRead = (int) (src.getNumFrames() * src.getNumChannels());
         double[] srcInDouble = new double[numFramesToRead];
         try {
-            int framesRead = src.readFrames(srcInDouble; numFramesToRead);
+            int framesRead = src.readFrames(srcInDouble, numFramesToRead);
         } catch (IOException e1) {
             e1.printStackTrace();
         } catch (WavFileException e) {
             e.printStackTrace();
         }
+        return srcInDouble;
     }
 
     public double[] transposition(Onomatopee onomatopee) {
         ReadExample readExample = new ReadExample();
         switch (onomatopee.getInstrument()) {
             case 1 :
-                return readExample.audioRead(data/caisseClaire);
+                return readExample.audioRead(new File("data/caisseClaire"));
             case 2 :
-                return readExample.audioRead("data/charleston");
+                return readExample.audioRead(new File("data/charleston"));
             case 3 :
-                return readExample.audioRead("data/cymbale");
+                return readExample.audioRead(new File("data/cymbale"));
             case 4 :
-                return readExample.audioRead("data/grosse caisse");
-            default:
-                return TableOfZeros ; // return a table of zeros of the size of the other sounds
+                return readExample.audioRead(new File("data/grosse caisse"));
+            default: //TODO
+                return null; //return TableOfZeros ; // return a table of zeros of the size of the other sounds
         }
     }
 
     public double[] synthèsePercu(ArrayList<Onomatopee> in) {
+        //TODO
+        /*
         double[] out = new double[in.size()*sizeOfThePercuSounds]; //change
         for (int i = 0; i < in.size(); i++) {
             double intensite = in.get(i).getIntensity();
@@ -56,6 +57,8 @@ public class SynthèsePercussions
             }
         }
         return(out);
+        */
+        return null;
     }
 
 }
