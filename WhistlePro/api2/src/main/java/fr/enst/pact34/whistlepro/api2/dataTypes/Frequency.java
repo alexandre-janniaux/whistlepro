@@ -7,11 +7,15 @@ import  fr.enst.pact34.whistlepro.api2.stream.StreamDataInterface;
  */
 public class Frequency implements StreamDataInterface<Frequency> {
 
+
+    private double frequency;
+
     @Override
     public void copyTo(Frequency o) {
 
         o.id = this.id;
         o.valid=this.valid;
+        o.frequency = this.frequency;
     }
 
     @Override
@@ -42,5 +46,13 @@ public class Frequency implements StreamDataInterface<Frequency> {
     @Override
     public void setValid(boolean v) {
         valid =v;
+    }
+
+    public void setFrequency(double frequency) {
+        this.frequency = frequency;
+    }
+
+    public double getFrequency() {
+        return frequency;
     }
 }
