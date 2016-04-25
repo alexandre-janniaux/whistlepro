@@ -3,12 +3,30 @@ package fr.enst.pact34.whistlepro.api2.main;
 /**
  * Created by mms on 25/04/16.
  */
-public interface Piste {
-    void setTitle(String title);
-    TypePiste getTypePiste();
-    //private TypePiste typeRec;
-    //private int id;
-    //private double Fs;
-    // TODO add list of elements
+public abstract class  Piste {
+    
+
+    public abstract TypePiste getTypePiste();
+
+    private String title;
+
+    public final void setTitle(String title)
+    {
+        this.title=title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    private int id =-1;
+
+    public final void setId(int id) {
+        this.id = id;
+    }
+
+    protected final int getId() {
+        return id;
+    }
 
 }
