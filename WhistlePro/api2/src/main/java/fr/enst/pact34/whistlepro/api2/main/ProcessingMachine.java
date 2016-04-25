@@ -23,6 +23,7 @@ public class ProcessingMachine extends ProcessingMachineBase {
                 piste = new PistePercu();
                 break;
         }
+        super.setupFor(typePiste);
     }
 
     @Override

@@ -8,6 +8,7 @@ import  fr.enst.pact34.whistlepro.api2.dataTypes.AttackTimes;
 import  fr.enst.pact34.whistlepro.api2.dataTypes.ClassifResults;
 import  fr.enst.pact34.whistlepro.api2.dataTypes.Frequency;
 import  fr.enst.pact34.whistlepro.api2.dataTypes.MusicTrack;
+import fr.enst.pact34.whistlepro.api2.main.TypePiste;
 import  fr.enst.pact34.whistlepro.api2.stream.StreamSourceBase;
 
 /**
@@ -18,6 +19,7 @@ public class TranscriptionBase extends StreamSourceBase<MusicTrack> implements P
     PartialDataStreamDest<Frequency> destFreqs = new PartialDataStreamDest<>(new Frequency(),this);
     PartialDataStreamDest<AttackTimes> destAttak = new PartialDataStreamDest<>(new AttackTimes(),this);
     PartialDataStreamDest<ClassifResults> destClassif = new PartialDataStreamDest<>(new ClassifResults(),this);
+    private TypePiste typePiste;
 
     public TranscriptionBase(MusicTrack bufferOut) {
         super(bufferOut);
@@ -55,8 +57,15 @@ public class TranscriptionBase extends StreamSourceBase<MusicTrack> implements P
             freqs.add((Frequency) c);
         }
 
-        int min =   (freqs.size()<attacks.size())?freqs.size():attacks.size();
-        nbReceived = (min < classifs.size())?min:classifs.size();
+        switch (typePiste)
+        {
+            case Melodie:
+                nbReceived =(freqs.size()<attacks.size())?freqs.size():attacks.size();
+                break;
+            case Percussions:
+                nbReceived = (attacks.size() < classifs.size())?attacks.size():classifs.size();
+                break;
+        }
     }
 
     public void clear() {
@@ -75,5 +84,9 @@ public class TranscriptionBase extends StreamSourceBase<MusicTrack> implements P
                 str = c.getRecoClass();
         }
         return str;
+    }
+
+    public void setupFor(TypePiste typePiste) {
+        this.typePiste = typePiste;
     }
 }

@@ -5,6 +5,7 @@ import java.util.concurrent.Semaphore;
 
 import fr.enst.pact34.whistlepro.api2.classification.ClassifProcess;
 import fr.enst.pact34.whistlepro.api2.classification.MultipleStrongClassifiers;
+import fr.enst.pact34.whistlepro.api2.common.FreqProcess;
 import fr.enst.pact34.whistlepro.api2.common.PowerFilterProcess;
 import fr.enst.pact34.whistlepro.api2.common.SpectrumProcess;
 import fr.enst.pact34.whistlepro.api2.common.SplitterProcess;
@@ -114,7 +115,7 @@ public abstract class ProcessingMachineBase implements DoubleDataListener, Proce
 
 
         //Estimation hauteur
-        estFreqProcess =  new FakeProcessOutValue<>(new Frequency());//new FreqProcess();//new FakeProcessOutValue<>(new Frequency()); //TODO put real process
+        estFreqProcess =  new FreqProcess();
         estFreqStream = new StreamSimpleBase<>(new Signal(),new Frequency(), estFreqProcess);
 
         //Attaque
@@ -162,9 +163,9 @@ public abstract class ProcessingMachineBase implements DoubleDataListener, Proce
             }
         });                                                         //   this     ||             ||          ||
                                                                     //            ||             ||          ||
-        powerFilterStream.subscribe(estFreqStream);                 //            ||             ||        estFreq
-        powerFilterStream.subscribe(attackStream);                  //            ||           attack
-        powerFilterStream.subscribe(fftStream);                     //            FFT
+        //powerFilterStream.subscribe(estFreqStream);               //            ||             ||        estFreq
+        powerFilterStream.subscribe(attackStream);  //to add        //            ||           attack
+        //powerFilterStream.subscribe(fftStream);                   //            FFT
                                                                     //            ||
         fftStream.subscribe(mfccStream);                            //           MFCC
                                                                     //            ||
@@ -195,17 +196,13 @@ public abstract class ProcessingMachineBase implements DoubleDataListener, Proce
 
     private boolean transcriptionEnded()
     {
-        return splitterStream.getInputState() == States.INPUT_WAITING && (transcriptionBase.getNbReceived() == dataRecevied) && (dataRecevied > 0);
+        return (transcriptionBase.getNbReceived() == dataRecevied) && (dataRecevied > 0)
+                && splitterStream.getInputState() == States.INPUT_WAITING
+                && splitterStream.getProcessState() == States.PROCESS_WAITING ;
     }
 
     private int dataRecevied = 0;
 
-    protected void clear()
-    {
-        //TODO complete
-        dataRecevied = 0;
-        transcriptionBase.clear();
-    }
 
     @Override
     public void pushData(double[] data) {
@@ -233,5 +230,25 @@ public abstract class ProcessingMachineBase implements DoubleDataListener, Proce
     //temporaire
     public String getLastReco() {
         return transcriptionBase.getLastClassifElement();
+    }
+
+    public void setupFor(TypePiste typePiste) {
+        //clear
+        dataRecevied = 0;
+        transcriptionBase.clear();
+        //setup
+        switch (typePiste)
+        {
+            case Melodie:
+                powerFilterStream.subscribe(estFreqStream);
+                powerFilterStream.unsubscribe(fftStream);
+                break;
+            case Percussions:
+                powerFilterStream.unsubscribe(estFreqStream);
+                powerFilterStream.subscribe(fftStream);
+                break;
+        }
+
+        transcriptionBase.setupFor(typePiste);
     }
 }

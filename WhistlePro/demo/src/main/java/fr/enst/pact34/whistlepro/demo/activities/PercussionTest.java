@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import fr.enst.pact34.whistlepro.api2.main.TypePiste;
 import fr.enst.pact34.whistlepro.demo.R;
 
 public class PercussionTest extends Activity implements UserInterface, AudioDataListener, ProcessorEventListener {
@@ -45,7 +46,7 @@ public class PercussionTest extends Activity implements UserInterface, AudioData
 
         dataTmp = new double[recorder.getSampleSize()];
 
-        machine = new ProcessingMachine(Fs,CLASSIFIER_DATA,4);
+        machine = new ProcessingMachine(Fs,CLASSIFIER_DATA,4, TypePiste.Percussions);
 
         machine.setEventLister(this);
 
