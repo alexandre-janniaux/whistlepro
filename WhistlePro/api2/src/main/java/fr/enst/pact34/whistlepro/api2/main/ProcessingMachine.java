@@ -5,16 +5,16 @@ package fr.enst.pact34.whistlepro.api2.main;
  */
 public class ProcessingMachine extends ProcessingMachineBase {
 
-    public ProcessingMachine(double Fs, String classifierData, int nbThread, TypeRec typeRec) {
+    public ProcessingMachine(double Fs, String classifierData, int nbThread, TypePiste typePiste) {
         super(Fs, classifierData, nbThread);
-        init(typeRec);
+        init(typePiste);
     }
 
     private Piste piste = null;
 
     @Override
-    public void init(TypeRec typeRec) {
-        switch (typeRec)
+    public void init(TypePiste typePiste) {
+        switch (typePiste)
         {
             case Melodie:
                 piste = new PisteMelodie();

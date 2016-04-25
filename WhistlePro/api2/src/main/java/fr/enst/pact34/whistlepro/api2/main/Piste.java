@@ -5,8 +5,8 @@ package fr.enst.pact34.whistlepro.api2.main;
  */
 public interface Piste {
     void setTitle(String title);
-    TypeRec getTypePiste();
-    //private TypeRec typeRec;
+    TypePiste getTypePiste();
+    //private TypePiste typeRec;
     //private int id;
     //private double Fs;
     // TODO add list of elements

@@ -6,7 +6,7 @@ package fr.enst.pact34.whistlepro.api2.main;
 public interface ProcessorInterface {
 
     //preparation d'un nouvel enregistrement
-    void init(TypeRec typeRec);
+    void init(TypePiste typePiste);
 
     void setTitle(String title);
 
