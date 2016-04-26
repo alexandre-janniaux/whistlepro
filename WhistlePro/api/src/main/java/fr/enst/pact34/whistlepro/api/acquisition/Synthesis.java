@@ -11,7 +11,7 @@ import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;
 import org.apache.commons.math3.transform.TransformType;
 
-public abstract class Synthesis implements SynthesisInterface {
+public class Synthesis implements SynthesisInterface {
 
 	public void synthesize(int f) // f is the note number
 	{
@@ -63,9 +63,11 @@ public abstract class Synthesis implements SynthesisInterface {
 	public void printSpectrum(double[] x) {
 		
 		double[] y = spectrum(x);
-		Affichage2.affichage(y, "FFT de x");
+		Affichage2 affich = new Affichage2();
+		affich.setOrigin(x.length/2);
+		affich.affichage(y, "FFT de x");
 
 	}
-	
+
 }
 
