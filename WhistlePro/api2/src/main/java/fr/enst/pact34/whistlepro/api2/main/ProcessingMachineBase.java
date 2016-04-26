@@ -23,7 +23,7 @@ import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
 /**
  * Created by mms on 15/03/16.
  */
-public abstract class ProcessingMachineBase implements DoubleDataListener, ProcessorInterface {
+public abstract class ProcessingMachineBase implements  ProcessorInterface {
     private static final double TIME_ANALYSE = 0.020;
 
     //split stream

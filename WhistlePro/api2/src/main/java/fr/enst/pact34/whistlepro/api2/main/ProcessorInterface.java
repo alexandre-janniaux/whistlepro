@@ -3,7 +3,7 @@ package fr.enst.pact34.whistlepro.api2.main;
 /**
  * Created by mms on 25/04/16.
  */
-public interface ProcessorInterface {
+public interface ProcessorInterface extends  DoubleDataListener{
 
     //preparation d'un nouvel enregistrement
     void init(TypePiste typePiste);
