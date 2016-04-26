@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
+import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
 import fr.enst.pact34.whistlepro.api2.main.TypePiste;
 import fr.enst.pact34.whistlepro.demo.R;
 
@@ -34,6 +35,15 @@ public class FirstActivity extends WhistleProActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
+
+        // variables globales
+
+        Recorder recorder = new Recorder();
+        addSharedData(SD_RECORDER, recorder);
+        final ProcessorInterface processor = new ProcessingMachine(recorder.getSampleRate(),
+                (String)getSharedData(SD_CLASSIFIER_DATA),
+                4, TypePiste.Percussions);
+        addSharedData(SD_PROCESSING_MACINE,processor);
 
         //Le menu déroulant de tempo
         NumberPicker nbpicker = (NumberPicker)findViewById(R.id.np);
@@ -81,21 +91,13 @@ public class FirstActivity extends WhistleProActivity {
                     Toast.makeText(getApplicationContext(), "Veuillez choisir un type d'enregistrement", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Recorder recorder = new Recorder();
-                addSharedData(SD_RECORDER,recorder);
                 if(type == 1)
                 {
-                    addSharedData(SD_PROCESSING_MACINE,
-                            new ProcessingMachine(recorder.getSampleRate(),
-                                    (String)getSharedData(SD_CLASSIFIER_DATA),
-                                    4, TypePiste.Percussions));
+                    processor.init(TypePiste.Percussions);
                 }
                 else if(type == 2)
                 {
-                    addSharedData(SD_PROCESSING_MACINE,
-                            new ProcessingMachine(recorder.getSampleRate(),
-                                    (String)getSharedData(SD_CLASSIFIER_DATA),
-                                    4, TypePiste.Melodie));
+                    processor.init(TypePiste.Melodie);
                 }
                 startActivity(new Intent(FirstActivity.this, EnregistrementActivity.class));
             }
