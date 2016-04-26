@@ -1,11 +1,20 @@
 package fr.enst.pact34.whistlepro.demo.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
+import fr.enst.pact34.whistlepro.api2.main.TypePiste;
 import fr.enst.pact34.whistlepro.demo.R;
 
 public class FirstActivity extends WhistleProActivity {
@@ -58,7 +67,7 @@ public class FirstActivity extends WhistleProActivity {
             @Override
             public void onClick(View view) {
                 type = 1;
-                startActivity(new Intent(FirstActivity.this, PercussionTest.class));
+                //startActivity(new Intent(FirstActivity.this, PercussionTest.class));
             }
         });
 
@@ -67,9 +76,31 @@ public class FirstActivity extends WhistleProActivity {
         captBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(type == 0)
+                {
+                    Toast.makeText(getApplicationContext(), "Veuillez choisir un type d'enregistrement", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Recorder recorder = new Recorder();
+                addSharedData(SD_RECORDER,recorder);
+                if(type == 1)
+                {
+                    addSharedData(SD_PROCESSING_MACINE,
+                            new ProcessingMachine(recorder.getSampleRate(),
+                                    (String)getSharedData(SD_CLASSIFIER_DATA),
+                                    4, TypePiste.Percussions));
+                }
+                else if(type == 2)
+                {
+                    addSharedData(SD_PROCESSING_MACINE,
+                            new ProcessingMachine(recorder.getSampleRate(),
+                                    (String)getSharedData(SD_CLASSIFIER_DATA),
+                                    4, TypePiste.Melodie));
+                }
                 startActivity(new Intent(FirstActivity.this, EnregistrementActivity.class));
             }
         });
 
     }
+
 }
