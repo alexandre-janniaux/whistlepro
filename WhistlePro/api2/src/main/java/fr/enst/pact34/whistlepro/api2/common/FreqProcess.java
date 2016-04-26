@@ -46,7 +46,7 @@ public class FreqProcess implements StreamProcessInterface<Signal,Frequency> {
         double[] sig = new double[inputData.length()*xFs];
         double[] res = new double[sig.length];
 
-        long t = System.currentTimeMillis();
+        //long t = System.currentTimeMillis();
         for (int i = 0; i < inputData.length()-1; i++) {
             for (int j = 0; j < xFs; j++) {
                 //interpolation lineaire
@@ -73,10 +73,10 @@ public class FreqProcess implements StreamProcessInterface<Signal,Frequency> {
         }
 
         double freq = inputData.getSamplingFrequency()*xFs/i_max;
-        System.out.println(System.currentTimeMillis()-t);
+        //System.out.println(System.currentTimeMillis()-t);
 //*/
 
-        outputData.setFrequency(freq);
+        outputData.setFrequency(NoteCorrector.closestNoteFreq(freq));
 
     }
 }
