@@ -1,6 +1,5 @@
 package fr.enst.pact34.whistlepro.demo.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +26,7 @@ public class EnregistrementActivity extends WhistleProActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enregistrement);
 
+        recorder.setListener(processor);
 
         ImageButton okBtn = (ImageButton) findViewById(R.id.enregistrementStop);
         okBtn.setOnClickListener(new View.OnClickListener() {
@@ -35,6 +35,7 @@ public class EnregistrementActivity extends WhistleProActivity {
                 recorder.stopRec();
                 processor.waitEnd();// attend la fin des traitements
                 startActivity(new Intent(EnregistrementActivity.this, NameActivity.class));
+                finish();
             }
         });
 
@@ -83,6 +84,7 @@ public class EnregistrementActivity extends WhistleProActivity {
         super.onPause();
         recorder.stopRec();
     }
+
 }
 
 
