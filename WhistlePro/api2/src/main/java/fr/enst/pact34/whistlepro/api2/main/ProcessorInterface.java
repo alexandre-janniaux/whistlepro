@@ -8,6 +8,8 @@ public interface ProcessorInterface {
     //preparation d'un nouvel enregistrement
     void init(TypePiste typePiste);
 
+    void startRecProcessing();  //is supposed to clear old data if any
+
     void setTitle(String title);
 
     void correct();

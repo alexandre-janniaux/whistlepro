@@ -26,9 +26,6 @@ import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
 public abstract class ProcessingMachineBase implements DoubleDataListener, ProcessorInterface {
     private static final double TIME_ANALYSE = 0.020;
 
-    //Acquisition filled by constructor
-    //private StreamSourceInput<double[]> source = null;
-
     //split stream
     private StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess ;
     private StreamInputWraper<double[], Signal> splitterStream ;
@@ -232,10 +229,15 @@ public abstract class ProcessingMachineBase implements DoubleDataListener, Proce
         return transcriptionBase.getLastClassifElement();
     }
 
-    public void setupFor(TypePiste typePiste) {
-        //clear
+    private void clearData()
+    {
         dataRecevied = 0;
         transcriptionBase.clear();
+    }
+
+    public void setupFor(TypePiste typePiste) {
+        //clear
+        clearData();
         //setup
         switch (typePiste)
         {
@@ -250,5 +252,9 @@ public abstract class ProcessingMachineBase implements DoubleDataListener, Proce
         }
 
         transcriptionBase.setupFor(typePiste);
+    }
+
+    protected void startProcessing() {
+        clearData();
     }
 }

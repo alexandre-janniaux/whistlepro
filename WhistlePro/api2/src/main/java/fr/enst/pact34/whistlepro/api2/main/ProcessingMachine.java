@@ -27,6 +27,11 @@ public class ProcessingMachine extends ProcessingMachineBase {
     }
 
     @Override
+    public void startRecProcessing() {
+        super.startProcessing();
+    }
+
+    @Override
     public void setTitle(String title) {
         piste.setTitle(title);
     }
