@@ -1,6 +1,5 @@
 package fr.enst.pact34.whistlepro.demo.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +8,7 @@ import android.widget.NumberPicker;
 
 import fr.enst.pact34.whistlepro.demo.R;
 
-public class FirstActivity extends Activity {
+public class FirstActivity extends WhistleProActivity {
 
     /** /!\ IMPORTANT /!\
      NOTE TO READER :
@@ -71,9 +70,6 @@ public class FirstActivity extends Activity {
                 startActivity(new Intent(FirstActivity.this, EnregistrementActivity.class));
             }
         });
-
-
-
 
     }
 }
