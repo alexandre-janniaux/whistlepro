@@ -8,9 +8,14 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
 import fr.enst.pact34.whistlepro.demo.R;
 
-public class EnregistrementActivity extends Activity {
+public class EnregistrementActivity extends WhistleProActivity {
+
+
+    final ProcessorInterface processor  = (ProcessorInterface) getSharedData(SD_PROCESSING_MACINE);
+    final Recorder recorder = (Recorder) getSharedData(SD_RECORDER);
 
     /**
      * /!\ IMPORTANT /!\
@@ -22,16 +27,19 @@ public class EnregistrementActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enregistrement);
 
+
         ImageButton okBtn = (ImageButton) findViewById(R.id.enregistrementStop);
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                recorder.stopRec();
+                processor.waitEnd();// attend la fin des traitements
                 startActivity(new Intent(EnregistrementActivity.this, NameActivity.class));
             }
         });
 
         //Code for the metronome switching
-        final int[] imageArray = {R.drawable.metronome, R.drawable.metronome_flip};
+        final int[] imageArray = {R.drawable.metronome, R.drawable.metronome};// TODO metronome_flip};
 
 
         final Handler handler = new Handler();
@@ -59,8 +67,22 @@ public class EnregistrementActivity extends Activity {
 
 
         //TO DO : put the record function
+
+        processor.startRecProcessing();
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        recorder.startRec();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        recorder.stopRec();
+    }
 }
 
 
