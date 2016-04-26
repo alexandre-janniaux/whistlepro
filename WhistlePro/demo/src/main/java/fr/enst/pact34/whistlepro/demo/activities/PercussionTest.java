@@ -3,11 +3,11 @@ package fr.enst.pact34.whistlepro.demo.activities;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorEventListener;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -22,9 +22,9 @@ import java.util.TimerTask;
 import fr.enst.pact34.whistlepro.api2.main.TypePiste;
 import fr.enst.pact34.whistlepro.demo.R;
 
-public class PercussionTest extends Activity implements UserInterface, AudioDataListener, ProcessorEventListener {
+public class PercussionTest extends WhistleProActivity implements UserInterface,  ProcessorEventListener {
 
-    AudioIn recorder ;
+    Recorder recorder ;
     ProcessingMachine machine ;
     public static String CLASSIFIER_DATA;
     public static int Fs = 16000;
@@ -42,15 +42,13 @@ public class PercussionTest extends Activity implements UserInterface, AudioData
 
         CLASSIFIER_DATA = readRawTextFile(getApplicationContext(),R.raw.voyelles_k20);
 
-        recorder = new AudioIn();
-
-        dataTmp = new double[recorder.getSampleSize()];
+        recorder = new Recorder();
 
         machine = new ProcessingMachine(Fs,CLASSIFIER_DATA,4, TypePiste.Percussions);
 
         machine.setEventLister(this);
 
-        recorder.setListener(this);
+        recorder.setListener(machine);
 
         //processor = new Thread(machine);
 
@@ -58,6 +56,13 @@ public class PercussionTest extends Activity implements UserInterface, AudioData
 
         affichage = (TextView)findViewById(R.id.view);
 
+        ((Button) findViewById(R.id.start)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(recorder.isRecording()) recorder.stopRec();
+                else recorder.startRec();
+            }
+        });
 
     }
 
@@ -181,30 +186,6 @@ public class PercussionTest extends Activity implements UserInterface, AudioData
 
     }
 
-    double[] dataTmp ;
-    //Semaphore s = new Semaphore(1);
-    @Override
-    public void dataReceiver(short[] data) {
-        if(data.length == dataTmp.length) {
-            for (int i = 0; i < data.length; i++) {
-                dataTmp[i] = ((double)data[i]) / Short.MAX_VALUE;
-            }
-        }
-        else {
-            for (int i = 0; i < data.length; i++) {
-                dataTmp[i] = 0;
-            }
-        }
-
-        //try {
-         //   s.acquire();
-        //} catch (InterruptedException e) {
-          //  e.printStackTrace();
-        //}
-        machine.pushData(dataTmp);
-
-        //Log.d("appli pact34", "pushh");
-    }
 
     @Override
     public void newWorkEvent(WorkEvent e) {
