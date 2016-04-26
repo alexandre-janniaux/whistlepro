@@ -10,9 +10,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
 import fr.enst.pact34.whistlepro.demo.R;
 
-public class NameActivity extends Activity {
+public class NameActivity extends WhistleProActivity {
 
     EditText nom;
 /** /!\ IMPORTANT /!\
@@ -35,11 +36,12 @@ public class NameActivity extends Activity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(NameActivity.this, EnregistrementActivity.class));
+                finish();
+                //startActivity(new Intent(NameActivity.this, EnregistrementActivity.class));
             }
         });
 
-        EditText nom = (EditText) findViewById(R.id.entreeNom);
+        final EditText nom = (EditText) findViewById(R.id.entreeNom);
         nom.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -50,14 +52,16 @@ public class NameActivity extends Activity {
                 return handled;
             }
         });
-        String strName = nom.getText().toString();
-        // TO DO : put function saveFile
-
         ImageButton nextBtn = (ImageButton)findViewById(R.id.next);
         nextBtn.setOnClickListener(new ImageButton.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(NameActivity.this, CorrectionActivity.class));
+                // TO DO : put function saveFile
+
+                String strName = nom.getText().toString();
+                ProcessorInterface processor = (ProcessorInterface) getSharedData(SD_PROCESSING_MACINE);
+                processor.setTitle(strName);
             }
         });
 
