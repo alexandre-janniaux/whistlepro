@@ -3,6 +3,7 @@ package fr.enst.pact34.whistlepro.api2.main;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
+import fr.enst.pact34.whistlepro.api2.attaque.AttackDetectorProcess;
 import fr.enst.pact34.whistlepro.api2.classification.ClassifProcess;
 import fr.enst.pact34.whistlepro.api2.classification.MultipleStrongClassifiers;
 import fr.enst.pact34.whistlepro.api2.common.FreqProcess;
@@ -116,7 +117,7 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         estFreqStream = new StreamSimpleBase<>(new Signal(),new Frequency(), estFreqProcess);
 
         //Attaque
-        attackProcess = new FakeProcessOutValue<>(new AttackTimes()); //TODO put real process
+        attackProcess = new AttackDetectorProcess(sampleLen);//new FakeProcessOutValue<>(new AttackTimes()); //TODO put real process
         attackStream = new StreamSimpleBase<>(new Signal(),new AttackTimes(), attackProcess);
 
         //FFT
