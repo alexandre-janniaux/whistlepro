@@ -15,6 +15,9 @@ public class AttackTimes implements StreamDataInterface<AttackTimes> {
 
         attaqueTimes.id=this.id;
         attaqueTimes.valid=this.valid;
+        //TODO remove NEW HERE
+        attaqueTimes.timesUp = new LinkedList<>(this.timesUp);
+        attaqueTimes.timesDown = new LinkedList<>(this.timesDown);
     }
 
     @Override
@@ -66,5 +69,10 @@ public class AttackTimes implements StreamDataInterface<AttackTimes> {
 
     public List<Double> getDownTimes() {
         return timesDown;
+    }
+
+    public void clear() {
+        timesDown.clear();
+        timesUp.clear();
     }
 }

@@ -17,7 +17,7 @@ public class AttackDetectorTest {
     public void testAttack()
     {
         Signal inputData = new Signal();
-        double Fs = 16000;
+        double Fs = 44100;
         inputData.setSamplingFrequency(Fs);
         inputData.setLength((int) (0.020 * Fs));
 
@@ -67,8 +67,8 @@ public class AttackDetectorTest {
 
         double t_step = 1 / Fs;
 
-        double start = 0.004;
-        double end = 0.017;
+        double start = 0.01;
+        double end = 0.019;
 
         for (int i = (int) (start * Fs); i < (int) (end * Fs); i++) {
             inputData.setValue(i, Math.sin(2.0 * Math.PI * 2000 * i * t_step) );
@@ -127,10 +127,25 @@ public class AttackDetectorTest {
             System.out.println(" down :"+d);
         }
 
-        assertEquals(0,res.getUpTimes().size());
+        //sig supposed to be 0 before that's why there is a start
+        assertEquals(1,res.getUpTimes().size());
         assertEquals(0,res.getDownTimes().size());
 
 
+        attackDetector.process(inputData, res);
+
+        for (double d : res.getUpTimes()
+                ) {
+            System.out.println(" up :" + d);
+        }
+        for (double d : res.getDownTimes()
+                ) {
+            System.out.println(" down :"+d);
+        }
+
+        //now it already started and before it was 1
+        assertEquals(0,res.getUpTimes().size());
+        assertEquals(0,res.getDownTimes().size());
     }
 
 
@@ -144,7 +159,7 @@ public class AttackDetectorTest {
 
         double t_step = 1 / Fs;
         for (int i = 0; i < inputData.length(); i++) {
-            inputData.setValue(i,  0.2*Math.sin(2.0 * Math.PI * 2000 * i * t_step));
+            inputData.setValue(i,  0.5*Math.sin(2.0 * Math.PI * 2000 * i * t_step));
         }
 
         AttackTimes res = new AttackTimes();
@@ -163,9 +178,26 @@ public class AttackDetectorTest {
             System.out.println(" down :"+d);
         }
 
-        assertEquals(0,res.getUpTimes().size());
-        assertEquals(0,res.getDownTimes().size());
+        assertEquals(1, res.getUpTimes().size());
+        assertEquals(0, res.getDownTimes().size());
 
+        for (int i = 0; i < inputData.length(); i++) {
+            inputData.setValue(i,  0.1*Math.sin(2.0 * Math.PI * 2000 * i * t_step));
+        }
+
+        attackDetector.process(inputData, res);
+
+        for (double d : res.getUpTimes()
+                ) {
+            System.out.println(" up :" + d);
+        }
+        for (double d : res.getDownTimes()
+                ) {
+            System.out.println(" down :"+d);
+        }
+
+        assertEquals(0,res.getUpTimes().size());
+        assertEquals(1,res.getDownTimes().size());
 
     }
 
