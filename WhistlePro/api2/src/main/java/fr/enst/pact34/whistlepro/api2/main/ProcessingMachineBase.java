@@ -196,7 +196,8 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
     {
         return (transcriptionBase.getNbReceived() == dataRecevied) && (dataRecevied > 0)
                 && splitterStream.getInputState() == States.INPUT_WAITING
-                && splitterStream.getProcessState() == States.PROCESS_WAITING ;
+                && splitterStream.getProcessState() == States.PROCESS_WAITING
+                && splitterStream.getOutputState() == States.OUTPUT_WAITING ;
     }
 
     private int dataRecevied = 0;
@@ -230,6 +231,10 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         return transcriptionBase.getLastClassifElement();
     }
 
+    public AttackTimes getLastAttack()
+    {
+        return transcriptionBase.getLastAttackElement();
+    }
     private void clearData()
     {
         dataRecevied = 0;

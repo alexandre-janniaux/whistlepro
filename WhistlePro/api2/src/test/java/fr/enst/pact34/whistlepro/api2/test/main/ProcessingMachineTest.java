@@ -3,6 +3,7 @@ package fr.enst.pact34.whistlepro.api2.test.main;
 import org.junit.Test;
 
 import fr.enst.pact34.whistlepro.api2.common.FileOperator;
+import fr.enst.pact34.whistlepro.api2.dataTypes.AttackTimes;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorEventListener;
@@ -64,7 +65,7 @@ public class ProcessingMachineTest implements ProcessorEventListener {
         bufferToSend = new double[inputData.length()];
         inputData.fillArray(bufferToSend);
 
-        final ProcessingMachine pm = new ProcessingMachine(44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),1,TypePiste.Percussions);
+        final ProcessingMachine pm = new ProcessingMachine(44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),2,TypePiste.Percussions);
         pmRef = pm;
         pm.setEventLister(this);
 
@@ -92,13 +93,17 @@ public class ProcessingMachineTest implements ProcessorEventListener {
     {
         //*
         Signal inputData = TestUtils.createSignalFromFile(inputDataFile);
+        inputData.setLength(inputData.length());
+        for (int i = 0; i < inputData.length()/3; i++) {
+            inputData.setValue(inputData.length()-i-1,0);
+        }
         //inputData.setLength((int)(44100*0.020)); // Will be be treated as one sample (will not be cut)
         bufferToSend = new double[inputData.length()];
 
         //inputData.fillArray(bufferToSend);
 
 
-        final ProcessingMachine pm = new ProcessingMachine(44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),2,TypePiste.Percussions);
+        final ProcessingMachine pm = new ProcessingMachine(44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),4,TypePiste.Percussions);
         pmRef = pm;
         pm.setEventLister(this);
 
@@ -110,7 +115,7 @@ public class ProcessingMachineTest implements ProcessorEventListener {
         }
 
         pm.waitEnd();
-
+        //while (true);
 
         //assertTrue(pm.transcriptionEnded());
         //TODO test on ret values for example
@@ -120,9 +125,34 @@ public class ProcessingMachineTest implements ProcessorEventListener {
     int i  = 0;
     @Override
     public synchronized void newWorkEvent(WorkEvent e) {
-        if(e==WorkEvent.OneWorkDone) {
-            System.out.print(i++ +" One Work Done : ");
+        if(e==WorkEvent.AllWorkDone) {
+            System.out.print(i++ + " Last Work Done : ");
             System.out.println(pmRef.getLastReco());
+            AttackTimes attackTimes = pmRef.getLastAttack();
+            if(attackTimes.isValid()==false) System.out.print("Not Valid ");
+
+            for (double d :
+                    attackTimes.getUpTimes()) {
+                System.out.println(" up => " + d);
+            }
+            for (double d :
+                    attackTimes.getDownTimes()) {
+                System.out.println( " down => "+ d);
+            }
+        }
+            if(e==WorkEvent.OneWorkDone) {
+            System.out.print(i++ + " One Work Done : ");
+            System.out.println(pmRef.getLastReco());
+            AttackTimes attackTimes = pmRef.getLastAttack();
+            if(attackTimes.isValid()==false) System.out.print("Not Valid ");
+            for (double d :
+                    attackTimes.getUpTimes()) {
+                System.out.println(" up => " + d);
+            }
+            for (double d :
+                    attackTimes.getDownTimes()) {
+                System.out.println( " down => "+ d);
+            }
         }
     }
 }

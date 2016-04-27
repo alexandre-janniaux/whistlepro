@@ -86,6 +86,17 @@ public class TranscriptionBase extends StreamSourceBase<MusicTrack> implements P
         return str;
     }
 
+    public AttackTimes getLastAttackElement()
+    {
+        AttackTimes tmp = null;
+        int i = attacks.size();
+        if(i>0) {
+            tmp = new AttackTimes();
+            attacks.get(i-1).copyTo(tmp);
+        }
+        return tmp;
+    }
+
     public void setupFor(TypePiste typePiste) {
         this.typePiste = typePiste;
     }
