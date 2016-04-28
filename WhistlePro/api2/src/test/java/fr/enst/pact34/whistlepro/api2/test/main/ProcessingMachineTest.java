@@ -130,7 +130,7 @@ public class ProcessingMachineTest implements ProcessorEventListener {
             System.out.println(pmRef.getLastReco());
             AttackTimes attackTimes = pmRef.getLastAttack();
             if(attackTimes.isValid()==false) System.out.print("Not Valid ");
-
+/* TODO
             for (double d :
                     attackTimes.getUpTimes()) {
                 System.out.println(" up => " + d);
@@ -139,20 +139,20 @@ public class ProcessingMachineTest implements ProcessorEventListener {
                     attackTimes.getDownTimes()) {
                 System.out.println( " down => "+ d);
             }
+            */
         }
             if(e==WorkEvent.OneWorkDone) {
             System.out.print(i++ + " One Work Done : ");
             System.out.println(pmRef.getLastReco());
             AttackTimes attackTimes = pmRef.getLastAttack();
             if(attackTimes.isValid()==false) System.out.print("Not Valid ");
-            for (double d :
-                    attackTimes.getUpTimes()) {
-                System.out.println(" up => " + d);
+
+            for (AttackTimes.Attack d : attackTimes.getAttackTimes()
+                    ) {
+                System.out.println(d.getType().name()+" up :" + d.getTime());
             }
-            for (double d :
-                    attackTimes.getDownTimes()) {
-                System.out.println( " down => "+ d);
-            }
+
+
         }
     }
 }

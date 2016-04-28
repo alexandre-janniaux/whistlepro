@@ -16,8 +16,7 @@ public class AttackTimes implements StreamDataInterface<AttackTimes> {
         attaqueTimes.id=this.id;
         attaqueTimes.valid=this.valid;
         //TODO remove NEW HERE
-        attaqueTimes.timesUp = new LinkedList<>(this.timesUp);
-        attaqueTimes.timesDown = new LinkedList<>(this.timesDown);
+        attaqueTimes.times = new LinkedList<>(this.times);
     }
 
     @Override
@@ -52,27 +51,50 @@ public class AttackTimes implements StreamDataInterface<AttackTimes> {
     }
 
 
-    List<Double> timesUp = new LinkedList<>();
-    List<Double> timesDown  = new LinkedList<>();
+    List<Attack> times = new LinkedList<>();
 
     public void addUp(double v) {
-        timesUp.add(v);
+        times.add(new Attack(v, Attack.Type.Up));
     }
 
     public void addDown(double v) {
-        timesDown.add(v);
+        times.add(new Attack(v, Attack.Type.Down));
     }
 
-    public List<Double> getUpTimes() {
-        return timesUp;
-    }
-
-    public List<Double> getDownTimes() {
-        return timesDown;
+    public List<Attack> getAttackTimes() {
+        return times;
     }
 
     public void clear() {
-        timesDown.clear();
-        timesUp.clear();
+        times.clear();
+    }
+
+    public static class Attack
+    {
+        public enum Type { Up, Down};
+        private double time ;
+        private Type type;
+
+        public Attack(double time, Type type) {
+            this.time = time;
+            this.type = type;
+        }
+
+        public double getTime() {
+            return time;
+        }
+
+        public Type getType() {
+            return type;
+        }
+
+        public void setType(Type type) {
+            this.type = type;
+        }
+
+        public void setTime(double time) {
+            this.time = time;
+        }
+
     }
 }
