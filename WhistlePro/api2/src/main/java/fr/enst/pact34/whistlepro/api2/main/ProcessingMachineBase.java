@@ -239,6 +239,7 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
     {
         dataRecevied = 0;
         transcriptionBase.clear();
+        splitterStream.resetIds();
     }
 
     public void setupFor(TypePiste typePiste) {
