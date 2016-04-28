@@ -5,14 +5,30 @@ package fr.enst.pact34.whistlepro.api2.Synthese;
  */
 public class Instru extends SynthetisableElmt {
 
+    private double freq = 0.0;
+
+    public double getFreq() {
+        return  freq;
+    }
+
+    public void setFreq(double freq) {
+        this.freq=freq;
+    }
+
+    private Type type;
+
+    public void setType(Type type)
+    {
+        this.type = type;
+    }
+
     public Type getType() {
-        //TODO
-        return  null;
+        return  type;
     }
 
     public enum Type{
         Piano
-        //TODO fill with instru names
+        //TODO fill with percu names
     }
 
 }

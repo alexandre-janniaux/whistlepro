@@ -5,10 +5,15 @@ package fr.enst.pact34.whistlepro.api2.Synthese;
  */
 public class Percu extends SynthetisableElmt {
 
+    private Type type;
+
+    public void setType(Type type)
+    {
+        this.type = type;
+    }
 
     public Type getType() {
-        //TODO
-        return  null;
+        return  type;
     }
 
     public enum Type{

@@ -29,4 +29,14 @@ public abstract class  Piste {
         return id;
     }
 
+    private double totalTime = 0 ;
+
+    public double getTotalTime()
+    {
+        return totalTime;
+    }
+
+    public void setTotalTime(double totTime) {
+        this.totalTime=totTime;
+    }
 }
