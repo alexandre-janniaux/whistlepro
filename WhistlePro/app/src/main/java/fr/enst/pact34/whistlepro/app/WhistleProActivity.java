@@ -23,6 +23,8 @@ public abstract class WhistleProActivity extends Activity {
     //constant names for shared data
     public static String SD_PROCESSING_MACINE = "processing_machine";
     public static String SD_RECORDER = "recorder";
+    public static String SD_MORCEAU_ACTUEL = "morceau_actuel";
+    public static String SD_PISTE_ACTUELLE = "piste_actuelle";
 
 
     private static boolean initialzed = false;
@@ -79,6 +81,11 @@ public abstract class WhistleProActivity extends Activity {
 
             initialzed = true;
         }
+    }
+
+    protected void replaceSharedData(String name, Object data)
+    {
+        sharedData.put(name,data);
     }
 
     protected void addSharedData(String name, Object data)
