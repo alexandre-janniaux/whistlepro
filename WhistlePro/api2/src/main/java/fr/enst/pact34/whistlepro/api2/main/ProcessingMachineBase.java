@@ -288,4 +288,15 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
     public void stopProcessing() {
         processing = false;
     }
+
+
+    @Override
+    public boolean isRecProcessing() {
+        return processing;
+    }
+
+    @Override
+    public boolean hasRecordedData() {
+        return dataRecevied > 0;
+    }
 }

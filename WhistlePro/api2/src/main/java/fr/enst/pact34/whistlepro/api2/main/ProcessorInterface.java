@@ -13,6 +13,10 @@ public interface ProcessorInterface extends  DoubleDataListener{
     void startRecProcessing();  //is supposed to clear old data if any and accept new data
 
     void stopRecProcessing();  //ignores new data (waiting end of processing inside)
+
+    boolean isRecProcessing();
+
+    boolean hasRecordedData();
 /*
     void setTitle(String title);
 */
