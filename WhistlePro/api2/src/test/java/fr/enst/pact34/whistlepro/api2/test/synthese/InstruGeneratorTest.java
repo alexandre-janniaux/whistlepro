@@ -18,37 +18,20 @@ public class InstruGeneratorTest {
     @Test
     public void testGeneration()
     {
-        Signal inputData = new Signal();
         double Fs = 16000;
-        inputData.setSamplingFrequency(Fs);
-        inputData.setLength((int) (0.020 * Fs));
-
-        double t_step = 1 / Fs;
-        for (int i = 0; i < inputData.length(); i++) {
-            inputData.setValue(i,  Math.sin(2.0 * Math.PI * 2000 * i * t_step));
-        }
-
         InstruGenerator generator = new InstruGenerator(Fs);
-        generator.addInstru(Instru.Type.Piano, inputData);
+        generator.addInstru(Instru.Type.Piano, 0.9, 0.9);
 
-        Signal output = generator.generate(Instru.Type.Piano, 0.010);
-        assertEquals(inputData.length()/2,output.length());
-        for(int i = 0; i < output.length(); i++)
-        {
-            assertEquals(inputData.getValue(i%inputData.length()),output.getValue(i),Double.MIN_VALUE);
-        }
-        output = generator.generate(Instru.Type.Piano, 0.020);
-        assertEquals(inputData.length(),output.length());
-        for(int i = 0; i < output.length(); i++)
-        {
-            assertEquals(inputData.getValue(i%inputData.length()),output.getValue(i),Double.MIN_VALUE);
-        }
-        output = generator.generate(Instru.Type.Piano, 0.030);
-        assertEquals(inputData.length()*3/2,output.length());
-        for(int i = 0; i < output.length(); i++)
-        {
-            assertEquals(inputData.getValue(i%inputData.length()),output.getValue(i),Double.MIN_VALUE);
-        }
+        Signal output = generator.generate(Instru.Type.Piano, 0.010,100);
+        assertEquals(0.010*Fs,output.length(),Double.MIN_VALUE);
+
+        output = generator.generate(Instru.Type.Piano, 0.020,100);
+        assertEquals(0.020*Fs,output.length(),Double.MIN_VALUE);
+
+        output = generator.generate(Instru.Type.Piano, 0.030,100);
+        assertEquals(0.030*Fs,output.length(),Double.MIN_VALUE);
+
+        //TODO ADD VERIFICATION ON VALUES
     }
 
 }

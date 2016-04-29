@@ -9,7 +9,7 @@ import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
  */
 public class InstruGenerator {
     private double Fs ;
-    private Hashtable<Instru.Type,InstruGenElmt> instruGenElmts = new Hashtable<>();
+    private Hashtable<Instru.Type,InstruParams> instruGenElmts = new Hashtable<>();
 
     public InstruGenerator(double Fs)
     {
@@ -20,43 +20,39 @@ public class InstruGenerator {
         return Fs;
     }
 
-    public Signal generate(Instru.Type type, double time) {
-        InstruGenElmt e = instruGenElmts.get(type);
+    public Signal generate(Instru.Type type, double time, double freq) {
+        InstruParams e = instruGenElmts.get(type);
         if(e == null)
             throw new RuntimeException(type.name()+"'s data weren't added to the generator.");
-        return e.generateTime(time);
+        return e.generateTime(time,Fs,freq);
     }
 
-    public void addInstru(Instru.Type typePercussion, Signal donnees)
+    public void addInstru(Instru.Type typePercussion, double r, double m)
     {
-        InstruGenElmt e = new InstruGenElmt(typePercussion,donnees);
+        InstruParams e = new InstruParams(r,m);
         instruGenElmts.put(typePercussion,e);
     }
 
-    private class InstruGenElmt {
-        Instru.Type typeInstrument;
-        Signal sound = null;
+    private class InstruParams
+    {
+        double r;
+        double m;
 
-        public InstruGenElmt(Instru.Type typeInstrument, Signal donnees) {
-            this.typeInstrument = typeInstrument;
-            if (donnees == null)
-                throw new RuntimeException("InstruGenerator cannot be created, no data. (" + typeInstrument.name() + ")");
-            if (donnees.length() <= 0)
-                throw new RuntimeException("InstruGenerator cannot be created, data empty. (" + typeInstrument.name() + ")");
-            sound = donnees;
+        public InstruParams(double r, double m) {
+            this.r = r;
+            this.m = m;
         }
 
-        public Signal generateTime(double time) {
-            int nbSamples = (int) (time * sound.getSamplingFrequency());
+        public Signal generateTime(double time, double Fe, double freq) {
+            int nbSamples = (int) (time * Fe);
             Signal toRet = new Signal();
             toRet.setLength(nbSamples);
 
-            for (int i = 0; i < nbSamples; i += sound.length()) {
-                toRet.fromSignal(sound, 0, i, sound.length());
-            }
+            toRet.fromArray(SyntheseFM.instFM(nbSamples, Fe, freq, r,m));
 
-            toRet.setSamplingFrequency(sound.getSamplingFrequency());
+            toRet.setSamplingFrequency(Fe);
             return toRet;
         }
     }
+
 }
