@@ -101,7 +101,7 @@ public class AttackDetectorProcess implements StreamProcessInterface<Signal,Atta
 		*/
 		//correction
 
-
+/*
 		int sum = (int) (last_tmp + e[0] + e[1]);
 		if(sum > 1.5)
 			e[0]=1;
@@ -120,13 +120,19 @@ public class AttackDetectorProcess implements StreamProcessInterface<Signal,Atta
 		}
 
 		//e[e.length-1]=e[e.length-1-1];
+*/
 
+		for (int i = 1; i < e.length -1; i++) {
+			if(e[i] != e[i-1] && e[i-1]==e[i+1]) e[i]=e[i-1];
+		}
 
+/*
 		if(last_tmp == 0 && e[0] == 1 )
 			attackTimes.addUp(0);
 		else if(last_tmp == 1 && e[0] == 0 )
 			attackTimes.addDown(0);
-		for(int i = 1; i < e.length; i ++) {
+			*/
+		for(int i = 1; i < e.length-1; i ++) {
 			if(e[i-1] == 0 && e[i] == 1)
 			{
 				attackTimes.addUp(i*tps);
@@ -136,6 +142,8 @@ public class AttackDetectorProcess implements StreamProcessInterface<Signal,Atta
 				attackTimes.addDown(i*tps);
 			}
 		}
+
+
 
 		last_v = (int) e[e.length/2-1];
 
