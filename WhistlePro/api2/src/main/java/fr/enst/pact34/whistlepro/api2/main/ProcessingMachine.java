@@ -37,12 +37,12 @@ public class ProcessingMachine extends ProcessingMachineBase {
     public void startRecProcessing() {
         super.startProcessing();
     }
-
+/*
     @Override
     public void setTitle(String title) {
         piste.setTitle(title);
     }
-
+*/
     @Override
     public void correct() {
         // TODO use correction module here to correct song
