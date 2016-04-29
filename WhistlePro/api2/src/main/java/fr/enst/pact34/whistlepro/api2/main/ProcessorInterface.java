@@ -1,5 +1,7 @@
 package fr.enst.pact34.whistlepro.api2.main;
 
+import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
+
 /**
  * Created by mms on 25/04/16.
  */
@@ -19,4 +21,6 @@ public interface ProcessorInterface extends  DoubleDataListener{
     void waitEnd();
 
     void setEventLister(ProcessorEventListener l);
+
+    Signal synthetisePiste(Piste piste);
 }
