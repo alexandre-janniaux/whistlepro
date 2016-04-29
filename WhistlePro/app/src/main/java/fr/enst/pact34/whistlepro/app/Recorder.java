@@ -94,6 +94,7 @@ public class Recorder {
                                     AudioFormat.ENCODING_PCM_16BIT,
                                     N * 10);
 
+
                             recorder.startRecording();
                             // ... loop
 
