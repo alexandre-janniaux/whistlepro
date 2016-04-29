@@ -78,6 +78,7 @@ public class NewPisteRecord extends WhistleProActivity {
                         }
                         if(processor.hasRecordedData())
                         {
+                            processor.waitEnd();
                             startActivity(new Intent(NewPisteRecord.this, NewPisteRecordDone.class));
                         }
                     }
