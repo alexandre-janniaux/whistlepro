@@ -1,6 +1,8 @@
 package fr.enst.pact34.whistlepro.api2.main;
 
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import fr.enst.pact34.whistlepro.api2.attaque.AttackDetectorProcess;
@@ -205,8 +207,10 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
 
     @Override
     public void pushData(double[] data) {
-        splitterStream.fillBufferIn(data.clone());
-        //TODO use memory pool
+        if(processing) {
+            splitterStream.fillBufferIn(data.clone());
+            //TODO use memory pool
+        }
     }
 
     ProcessorEventListener listener = null;
@@ -219,6 +223,7 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
     private Semaphore waitSem = new Semaphore(0);
     public void waitEnd()
     {
+        if(processing==false) return;
         try {
             waitSem.acquire();
         } catch (InterruptedException e) {
@@ -261,7 +266,26 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         transcriptionBase.setupFor(typePiste);
     }
 
+    private  boolean processing = false;
+
     protected void startProcessing() {
         clearData();
+        processing = true;
+    }
+
+    public List<AttackTimes> getAttacksList() {
+        return transcriptionBase.getAttacksList();
+    }
+
+    public List<ClassifResults> getClassifList() {
+        return transcriptionBase.getClassifList();
+    }
+
+    public List<Frequency> getFrequenciesList() {
+        return transcriptionBase.getFrequenciesList();
+    }
+
+    public void stopProcessing() {
+        processing = false;
     }
 }

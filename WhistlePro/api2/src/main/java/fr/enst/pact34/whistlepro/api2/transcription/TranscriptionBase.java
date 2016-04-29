@@ -100,4 +100,16 @@ public class TranscriptionBase extends StreamSourceBase<MusicTrack> implements P
     public void setupFor(TypePiste typePiste) {
         this.typePiste = typePiste;
     }
+
+    public List<AttackTimes> getAttacksList() {
+        return attacks;
+    }
+
+    public List<ClassifResults> getClassifList() {
+        return classifs;
+    }
+
+    public List<Frequency> getFrequenciesList() {
+        return freqs;
+    }
 }

@@ -17,32 +17,47 @@ public class ProcessingMachine extends ProcessingMachineBase {
         init(typePiste);
     }
 
+
     private Piste piste = null;
+    private TypePiste typePiste = null;
+    private PisteBuilder pisteBuilder = new PisteBuilder();
 
     @Override
     public void init(TypePiste typePiste) {
-        switch (typePiste)
-        {
-            case Melodie:
-                piste = new PisteMelodie();
-                break;
-            case Percussions:
-                piste = new PistePercu();
-                break;
-        }
+        this.typePiste = typePiste;
         super.setupFor(typePiste);
+        piste = null;
     }
 
     @Override
     public void startRecProcessing() {
         super.startProcessing();
     }
-/*
+
     @Override
-    public void setTitle(String title) {
-        piste.setTitle(title);
+    public void stopRecProcessing() {
+        super.stopProcessing();
+        waitEnd();
+        pisteBuilder.clearOldData();
+        pisteBuilder.addAttackTimes(super.getAttacksList());
+        switch (typePiste)
+        {
+            case Melodie:
+                pisteBuilder.addFrequencies(super.getFrequenciesList());
+                break;
+            case Percussions:
+                pisteBuilder.addPercus(super.getClassifList());
+                break;
+        }
+        piste = pisteBuilder.buildPiste(typePiste);
     }
-*/
+
+    /*
+        @Override
+        public void setTitle(String title) {
+            piste.setTitle(title);
+        }
+    */
     @Override
     public void correct() {
         // TODO use correction module here to correct song
@@ -71,6 +86,12 @@ public class ProcessingMachine extends ProcessingMachineBase {
 
     public void addInstruData(Instru.Type type,double r, double m)
     {
-        instruGenerator.addInstru(type,r,m);
+        instruGenerator.addInstru(type, r, m);
+    }
+
+
+    public void setPercuCorrespondance(String recoStr, Percu.Type typeAssocie)
+    {
+        pisteBuilder.setPercuCorrespondance(recoStr, typeAssocie);
     }
 }

@@ -10,7 +10,9 @@ public interface ProcessorInterface extends  DoubleDataListener{
     //preparation d'un nouvel enregistrement
     void init(TypePiste typePiste);
 
-    void startRecProcessing();  //is supposed to clear old data if any
+    void startRecProcessing();  //is supposed to clear old data if any and accept new data
+
+    void stopRecProcessing();  //ignores new data (waiting end of processing inside)
 /*
     void setTitle(String title);
 */

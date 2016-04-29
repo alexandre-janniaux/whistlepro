@@ -33,6 +33,9 @@ public class ProcessingMachineTest implements ProcessorEventListener {
 
         final ProcessingMachine pm = new ProcessingMachine(44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),2, TypePiste.Percussions);
 
+
+        pm.startRecProcessing();
+
         pm.pushData(bufferToSend);
 
 
@@ -47,7 +50,10 @@ public class ProcessingMachineTest implements ProcessorEventListener {
         }
         */
 
+
         pm.waitEnd();
+
+        pm.stopRecProcessing();
 
 
         //assertTrue(pm.transcriptionEnded());
@@ -69,6 +75,7 @@ public class ProcessingMachineTest implements ProcessorEventListener {
         pmRef = pm;
         pm.setEventLister(this);
 
+        pm.startRecProcessing();
         pm.pushData(bufferToSend);
         System.out.println("1");
         pm.pushData(bufferToSend);
@@ -79,6 +86,7 @@ public class ProcessingMachineTest implements ProcessorEventListener {
 
         pm.waitEnd();
 
+        pm.stopRecProcessing();
 
         //assertTrue(pm.transcriptionEnded());
         //TODO test on ret values for example
@@ -109,12 +117,14 @@ public class ProcessingMachineTest implements ProcessorEventListener {
 
         //pm.pushData(bufferToSend);
 
+        pm.startRecProcessing();
         // test start
         for(int i = 0; i < inputData.length(); i++) {
             pm.pushData(new double[]{inputData.getValue(i)});
         }
 
         pm.waitEnd();
+        pm.stopRecProcessing();
         //while (true);
 
         //assertTrue(pm.transcriptionEnded());

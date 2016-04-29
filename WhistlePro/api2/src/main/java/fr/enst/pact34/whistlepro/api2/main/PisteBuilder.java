@@ -1,6 +1,5 @@
 package fr.enst.pact34.whistlepro.api2.main;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
@@ -20,12 +19,12 @@ public class PisteBuilder {
 
     private final double SAMPLE_TIME = 0.010;
 
-    private List<ClassifResults> onomatopees = new LinkedList<>();
+    private List<ClassifResults> classifResultses = new LinkedList<>();
     private List<AttackTimes> attackTimes = new LinkedList<>();
     private List<Frequency> frequencies = new LinkedList<>();
 
     public void addPercu(ClassifResults onomatopee) {
-        this.onomatopees.add(onomatopee);
+        this.classifResultses.add(onomatopee);
     }
 
     public void addAttackTime(AttackTimes attackTime) {
@@ -37,7 +36,7 @@ public class PisteBuilder {
     }
 
     public void addPercus(List<ClassifResults> onomatopees) {
-        this.onomatopees.addAll(onomatopees);
+        this.classifResultses.addAll(onomatopees);
     }
 
     public void addAttackTimes(List<AttackTimes> attackTimes) {
@@ -142,7 +141,7 @@ public class PisteBuilder {
         //ajout onomatopées
 
         //on trie les donnees de classifs
-        Collections.sort(onomatopees, new Comparator<ClassifResults>() {
+        Collections.sort(classifResultses, new Comparator<ClassifResults>() {
             @Override
             public int compare(ClassifResults t0, ClassifResults t1) {
                 return (t0.getId() - t1.getId());
@@ -241,7 +240,7 @@ public class PisteBuilder {
         //ajout onomatopées
 
         //on trie les donnees de classifs
-        Collections.sort(onomatopees, new Comparator<ClassifResults>() {
+        Collections.sort(classifResultses, new Comparator<ClassifResults>() {
             @Override
             public int compare(ClassifResults t0, ClassifResults t1) {
                 return (t0.getId() - t1.getId());
@@ -254,9 +253,9 @@ public class PisteBuilder {
             int id_start = (int)(percu.getStartTime()/SAMPLE_TIME);
             int id_end = (int)(percu.getEndTime()/SAMPLE_TIME);
             countingMax.clear();
-            for (int i = id_start; i <= id_end && i < onomatopees.size(); i++) {
-                if(onomatopees.get(i).isValid()==false) continue;
-                String tmpStr = onomatopees.get(i).getRecoClass();
+            for (int i = id_start; i <= id_end && i < classifResultses.size(); i++) {
+                if(classifResultses.get(i).isValid()==false) continue;
+                String tmpStr = classifResultses.get(i).getRecoClass();
                 if(countingMax.containsKey(tmpStr))
                 {
                     countingMax.put(tmpStr,countingMax.get(tmpStr)+1);
@@ -295,4 +294,9 @@ public class PisteBuilder {
         tableCorrespondancePercu.put(recoStr, typeAssocie);
     }
 
+    public void clearOldData() {
+        classifResultses.clear();
+        frequencies.clear();
+        attackTimes.clear();
+    }
 }
