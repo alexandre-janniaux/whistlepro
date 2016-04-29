@@ -61,22 +61,23 @@ public class Synthetiseur {
 
     private Signal synthetiseMelodie(PisteMelodie pisteMelodie)
     {
-        List<Instru> percussions = pisteMelodie.getInstruList();
+        List<Instru> instruments = pisteMelodie.getInstruList();
 
         double totalTime = pisteMelodie.getTotalTime();
         double Fs = instruGen.getSamplingFreq();
         Signal sound = new Signal();
         sound.setLength((int) (Fs * totalTime));
 
-        for (int i = 0; i < percussions.size(); i++) {
-            Instru p = percussions.get(i);
+        for (int i = 0; i < instruments.size(); i++) {
+            Instru p = instruments.get(i);
             Instru.Type type = p.getType();
             double time = p.getEndTime() - p.getStartTime();
-            Signal sigGen = instruGen.generate(type,time);
+            Signal sigGen = instruGen.generate(type,time,p.getFreq());
 
             sound.fromSignal(sigGen,0,(int)(Fs*p.getStartTime()),sigGen.length());
         }
 
+        sound.setSamplingFrequency(Fs);
         return sound;
     }
 }
