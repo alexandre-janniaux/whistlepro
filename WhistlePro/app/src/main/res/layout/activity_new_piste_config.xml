@@ -17,14 +17,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Melodie"
-            android:id="@+id/radioButton"
+            android:id="@+id/NewPisteConfig_Melodie"
             android:checked="false" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Percussion"
-            android:id="@+id/radioButton2"
-            android:checked="false" />
+            android:id="@+id/NewPisteConfig_Percussion"
+            android:checked="true" />
     </RadioGroup>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Suivant"
+        android:id="@+id/NewPisteConfig_button_next"
+        android:layout_gravity="right" />
 </LinearLayout>
