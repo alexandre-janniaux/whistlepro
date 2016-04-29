@@ -49,11 +49,8 @@ public class AttackDetectorProcess implements StreamProcessInterface<Signal,Atta
 		}
 
 		if(min>max) return;
-		//System.out.println("in");
-		//System.out.println(min);
-		//System.out.println(max);
 
-		int last_tmp = last_v ;
+		int last_v_tmp = last_v;
 		double up_threshold = min+(max-min)*0.1;
 		double down_threshold = min+(max-min)*0.02;
 		double tps = ((double)input.length())/(input.getSamplingFrequency()*n);
@@ -63,8 +60,6 @@ public class AttackDetectorProcess implements StreamProcessInterface<Signal,Atta
 				if (e[i] > up_threshold)
 				{
 					e[i] = 1;
-					//new up
-					//attackTimes.addUp(i*tps);
 				}
 				else
 				{
@@ -76,8 +71,6 @@ public class AttackDetectorProcess implements StreamProcessInterface<Signal,Atta
 				if (e[i] < down_threshold)
 				{
 					e[i] = 0;
-					// new down
-					//attackTimes.addDown(i*tps);
 				}
 				else
 				{
@@ -88,50 +81,29 @@ public class AttackDetectorProcess implements StreamProcessInterface<Signal,Atta
 			last_v = (int) e[i];
 		}
 
-		/*
-		if(last_tmp == 0 && e[0] == 1 )
-			attackTimes.addUp(0);
-		else if(last_tmp == 1 && e[0] == 0 )
-			attackTimes.addDown(0);
-
-		if(e[0] == 0 && e[1] == 1 )
-			attackTimes.addUp(tps);
-		else if(last_tmp == 1 && e[0] == 0 )
-			attackTimes.addDown(tps);
-		*/
-		//correction
-
-/*
-		int sum = (int) (last_tmp + e[0] + e[1]);
-		if(sum > 1.5)
-			e[0]=1;
-		else
-			e[0]=0;
-
-		for(int i = 1; i < e.length-1; i ++) {
-			sum = 0;
-			for (int j = -1; j <= 1; j++) {
-				sum+= e[i+j];
-			}
-			if(sum > 1.5)
-				e[i]=1;
-			else
-				e[i]=0;
-		}
-
-		//e[e.length-1]=e[e.length-1-1];
-*/
-
+		//corrections
 		for (int i = 1; i < e.length -1; i++) {
 			if(e[i] != e[i-1] && e[i-1]==e[i+1]) e[i]=e[i-1];
 		}
 
-/*
-		if(last_tmp == 0 && e[0] == 1 )
+		for (int i = 2; i < e.length -2; i++) {
+			if((e[i] != e[i-1] || e[i] != e[i+1])
+					&& e[i-2]==e[i+2]) {
+				e[i-1]=e[i-2];
+				e[i]=e[i-2];
+				e[i+1]=e[i-2];
+			}
+		}
+
+		//test attaque
+		if(last_v_tmp == 0 && e[0] == 1)
+		{
 			attackTimes.addUp(0);
-		else if(last_tmp == 1 && e[0] == 0 )
+		}
+		else if(last_v_tmp == 1 && e[0] == 0)
+		{
 			attackTimes.addDown(0);
-			*/
+		}
 		for(int i = 1; i < e.length-1; i ++) {
 			if(e[i-1] == 0 && e[i] == 1)
 			{

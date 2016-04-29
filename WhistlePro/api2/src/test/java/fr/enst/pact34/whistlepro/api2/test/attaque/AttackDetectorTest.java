@@ -79,7 +79,7 @@ public class AttackDetectorTest {
         double t_step = 1 / Fs;
 
         double start = 0.01;
-        double end = 0.019;
+        double end = 0.017;
 
         for (int i = (int) (start * Fs); i < (int) (end * Fs); i++) {
             inputData.setValue(i, Math.sin(2.0 * Math.PI * 2000 * i * t_step) );
@@ -107,9 +107,9 @@ public class AttackDetectorTest {
         });
 
         assertTrue(res.getAttackTimes().get(0).getType() == AttackTimes.Attack.Type.Up);
-        assertEquals(start,res.getAttackTimes().get(0).getTime(),Double.MIN_VALUE);
+        assertEquals(start,res.getAttackTimes().get(0).getTime(),0.00001);
         assertTrue(res.getAttackTimes().get(1).getType() == AttackTimes.Attack.Type.Down);
-        assertEquals(end,res.getAttackTimes().get(1).getTime(),Double.MIN_VALUE);
+        assertEquals(end,res.getAttackTimes().get(1).getTime(),0.00001);
 
     }
 
