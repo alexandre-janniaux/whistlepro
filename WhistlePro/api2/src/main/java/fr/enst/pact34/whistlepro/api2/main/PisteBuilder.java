@@ -184,7 +184,7 @@ public class PisteBuilder {
             else
                 instru.setFreq(0);
         }
-        piste.setTotalTime(frequencies.size()*SAMPLE_TIME);
+        piste.setTotalTime(attackTimes.size()*SAMPLE_TIME);
         return piste;
     }
 
@@ -282,7 +282,7 @@ public class PisteBuilder {
             else
                 percu.setType(null);
         }
-
+        piste.setTotalTime(attackTimes.size()*SAMPLE_TIME);
         return piste;
     }
 
