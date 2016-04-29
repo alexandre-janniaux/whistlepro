@@ -45,6 +45,8 @@ public abstract class WhistleProActivity extends Activity {
                     4, TypePiste.Percussions);
             addSharedData(SD_PROCESSING_MACINE, processor);
 
+            recorder.setListener(processor);
+
             //TODO config for instru
 
             processor.setPercuCorrespondance("a", Percu.Type.Kick);
