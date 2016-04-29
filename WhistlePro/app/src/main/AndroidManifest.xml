@@ -13,6 +13,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".NewMorceauActivity" />
+        <activity android:name=".NewPisteConfig" />
     </application>
 
 </manifest>
