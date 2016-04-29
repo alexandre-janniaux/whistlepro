@@ -34,15 +34,15 @@ public class InstruGenerator {
     }
 
     private class InstruGenElmt {
-        Instru.Type typePercussion;
+        Instru.Type typeInstrument;
         Signal sound = null;
 
-        public InstruGenElmt(Instru.Type typePercussion, Signal donnees) {
-            this.typePercussion = typePercussion;
+        public InstruGenElmt(Instru.Type typeInstrument, Signal donnees) {
+            this.typeInstrument = typeInstrument;
             if (donnees == null)
-                throw new RuntimeException("PercuGenerator cannot be created, no data. (" + typePercussion.name() + ")");
+                throw new RuntimeException("InstruGenerator cannot be created, no data. (" + typeInstrument.name() + ")");
             if (donnees.length() <= 0)
-                throw new RuntimeException("PercuGenerator cannot be created, data empty. (" + typePercussion.name() + ")");
+                throw new RuntimeException("InstruGenerator cannot be created, data empty. (" + typeInstrument.name() + ")");
             sound = donnees;
         }
 
