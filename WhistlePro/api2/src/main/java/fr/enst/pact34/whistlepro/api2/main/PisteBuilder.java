@@ -68,7 +68,11 @@ public class PisteBuilder {
         Collections.sort(allAttacksList, new Comparator<AttackTimes.Attack>() {
             @Override
             public int compare(AttackTimes.Attack t0, AttackTimes.Attack t1) {
-                return (int) (t0.getTime() - t1.getTime());
+                if(t0.getTime() - t1.getTime() < 0)
+                    return -1;
+                if(t0.getTime() - t1.getTime() > 0)
+                    return 1;
+                return 0;
             }
         });
 
