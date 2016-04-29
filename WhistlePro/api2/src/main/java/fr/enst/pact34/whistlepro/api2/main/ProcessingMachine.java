@@ -32,6 +32,7 @@ public class ProcessingMachine extends ProcessingMachineBase {
     @Override
     public void startRecProcessing() {
         super.startProcessing();
+        piste = null;
     }
 
     @Override

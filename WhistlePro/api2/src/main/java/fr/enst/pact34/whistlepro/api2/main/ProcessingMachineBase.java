@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicLong;
 
 import fr.enst.pact34.whistlepro.api2.attaque.AttackDetectorProcess;
 import fr.enst.pact34.whistlepro.api2.classification.ClassifProcess;
@@ -96,6 +97,7 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
                     }
                 }
                 if(transcriptionEnded()) {
+                    enableWaiting = false;
                     while(waitSem.hasQueuedThreads())
                     waitSem.release();
                 }
@@ -154,7 +156,7 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         splitterStream.subscribe(new StreamDataListenerInterface<Signal>() {
             @Override
             public void fillBufferIn(Signal data) {
-                dataRecevied++;
+                dataRecevied.incrementAndGet();
             }
 
             @Override
@@ -196,13 +198,13 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
 
     private boolean transcriptionEnded()
     {
-        return (transcriptionBase.getNbReceived() == dataRecevied) && (dataRecevied > 0)
+        return (transcriptionBase.getNbReceived() == dataRecevied.get()) && (dataRecevied.get() > 0)
                 && splitterStream.getInputState() == States.INPUT_WAITING
                 && splitterStream.getProcessState() == States.PROCESS_WAITING
                 && splitterStream.getOutputState() == States.OUTPUT_WAITING ;
     }
 
-    private int dataRecevied = 0;
+    private AtomicLong dataRecevied = new AtomicLong(0);
 
 
     @Override
@@ -223,7 +225,7 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
     private Semaphore waitSem = new Semaphore(0);
     public void waitEnd()
     {
-        if(processing==false) return;
+        if(enableWaiting==false) return;
         try {
             waitSem.acquire();
         } catch (InterruptedException e) {
@@ -242,7 +244,7 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
     }
     private void clearData()
     {
-        dataRecevied = 0;
+        dataRecevied.set(0);
         transcriptionBase.clear();
         splitterStream.resetIds();
     }
@@ -267,10 +269,12 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
     }
 
     private  boolean processing = false;
+    private  boolean enableWaiting = false;
 
     protected void startProcessing() {
         clearData();
         processing = true;
+        enableWaiting = true;
     }
 
     public List<AttackTimes> getAttacksList() {
@@ -297,6 +301,6 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
 
     @Override
     public boolean hasRecordedData() {
-        return dataRecevied > 0;
+        return dataRecevied.get() > 0;
     }
 }
