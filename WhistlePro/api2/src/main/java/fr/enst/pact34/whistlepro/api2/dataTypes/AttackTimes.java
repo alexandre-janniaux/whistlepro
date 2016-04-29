@@ -16,7 +16,12 @@ public class AttackTimes implements StreamDataInterface<AttackTimes> {
         attaqueTimes.id=this.id;
         attaqueTimes.valid=this.valid;
         //TODO remove NEW HERE
-        attaqueTimes.times = new LinkedList<>(this.times);
+        attaqueTimes.times.clear();
+        for (int i = 0; i < this.times.size(); i++) {
+            Attack a = times.get(i);
+            Attack b = new Attack(a.getTime(),a.getType());
+            attaqueTimes.times.add(b);
+        }
     }
 
     @Override
