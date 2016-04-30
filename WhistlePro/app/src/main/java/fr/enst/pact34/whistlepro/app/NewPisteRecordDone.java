@@ -5,10 +5,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import fr.enst.pact34.whistlepro.api2.Synthese.Instru;
 import fr.enst.pact34.whistlepro.api2.Synthese.Percu;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
+import fr.enst.pact34.whistlepro.api2.main.Morceau;
 import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.PisteMelodie;
 import fr.enst.pact34.whistlepro.api2.main.PistePercu;
@@ -78,6 +80,38 @@ public class NewPisteRecordDone extends WhistleProActivity {
                     public void onClick(View v) {
                         Signal sound = processor.synthetisePiste(piste);
                         //TODO play sound
+                    }
+                }
+        );
+
+
+        ((Button) findViewById(R.id.NewPisteRecordDone_save)).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(piste!=null)
+                        {
+                            Morceau morceau = (Morceau) getSharedData(SD_MORCEAU_ACTUEL);
+                            morceau.addPiste(piste);
+                            saveMorceau(morceau);
+                            finish();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),
+                                    "La piste n'a pas pu être enregistrée. Veuillez annulez l'enregistrement.",
+                                    Toast.LENGTH_LONG);
+                        }
+
+                    }
+                }
+        );
+
+        ((Button) findViewById(R.id.NewPisteRecordDone_delete)).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                            finish();
                     }
                 }
         );

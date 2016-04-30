@@ -11,6 +11,7 @@ import java.util.Hashtable;
 
 import fr.enst.pact34.whistlepro.api2.Synthese.Percu;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
+import fr.enst.pact34.whistlepro.api2.main.Morceau;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
 import fr.enst.pact34.whistlepro.api2.main.TypePiste;
@@ -87,7 +88,7 @@ public abstract class WhistleProActivity extends Activity {
 
     protected void replaceSharedData(String name, Object data)
     {
-        sharedData.put(name,data);
+        sharedData.put(name, data);
     }
 
     protected void addSharedData(String name, Object data)
@@ -102,6 +103,11 @@ public abstract class WhistleProActivity extends Activity {
         if(sharedData.containsKey(name)==false) throw new RuntimeException("Data doesn't exists");
 
         return sharedData.get(name);
+    }
+
+    protected void saveMorceau(Morceau morceau)
+    {
+        //TODO
     }
 
 
