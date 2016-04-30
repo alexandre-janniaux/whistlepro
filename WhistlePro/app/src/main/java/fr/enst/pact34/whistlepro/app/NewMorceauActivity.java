@@ -28,6 +28,7 @@ public class NewMorceauActivity extends WhistleProActivity {
                     public void onClick(View v) {
                         morceau.setTitle( ((EditText)findViewById(R.id.NewMorceau_editText_title)).getText().toString());
                         startActivity(new Intent(NewMorceauActivity.this, NewPisteConfig.class));
+                        finish();
                     }
                 }
         );

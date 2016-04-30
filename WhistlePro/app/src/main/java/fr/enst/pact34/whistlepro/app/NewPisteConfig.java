@@ -43,6 +43,7 @@ public class NewPisteConfig extends WhistleProActivity {
                         }
 
                         startActivity(new Intent(NewPisteConfig.this, NewPisteRecord.class));
+                        finish();
                     }
                 }
         );
