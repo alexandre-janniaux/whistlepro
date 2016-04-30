@@ -51,7 +51,7 @@ public class AttackDetectorProcess implements StreamProcessInterface<Signal,Atta
 		if(min>max) return;
 
 		int last_v_tmp = last_v;
-		double up_threshold = min+(max-min)*0.1;
+		double up_threshold = min+(max-min)*0.2;
 		double down_threshold = min+(max-min)*0.02;
 		double tps = ((double)input.length())/(input.getSamplingFrequency()*n);
 		for(int i = 0; i < e.length; i ++) {
