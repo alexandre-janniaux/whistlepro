@@ -3,10 +3,12 @@ package fr.enst.pact34.whistlepro.app;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import fr.enst.pact34.whistlepro.api2.Synthese.Instru;
 import fr.enst.pact34.whistlepro.api2.Synthese.Percu;
+import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.PisteMelodie;
 import fr.enst.pact34.whistlepro.api2.main.PistePercu;
@@ -34,7 +36,7 @@ public class NewPisteRecordDone extends WhistleProActivity {
         listPisteElements.setAdapter(adapter);
         //adapter.add("Test");
 
-        Piste piste = processor.getPiste();
+        final Piste piste = processor.getPiste();
         if(piste == null)
         {
             adapter.add("Error");
@@ -69,6 +71,16 @@ public class NewPisteRecordDone extends WhistleProActivity {
 
             }
         }
+
+        ((Button) findViewById(R.id.NewPisteRecordDone_button_play)).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Signal sound = processor.synthetisePiste(piste);
+                        //TODO play sound
+                    }
+                }
+        );
     }
 
 }
