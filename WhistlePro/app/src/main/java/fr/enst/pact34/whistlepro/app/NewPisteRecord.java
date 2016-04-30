@@ -80,6 +80,7 @@ public class NewPisteRecord extends WhistleProActivity {
                         {
                             processor.waitEnd();
                             startActivity(new Intent(NewPisteRecord.this, NewPisteRecordDone.class));
+                            finish();
                         }
                     }
                 });
