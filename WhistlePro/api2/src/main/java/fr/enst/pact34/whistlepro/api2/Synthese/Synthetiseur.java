@@ -49,6 +49,7 @@ public class Synthetiseur {
         for (int i = 0; i < percussions.size(); i++) {
             Percu p = percussions.get(i);
             Percu.Type type = p.getType();
+            if(type == null) continue;
             double time = p.getEndTime() - p.getStartTime();
             Signal sigGen = percuGen.generate(type,time);
 
@@ -71,6 +72,7 @@ public class Synthetiseur {
         for (int i = 0; i < instruments.size(); i++) {
             Instru p = instruments.get(i);
             Instru.Type type = p.getType();
+            if(type == null || p.getFreq() <1) continue;
             double time = p.getEndTime() - p.getStartTime();
             Signal sigGen = instruGen.generate(type,time,p.getFreq());
 
