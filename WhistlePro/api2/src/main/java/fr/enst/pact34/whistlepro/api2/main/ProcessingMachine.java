@@ -21,18 +21,22 @@ public class ProcessingMachine extends ProcessingMachineBase {
     private Piste piste = null;
     private TypePiste typePiste = null;
     private PisteBuilder pisteBuilder = new PisteBuilder();
+    private boolean valid = false;
 
     @Override
     public void init(TypePiste typePiste) {
         this.typePiste = typePiste;
         super.setupFor(typePiste);
         piste = null;
+        valid = false;
     }
 
     @Override
     public void startRecProcessing() {
+        pisteBuilder.clearOldData();
         super.startProcessing();
         piste = null;
+        valid = false;
     }
 
     @Override
@@ -51,6 +55,7 @@ public class ProcessingMachine extends ProcessingMachineBase {
                 break;
         }
         piste = pisteBuilder.buildPiste(typePiste);
+        valid = true;
     }
 
     /*
@@ -66,6 +71,7 @@ public class ProcessingMachine extends ProcessingMachineBase {
 
     @Override
     public Piste getPiste() {
+        if(valid == false) throw new RuntimeException("You should stop rec before.");
         return piste;
     }
 
