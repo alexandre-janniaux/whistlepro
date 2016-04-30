@@ -58,7 +58,7 @@ public class PisteBuilder {
                     attacks.getAttackTimes()){
                 double tmp ;
                 tmp=attack.getTime();
-                tmp= tmp+ ((double)i)*SAMPLE_TIME;
+                tmp= tmp+ attacks.getId()*SAMPLE_TIME;
                 attack.setTime(tmp);
                 allAttacksList.add(attack);
             }
@@ -76,9 +76,23 @@ public class PisteBuilder {
             }
         });
 
+        //suppression des doublons
+        if(allAttacksList.size()>1) {
+            for (int i = 1; i < allAttacksList.size(); ) {
+                if (Math.abs(allAttacksList.get(i-1).getTime() - allAttacksList.get(i).getTime()) < 1e-6) {
+                    allAttacksList.remove(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+        }
 
         //Creation de la liste des percussions ou des instruments
         Piste piste = null;
+        if(typePiste==null) throw new RuntimeException("Piste has no type");
+
         switch (typePiste)
         {
             case Melodie:
