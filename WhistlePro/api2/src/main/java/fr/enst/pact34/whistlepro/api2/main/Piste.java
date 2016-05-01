@@ -1,5 +1,7 @@
 package fr.enst.pact34.whistlepro.api2.main;
 
+import java.util.List;
+
 /**
  * Created by mms on 25/04/16.
  */
@@ -19,6 +21,7 @@ public abstract class  Piste {
         return title;
     }
     */
+    /*
     private int id =-1;
 
     public final void setId(int id) {
@@ -28,7 +31,7 @@ public abstract class  Piste {
     protected final int getId() {
         return id;
     }
-
+    */
     private double totalTime = 0 ;
 
     public double getTotalTime()

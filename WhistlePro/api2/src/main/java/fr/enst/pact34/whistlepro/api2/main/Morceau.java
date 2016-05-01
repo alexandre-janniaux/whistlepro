@@ -31,7 +31,7 @@ public class Morceau {
     public void addPiste(Piste newPiste)
     {
         if(listePiste.contains(newPiste)) return;
-        newPiste.setId(listePiste.size());
+        //newPiste.setId(listePiste.size());
         listePiste.add(newPiste);
     }
 
@@ -53,16 +53,6 @@ public class Morceau {
     public Piste getPisteByIndex(int index)
     {
         return listePiste.get(index);
-    }
-
-    public Piste getPisteById(int id)
-    {
-        for (Piste p :
-                listePiste) {
-            if (p.getId() == id) return p;
-        }
-        
-        return null;
     }
 
     public String getSaveString() {
