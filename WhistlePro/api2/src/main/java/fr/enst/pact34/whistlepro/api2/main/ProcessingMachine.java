@@ -20,7 +20,7 @@ public class ProcessingMachine extends ProcessingMachineBase {
 
     private Piste piste = null;
     private Piste.TypePiste typePiste = null;
-    private PisteBuilder pisteBuilder = new PisteBuilder();
+    private PisteCreator pisteCreator = new PisteCreator();
     private boolean valid = false;
 
     @Override
@@ -33,7 +33,7 @@ public class ProcessingMachine extends ProcessingMachineBase {
 
     @Override
     public void startRecProcessing() {
-        pisteBuilder.clearOldData();
+        pisteCreator.clearOldData();
         super.startProcessing();
         piste = null;
         valid = false;
@@ -43,18 +43,18 @@ public class ProcessingMachine extends ProcessingMachineBase {
     public void stopRecProcessing() {
         super.stopProcessing();
         waitEnd();
-        pisteBuilder.clearOldData();
-        pisteBuilder.addAttackTimes(super.getAttacksList());
+        pisteCreator.clearOldData();
+        pisteCreator.addAttackTimes(super.getAttacksList());
         switch (typePiste)
         {
             case Melodie:
-                pisteBuilder.addFrequencies(super.getFrequenciesList());
+                pisteCreator.addFrequencies(super.getFrequenciesList());
                 break;
             case Percussions:
-                pisteBuilder.addPercus(super.getClassifList());
+                pisteCreator.addPercus(super.getClassifList());
                 break;
         }
-        piste = pisteBuilder.buildPiste(typePiste);
+        piste = pisteCreator.buildPiste(typePiste);
         valid = true;
     }
 
@@ -99,6 +99,6 @@ public class ProcessingMachine extends ProcessingMachineBase {
 
     public void setPercuCorrespondance(String recoStr, Percu.Type typeAssocie)
     {
-        pisteBuilder.setPercuCorrespondance(recoStr, typeAssocie);
+        pisteCreator.setPercuCorrespondance(recoStr, typeAssocie);
     }
 }

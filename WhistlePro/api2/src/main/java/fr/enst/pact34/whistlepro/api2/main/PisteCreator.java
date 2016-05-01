@@ -15,7 +15,7 @@ import fr.enst.pact34.whistlepro.api2.dataTypes.Frequency;
 /**
  * Created by mms on 28/04/16.
  */
-public class PisteBuilder {
+public class PisteCreator {
 
     private final double SAMPLE_TIME = 0.010;
 

@@ -10,7 +10,7 @@ import fr.enst.pact34.whistlepro.api2.dataTypes.AttackTimes;
 import fr.enst.pact34.whistlepro.api2.dataTypes.ClassifResults;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Frequency;
 import fr.enst.pact34.whistlepro.api2.main.Piste;
-import fr.enst.pact34.whistlepro.api2.main.PisteBuilder;
+import fr.enst.pact34.whistlepro.api2.main.PisteCreator;
 import fr.enst.pact34.whistlepro.api2.main.PisteMelodie;
 import fr.enst.pact34.whistlepro.api2.main.PistePercu;
 
@@ -20,12 +20,12 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by mms on 28/04/16.
  */
-public class PisteBuilderTest {
+public class PisteCreatorTest {
 
     @Test
     public void testPistePercuBuilder()
     {
-        PisteBuilder builder = new PisteBuilder();
+        PisteCreator builder = new PisteCreator();
 
         //creation liste res classif
         ClassifResults res_a = new ClassifResults();
@@ -90,7 +90,7 @@ public class PisteBuilderTest {
     @Test
     public void testPisteMelodieBuilder()
     {
-        PisteBuilder builder = new PisteBuilder();
+        PisteCreator builder = new PisteCreator();
 
         //creation liste res classif
         Frequency frequency = new Frequency();
