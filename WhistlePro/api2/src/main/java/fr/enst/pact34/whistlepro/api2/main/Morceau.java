@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import fr.enst.pact34.whistlepro.api2.stream.StreamManager;
 
@@ -18,6 +20,7 @@ public class Morceau {
     private String title = "";
 
     public void setTitle(String title) {
+        title = title.replace("'","");
         this.title = title;
     }
 
@@ -63,25 +66,67 @@ public class Morceau {
     }
 
     public String getSaveString() {
-        //TODO
+        String saveStr = "";
+        saveStr += "<Morceau titre='"+title+"' >";
+        for (Piste p: listePiste
+             ) {
+            saveStr += p.getSaveString();
+        }
+        saveStr += "</Morceau>";
         return "titre est '"+title+"'";
     }
 
     public static class Builder
     {
-        Morceau m = new Morceau();
+        Morceau m = null;
+        private boolean valid = false;
         public void fromString(String dataFromFile) {
             m.setTitle(dataFromFile);
             // TODO
+            Pattern pattern = Pattern.compile("<Morceau[ ]*titre[ ]*=[ ]*'[^']*'[ ]*>.*?</Morceau[ ]*>", Pattern.DOTALL);
+            Matcher matcher = pattern.matcher(dataFromFile);
+
+
+            if(matcher.find())
+            {
+                String strData = matcher.group();
+
+                Pattern patternTitre = Pattern.compile("titre[ ]*=[ ]*'[^']*'");
+                Matcher matcherTitre= patternTitre.matcher(strData);
+
+                if(matcherTitre.find())
+                {
+                    m= new Morceau();
+
+                    String titre = matcherTitre.group();
+                    titre = titre.substring(titre.indexOf("'"));
+                    titre = titre.substring(0,titre.indexOf("'"));
+                    m.setTitle(titre);
+
+                    strData = strData.replaceAll("<Morceau[ ]*titre[ ]*=[ ]*'[^']*'[ ]*>|</Morceau[ ]*>", "");
+
+                    List<String> pistesStrData = Piste.splitStrAsPistesStrs(strData);
+
+                    for (String strPiste :
+                            pistesStrData) {
+                        Piste.Builder pisteBuilder = new Piste.Builder();
+                        pisteBuilder.fromString(strPiste);
+                        if(pisteBuilder.isValid())
+                        {
+                            m.addPiste(pisteBuilder.build());
+                        }
+                    }
+
+                    valid = true;
+                }
+            }
         }
 
         public boolean dataValid() {
-            //TODO
-            return true;
+            return valid;
         }
 
         public Morceau build() {
-            //TODO
             return m;
         }
     }
