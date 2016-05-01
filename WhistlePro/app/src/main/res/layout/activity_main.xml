@@ -29,4 +29,16 @@
             android:layout_column="1" />
     </TableRow>
 
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/main_listView_morceau"
+            android:layout_column="1"
+            android:choiceMode="none" />
+    </TableRow>
+
 </TableLayout>

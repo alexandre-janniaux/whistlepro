@@ -66,4 +66,23 @@ public class Morceau {
         //TODO
         return "titre est '"+title+"'";
     }
+
+    public static class Builder
+    {
+        Morceau m = new Morceau();
+        public void fromString(String dataFromFile) {
+            m.setTitle(dataFromFile);
+            // TODO
+        }
+
+        public boolean dataValid() {
+            //TODO
+            return true;
+        }
+
+        public Morceau build() {
+            //TODO
+            return m;
+        }
+    }
 }

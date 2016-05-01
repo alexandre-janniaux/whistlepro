@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.List;
 
 import fr.enst.pact34.whistlepro.api2.Synthese.Percu;
 import fr.enst.pact34.whistlepro.api2.common.FileOperator;
@@ -27,11 +29,13 @@ public abstract class WhistleProActivity extends Activity {
     public static String SD_PROCESSING_MACINE = "processing_machine";
     public static String SD_RECORDER = "recorder";
     public static String SD_MORCEAU_ACTUEL = "morceau_actuel";
+    public static String SD_LISTE_MORCEAU= "liste_morceau";
     public static String SD_PISTE_ACTUELLE = "piste_actuelle";
 
 
     private static boolean initialzed = false;
     private static Hashtable<String,Object> sharedData;
+    private static List<SavedMorceau> listeMorceau;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +91,15 @@ public abstract class WhistleProActivity extends Activity {
             }
             processor.addPercuData(Percu.Type.Charleston, sigCharleston);
 
+            //chargement donnees
+            loadMorceauList();
+            List<Morceau> lm = new LinkedList<>();
+            for (SavedMorceau m :
+                    listeMorceau) {
+                lm.add(m.getMorceau());
+            }
+            addSharedData(SD_LISTE_MORCEAU, lm);
+
             initialzed = true;
         }
     }
@@ -112,38 +125,57 @@ public abstract class WhistleProActivity extends Activity {
 
     protected void saveMorceau(Morceau morceau)
     {
-        //TODO
         File fileDirectory = getFilesDir();
-        String name = "morceau_"+fileDirectory.listFiles().length;
-        File f = new File(fileDirectory,name);
-        FileOperator.saveToFile(f,morceau.getSaveString());
+        for (SavedMorceau sm :
+                listeMorceau) {
+            if(sm.getMorceau()==morceau)
+            {
+                File f = new File(fileDirectory, sm.getFileName());
+                FileOperator.saveToFile(f, morceau.getSaveString());
+                return;
+            }
+        }
+
+        String name = "morceau_" + fileDirectory.listFiles().length;
+        File f = new File(fileDirectory, name);
+        FileOperator.saveToFile(f, morceau.getSaveString());
 
     }
 
-    protected Morceau[] getMorceauList()
+    private static class SavedMorceau
     {
-        /*
+        public Morceau m;
+        public String fileName ="";
+
+        public SavedMorceau(Morceau m, String fileName) {
+            this.m = m;
+            this.fileName = fileName;
+        }
+
+        public Morceau getMorceau() {
+            return m;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+    }
+    private void loadMorceauList()
+    {
         File fileDirectory = getFilesDir();
-        String files[] = new String[fileDirectory.listFiles().length];
-        int i=0;
+        listeMorceau = new LinkedList<>();
         for (File f :
                 fileDirectory.listFiles()) {
-            files[i] = f.getName();
-            i++;
+            Morceau.Builder builder = new Morceau.Builder();
+            builder.fromString(FileOperator.getDataFromFile(f));
+            if(builder.dataValid())
+            {
+                Morceau morceau = builder.build();
+                listeMorceau.add(new SavedMorceau(morceau,f.getName()));
+            }
         }
-        return files;
-        */
-        Morceau m1 = new Morceau();
-        m1.setTitle("test 1");
-        Morceau m2 = new Morceau();
-        m2.setTitle("test 2");
-        Morceau m3 = new Morceau();
-        m3.setTitle("test 3");
-
-        Morceau m[] = new Morceau[]{m1,m2,m3};
-
-        return m;
     }
+
 
     public String readRawTextFile(int resId)
     {
