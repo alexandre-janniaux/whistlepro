@@ -62,7 +62,9 @@ public class PisteCreatorTest {
         //creation liste res attaque
         List<AttackTimes> resAttack = new LinkedList<>();
         for (int i = 0; i <= id ; i++) {
-            resAttack.add(new AttackTimes());
+            AttackTimes a = new AttackTimes();
+            a.setId(i);
+            resAttack.add(a);
         }
         resAttack.get(5).addUp(0.007);
         resAttack.get(6).addUp(0.007); //Sould be ignored
@@ -122,7 +124,9 @@ public class PisteCreatorTest {
         //creation liste res attaque
         List<AttackTimes> resAttack = new LinkedList<>();
         for (int i = 0; i <= id ; i++) {
-            resAttack.add(new AttackTimes());
+            AttackTimes a = new AttackTimes();
+            a.setId(i);
+            resAttack.add(a);
         }
         resAttack.get(5).addUp(0.007);
         resAttack.get(6).addUp(0.007); //Sould be ignored
