@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
@@ -93,15 +94,20 @@ public abstract class WhistleProActivity extends Activity {
 
             //chargement donnees
             loadMorceauList();
-            List<Morceau> lm = new LinkedList<>();
-            for (SavedMorceau m :
-                    listeMorceau) {
-                lm.add(m.getMorceau());
-            }
-            addSharedData(SD_LISTE_MORCEAU, lm);
+            updateMorceauList();
 
             initialzed = true;
         }
+    }
+
+    private void updateMorceauList()
+    {
+        List<Morceau> lm = new LinkedList<>();
+        for (SavedMorceau m :
+                listeMorceau) {
+            lm.add(m.getMorceau());
+        }
+        addSharedData(SD_LISTE_MORCEAU, Collections.unmodifiableList(lm));
     }
 
     protected void replaceSharedData(String name, Object data)
@@ -139,7 +145,9 @@ public abstract class WhistleProActivity extends Activity {
         String name = "morceau_" + fileDirectory.listFiles().length;
         File f = new File(fileDirectory, name);
         FileOperator.saveToFile(f, morceau.getSaveString());
-
+        listeMorceau.add(new SavedMorceau(morceau,name));
+        
+        updateMorceauList();
     }
 
     private static class SavedMorceau
