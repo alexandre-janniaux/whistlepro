@@ -63,7 +63,7 @@ public class Morceau {
             saveStr += p.getSaveString();
         }
         saveStr += "</Morceau>";
-        return "titre est '"+title+"'";
+        return saveStr;
     }
 
     public static class Builder
@@ -71,7 +71,7 @@ public class Morceau {
         Morceau m = null;
         private boolean valid = false;
         public void fromString(String dataFromFile) {
-            m.setTitle(dataFromFile);
+
             // TODO
             Pattern pattern = Pattern.compile("<Morceau[ ]*titre[ ]*=[ ]*'[^']*'[ ]*>.*?</Morceau[ ]*>", Pattern.DOTALL);
             Matcher matcher = pattern.matcher(dataFromFile);
@@ -89,7 +89,7 @@ public class Morceau {
                     m= new Morceau();
 
                     String titre = matcherTitre.group();
-                    titre = titre.substring(titre.indexOf("'"));
+                    titre = titre.substring(titre.indexOf("'")+1);
                     titre = titre.substring(0,titre.indexOf("'"));
                     m.setTitle(titre);
 
