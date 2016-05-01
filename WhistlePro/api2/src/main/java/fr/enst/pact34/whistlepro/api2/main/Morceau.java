@@ -61,4 +61,9 @@ public class Morceau {
         
         return null;
     }
+
+    public String getSaveString() {
+        //TODO
+        return "titre est '"+title+"'";
+    }
 }

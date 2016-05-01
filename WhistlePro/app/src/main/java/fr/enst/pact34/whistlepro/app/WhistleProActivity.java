@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Hashtable;
 
 import fr.enst.pact34.whistlepro.api2.Synthese.Percu;
+import fr.enst.pact34.whistlepro.api2.common.FileOperator;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 import fr.enst.pact34.whistlepro.api2.main.Morceau;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
@@ -111,6 +113,11 @@ public abstract class WhistleProActivity extends Activity {
     protected void saveMorceau(Morceau morceau)
     {
         //TODO
+        File fileDirectory = getFilesDir();
+        String name = "morceau_"+fileDirectory.listFiles().length;
+        File f = new File(fileDirectory,name);
+        FileOperator.saveToFile(f,morceau.getSaveString());
+
     }
 
 
