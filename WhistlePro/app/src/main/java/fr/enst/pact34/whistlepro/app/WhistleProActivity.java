@@ -55,10 +55,13 @@ public abstract class WhistleProActivity extends Activity {
             processor.setPercuCorrespondance("o", Percu.Type.Charleston);
 
             //TODO sons bateaux a changer
+            double Fs = 16000; //la synthese est faite en 16000 ne pas changer sans changer la synthese
+            // tous les signaux doivent etre en 16000
+            // les signaux sont répétés et mis les uns a la suite des autres
+            // pour eviter des "sauts" il faut qu'ils commencent à 0 et finissent à 0.
             Signal sigCaisseClaire = new Signal();
-            double Fs = 16000;
             sigCaisseClaire.setSamplingFrequency(Fs);
-            sigCaisseClaire.setLength((int) (0.010 * Fs));
+            sigCaisseClaire.setLength((int) ((1.0/440) * Fs)+1);
 
             double t_step = 1 / Fs;
             for (int i = 0; i < sigCaisseClaire.length(); i++) {
@@ -68,7 +71,7 @@ public abstract class WhistleProActivity extends Activity {
 
             Signal sigKick = new Signal();
             sigKick.setSamplingFrequency(Fs);
-            sigKick.setLength((int) (0.010 * Fs));
+            sigKick.setLength((int) ((1.0/493) * Fs)+1);
             for (int i = 0; i < sigKick.length(); i++) {
                 sigKick.setValue(i,  Math.sin(2.0 * Math.PI * 493 * i * t_step));
             }
@@ -76,7 +79,7 @@ public abstract class WhistleProActivity extends Activity {
 
             Signal sigCharleston = new Signal();
             sigCharleston.setSamplingFrequency(Fs);
-            sigCharleston.setLength((int) (0.010 * Fs));
+            sigCharleston.setLength((int) ((1.0/392) * Fs)+1);
             for (int i = 0; i < sigCharleston.length(); i++) {
                 sigCharleston.setValue(i,  Math.sin(2.0 * Math.PI * 392 * i * t_step));
             }
