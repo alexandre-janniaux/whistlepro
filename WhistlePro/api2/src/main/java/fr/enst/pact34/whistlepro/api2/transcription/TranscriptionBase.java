@@ -8,7 +8,7 @@ import  fr.enst.pact34.whistlepro.api2.dataTypes.AttackTimes;
 import  fr.enst.pact34.whistlepro.api2.dataTypes.ClassifResults;
 import  fr.enst.pact34.whistlepro.api2.dataTypes.Frequency;
 import  fr.enst.pact34.whistlepro.api2.dataTypes.MusicTrack;
-import fr.enst.pact34.whistlepro.api2.main.TypePiste;
+import fr.enst.pact34.whistlepro.api2.main.Piste;
 import  fr.enst.pact34.whistlepro.api2.stream.StreamSourceBase;
 
 /**
@@ -19,7 +19,7 @@ public class TranscriptionBase extends StreamSourceBase<MusicTrack> implements P
     PartialDataStreamDest<Frequency> destFreqs = new PartialDataStreamDest<>(new Frequency(),this);
     PartialDataStreamDest<AttackTimes> destAttak = new PartialDataStreamDest<>(new AttackTimes(),this);
     PartialDataStreamDest<ClassifResults> destClassif = new PartialDataStreamDest<>(new ClassifResults(),this);
-    private TypePiste typePiste;
+    private Piste.TypePiste typePiste;
 
     public TranscriptionBase(MusicTrack bufferOut) {
         super(bufferOut);
@@ -97,7 +97,7 @@ public class TranscriptionBase extends StreamSourceBase<MusicTrack> implements P
         return tmp;
     }
 
-    public void setupFor(TypePiste typePiste) {
+    public void setupFor(Piste.TypePiste typePiste) {
         this.typePiste = typePiste;
     }
 

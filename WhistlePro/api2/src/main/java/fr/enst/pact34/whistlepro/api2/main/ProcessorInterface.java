@@ -8,7 +8,7 @@ import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 public interface ProcessorInterface extends  DoubleDataListener{
 
     //preparation d'un nouvel enregistrement
-    void init(TypePiste typePiste);
+    void init(Piste.TypePiste typePiste);
 
     void startRecProcessing();  //is supposed to clear old data if any and accept new data
 

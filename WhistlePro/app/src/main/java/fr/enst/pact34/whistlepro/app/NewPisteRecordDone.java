@@ -1,8 +1,5 @@
 package fr.enst.pact34.whistlepro.app;
 
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioTrack;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,7 +15,6 @@ import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.PisteMelodie;
 import fr.enst.pact34.whistlepro.api2.main.PistePercu;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
-import fr.enst.pact34.whistlepro.api2.main.TypePiste;
 
 /**
  * Created by mms on 29/04/16.
@@ -46,7 +42,7 @@ public class NewPisteRecordDone extends WhistleProActivity {
         {
             adapter.add("Error");
         }
-        else if(piste.getTypePiste()== TypePiste.Percussions)
+        else if(piste.getTypePiste()== Piste.TypePiste.Percussions)
         {
             adapter.add("Piste percussions");
             adapter.add("Temps "+piste.getTotalTime());
@@ -61,7 +57,7 @@ public class NewPisteRecordDone extends WhistleProActivity {
 
             }
         }
-        else if(piste.getTypePiste()== TypePiste.Melodie)
+        else if(piste.getTypePiste()== Piste.TypePiste.Melodie)
         {
             adapter.add("Piste melodie");
             adapter.add("Temps "+piste.getTotalTime());

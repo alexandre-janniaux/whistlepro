@@ -12,19 +12,19 @@ import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
  */
 public class ProcessingMachine extends ProcessingMachineBase {
 
-    public ProcessingMachine(double Fs, String classifierData, int nbThread, TypePiste typePiste) {
+    public ProcessingMachine(double Fs, String classifierData, int nbThread, Piste.TypePiste typePiste) {
         super(Fs, classifierData, nbThread);
         init(typePiste);
     }
 
 
     private Piste piste = null;
-    private TypePiste typePiste = null;
+    private Piste.TypePiste typePiste = null;
     private PisteBuilder pisteBuilder = new PisteBuilder();
     private boolean valid = false;
 
     @Override
-    public void init(TypePiste typePiste) {
+    public void init(Piste.TypePiste typePiste) {
         this.typePiste = typePiste;
         super.setupFor(typePiste);
         piste = null;

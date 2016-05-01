@@ -17,9 +17,8 @@ import fr.enst.pact34.whistlepro.api2.Synthese.Percu;
 import fr.enst.pact34.whistlepro.api2.common.FileOperator;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 import fr.enst.pact34.whistlepro.api2.main.Morceau;
+import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
-import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
-import fr.enst.pact34.whistlepro.api2.main.TypePiste;
 
 /**
  * Created by mms on 26/04/16.
@@ -50,7 +49,7 @@ public abstract class WhistleProActivity extends Activity {
             //add processing machine
             ProcessingMachine processor = new ProcessingMachine(recorder.getSampleRate(),
                     readRawTextFile(R.raw.voyelles_k20),
-                    4, TypePiste.Percussions);
+                    4, Piste.TypePiste.Percussions);
             addSharedData(SD_PROCESSING_MACINE, processor);
 
             recorder.setListener(processor);

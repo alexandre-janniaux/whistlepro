@@ -5,9 +5,9 @@ import org.junit.Test;
 import fr.enst.pact34.whistlepro.api2.common.FileOperator;
 import fr.enst.pact34.whistlepro.api2.dataTypes.AttackTimes;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
+import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorEventListener;
-import fr.enst.pact34.whistlepro.api2.main.TypePiste;
 import fr.enst.pact34.whistlepro.api2.test.utils.TestUtils;
 
 import static org.junit.Assert.assertEquals;
@@ -31,7 +31,7 @@ public class ProcessingMachineTest implements ProcessorEventListener {
         bufferToSend = new double[inputData.length()];
         inputData.fillArray(bufferToSend);
 
-        final ProcessingMachine pm = new ProcessingMachine(44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),2, TypePiste.Percussions);
+        final ProcessingMachine pm = new ProcessingMachine(44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),2, Piste.TypePiste.Percussions);
 
 
         pm.startRecProcessing();
@@ -71,7 +71,7 @@ public class ProcessingMachineTest implements ProcessorEventListener {
         bufferToSend = new double[inputData.length()];
         inputData.fillArray(bufferToSend);
 
-        final ProcessingMachine pm = new ProcessingMachine(44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),2,TypePiste.Percussions);
+        final ProcessingMachine pm = new ProcessingMachine(44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),2, Piste.TypePiste.Percussions);
         pmRef = pm;
         pm.setEventLister(this);
 
@@ -111,7 +111,7 @@ public class ProcessingMachineTest implements ProcessorEventListener {
         //inputData.fillArray(bufferToSend);
 
 
-        final ProcessingMachine pm = new ProcessingMachine(44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),4,TypePiste.Percussions);
+        final ProcessingMachine pm = new ProcessingMachine(44100, FileOperator.getDataFromFile("../testData/classification/voyelles.scs"),4, Piste.TypePiste.Percussions);
         pmRef = pm;
         pm.setEventLister(this);
 

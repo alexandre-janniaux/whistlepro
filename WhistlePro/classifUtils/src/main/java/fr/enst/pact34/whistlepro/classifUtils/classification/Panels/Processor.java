@@ -1,8 +1,8 @@
 package fr.enst.pact34.whistlepro.classifUtils.classification.Panels;
 
+import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorEventListener;
-import fr.enst.pact34.whistlepro.api2.main.TypePiste;
 
 /**
  * Created by mms on 01/03/16.
@@ -18,7 +18,7 @@ public class Processor implements AudioDataListener, ProcessorEventListener {
     {
         this.ui = ui;
         Fs= fs;
-        pm = new ProcessingMachine(fs,classifierData,2, TypePiste.Percussions);
+        pm = new ProcessingMachine(fs,classifierData,2, Piste.TypePiste.Percussions);
         pm.setEventLister(this);
     }
 

@@ -13,7 +13,6 @@ import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.PisteBuilder;
 import fr.enst.pact34.whistlepro.api2.main.PisteMelodie;
 import fr.enst.pact34.whistlepro.api2.main.PistePercu;
-import fr.enst.pact34.whistlepro.api2.main.TypePiste;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -75,9 +74,9 @@ public class PisteBuilderTest {
 
         builder.setPercuCorrespondance("a", Percu.Type.Kick);
 
-        Piste piste= builder.buildPiste(TypePiste.Percussions);
+        Piste piste= builder.buildPiste(Piste.TypePiste.Percussions);
 
-        assertTrue(piste.getTypePiste() == TypePiste.Percussions);
+        assertTrue(piste.getTypePiste() == Piste.TypePiste.Percussions);
         PistePercu pistepercu = (PistePercu) piste;
         assertEquals(1,pistepercu.getPercuList().size());
 
@@ -133,9 +132,9 @@ public class PisteBuilderTest {
         builder.addAttackTimes(resAttack);
         builder.addFrequencies(resClassif);
 
-        Piste piste= builder.buildPiste(TypePiste.Melodie);
+        Piste piste= builder.buildPiste(Piste.TypePiste.Melodie);
 
-        assertTrue(piste.getTypePiste() == TypePiste.Melodie);
+        assertTrue(piste.getTypePiste() == Piste.TypePiste.Melodie);
         PisteMelodie pistepercu = (PisteMelodie) piste;
         assertEquals(1, pistepercu.getInstruList().size());
 

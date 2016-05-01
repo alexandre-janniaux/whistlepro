@@ -1,5 +1,6 @@
 package fr.enst.pact34.whistlepro.demo.activities;
 
+import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorEventListener;
 
@@ -19,7 +20,6 @@ import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import fr.enst.pact34.whistlepro.api2.main.TypePiste;
 import fr.enst.pact34.whistlepro.demo.R;
 
 public class PercussionTest extends WhistleProActivity implements UserInterface,  ProcessorEventListener {
@@ -44,7 +44,7 @@ public class PercussionTest extends WhistleProActivity implements UserInterface,
 
         recorder = new Recorder();
 
-        machine = new ProcessingMachine(Fs,CLASSIFIER_DATA,4, TypePiste.Percussions);
+        machine = new ProcessingMachine(Fs,CLASSIFIER_DATA,4, Piste.TypePiste.Percussions);
 
         machine.setEventLister(this);
 

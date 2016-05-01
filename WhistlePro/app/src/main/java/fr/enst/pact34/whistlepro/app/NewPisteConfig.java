@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioButton;
 
+import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
-import fr.enst.pact34.whistlepro.api2.main.TypePiste;
 
 /**
  * Created by mms on 29/04/16.
@@ -31,11 +30,11 @@ public class NewPisteConfig extends WhistleProActivity {
                     @Override
                     public void onClick(View v) {
                         if( ((RadioButton)findViewById(R.id.NewPisteConfig_Percussion)).isChecked() ) {
-                            processor.init(TypePiste.Percussions);
+                            processor.init(Piste.TypePiste.Percussions);
                         }
                         else if( ((RadioButton)findViewById(R.id.NewPisteConfig_Melodie)).isChecked() )
                         {
-                            processor.init(TypePiste.Melodie);
+                            processor.init(Piste.TypePiste.Melodie);
                         }
                         else
                         {

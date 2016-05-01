@@ -39,4 +39,12 @@ public abstract class  Piste {
     public void setTotalTime(double totTime) {
         this.totalTime=totTime;
     }
+
+    public abstract String getSaveString();
+ 
+
+    public enum TypePiste {
+        Melodie,
+        Percussions
+    }
 }

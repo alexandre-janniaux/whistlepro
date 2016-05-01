@@ -1,6 +1,5 @@
 package fr.enst.pact34.whistlepro.api2.main;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -15,12 +14,9 @@ import fr.enst.pact34.whistlepro.api2.common.SpectrumProcess;
 import fr.enst.pact34.whistlepro.api2.common.SplitterProcess;
 import fr.enst.pact34.whistlepro.api2.dataTypes.*;
 import fr.enst.pact34.whistlepro.api2.features.MfccProcess;
-import fr.enst.pact34.whistlepro.api2.phantoms.FakeCorrection;
-import fr.enst.pact34.whistlepro.api2.phantoms.FakeProcessOutValue;
 import fr.enst.pact34.whistlepro.api2.phantoms.FakeTranscription;
 import fr.enst.pact34.whistlepro.api2.stream.*;
 import fr.enst.pact34.whistlepro.api2.stream.StreamManagerListener;
-import fr.enst.pact34.whistlepro.api2.transcription.CorrectionBase;
 import fr.enst.pact34.whistlepro.api2.transcription.PartialDataStreamDest;
 import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
 
@@ -249,7 +245,7 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         splitterStream.resetIds();
     }
 
-    public void setupFor(TypePiste typePiste) {
+    public void setupFor(Piste.TypePiste typePiste) {
         //clear
         clearData();
         //setup

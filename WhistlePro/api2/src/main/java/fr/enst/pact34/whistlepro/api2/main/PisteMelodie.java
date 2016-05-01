@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import fr.enst.pact34.whistlepro.api2.Synthese.Instru;
-import fr.enst.pact34.whistlepro.api2.Synthese.Percu;
 
 /**
  * Created by mms on 25/04/16.

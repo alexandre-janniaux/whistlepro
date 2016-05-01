@@ -4,8 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import fr.enst.pact34.whistlepro.api2.Synthese.Percu;
-import fr.enst.pact34.whistlepro.api2.dataTypes.AttackTimes;
-import fr.enst.pact34.whistlepro.api2.dataTypes.ClassifResults;
 
 /**
  * Created by mms on 25/04/16.

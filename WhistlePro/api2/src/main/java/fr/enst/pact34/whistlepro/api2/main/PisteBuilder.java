@@ -47,7 +47,7 @@ public class PisteBuilder {
         this.frequencies.addAll(frequencies);
     }
 
-    public Piste buildPiste(TypePiste typePiste)
+    public Piste buildPiste(Piste.TypePiste typePiste)
     {
 
         //on cree une liste avec tout les elements

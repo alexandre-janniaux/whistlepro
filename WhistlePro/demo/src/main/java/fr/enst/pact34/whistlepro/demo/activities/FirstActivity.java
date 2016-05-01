@@ -1,6 +1,5 @@
 package fr.enst.pact34.whistlepro.demo.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,14 +7,9 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
+import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
-import fr.enst.pact34.whistlepro.api2.main.TypePiste;
 import fr.enst.pact34.whistlepro.demo.R;
 
 public class FirstActivity extends WhistleProActivity {
@@ -42,7 +36,7 @@ public class FirstActivity extends WhistleProActivity {
         addSharedData(SD_RECORDER, recorder);
         final ProcessorInterface processor = new ProcessingMachine(recorder.getSampleRate(),
                 (String)getSharedData(SD_CLASSIFIER_DATA),
-                4, TypePiste.Percussions);
+                4, Piste.TypePiste.Percussions);
         addSharedData(SD_PROCESSING_MACINE,processor);
 
         //Le menu déroulant de tempo
@@ -93,11 +87,11 @@ public class FirstActivity extends WhistleProActivity {
                 }
                 if(type == 1)
                 {
-                    processor.init(TypePiste.Percussions);
+                    processor.init(Piste.TypePiste.Percussions);
                 }
                 else if(type == 2)
                 {
-                    processor.init(TypePiste.Melodie);
+                    processor.init(Piste.TypePiste.Melodie);
                 }
                 startActivity(new Intent(FirstActivity.this, EnregistrementActivity.class));
             }
