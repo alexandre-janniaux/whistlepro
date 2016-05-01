@@ -53,6 +53,24 @@ public class FileOperator {
  
 	}
 
+
+	public static void saveToFile(File file, String data)
+	{
+		BufferedWriter bos;
+		try {
+			bos = new BufferedWriter(new FileWriter(file));
+
+			bos.write(data);
+
+			bos.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 	public static void appendToFile(String fileName, String data)
 	{
 		BufferedWriter bos;
@@ -98,6 +116,29 @@ public class FileOperator {
 	    }
 	    
 	    return readData;
+	}
+
+	public static String getDataFromFile(File file)
+	{
+		BufferedReader bis;
+		String readData = "";
+		try {
+			bis = new BufferedReader(new FileReader(file));
+
+			char[] buf = new char[256];
+			int ret;
+			while ((ret = bis.read(buf)) != -1)
+				readData += new String(buf,0,ret);
+
+			bis.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return readData;
 	}
 	
 
