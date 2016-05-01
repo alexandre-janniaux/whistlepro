@@ -6,9 +6,7 @@ import android.media.AudioTrack;
 
 public class AudioPlayer {
 
-    public int freq = 44100;
-    private boolean isRunning = true;
-    private Thread t;
+    public int freq = 16000;
     AudioTrack audioTrack = null;
     private short volume = Short.MAX_VALUE/2;
 
@@ -45,4 +43,9 @@ public class AudioPlayer {
         audioTrack.release();
     }
 
+    /* fonctionne aussi
+    public void play(short[] tmp) {
+        audioTrack.write(tmp, 0, tmp.length);
+    }
+    */
 }

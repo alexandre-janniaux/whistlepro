@@ -1,5 +1,8 @@
 package fr.enst.pact34.whistlepro.app;
 
+import android.media.AudioFormat;
+import android.media.AudioManager;
+import android.media.AudioTrack;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -78,8 +81,16 @@ public class NewPisteRecordDone extends WhistleProActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Signal sound = processor.synthetisePiste(piste);
-                        //TODO play sound
+                        Signal sound = processor.synthetisePiste(piste); 
+
+                        double[] tmp_dbl = new double[sound.length()];
+                        sound.fillArray(tmp_dbl);
+
+                        AudioPlayer ap = new AudioPlayer();
+                        ap.start();
+                        ap.push(tmp_dbl);
+                        ap.stop();
+
                     }
                 }
         );
