@@ -54,7 +54,7 @@ public class PercuGenerator {
             Signal toRet = new Signal();
             toRet.setLength(nbSamples);
 
-            for (int i = 0; i < nbSamples; i += sound.length()) {
+            for (int i = 0; i +sound.length() <= nbSamples; i += sound.length()) {
                 toRet.fromSignal(sound, 0, i, sound.length());
             }
 
