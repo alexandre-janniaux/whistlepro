@@ -120,6 +120,30 @@ public abstract class WhistleProActivity extends Activity {
 
     }
 
+    protected Morceau[] getMorceauList()
+    {
+        /*
+        File fileDirectory = getFilesDir();
+        String files[] = new String[fileDirectory.listFiles().length];
+        int i=0;
+        for (File f :
+                fileDirectory.listFiles()) {
+            files[i] = f.getName();
+            i++;
+        }
+        return files;
+        */
+        Morceau m1 = new Morceau();
+        m1.setTitle("test 1");
+        Morceau m2 = new Morceau();
+        m2.setTitle("test 2");
+        Morceau m3 = new Morceau();
+        m3.setTitle("test 3");
+
+        Morceau m[] = new Morceau[]{m1,m2,m3};
+
+        return m;
+    }
 
     public String readRawTextFile(int resId)
     {
