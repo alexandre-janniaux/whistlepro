@@ -24,17 +24,16 @@ public abstract class  Piste {
         return title;
     }
     */
-    /*
     private int id =-1;
 
     public final void setId(int id) {
         this.id = id;
     }
 
-    protected final int getId() {
+    public final int getId() {
         return id;
     }
-    */
+
     private double totalTime = 0 ;
 
     public double getTotalTime()
