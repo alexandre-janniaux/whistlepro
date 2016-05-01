@@ -90,6 +90,7 @@ public class SynthetiseurTest {
         p.setType(Instru.Type.Piano);
         p.setStartTime(0.010);
         p.setEndTime(0.080);
+        p.setFreq(150);
 
         pisteMelodie.addInstru(p);
 

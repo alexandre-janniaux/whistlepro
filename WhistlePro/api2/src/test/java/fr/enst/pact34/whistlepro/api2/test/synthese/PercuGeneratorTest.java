@@ -31,19 +31,19 @@ public class PercuGeneratorTest {
 
         Signal output = generator.generate(Percu.Type.Kick, 0.010);
         assertEquals(inputData.length()/2,output.length());
-        for(int i = 0; i < output.length(); i++)
+        for(int i = 0; i +inputData.length()< output.length(); i++)
         {
             assertEquals(inputData.getValue(i%inputData.length()),output.getValue(i),Double.MIN_VALUE);
         }
         output = generator.generate(Percu.Type.Kick, 0.020);
         assertEquals(inputData.length(),output.length());
-        for(int i = 0; i < output.length(); i++)
+        for(int i = 0; i +inputData.length() < output.length(); i++)
         {
             assertEquals(inputData.getValue(i%inputData.length()),output.getValue(i),Double.MIN_VALUE);
         }
         output = generator.generate(Percu.Type.Kick, 0.030);
         assertEquals(inputData.length()*3/2,output.length());
-        for(int i = 0; i < output.length(); i++)
+        for(int i = 0; i+inputData.length() < output.length(); i++)
         {
             assertEquals(inputData.getValue(i%inputData.length()),output.getValue(i),Double.MIN_VALUE);
         }
