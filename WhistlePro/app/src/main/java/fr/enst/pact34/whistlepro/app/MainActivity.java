@@ -44,7 +44,7 @@ public class MainActivity extends WhistleProActivity{
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Morceau m = ((ListItemMorceau) parent.getItemAtPosition(position)).getMorceau();
                         replaceSharedData(SD_MORCEAU_ACTUEL, m);
-                        
+                        startActivity(new Intent(MainActivity.this, OpenMorceau.class));
                     }
                 }
         );
