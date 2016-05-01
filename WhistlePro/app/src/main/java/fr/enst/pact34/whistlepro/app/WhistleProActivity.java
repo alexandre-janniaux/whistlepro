@@ -107,7 +107,7 @@ public abstract class WhistleProActivity extends Activity {
                 listeMorceau) {
             lm.add(m.getMorceau());
         }
-        addSharedData(SD_LISTE_MORCEAU, Collections.unmodifiableList(lm));
+        replaceSharedData(SD_LISTE_MORCEAU, Collections.unmodifiableList(lm));
     }
 
     protected void replaceSharedData(String name, Object data)

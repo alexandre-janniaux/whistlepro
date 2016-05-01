@@ -35,7 +35,8 @@ public class MainActivity extends WhistleProActivity{
 
         ListView listPisteElements = (ListView) findViewById(R.id.main_listView_morceau);
 
-        final ArrayAdapter<ListItemMorceau> adapter = new ArrayAdapter<>(this,R.layout.new_piste_rec_done_list_view);
+        adapter = new ArrayAdapter<>(this,R.layout.new_piste_rec_done_list_view);
+
         listPisteElements.setAdapter(adapter);
 
         listPisteElements.setOnItemClickListener(
@@ -49,13 +50,22 @@ public class MainActivity extends WhistleProActivity{
                 }
         );
 
-        List<Morceau> listeMorceau = (List<Morceau>) getSharedData(SD_LISTE_MORCEAU);
 
+
+    }
+
+    private ArrayAdapter<ListItemMorceau> adapter ;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        List<Morceau> listeMorceau = (List<Morceau>) getSharedData(SD_LISTE_MORCEAU);
+        adapter.clear();
         for (Morceau morceau: listeMorceau
-             ) {
+                ) {
             adapter.add(new ListItemMorceau(morceau));
         }
-
     }
 
     private class ListItemMorceau
