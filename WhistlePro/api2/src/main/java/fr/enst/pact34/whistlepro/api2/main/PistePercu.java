@@ -30,7 +30,7 @@ public class PistePercu extends Piste {
 
 
     @Override
-    public String getSaveString() {
+    public String getSaveStringInner() {
         String str = "";
         for (Percu percu :
                 percuList) {

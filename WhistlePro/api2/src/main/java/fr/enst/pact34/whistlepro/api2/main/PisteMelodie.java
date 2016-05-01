@@ -20,7 +20,7 @@ public class PisteMelodie extends Piste {
     }
 
     @Override
-    public String getSaveString() {
+    public String getSaveStringInner() {
         String str = "";
         for (Instru instru :
                 instruList) {

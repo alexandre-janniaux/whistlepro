@@ -46,20 +46,21 @@ public abstract class  Piste {
         this.totalTime=totTime;
     }
 
-    public abstract String getSaveString();
-
-    protected String buildSaveString(String innerData)
-    {
+    public String getSaveString()
+    { 
         String saveStr =
                 "<Piste "
-                +" type='"+getTypePiste().name()+"' "
-                +" length='"+getTotalTime()+"' "
-                +" >"
-                +innerData
-                +"</Piste>";
+                        +" type='"+getTypePiste().name()+"' "
+                        +" length='"+getTotalTime()+"' "
+                        +" >"
+                        + getSaveStringInner()
+                        +"</Piste>";
 
         return saveStr;
     }
+
+    protected abstract String getSaveStringInner();
+
 
     public static List<String> splitStrAsPistesStrs(String strData) {
         LinkedList<String> values = new LinkedList<>();
@@ -96,6 +97,9 @@ public abstract class  Piste {
                     Piste pisteTmp;
                     String strType = matcherType.group();
 
+                    strType=strType.substring(strType.indexOf("\'")+1);
+                    strType=strType.substring(0,strType.indexOf("\'"));
+
                     if(TypePiste.Melodie.name().equals(strType) )
                     {
                         pisteTmp = new PisteMelodie();
@@ -113,7 +117,12 @@ public abstract class  Piste {
                     Pattern patternLength = Pattern.compile("length[ ]*=[ ]*'[^']*'");
                     Matcher matcherTLengh = patternLength.matcher(strData);
                     if(matcherTLengh.find()) {
-                        pisteTmp.setTotalTime(Double.valueOf(matcher.group()));
+                        String strLen = matcherTLengh.group();
+
+                        strLen=strLen.substring(strLen.indexOf("\'")+1);
+                        strLen=strLen.substring(0,strLen.indexOf("\'"));
+
+                        pisteTmp.setTotalTime(Double.valueOf(strLen));
 
                         strData=strData.replaceAll("<Piste[ ]*type[ ]*=[ ]*'[^']*'[ ]*length[ ]*=[ ]*'[^']*'[ ]*>|</Piste[ ]*>","");
 
