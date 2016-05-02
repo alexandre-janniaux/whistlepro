@@ -2,24 +2,27 @@ package fr.enst.pact34.whistlepro.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
+import fr.enst.pact34.whistlepro.api2.main.ProcessorEventListener;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
 
 /**
  * Created by mms on 29/04/16.
  */
-public class NewPisteRecord extends WhistleProActivity {
+public class NewPisteRecord extends WhistleProActivity {//implements ProcessorEventListener {
 
+    final ProcessingMachine processor = (ProcessingMachine) getSharedData(SD_PROCESSING_MACINE);
+    final Recorder recorder = (Recorder) getSharedData(SD_RECORDER);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_piste_rec);
 
-        final ProcessorInterface processor = (ProcessorInterface) getSharedData(SD_PROCESSING_MACINE);
-        final Recorder recorder = (Recorder) getSharedData(SD_RECORDER);
 
         if (processor == null) {
             throw new RuntimeException(SD_PROCESSING_MACINE + " should exist in shared data.");
@@ -31,13 +34,14 @@ public class NewPisteRecord extends WhistleProActivity {
         if(recorder.isRecording()) recorder.stopRec();
         if(processor.isRecProcessing()) processor.stopRecProcessing();
 
+        //processor.setEventLister(this);
 
         final Button play_pause_btn = (Button) findViewById(R.id.NewPisteRecord_button_start);
         play_pause_btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (processor.isRecProcessing() == false) {
+                        if(processor.isRecProcessing()==false) {
                             processor.startRecProcessing();
                         }
 
@@ -55,12 +59,8 @@ public class NewPisteRecord extends WhistleProActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (processor.isRecProcessing()) {
-                            processor.stopRecProcessing();
-                        }
-                        if (recorder.isRecording()) {
-                            recorder.stopRec();
-                        }
+                        processor.stopRecProcessing();
+                        recorder.stopRec();
                         play_pause_btn.setText("Restart");
                     }
                 });
@@ -70,12 +70,11 @@ public class NewPisteRecord extends WhistleProActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (processor.isRecProcessing()) {
-                            processor.stopRecProcessing();
-                        }
-                        if (recorder.isRecording()) {
-                            recorder.stopRec();
-                        }
+                        //Log.d("testPM","ask stop " +System.currentTimeMillis());
+                        processor.stopRecProcessing();
+                        //Log.d("testPM", "stopped "+System.currentTimeMillis());
+                        recorder.stopRec();
+
                         if(processor.hasRecordedData())
                         {
                             processor.waitEnd();
@@ -86,4 +85,12 @@ public class NewPisteRecord extends WhistleProActivity {
                 });
 
     }
+/*
+    @Override
+    public void newWorkEvent(WorkEvent e) {
+
+        Log.d("testPM","event :" +e.name() +" "+System.currentTimeMillis()+ " " +processor.isRecProcessing()+ " " + processor.transcriptionEnded()
+        +" dr = " + processor.getDataRecevied()+ "; nb last="+processor.getLast_nb_done()+"; nb tr ="+processor.getTransciptionNB());
+
+    }*/
 }
