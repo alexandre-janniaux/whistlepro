@@ -198,4 +198,9 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
     public void setManager(StreamManager sm) {
         this.streamManager = sm;
     }
+
+    public boolean hasWork() {
+        if(bufferIn.size()>0 || bufferOut.size()>0 || processState.get() == States.PROCESS_BUSY) return true;
+        return false;
+    }
 }
