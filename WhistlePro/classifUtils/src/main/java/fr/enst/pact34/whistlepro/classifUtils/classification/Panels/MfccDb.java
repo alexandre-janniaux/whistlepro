@@ -249,32 +249,8 @@ public class MfccDb {
             buffer = new double[(int) readWavFile.getNumFrames()];
 
             readWavFile.readFrames(buffer,buffer.length);
-            /*
-            ArrayList<Spectrum> sps = new ArrayList<>();
 
-            while(readWavFile.readFrames(buffer,nbPts) == nbPts)
-            {
-
-                double[] fft = transformers.fft(buffer);
-
-                sps.add(new Spectrum(nbPts,Fs,fft));
-
-            }
-
-            readWavFile.close();
-
-            for (Spectrum sp: sps
-                 ) {
-                double[] coef = mfcc.processMfcc(sp);
-
-                String tmp = "";
-                for (int i = 0; i < coef.length; i++) {
-                    tmp += coef[i]+";";
-                }
-
-                str.add(tmp);
-            }
-            */
+            System.gc();
 
 
             //split stream
