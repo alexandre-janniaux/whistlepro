@@ -70,12 +70,12 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
     //threadpool
     private StreamManager streamMaster  ;
 
+    private int last_nb_done = 0;
 
     public ProcessingMachineBase(double Fs, String classifierData, int nbThread) {
         int sampleLen = (int)(TIME_ANALYSE*Fs);
         //initialisations
         streamMaster = new StreamManager(nbThread, new StreamManagerListener() {
-            private int last_nb_done = 0;
             @Override
             public void oneJobDone() {
                 if(listener != null)
@@ -92,11 +92,7 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
                         }
                     }
                 }
-                if(transcriptionEnded()) {
-                    enableWaiting = false;
-                    while(waitSem.hasQueuedThreads())
-                    waitSem.release();
-                }
+                endWaintings();
             }
         });
 
@@ -194,17 +190,16 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
 
     private boolean transcriptionEnded()
     {
-        return (transcriptionBase.getNbReceived() == dataRecevied.get()) && (dataRecevied.get() > 0)
-                && splitterStream.getInputState() == States.INPUT_WAITING
-                && splitterStream.getProcessState() == States.PROCESS_WAITING
-                && splitterStream.getOutputState() == States.OUTPUT_WAITING ;
+        if(processing==true) return false;
+        return (transcriptionBase.getNbReceived() == dataRecevied.get())
+                && splitterStream.hasWork() ==false ;
     }
 
     private AtomicLong dataRecevied = new AtomicLong(0);
 
 
     @Override
-    public void pushData(double[] data) {
+    public synchronized void pushData(double[] data) {
         if(processing) {
             splitterStream.fillBufferIn(data.clone());
             //TODO use memory pool
@@ -241,6 +236,7 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
     private void clearData()
     {
         dataRecevied.set(0);
+        last_nb_done = 0;
         transcriptionBase.clear();
         splitterStream.resetIds();
     }
@@ -269,8 +265,8 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
 
     protected void startProcessing() {
         clearData();
-        processing = true;
         enableWaiting = true;
+        processing = true;
     }
 
     public List<AttackTimes> getAttacksList() {
@@ -285,14 +281,23 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         return transcriptionBase.getFrequenciesList();
     }
 
-    public void stopProcessing() {
+    public synchronized void stopProcessing() {
         processing = false;
+        endWaintings();
     }
 
+    private void endWaintings()
+    {
+        if(transcriptionEnded()) {
+            enableWaiting = false;
+            while(waitSem.hasQueuedThreads())
+                waitSem.release();
+        }
+    }
 
     @Override
     public boolean isRecProcessing() {
-        return processing;
+        return enableWaiting;
     }
 
     @Override

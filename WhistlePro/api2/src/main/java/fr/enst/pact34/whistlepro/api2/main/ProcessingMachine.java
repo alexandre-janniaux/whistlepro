@@ -33,14 +33,14 @@ public class ProcessingMachine extends ProcessingMachineBase {
 
     @Override
     public void startRecProcessing() {
-        pisteCreator.clearOldData();
-        super.startProcessing();
+        System.gc();
         piste = null;
         valid = false;
+        super.startProcessing();
     }
 
     @Override
-    public void stopRecProcessing() {
+    public synchronized void stopRecProcessing() {
         super.stopProcessing();
         waitEnd();
         pisteCreator.clearOldData();
@@ -56,6 +56,7 @@ public class ProcessingMachine extends ProcessingMachineBase {
         }
         piste = pisteCreator.buildPiste(typePiste);
         valid = true;
+//        if(piste==null) throw new RuntimeException("Error piste was not created.");
     }
 
     /*
@@ -70,7 +71,7 @@ public class ProcessingMachine extends ProcessingMachineBase {
     }
 
     @Override
-    public Piste getPiste() {
+    public synchronized Piste getPiste() {
         if(valid == false) throw new RuntimeException("You should stop rec before.");
         return piste;
     }
