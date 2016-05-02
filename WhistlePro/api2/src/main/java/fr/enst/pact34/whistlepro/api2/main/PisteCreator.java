@@ -109,6 +109,7 @@ public class PisteCreator {
 
     private Piste buildPisteMelodie(List<AttackTimes.Attack> allAttacksList) {
         PisteMelodie piste = new PisteMelodie();
+        piste.setTotalTime(attackTimes.size()*SAMPLE_TIME);
         Instru tmp =null;
 
         boolean lastEnded =true;
@@ -148,7 +149,7 @@ public class PisteCreator {
 
         }
 
-        if(tmp == null) return  null;
+        if(tmp == null) return  piste;
 
         if(lastEnded==false)
         {
@@ -202,12 +203,12 @@ public class PisteCreator {
             else
                 instru.setFreq(0);
         }
-        piste.setTotalTime(attackTimes.size()*SAMPLE_TIME);
         return piste;
     }
 
     private Piste buildPistePercu(List<AttackTimes.Attack> allAttacksList) {
         PistePercu piste = new PistePercu();
+        piste.setTotalTime(attackTimes.size()*SAMPLE_TIME);
         Percu tmp =null;
 
         boolean lastEnded =true;
@@ -247,7 +248,7 @@ public class PisteCreator {
 
         }
 
-        if(tmp == null) return  null;
+        if(tmp == null) return  piste;
 
         if(lastEnded==false)
         {
@@ -300,7 +301,6 @@ public class PisteCreator {
             else
                 percu.setType(null);
         }
-        piste.setTotalTime(attackTimes.size()*SAMPLE_TIME);
         return piste;
     }
 
