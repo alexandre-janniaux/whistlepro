@@ -45,4 +45,9 @@ public class ClassifProcess implements StreamProcessInterface<Signal, ClassifRes
         outputData.fillClassesFromArray(classifier.classes());
         outputData.fillResFromArray(out);
     }
+
+    @Override
+    public void reset() {
+
+    }
 }

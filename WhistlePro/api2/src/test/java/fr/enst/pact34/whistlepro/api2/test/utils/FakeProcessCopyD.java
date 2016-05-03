@@ -23,4 +23,9 @@ public class FakeProcessCopyD<E extends StreamDataInterface> implements StreamPr
 
 
     }
+
+    @Override
+    public void reset() {
+        int nb_passage = 0;
+    }
 }

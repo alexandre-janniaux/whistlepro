@@ -14,6 +14,7 @@ public interface manageableStream<E> {
 
     int getOutputState();
 
+    void reset();
 
     void process();
 

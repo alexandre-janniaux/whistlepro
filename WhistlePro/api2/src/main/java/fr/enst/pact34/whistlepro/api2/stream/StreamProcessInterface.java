@@ -6,4 +6,6 @@ package  fr.enst.pact34.whistlepro.api2.stream;
 public interface StreamProcessInterface<E, F> {
 
     void process(E inputData, F outputData);
+
+    void reset();
 }

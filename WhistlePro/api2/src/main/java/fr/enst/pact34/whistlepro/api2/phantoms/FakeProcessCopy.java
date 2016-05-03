@@ -11,4 +11,9 @@ public class FakeProcessCopy<E extends StreamDataInterface> implements StreamPro
     public void process(E inputData, E outputData) {
         inputData.copyTo(outputData);
     }
+
+    @Override
+    public void reset() {
+
+    }
 }

@@ -18,4 +18,9 @@ public class FakeProcessOutValue<E extends StreamDataInterface,F extends StreamD
     public void process(E inputData, F outputData) {
         v.copyTo(outputData);
     }
+
+    @Override
+    public void reset() {
+
+    }
 }

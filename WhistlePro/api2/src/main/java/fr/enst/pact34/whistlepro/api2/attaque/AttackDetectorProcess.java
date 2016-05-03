@@ -121,4 +121,13 @@ public class AttackDetectorProcess implements StreamProcessInterface<Signal,Atta
 
 		}
 
+	@Override
+	public void reset() {
+		max = Double.MIN_VALUE;
+		min = Double.MAX_VALUE;
+		//max = 0.5;
+		//min = 0.5;
+		last_v = 0;
+	}
+
 }

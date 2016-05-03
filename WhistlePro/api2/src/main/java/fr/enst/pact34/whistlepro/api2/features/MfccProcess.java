@@ -23,12 +23,7 @@ public class MfccProcess implements FeatureProviderInterface, StreamProcessInter
 
 
     public MfccProcess() {
-        for (int i = 0; i < lastMfcc.length; i++) {
-                lastMfcc[i]= 0;
-        }
-        for (int i = 0; i < lastDMfcc.length; i++) {
-                lastDMfcc[i]= 0;
-        }
+        reset();
     }
 
     public int countFeatures()
@@ -131,6 +126,16 @@ public class MfccProcess implements FeatureProviderInterface, StreamProcessInter
 
 
         sigOut.setSamplingFrequency(sigIn.getFs());
+    }
+
+    @Override
+    public void reset() {
+        for (int i = 0; i < lastMfcc.length; i++) {
+            lastMfcc[i]= 0;
+        }
+        for (int i = 0; i < lastDMfcc.length; i++) {
+            lastDMfcc[i]= 0;
+        }
     }
 
 

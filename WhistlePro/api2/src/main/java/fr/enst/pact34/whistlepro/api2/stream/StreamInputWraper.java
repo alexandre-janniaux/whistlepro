@@ -19,7 +19,7 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
 
 
 
-    private AtomicInteger inputState = new AtomicInteger(States.INPUT_BUSY);
+    private AtomicInteger inputState = new AtomicInteger(States.INPUT_WAITING);
     private AtomicInteger processState = new AtomicInteger(States.PROCESS_WAITING);
     private AtomicInteger outputState = new AtomicInteger(States.OUTPUT_WAITING);
     //private States inputState = States.INPUT_WAITING;
@@ -186,6 +186,18 @@ public class StreamInputWraper<E,F extends StreamDataInterface<F>>
     @Override
     public int getOutputState() {
             return outputState.get();
+    }
+
+    @Override
+    public void reset() {
+        processor.reset();
+        bufferIn.clear();
+        bufferOut.clear();
+        bufferInD.clear();
+        bufferOutD.clear();
+        inputState.set(States.INPUT_WAITING);
+        processState.set(States.PROCESS_WAITING);
+        outputState.set(States.OUTPUT_WAITING);
     }
 
     @Override

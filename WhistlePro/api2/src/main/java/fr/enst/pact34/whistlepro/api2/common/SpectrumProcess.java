@@ -24,4 +24,9 @@ public class SpectrumProcess implements StreamProcessInterface<Signal,Spectrum> 
         fftCalc.fft(inputData,outputData);
 
     }
+
+    @Override
+    public void reset() {
+
+    }
 }

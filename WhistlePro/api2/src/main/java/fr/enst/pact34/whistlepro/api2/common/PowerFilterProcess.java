@@ -31,4 +31,9 @@ public class PowerFilterProcess implements StreamProcessInterface<Signal,Signal>
             inputData.copyTo(outputData);
         }
     }
+
+    @Override
+    public void reset() {
+        max_audio = 0;
+    }
 }

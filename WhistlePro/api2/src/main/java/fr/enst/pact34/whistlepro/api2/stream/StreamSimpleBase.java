@@ -158,6 +158,13 @@ public class StreamSimpleBase<E extends StreamDataInterface<E>,F extends StreamD
     }
 
     @Override
+    public void reset() {
+        inputState.set(States.INPUT_WAITING);
+        processState.set(States.PROCESS_WAITING);
+        outputState.set(States.OUTPUT_WAITING);
+    }
+
+    @Override
     public HashSet<StreamDataListenerInterface<F>> getSubscriberList() {
         return sourceDelegate.getListeners();
     }

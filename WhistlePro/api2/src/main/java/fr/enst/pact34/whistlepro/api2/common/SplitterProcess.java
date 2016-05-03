@@ -47,4 +47,9 @@ public class SplitterProcess implements StreamProcessInterface<LinkedList<double
             }
         }
     }
+
+    @Override
+    public void reset() {
+        iSB = 0;
+    }
 }

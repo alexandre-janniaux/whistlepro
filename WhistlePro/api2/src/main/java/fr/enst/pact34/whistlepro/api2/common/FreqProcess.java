@@ -72,11 +72,18 @@ public class FreqProcess implements StreamProcessInterface<Signal,Frequency> {
             if(i_max != 0 && res[i] > res[i-1]) break;
         }
 
-        double freq = inputData.getSamplingFrequency()*xFs/i_max;
+
+        double freq = -1;
+        if(i_max>0) freq= inputData.getSamplingFrequency()*xFs/i_max;
         //System.out.println(System.currentTimeMillis()-t);
 //*/
 
         outputData.setFrequency(NoteCorrector.closestNoteFreq(freq));
+
+    }
+
+    @Override
+    public void reset() {
 
     }
 }

@@ -72,6 +72,8 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
 
     private int last_nb_done = 0;
 
+    private LinkedList<manageableStream> streamList = new LinkedList<>();
+
     public ProcessingMachineBase(double Fs, String classifierData, int nbThread) {
         int sampleLen = (int)(TIME_ANALYSE*Fs);
         //initialisations
@@ -101,35 +103,38 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         //split stream
         splitterProcess = new SplitterProcess(sampleLen, Fs);
         splitterStream = new StreamInputWraper<>(new Signal(), splitterProcess);
-
+        streamList.add(splitterStream);
 
         //power filter
         powFilterProcess = new PowerFilterProcess();
         powerFilterStream = new StreamSimpleBase<>(new Signal(),new Signal(), powFilterProcess);
-
+        streamList.add(powerFilterStream);
 
         //Estimation hauteur
         estFreqProcess =  new FreqProcess();
         estFreqStream = new StreamSimpleBase<>(new Signal(),new Frequency(), estFreqProcess);
+        streamList.add(estFreqStream);
 
         //Attaque
         attackProcess = new AttackDetectorProcess(sampleLen);//new FakeProcessOutValue<>(new AttackTimes()); //TODO put real process
         attackStream = new StreamSimpleBase<>(new Signal(),new AttackTimes(), attackProcess);
+        streamList.add(attackStream);
 
         //FFT
         fftProcess = new SpectrumProcess(sampleLen);
         fftStream = new StreamSimpleBase<>(new Signal(),new Spectrum(), fftProcess);
+        streamList.add(fftStream);
 
         //MFCC
         mfccProcess = new MfccProcess();
         mfccStream = new StreamSimpleBase<>(new Spectrum(),new Signal(), mfccProcess);
-
+        streamList.add(mfccStream);
 
         //classif
         classifier = new MultipleStrongClassifiers.Builder().fromString(classifierData).build();
         classifProcess = new ClassifProcess(classifier);
         classifStream = new StreamSimpleBase<>(new Signal(),new ClassifResults(), classifProcess);
-
+        streamList.add(classifStream);
 
         //transcription module
         transcriptionBase = new FakeTranscription(new MusicTrack());
@@ -239,6 +244,10 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         last_nb_done = 0;
         transcriptionBase.clear();
         splitterStream.resetIds();
+        for (manageableStream s:
+             streamList) {
+            s.reset();
+        }
     }
 
     public void setupFor(Piste.TypePiste typePiste) {
