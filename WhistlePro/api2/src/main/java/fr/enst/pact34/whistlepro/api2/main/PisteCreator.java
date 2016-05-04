@@ -76,8 +76,8 @@ public class PisteCreator {
             }
         });
 
-        //suppression des doublons
         if(allAttacksList.size()>1) {
+            //suppression des doublons
             for (int i = 1; i < allAttacksList.size(); ) {
                 if (Math.abs(allAttacksList.get(i-1).getTime() - allAttacksList.get(i).getTime()) < 1e-6) {
                     allAttacksList.remove(i);
@@ -87,6 +87,19 @@ public class PisteCreator {
                     i++;
                 }
             }
+            //suppression des event trop court
+            for (int i = 1; i < allAttacksList.size(); ) {
+                if (Math.abs(allAttacksList.get(i-1).getTime() - allAttacksList.get(i).getTime()) < 0.011) {
+                    allAttacksList.remove(i);
+                    allAttacksList.remove(i-1);
+
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
         }
 
         //Creation de la liste des percussions ou des instruments
@@ -160,9 +173,9 @@ public class PisteCreator {
         //ajout onomatopées
 
         //on trie les donnees de classifs
-        Collections.sort(classifResultses, new Comparator<ClassifResults>() {
+        Collections.sort(frequencies, new Comparator<Frequency>() {
             @Override
-            public int compare(ClassifResults t0, ClassifResults t1) {
+            public int compare(Frequency t0, Frequency t1) {
                 return (t0.getId() - t1.getId());
             }
         });
