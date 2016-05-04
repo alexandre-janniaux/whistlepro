@@ -48,17 +48,17 @@ public abstract class WhistleProActivity extends Activity {
             addSharedData(SD_RECORDER, recorder);
             //add processing machine
             ProcessingMachine processor = new ProcessingMachine(recorder.getSampleRate(),
-                    readRawTextFile(R.raw.voyelles_k20),
-                    4, Piste.TypePiste.Percussions);
+                    readRawTextFile(R.raw.bb_chk),
+                    2, Piste.TypePiste.Percussions);
             addSharedData(SD_PROCESSING_MACINE, processor);
 
             recorder.setListener(processor);
 
             //TODO config for instru
 
-            processor.setPercuCorrespondance("a", Percu.Type.Kick);
-            processor.setPercuCorrespondance("e",Percu.Type.CaisseClaire);
-            processor.setPercuCorrespondance("o", Percu.Type.Charleston);
+            processor.setPercuCorrespondance("k", Percu.Type.Kick);
+            processor.setPercuCorrespondance("c",Percu.Type.CaisseClaire);
+            processor.setPercuCorrespondance("h", Percu.Type.Charleston);
 
             //TODO sons bateaux a changer
             double Fs = 16000; //la synthese est faite en 16000 ne pas changer sans changer la synthese
