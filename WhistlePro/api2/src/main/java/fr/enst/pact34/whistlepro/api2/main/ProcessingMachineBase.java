@@ -111,7 +111,7 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         streamList.add(powerFilterStream);
 
         //Estimation hauteur
-        estFreqProcess =  new FreqProcess();
+        estFreqProcess =  new FreqProcess((int) Fs,sampleLen);
         estFreqStream = new StreamSimpleBase<>(new Signal(),new Frequency(), estFreqProcess);
         streamList.add(estFreqStream);
 

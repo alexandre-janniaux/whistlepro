@@ -9,6 +9,16 @@ import fr.enst.pact34.whistlepro.api2.stream.StreamProcessInterface;
  */
 public class FreqProcess implements StreamProcessInterface<Signal,Frequency> {
 
+    private int xFs;
+    double[] sig,res;
+    public FreqProcess(int Fs, int nbSample)
+    {
+        xFs = (int) Math.ceil(50000.0/Fs);
+
+        sig = new double[nbSample*xFs];
+        res = new double[sig.length];
+    }
+
     @Override
     public void process(Signal inputData, Frequency outputData) {
         /* Auto-correlation
@@ -31,7 +41,8 @@ public class FreqProcess implements StreamProcessInterface<Signal,Frequency> {
             }
         }
 
-        double freq = inputData.getSamplingFrequency()/i_max;
+        double freq = -1;
+        if(i_max>0) freq= inputData.getSamplingFrequency()/i_max;
         System.out.println(System.currentTimeMillis()-t);
         //*/
 
@@ -41,10 +52,10 @@ public class FreqProcess implements StreamProcessInterface<Signal,Frequency> {
 //      + aumentation Fs artificielle by Momo
 //      fonctionne mieux comme ça (entre 65 Hz et 3951 soit les octave 1 à 6)
 //      octave 1 très sensible au bruit
-        int xFs = (int) Math.ceil(100000.0/inputData.getSamplingFrequency());
+        //int xFs = (int) Math.ceil(100000.0/inputData.getSamplingFrequency());
 
-        double[] sig = new double[inputData.length()*xFs];
-        double[] res = new double[sig.length];
+        //double[] sig = new double[inputData.length()*xFs];
+        //double[] res = new double[sig.length];
 
         //long t = System.currentTimeMillis();
         for (int i = 0; i < inputData.length()-1; i++) {
@@ -69,7 +80,7 @@ public class FreqProcess implements StreamProcessInterface<Signal,Frequency> {
                 i_max= i;
             }
             //arret au premier pic en bas
-            if(i_max != 0 && res[i] > res[i-1]) break;
+            if(i_max != 0 && res[i] > res[i-1] && res[i-1] > res[i-2]) break;
         }
 
 

@@ -34,7 +34,7 @@ public class FreqProcessTest {
              ) {
             int countSuccess = 0;
             for(int j = 0; j < nbTest; j ++) {
-                //System.out.print("in :" + freq);
+                System.out.print("in :" + freq);
                 double t_step = 1 / Fs;
                 double alpha_bruit;
                 if (freq < 130) alpha_bruit = 0.1; //premiere gamme plus sensible au bruit
@@ -47,7 +47,7 @@ public class FreqProcessTest {
                 // test setup
                 Frequency outputData = new Frequency();
                 TestBuilder<Signal, Frequency> test = new TestBuilder<>(inputData, outputData,
-                        new StreamSimpleBase<>(new Signal(), new Frequency(), new FreqProcess())
+                        new StreamSimpleBase<>(new Signal(), new Frequency(), new FreqProcess((int) Fs,inputData.length()))
                 );
 
                 for (int i = 0; i < 5; i++) {
@@ -55,7 +55,7 @@ public class FreqProcessTest {
                     test.startTest();
                 }
 
-                //System.out.println(" => out :" + outputData.getFrequency());
+                System.out.println(" => out :" + outputData.getFrequency());
 
                 if(freq == outputData.getFrequency()) countSuccess++;
             }
@@ -82,7 +82,7 @@ public class FreqProcessTest {
                 ) {
             int countSuccess = 0;
             for(int j = 0; j < nbTest; j ++) {
-                //System.out.print("in :" + freq);
+                System.out.print("in :" + freq);
                 double t_step = 1 / Fs;
                 double alpha_bruit;
                 if (freq < 130) alpha_bruit = 0.05; //premiere gamme plus sensible au bruit
@@ -94,7 +94,7 @@ public class FreqProcessTest {
                 // test setup
                 Frequency outputData = new Frequency();
                 TestBuilder<Signal, Frequency> test = new TestBuilder<>(inputData, outputData,
-                        new StreamSimpleBase<>(new Signal(), new Frequency(), new FreqProcess())
+                        new StreamSimpleBase<>(new Signal(), new Frequency(), new FreqProcess((int)Fs,inputData.length()))
                 );
 
                 for (int i = 0; i < 5; i++) {
@@ -102,7 +102,7 @@ public class FreqProcessTest {
                     test.startTest();
                 }
 
-                //System.out.println(" => out :" + outputData.getFrequency());
+                System.out.println(" => out :" + outputData.getFrequency());
 
                 if (freq == outputData.getFrequency()) countSuccess++;
             }
