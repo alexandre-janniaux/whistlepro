@@ -80,20 +80,18 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         streamMaster = new StreamManager(nbThread, new StreamManagerListener() {
             @Override
             public void oneJobDone() {
-                if(listener != null)
-                {
-                    if(transcriptionEnded()) {
-                        listener.newWorkEvent(ProcessorEventListener.WorkEvent.AllWorkDone);
-                    }
-                    else
-                    {
-                        int nb_done = transcriptionBase.getNbReceived();
-                        if(last_nb_done < nb_done) {
-                            listener.newWorkEvent(ProcessorEventListener.WorkEvent.OneWorkDone);
-                            last_nb_done = nb_done;
-                        }
-                    }
+
+                if(transcriptionEnded()) {
+                    if(listener != null)listener.newWorkEvent(ProcessorEventListener.WorkEvent.AllWorkDone);
                 }
+                else
+                {
+                    int nb_done = transcriptionBase.getNbReceived();
+                    if(last_nb_done < nb_done) {
+                        if(listener != null)listener.newWorkEvent(ProcessorEventListener.WorkEvent.OneWorkDone);
+                        last_nb_done = nb_done;
+                    }
+                } 
                 endWaintings();
             }
         });
