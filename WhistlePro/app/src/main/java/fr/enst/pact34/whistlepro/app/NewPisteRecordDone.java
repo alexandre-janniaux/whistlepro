@@ -68,7 +68,7 @@ public class NewPisteRecordDone extends WhistleProActivity {
                 Instru.Type  type = instru.getType();
                 String typeStr = "X";
                 if(type!=null) typeStr = type.name();
-                adapter.add(" => " + instru.getStartTime() + ":" + instru.getEndTime()+ " => "+typeStr);
+                adapter.add(" => " + instru.getStartTime() + ":" + instru.getEndTime()+ " => "+instru.getFreq());
 
             }
         }
