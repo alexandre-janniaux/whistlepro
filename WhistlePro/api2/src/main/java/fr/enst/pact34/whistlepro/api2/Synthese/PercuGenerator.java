@@ -23,11 +23,11 @@ public class PercuGenerator {
         return Fs;
     }
 
-    public Signal generate(Percu.Type type, double time) {
-        PercuGenElmt e = percuGenElmts.get(type);
+    public Signal getPercu(Percu.Type type)
+    {  PercuGenElmt e = percuGenElmts.get(type);
         if(e == null)
             throw new RuntimeException(type.name()+"'s data weren't added to the generator.");
-        return e.generateTime(time);
+        return e.getData();
     }
 
     public void addPercu(Percu.Type typePercussion, Signal donnees)
@@ -49,17 +49,8 @@ public class PercuGenerator {
             sound = donnees;
         }
 
-        public Signal generateTime(double time) {
-            int nbSamples = (int) (time * sound.getSamplingFrequency());
-            Signal toRet = new Signal();
-            toRet.setLength(nbSamples);
-
-            for (int i = 0; i +sound.length() <= nbSamples; i += sound.length()) {
-                toRet.fromSignal(sound, 0, i, sound.length());
-            }
-
-            toRet.setSamplingFrequency(sound.getSamplingFrequency());
-            return toRet;
+        public Signal getData() {
+            return sound;
         }
     }
 }

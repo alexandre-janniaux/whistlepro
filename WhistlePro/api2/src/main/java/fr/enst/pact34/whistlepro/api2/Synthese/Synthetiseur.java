@@ -50,10 +50,11 @@ public class Synthetiseur {
             Percu p = percussions.get(i);
             Percu.Type type = p.getType();
             if(type == null) continue;
-            double time = p.getEndTime() - p.getStartTime();
-            Signal sigGen = percuGen.generate(type,time);
+            Signal sigGen = percuGen.getPercu(type);
+            int is = (int)(Fs*p.getStartTime());
+            if(sigGen.length() > sound.length() - is) continue;
 
-            sound.fromSignal(sigGen,0,(int)(Fs*p.getStartTime()),sigGen.length());
+            sound.fromSignal(sigGen,0,is,sigGen.length());
         }
 
         sound.setSamplingFrequency(Fs);
