@@ -58,45 +58,17 @@ public abstract class WhistleProActivity extends Activity {
 
             //TODO config for instru
 
+            // config percu
             processor.setPercuCorrespondance("k", Percu.Type.Kick);
             processor.setPercuCorrespondance("c",Percu.Type.CaisseClaire);
             processor.setPercuCorrespondance("h", Percu.Type.Charleston);
 
-            //TODO sons bateaux a changer
-            double Fs = 16000; //la synthese est faite en 16000 ne pas changer sans changer la synthese
-            // tous les signaux doivent etre en 16000
-            // les signaux sont répétés et mis les uns a la suite des autres
-            // pour eviter des "sauts" il faut qu'ils commencent à 0 et finissent à 0.
-            /*
-            Signal sigCaisseClaire = new Signal();
-            sigCaisseClaire.setSamplingFrequency(Fs);
-            sigCaisseClaire.setLength((int) ((1.0/440) * Fs)+1);
-
-            double t_step = 1 / Fs;
-            for (int i = 0; i < sigCaisseClaire.length(); i++) {
-                sigCaisseClaire.setValue(i,  Math.sin(2.0 * Math.PI * 440 * i * t_step));
-            }
-            */
             Signal sigKick = createSignalFromLines(readRawTextFile(R.raw.gc_16k));
             processor.addPercuData(Percu.Type.Kick, sigKick);
-            /*
-            Signal sigKick = new Signal();
-            sigKick.setSamplingFrequency(Fs);
-            sigKick.setLength((int) ((1.0/493) * Fs)+1);
-            for (int i = 0; i < sigKick.length(); i++) {
-                sigKick.setValue(i,  Math.sin(2.0 * Math.PI * 493 * i * t_step));
-            }
-            */
+
             Signal sigCaisseClaire = createSignalFromLines(readRawTextFile(R.raw.cc_16k));
             processor.addPercuData(Percu.Type.CaisseClaire, sigCaisseClaire);
-            /*
-            Signal sigCharleston = new Signal();
-            sigCharleston.setSamplingFrequency(Fs);
-            sigCharleston.setLength((int) ((1.0/392) * Fs)+1);
-            for (int i = 0; i < sigCharleston.length(); i++) {
-                sigCharleston.setValue(i,  Math.sin(2.0 * Math.PI * 392 * i * t_step));
-            }
-            */
+
             Signal sigCharleston = createSignalFromLines(readRawTextFile(R.raw.hh_16k));
             processor.addPercuData(Percu.Type.Charleston, sigCharleston);
 
