@@ -82,7 +82,7 @@ public class PianoRollView extends View {
 
         Log.d("whistlepro","[whistlepro] dessin du piano");
 
-        int nbRow = this.model.getNoteTypeCount();
+        int nbRow = this.model == null ? 3 : this.model.getNoteTypeCount();
         if (this.model != null) {
             for (int i = 0; i < nbRow; ++i) {
                 for (int j = 0; j < this.model.getNoteCount(i); ++j) {
@@ -91,7 +91,7 @@ public class PianoRollView extends View {
                     double stop = note.getStop();
 
                     float left = (float) ((start-cursorPosition)/screenWidthInTime*getWidth());
-                    float right = (float) ((stop-cursorPosition)/screenWidthInTime*getWidth())
+                    float right = (float) ((stop-cursorPosition)/screenWidthInTime*getWidth());
                     float top = i*instrumentSpacing;
                     float bottom = top + instrumentSpacing;
                     canvas.drawRect(left, top, right, bottom, paint);
