@@ -15,6 +15,7 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
+import fr.enst.pact34.whistlepro.api2.Synthese.Instru;
 import fr.enst.pact34.whistlepro.api2.Synthese.Percu;
 import fr.enst.pact34.whistlepro.api2.common.FileOperator;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
@@ -57,6 +58,14 @@ public abstract class WhistleProActivity extends Activity {
             recorder.setListener(processor);
 
             //TODO config for instru
+            /*
+            Boisé : r=1 ; D ~ fm
+            Cuivre : r=3/2 ; D ~ 4*fm
+            Piano : r=(1+4*250) ; D ~ 2*fm
+             */
+            processor.addInstruData(Instru.Type.Piano, 1+4*250,2);
+            processor.addInstruData(Instru.Type.Cuivre, 3.0/2,4);
+            processor.addInstruData(Instru.Type.Boise, 1,1);
 
             // config percu
             processor.setPercuCorrespondance("k", Percu.Type.Kick);
