@@ -3,11 +3,16 @@ package fr.enst.pact34.whistlepro.demo.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
+
+import fr.enst.pact34.whistlepro.demo.models.PianoRollModel;
 
 /******************************
  * Dessin d'un piano roll:
@@ -40,7 +45,10 @@ import android.view.View;
 public class PianoRollView extends View {
 
     private Rect rectView = new Rect();
-    private float instrumentSpacing = 25.f;
+    private float instrumentSpacing = 75.f;
+    private PianoRollModel model;
+    private double screenWidthInTime = 5.;
+    private double cursorPosition = 0.;
 
     public PianoRollView(Context context) {
         super(context);
@@ -54,27 +62,59 @@ public class PianoRollView extends View {
         super(context, attrs, defStyleAttr);
     }
 
+    /*
     public PianoRollView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+    }*/
+
+    public void setModel(PianoRollModel model) {
+        model.addViewNotifier(this);
+        this.model = model;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
 
         Paint paint = new Paint();
 
+        // choix de la couleur (à changer)
+        paint.setColor(Color.RED);
+
+        Log.d("whistlepro","[whistlepro] dessin du piano");
+
+        int nbRow = this.model.getNoteTypeCount();
+        if (this.model != null) {
+            for (int i = 0; i < nbRow; ++i) {
+                for (int j = 0; j < this.model.getNoteCount(i); ++j) {
+                    PianoRollModel.NoteProperty note = this.model.getNote(i,j);
+                    double start = note.getStart();
+                    double stop = note.getStop();
+
+                    float left = (float) ((start-cursorPosition)/screenWidthInTime*getWidth());
+                    float right = (float) ((stop-cursorPosition)/screenWidthInTime*getWidth())
+                    float top = i*instrumentSpacing;
+                    float bottom = top + instrumentSpacing;
+                    canvas.drawRect(left, top, right, bottom, paint);
+
+                    //TODO: echelle des temps (équivalence temps/pixel)
+                }
+            }
+
+
+        }
+
+
         // ON DESSINE A INTERVALLE REGULIER LES SEPARATEURS D'INSTRUMENTS
-        paint.setARGB(255,0,0,0);
-        int nbLines = (int) (this.rectView.height() / this.instrumentSpacing);
-        float[] lines = new float[nbLines*4];
+        //paint.setARGB(125,0,255,0);
+        int nbLines = (int) (getHeight() / this.instrumentSpacing);
+        float[] lines = new float[(nbLines+1)*4];
 
         // écriture des lignes horizontales // TODO: shift de la hauteur selon dragging (modulo)
-        for(int i=0; i<nbLines; ++i) {
-            lines[i]   = 0;
-            lines[i+1] = this.instrumentSpacing*i;
-            lines[i+2] = this.rectView.width();
-            lines[i+3] = this.instrumentSpacing*i;
+        for(int i=0; i<Math.min(nbLines+1, nbRow+1); ++i) {
+            lines[4*i]   = 0;                           // départ x
+            lines[4*i+1] = this.instrumentSpacing*i;    // départ y
+            lines[4*i+2] = getWidth();                  // arrivé x
+            lines[4*i+3] = this.instrumentSpacing*i;    // arrivé y
         }
 
         canvas.drawLines(lines, paint);
@@ -83,6 +123,11 @@ public class PianoRollView extends View {
 
         // TODO: model-view
 
+
+        super.onDraw(canvas);
+
+
+        //canvas.drawLine(0,0,getWidth(),getHeight(),paint);
     }
 
     @Override
@@ -91,8 +136,25 @@ public class PianoRollView extends View {
     }
 
     @Override
-    public boolean onDragEvent(DragEvent event) {
-        return super.onDragEvent(event);
+    public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
+        final int action = event.getAction();
+
+        switch(action) {
+            case MotionEvent.ACTION_MOVE:
+                break;
+
+        }
+
+        return true;
+    }
+
+    public void notifyView() {
 
     }
+
+    public void notifyNoteView(int piste, int note) {
+
+    }
+
 }

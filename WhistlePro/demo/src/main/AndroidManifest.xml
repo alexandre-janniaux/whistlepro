@@ -16,9 +16,13 @@
         android:icon="@drawable/ic_launcher"
         android:label="WhistleProDemo"
         android:theme="@style/AppTheme">
-        <activity
+        <!--<activity
             android:name=".activities.FirstActivity"
+            android:label="WhistleProDemo">-->
+        <activity
+            android:name=".activities.PianoRollActivity"
             android:label="WhistleProDemo">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
