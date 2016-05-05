@@ -27,7 +27,7 @@ public class Instru extends SynthetisableElmt {
     }
 
     public enum Type{
-        Piano
+        Cuivre, Boise, Piano
         //TODO fill with percu names
     }
 
