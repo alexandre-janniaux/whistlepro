@@ -5,9 +5,11 @@ import android.os.Bundle;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -65,6 +67,7 @@ public abstract class WhistleProActivity extends Activity {
             // tous les signaux doivent etre en 16000
             // les signaux sont répétés et mis les uns a la suite des autres
             // pour eviter des "sauts" il faut qu'ils commencent à 0 et finissent à 0.
+            /*
             Signal sigCaisseClaire = new Signal();
             sigCaisseClaire.setSamplingFrequency(Fs);
             sigCaisseClaire.setLength((int) ((1.0/440) * Fs)+1);
@@ -73,22 +76,28 @@ public abstract class WhistleProActivity extends Activity {
             for (int i = 0; i < sigCaisseClaire.length(); i++) {
                 sigCaisseClaire.setValue(i,  Math.sin(2.0 * Math.PI * 440 * i * t_step));
             }
-            processor.addPercuData(Percu.Type.Kick, sigCaisseClaire);
-
+            */
+            Signal sigKick = createSignalFromLines(readRawTextFile(R.raw.gc_16k));
+            processor.addPercuData(Percu.Type.Kick, sigKick);
+            /*
             Signal sigKick = new Signal();
             sigKick.setSamplingFrequency(Fs);
             sigKick.setLength((int) ((1.0/493) * Fs)+1);
             for (int i = 0; i < sigKick.length(); i++) {
                 sigKick.setValue(i,  Math.sin(2.0 * Math.PI * 493 * i * t_step));
             }
-            processor.addPercuData(Percu.Type.CaisseClaire, sigKick);
-
+            */
+            Signal sigCaisseClaire = createSignalFromLines(readRawTextFile(R.raw.cc_16k));
+            processor.addPercuData(Percu.Type.CaisseClaire, sigCaisseClaire);
+            /*
             Signal sigCharleston = new Signal();
             sigCharleston.setSamplingFrequency(Fs);
             sigCharleston.setLength((int) ((1.0/392) * Fs)+1);
             for (int i = 0; i < sigCharleston.length(); i++) {
                 sigCharleston.setValue(i,  Math.sin(2.0 * Math.PI * 392 * i * t_step));
             }
+            */
+            Signal sigCharleston = createSignalFromLines(readRawTextFile(R.raw.hh_16k));
             processor.addPercuData(Percu.Type.Charleston, sigCharleston);
 
             //chargement donnees
@@ -203,5 +212,20 @@ public abstract class WhistleProActivity extends Activity {
             return null;
         }
         return text.toString();
+    }
+
+    public static Signal createSignalFromLines(String fileData)
+    {
+        String[] lines = fileData.split("[\\r\\n]+");
+
+        Signal sig = new Signal();
+
+        sig.setSamplingFrequency(Double.parseDouble(lines[0]));
+        sig.setLength(lines.length-1);
+        for(int i = 1; i < lines.length;i++) {
+            sig.setValue(i-1,Double.parseDouble(lines[i]));
+        }
+
+        return sig;
     }
 }
