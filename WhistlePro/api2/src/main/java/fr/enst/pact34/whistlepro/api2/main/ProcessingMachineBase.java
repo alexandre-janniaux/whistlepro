@@ -145,9 +145,9 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
 
         //connexions                                                //            Audio
                                                                     //            ||
-        //source.subscribe(splitterStream);                         //         Splitter
-                                                                    //            ||
-        splitterStream.subscribe(powerFilterStream);                //    ====PowerFilter ======||==========||
+        //source.subscribe(splitterStream);                         //         Splitter =====================||
+                                                                    //            ||                         ||
+        splitterStream.subscribe(powerFilterStream);                //    ====PowerFilter ======||           ||
         splitterStream.subscribe(new StreamDataListenerInterface<Signal>() {
             @Override
             public void fillBufferIn(Signal data) {
@@ -160,8 +160,8 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
             }
         });                                                         //   this     ||             ||          ||
                                                                     //            ||             ||          ||
-        //powerFilterStream.subscribe(estFreqStream);               //            ||             ||        estFreq
-        powerFilterStream.subscribe(attackStream);  //to add        //            ||           attack
+        //powerFilterStream.subscribe(estFreqStream);               //            ||             ||        attack
+        splitterStream.subscribe(attackStream);     //to add        //            ||           estFreq
         //powerFilterStream.subscribe(fftStream);                   //            FFT
                                                                     //            ||
         fftStream.subscribe(mfccStream);                            //           MFCC
