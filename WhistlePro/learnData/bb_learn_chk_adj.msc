@@ -1,0 +1,69 @@
+<MultipleClassifierItem classe='kick' >
+20 classifiers
+<weakClassifier>feature=1;threshold=4.457132740155918;isLeft=true;coef=0.8350959041882481;</weakClassifier>
+<weakClassifier>feature=0;threshold=-33.03856236464757;isLeft=true;coef=0.3659689917856431;</weakClassifier>
+<weakClassifier>feature=1;threshold=-1.7379508106607877;isLeft=true;coef=0.352886011385114;</weakClassifier>
+<weakClassifier>feature=4;threshold=-0.31740418687088356;isLeft=false;coef=0.37224839221603595;</weakClassifier>
+<weakClassifier>feature=8;threshold=0.39844010805949537;isLeft=true;coef=0.22764448756820238;</weakClassifier>
+<weakClassifier>feature=1;threshold=-0.6150206088219143;isLeft=true;coef=0.23159435955240565;</weakClassifier>
+<weakClassifier>feature=7;threshold=1.128653705023572;isLeft=true;coef=0.22802106559310076;</weakClassifier>
+<weakClassifier>feature=0;threshold=-54.1633901055244;isLeft=true;coef=0.2067173363102137;</weakClassifier>
+<weakClassifier>feature=8;threshold=-0.8031630516396597;isLeft=true;coef=0.19934766332224796;</weakClassifier>
+<weakClassifier>feature=1;threshold=7.429064105043972;isLeft=true;coef=0.22181597118871005;</weakClassifier>
+<weakClassifier>feature=21;threshold=0.3284870884965045;isLeft=false;coef=0.1942854356314589;</weakClassifier>
+<weakClassifier>feature=6;threshold=0.06968266243527323;isLeft=false;coef=0.1613008478350634;</weakClassifier>
+<weakClassifier>feature=1;threshold=-3.044392064258864;isLeft=true;coef=0.15379888595447452;</weakClassifier>
+<weakClassifier>feature=14;threshold=-0.6132301870995835;isLeft=false;coef=0.18614360592434354;</weakClassifier>
+<weakClassifier>feature=9;threshold=-0.009052692886613539;isLeft=false;coef=0.14684616379758175;</weakClassifier>
+<weakClassifier>feature=7;threshold=0.29977111011853436;isLeft=true;coef=0.15091655361411524;</weakClassifier>
+<weakClassifier>feature=4;threshold=1.1402617606492778;isLeft=false;coef=0.1436836277231058;</weakClassifier>
+<weakClassifier>feature=5;threshold=0.5910940608741774;isLeft=true;coef=0.1400869461782095;</weakClassifier>
+<weakClassifier>feature=17;threshold=-0.17124810706637233;isLeft=true;coef=0.12566583177097415;</weakClassifier>
+<weakClassifier>feature=4;threshold=-1.2538922687081353;isLeft=false;coef=0.13455887893134016;</weakClassifier>
+</MultipleClassifierItem>
+<MultipleClassifierItem classe='charleston' >
+20 classifiers
+<weakClassifier>feature=1;threshold=-2.474608837163716;isLeft=false;coef=0.751772811649616;</weakClassifier>
+<weakClassifier>feature=0;threshold=-52.31729232171391;isLeft=false;coef=0.48788655946095866;</weakClassifier>
+<weakClassifier>feature=3;threshold=-0.059463577301418935;isLeft=false;coef=0.3725403326016666;</weakClassifier>
+<weakClassifier>feature=1;threshold=4.40415727116148;isLeft=false;coef=0.28247523013265263;</weakClassifier>
+<weakClassifier>feature=2;threshold=3.4087814299538146;isLeft=true;coef=0.269523337803983;</weakClassifier>
+<weakClassifier>feature=8;threshold=-0.4330050028941213;isLeft=true;coef=0.22773471736227272;</weakClassifier>
+<weakClassifier>feature=1;threshold=5.708185746820777;isLeft=false;coef=0.17677494524649917;</weakClassifier>
+<weakClassifier>feature=2;threshold=0.10247903914076627;isLeft=true;coef=0.21203500229368194;</weakClassifier>
+<weakClassifier>feature=3;threshold=-1.437302104295411;isLeft=false;coef=0.24595621961246486;</weakClassifier>
+<weakClassifier>feature=0;threshold=-33.79963573950937;isLeft=false;coef=0.20598944730119836;</weakClassifier>
+<weakClassifier>feature=35;threshold=-2.499439410613462;isLeft=false;coef=0.20037243095544185;</weakClassifier>
+<weakClassifier>feature=1;threshold=4.40415727116148;isLeft=false;coef=0.1958708075045339;</weakClassifier>
+<weakClassifier>feature=1;threshold=-2.463246634773001;isLeft=true;coef=0.20873209955963018;</weakClassifier>
+<weakClassifier>feature=35;threshold=1.514445176670035;isLeft=true;coef=0.170529909466399;</weakClassifier>
+<weakClassifier>feature=3;threshold=2.2913564482615314;isLeft=false;coef=0.16642531793120405;</weakClassifier>
+<weakClassifier>feature=1;threshold=-7.369085934826308;isLeft=false;coef=0.15117060321939257;</weakClassifier>
+<weakClassifier>feature=10;threshold=-0.8936879983085537;isLeft=true;coef=0.18259026813238566;</weakClassifier>
+<weakClassifier>feature=16;threshold=-0.09190675953081479;isLeft=true;coef=0.14596841489775556;</weakClassifier>
+<weakClassifier>feature=29;threshold=-1.3854974686012058;isLeft=false;coef=0.13017029873673466;</weakClassifier>
+<weakClassifier>feature=0;threshold=-74.04139213823206;isLeft=true;coef=0.1461003270184406;</weakClassifier>
+</MultipleClassifierItem>
+<MultipleClassifierItem classe='caisse_claire' >
+20 classifiers
+<weakClassifier>feature=2;threshold=-1.158894652965763;isLeft=false;coef=0.5475670121458851;</weakClassifier>
+<weakClassifier>feature=8;threshold=-0.8036741211078046;isLeft=false;coef=0.33727216398147086;</weakClassifier>
+<weakClassifier>feature=3;threshold=1.1231423487260312;isLeft=true;coef=0.31389390330374783;</weakClassifier>
+<weakClassifier>feature=6;threshold=0.29595054683246724;isLeft=true;coef=0.26623834533127855;</weakClassifier>
+<weakClassifier>feature=10;threshold=-0.73265312093963;isLeft=false;coef=0.22844775509328094;</weakClassifier>
+<weakClassifier>feature=4;threshold=-0.40658277514137087;isLeft=true;coef=0.2489726758636857;</weakClassifier>
+<weakClassifier>feature=0;threshold=-54.90537580560192;isLeft=true;coef=0.19121921954350032;</weakClassifier>
+<weakClassifier>feature=13;threshold=1.1291297292888842;isLeft=true;coef=0.19240964006139116;</weakClassifier>
+<weakClassifier>feature=1;threshold=7.518849155185653;isLeft=false;coef=0.18743150312104154;</weakClassifier>
+<weakClassifier>feature=4;threshold=1.7747443686402844;isLeft=true;coef=0.2261182870302001;</weakClassifier>
+<weakClassifier>feature=1;threshold=8.30822039185645;isLeft=false;coef=0.14813083145197262;</weakClassifier>
+<weakClassifier>feature=0;threshold=-71.13357046270812;isLeft=false;coef=0.2042384803405137;</weakClassifier>
+<weakClassifier>feature=2;threshold=2.380942968218224;isLeft=false;coef=0.14569118431645683;</weakClassifier>
+<weakClassifier>feature=7;threshold=0.12603790512239274;isLeft=false;coef=0.13260957232941747;</weakClassifier>
+<weakClassifier>feature=6;threshold=0.9140934578341096;isLeft=true;coef=0.14308812661361567;</weakClassifier>
+<weakClassifier>feature=1;threshold=-2.7128506833730497;isLeft=true;coef=0.1469816434738999;</weakClassifier>
+<weakClassifier>feature=21;threshold=0.2432817303239171;isLeft=true;coef=0.13016429251034076;</weakClassifier>
+<weakClassifier>feature=5;threshold=0.4973841094380764;isLeft=false;coef=0.117601836412838;</weakClassifier>
+<weakClassifier>feature=11;threshold=0.1836402475850524;isLeft=true;coef=0.10801694338507903;</weakClassifier>
+<weakClassifier>feature=8;threshold=0.40343125793042517;isLeft=false;coef=0.12531195574324516;</weakClassifier>
+</MultipleClassifierItem>
