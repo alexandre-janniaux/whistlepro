@@ -10,12 +10,13 @@ import fr.enst.pact34.whistlepro.api2.stream.StreamProcessInterface;
 public class FreqProcess implements StreamProcessInterface<Signal,Frequency> {
 
     private int xFs;
-    double[] sig,res;
+    short[] sig;
+    double[] res;
     public FreqProcess(int Fs, int nbSample)
     {
         xFs = (int) Math.ceil(50000.0/Fs);
 
-        sig = new double[nbSample*xFs];
+        sig = new short[nbSample*xFs];
         res = new double[sig.length];
     }
 
@@ -61,14 +62,14 @@ public class FreqProcess implements StreamProcessInterface<Signal,Frequency> {
         for (int i = 0; i < inputData.length()-1; i++) {
             for (int j = 0; j < xFs; j++) {
                 //interpolation lineaire
-                sig[i*xFs+j] =  (inputData.getValue(i+1)-inputData.getValue(i))*((double)(j)/xFs)+inputData.getValue(i);
+                sig[i*xFs+j] =  (short)(100*((inputData.getValue(i+1)-inputData.getValue(i))*((double)(j)/xFs)+inputData.getValue(i)));
             }
         }
 
         double max = Double.MAX_VALUE;
         int i_max = 0;
 
-        for (int i = 0; i < res.length; i++) {
+        for (int i = 1; i < res.length; i++) {
             res[i] = 0;
             for (int j = 0; i+j < res.length ; j++) {
                 res[i]+=Math.abs(sig[j%res.length]-sig[(i+j)%res.length]);
