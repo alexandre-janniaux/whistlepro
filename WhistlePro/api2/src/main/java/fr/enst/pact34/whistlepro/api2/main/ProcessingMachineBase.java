@@ -219,9 +219,10 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
     private Semaphore waitSem = new Semaphore(0);
     public void waitEnd()
     {
-        if(enableWaiting==false) return;
         try {
-            waitSem.acquire();
+            while (transcriptionEnded()==false && enableWaiting==true) {
+                waitSem.acquire();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
