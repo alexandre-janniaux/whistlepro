@@ -61,7 +61,7 @@ public class PisteMelodie extends Piste {
         Cuivre, Boise, Piano
     }
 
-    private Instrument instrument;
+    private Instrument instrument = Instrument.Piano;
 
     public void setInstrument(Instrument instrument)
     {
