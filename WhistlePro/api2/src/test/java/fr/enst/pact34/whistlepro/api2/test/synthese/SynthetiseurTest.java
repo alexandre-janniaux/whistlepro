@@ -8,6 +8,7 @@ import fr.enst.pact34.whistlepro.api2.Synthese.Percu;
 import fr.enst.pact34.whistlepro.api2.Synthese.PercuGenerator;
 import fr.enst.pact34.whistlepro.api2.Synthese.Synthetiseur;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
+import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.PisteMelodie;
 import fr.enst.pact34.whistlepro.api2.main.PistePercu;
 
@@ -79,15 +80,15 @@ public class SynthetiseurTest {
     {
         double Fs = 16000;
         InstruGenerator generator = new InstruGenerator(Fs);
-        generator.addInstru(Instru.Type.Piano, 0.9, 0.9);
+        generator.addInstru(PisteMelodie.Instrument.Piano, 0.9, 0.9);
 
         Synthetiseur synthe = new Synthetiseur(null,generator);
 
         PisteMelodie pisteMelodie = new PisteMelodie();
         pisteMelodie.setTotalTime(0.1);
 
+        pisteMelodie.setInstrument(PisteMelodie.Instrument.Piano);
         Instru p = new Instru();
-        p.setType(Instru.Type.Piano);
         p.setStartTime(0.010);
         p.setEndTime(0.080);
         p.setFreq(150);
