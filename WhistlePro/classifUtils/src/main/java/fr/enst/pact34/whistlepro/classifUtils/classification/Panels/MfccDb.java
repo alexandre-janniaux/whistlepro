@@ -81,6 +81,7 @@ public class MfccDb {
             for (MfccElement me : e.getValue()) {
                 if(me.valid==false)
                 {
+                    System.out.println(me.path);
                     me.mfccs = calcMfccOnFile(me.path);
                     me.valid = true;
                 }
@@ -108,39 +109,38 @@ public class MfccDb {
         return saveStr;
     }
 
-    public void fromString(String str) {
-
+    public void fromString(String str)
+    {
         Pattern pattern = Pattern.compile(
-                expression.replace("CLASS","[0-9a-zA-Z._-]*")
-                .replace("NAME","[0-9a-zA-Z._-]*")
-                .replace("MFCCS", "[0-9e;,./-]*"),
+                expression.replace("CLASS", "[0-9a-zA-Z._-]*")
+                        .replace("NAME", "[0-9a-zA-Z._-]*")
+                        .replace("MFCCS", ".*?"),
                 Pattern.DOTALL);
         Matcher matcher = pattern.matcher(str);
 
         Pattern patternClass = Pattern.compile("class='[0-9a-zA-Z._-]*'");
         Pattern patternFilename = Pattern.compile("name='[0-9a-zA-Z._-]*'");
-        Pattern patternMfcc = Pattern.compile("mfcc='[0-9e;,./-]*'");
 
         listeClasse.clear();
+        int  i = 0;
 
         while (matcher.find())
         {
         String tmp = matcher.group();
-        //System.out.print(tmp);
+        System.out.println(i++ + tmp);
         Matcher matcherClass = patternClass.matcher(tmp);
         if(matcherClass.find())
         {
-            Matcher matcherMfcc = patternMfcc.matcher(tmp);
-                if(matcherMfcc.find()) {
                     Matcher matcherFilename = patternFilename.matcher(tmp);
                     if(matcherFilename.find()) {
                         String classe = matcherClass.group();
                         String filename = matcherFilename.group();
-                        String mfcc = matcherMfcc.group();
                         classe=classe.replace("class='","");
                         classe=classe.replace("'","");
                         filename=filename.replace("name='","");
                         filename=filename.replace("'","");
+
+                        String mfcc = tmp.substring(tmp.indexOf("mfcc='"),tmp.lastIndexOf("'"));
                         mfcc=mfcc.replace("mfcc='","");
                         mfcc=mfcc.replace("'","");
                         ArrayList<String> mfccs = new ArrayList<>();
@@ -153,7 +153,7 @@ public class MfccDb {
                         addSample(classe,filename,mfccs,true);
 
                     }
-                }
+
             }
 
         }
