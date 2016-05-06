@@ -35,7 +35,7 @@ public class SyntheseFM {
 
 		for (int k=0; k<length; k++) {
 			fm[k] = Freq;
-			//fp[k] = fm[k] * r;
+			//fp[k] = fm[k] / r;
 			m[k] = m_in; //m[k] = 1;
 			d[k] = fm[k]*m[k];
 		}
@@ -43,7 +43,7 @@ public class SyntheseFM {
 		double[] x1 = new double[length];
 		double[] osc = oscFM(fm,d,Fe);	//osc a la même longueur que fm, donc de x1
 		for (int k = 0; k<length; k++) {
-			x1[k] = Freq*r + osc[k] ;//fp[k] + osc[k];
+			x1[k] = Freq/r + osc[k] ;//fp[k] + osc[k];
 		}
 		double[] x = oscFM(x1,m,Fe);
 		
