@@ -69,15 +69,18 @@ public class Synthetiseur {
         double Fs = instruGen.getSamplingFreq();
         Signal sound = new Signal();
         sound.setLength((int) (Fs * totalTime));
+        PisteMelodie.Instrument instrument = pisteMelodie.getInstrument();
 
+        if(instrument != null)
+        {
         for (int i = 0; i < instruments.size(); i++) {
             Instru p = instruments.get(i);
-            Instru.Type type = p.getType();
-            if(type == null || p.getFreq() <1) continue;
+            if(p.getFreq() <1) continue;
             double time = p.getEndTime() - p.getStartTime();
-            Signal sigGen = instruGen.generate(type,time,p.getFreq());
+            Signal sigGen = instruGen.generate(instrument,time,p.getFreq());
 
             sound.fromSignal(sigGen,0,(int)(Fs*p.getStartTime()),sigGen.length());
+        }
         }
 
         sound.setSamplingFrequency(Fs);

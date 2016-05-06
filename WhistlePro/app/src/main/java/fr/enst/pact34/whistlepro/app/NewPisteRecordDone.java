@@ -65,9 +65,7 @@ public class NewPisteRecordDone extends WhistleProActivity {
             for (Instru instru:
                     pisteMelodie.getInstruList()) {
 
-                Instru.Type  type = instru.getType();
-                String typeStr = "X";
-                if(type!=null) typeStr = type.name();
+                String typeStr = "X"; 
                 adapter.add(" => " + instru.getStartTime() + ":" + instru.getEndTime()+ " => "+instru.getFreq());
 
             }

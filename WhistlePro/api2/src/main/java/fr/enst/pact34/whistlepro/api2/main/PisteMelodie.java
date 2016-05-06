@@ -56,4 +56,19 @@ public class PisteMelodie extends Piste {
     public void addInstru(Instru instru) {
         instruList.add(instru);
     }
+
+    public enum Instrument {
+        Cuivre, Boise, Piano
+    }
+
+    private Instrument instrument;
+
+    public void setInstrument(Instrument instrument)
+    {
+        this.instrument = instrument;
+    }
+
+    public Instrument getInstrument() {
+        return instrument;
+    }
 }

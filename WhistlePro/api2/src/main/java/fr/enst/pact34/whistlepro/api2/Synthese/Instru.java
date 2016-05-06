@@ -15,20 +15,7 @@ public class Instru extends SynthetisableElmt {
         this.freq=freq;
     }
 
-    private Type type;
 
-    public void setType(Type type)
-    {
-        this.type = type;
-    }
 
-    public Type getType() {
-        return  type;
-    }
-
-    public enum Type{
-        Cuivre, Boise, Piano
-        //TODO fill with percu names
-    }
 
 }

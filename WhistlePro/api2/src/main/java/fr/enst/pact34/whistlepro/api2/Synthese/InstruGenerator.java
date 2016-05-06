@@ -3,13 +3,14 @@ package fr.enst.pact34.whistlepro.api2.Synthese;
 import java.util.Hashtable;
 
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
+import fr.enst.pact34.whistlepro.api2.main.PisteMelodie;
 
 /**
  * Created by mms on 28/04/16.
  */
 public class InstruGenerator {
     private double Fs ;
-    private Hashtable<Instru.Type,InstruParams> instruGenElmts = new Hashtable<>();
+    private Hashtable<PisteMelodie.Instrument,InstruParams> instruGenElmts = new Hashtable<>();
 
     public InstruGenerator(double Fs)
     {
@@ -20,17 +21,17 @@ public class InstruGenerator {
         return Fs;
     }
 
-    public Signal generate(Instru.Type type, double time, double freq) {
-        InstruParams e = instruGenElmts.get(type);
+    public Signal generate(PisteMelodie.Instrument instrument, double time, double freq) {
+        InstruParams e = instruGenElmts.get(instrument);
         if(e == null)
-            throw new RuntimeException(type.name()+"'s data weren't added to the generator.");
+            throw new RuntimeException(instrument.name()+"'s data weren't added to the generator.");
         return e.generateTime(time,Fs,freq);
     }
 
-    public void addInstru(Instru.Type typePercussion, double r, double m)
+    public void addInstru(PisteMelodie.Instrument instrumentPercussion, double r, double m)
     {
         InstruParams e = new InstruParams(r,m);
-        instruGenElmts.put(typePercussion,e);
+        instruGenElmts.put(instrumentPercussion,e);
     }
 
     private class InstruParams

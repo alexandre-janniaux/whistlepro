@@ -21,6 +21,7 @@ import fr.enst.pact34.whistlepro.api2.common.FileOperator;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 import fr.enst.pact34.whistlepro.api2.main.Morceau;
 import fr.enst.pact34.whistlepro.api2.main.Piste;
+import fr.enst.pact34.whistlepro.api2.main.PisteMelodie;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
 
 /**
@@ -63,9 +64,9 @@ public abstract class WhistleProActivity extends Activity {
             Cuivre : r=3/2 ; D ~ 4*fm
             Piano : r=(1+4*250) ; D ~ 2*fm
              */
-            processor.addInstruData(Instru.Type.Piano, 1+4*250,2);
-            processor.addInstruData(Instru.Type.Cuivre, 3.0/2,4);
-            processor.addInstruData(Instru.Type.Boise, 1,1);
+            processor.addInstruData(PisteMelodie.Instrument.Piano, 1+4*250,2);
+            processor.addInstruData(PisteMelodie.Instrument.Cuivre, 3.0/2,4);
+            processor.addInstruData(PisteMelodie.Instrument.Boise, 1,1);
 
             // config percu
             processor.setPercuCorrespondance("k", Percu.Type.Kick);

@@ -1,6 +1,5 @@
 package fr.enst.pact34.whistlepro.api2.main;
 
-import fr.enst.pact34.whistlepro.api2.Synthese.Instru;
 import fr.enst.pact34.whistlepro.api2.Synthese.InstruGenerator;
 import fr.enst.pact34.whistlepro.api2.Synthese.Percu;
 import fr.enst.pact34.whistlepro.api2.Synthese.PercuGenerator;
@@ -92,9 +91,9 @@ public class ProcessingMachine extends ProcessingMachineBase {
     }
 
 
-    public void addInstruData(Instru.Type type,double r, double m)
+    public void addInstruData(PisteMelodie.Instrument instrument,double r, double m)
     {
-        instruGenerator.addInstru(type, r, m);
+        instruGenerator.addInstru(instrument, r, m);
     }
 
 
