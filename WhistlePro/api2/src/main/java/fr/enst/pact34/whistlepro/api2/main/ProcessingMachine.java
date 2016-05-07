@@ -78,7 +78,7 @@ public class ProcessingMachine extends ProcessingMachineBase {
     private double genFs = 16000;
     InstruGenerator instruGenerator = new InstruGenerator(genFs);
     PercuGenerator percuGenerator = new PercuGenerator(genFs);
-    Synthetiseur synthe = new Synthetiseur(percuGenerator,instruGenerator);
+    Synthetiseur synthe = new Synthetiseur(percuGenerator,instruGenerator,genFs);
 
     @Override
     public Signal synthetisePiste(Piste piste) {
