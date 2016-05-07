@@ -3,6 +3,7 @@ package fr.enst.pact34.whistlepro.api2.Synthese;
 import java.util.List;
 
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
+import fr.enst.pact34.whistlepro.api2.main.Morceau;
 import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.PisteMelodie;
 import fr.enst.pact34.whistlepro.api2.main.PistePercu;
@@ -12,13 +13,44 @@ import fr.enst.pact34.whistlepro.api2.main.PistePercu;
  */
 public class Synthetiseur {
 
+    private final double Fs;
     private PercuGenerator percuGen = null;
     private InstruGenerator instruGen = null;
 
-    public Synthetiseur(PercuGenerator percuGen, InstruGenerator instruGen)
+    public Synthetiseur(PercuGenerator percuGen, InstruGenerator instruGen,double smplingFreq)
     {
         this.percuGen = percuGen;
         this.instruGen = instruGen;
+        this.Fs = smplingFreq;
+    }
+
+    public Signal synthetise (Morceau morceau)
+    {
+        Signal musique = new Signal();
+        musique.setSamplingFrequency(Fs);
+        musique.setLength((int) (morceau.getTotalTime() * Fs+1));
+        for (Piste piste :
+                morceau.getListPiste()) {
+            Signal tmp =null;
+            switch (piste.getTypePiste())
+            {
+                case Melodie:
+                    tmp= synthetiseMelodie((PisteMelodie) piste);
+                    break;
+                case Percussions:
+                    tmp= synthetisePercu((PistePercu) piste);
+                    break;
+
+            }
+            if(tmp != null)
+            {
+                for (int i = 0; i < tmp.length(); i++) {
+                    musique.setValue(i,musique.getValue(i)+tmp.getValue(i));
+                }
+            }
+        }
+
+        return  musique;
     }
 
     public Signal synthetise (Piste piste)
