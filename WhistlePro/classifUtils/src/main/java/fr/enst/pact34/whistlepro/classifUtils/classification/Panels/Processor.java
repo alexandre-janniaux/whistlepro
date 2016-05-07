@@ -20,6 +20,7 @@ public class Processor implements AudioDataListener, ProcessorEventListener {
         Fs= fs;
         pm = new ProcessingMachine(fs,classifierData,2, Piste.TypePiste.Percussions);
         pm.setEventLister(this);
+        pm.startRecProcessing();
     }
 
     @Override

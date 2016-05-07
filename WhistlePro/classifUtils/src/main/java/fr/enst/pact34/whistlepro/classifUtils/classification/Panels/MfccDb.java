@@ -227,6 +227,42 @@ public class MfccDb {
         return addSample(classe,path,null,false);
     }
 
+    double Fs = 16000;
+    double Ts = 1.0/Fs;
+    double Tps = 20e-3;
+    double Tstart =20e-3;
+    int nbPts = (int)(Tps/Ts);
+    int nbPtsIgnore =(int)(Tstart/Ts);
+
+    //split stream
+    StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess = new SplitterProcess(nbPts,Fs);//(int) (TIME_ANALYSE * Fs), Fs);
+    StreamInputWraper<double[], Signal> splitterStream = new StreamInputWraper<>(new Signal(), splitterProcess);
+
+
+    //power filter
+    PowerFilterProcess powFilterProcess = new PowerFilterProcess();
+    StreamSimpleBase<Signal, Signal> powerFilterStream = new StreamSimpleBase<>(new Signal(), new Signal(), powFilterProcess);
+
+    //FFT
+    SpectrumProcess fftProcess = new SpectrumProcess(nbPts);
+    StreamSimpleBase<Signal, Spectrum> fftStream = new StreamSimpleBase<>(new Signal(), new Spectrum(), fftProcess);
+
+    //MFCC
+    MfccProcess mfccProcess = new MfccProcess();
+    StreamSimpleBase<Spectrum,Signal> mfccStream = new StreamSimpleBase<>(new Spectrum(),new Signal(), mfccProcess);
+
+    StreamManager sm = new StreamManager(2,null);
+    public MfccDb()
+    {
+        splitterStream.subscribe(powerFilterStream);
+        powerFilterStream.subscribe(fftStream);
+        fftStream.subscribe(mfccStream);
+
+        sm.addStream(splitterStream);
+        sm.addStream(powerFilterStream);
+        sm.addStream(fftStream);
+        sm.addStream(mfccStream);
+    }
     public ArrayList<String> calcMfccOnFile(String file)
     {
         //MfccFeatureProvider mfcc = new MfccFeatureProvider();
@@ -234,45 +270,18 @@ public class MfccDb {
         try {
 
             WavFile readWavFile = WavFile.openWavFile(new File(file));
-            double Fs = readWavFile.getSampleRate();
-            double Ts = 1.0/readWavFile.getSampleRate();
-            double Tps = 20e-3;
-            double Tstart =20e-3;
-            int nbPts = (int)(Tps/Ts);
-            int nbPtsIgnore =(int)(Tstart/Ts);
+
 
             //reading ignore part
             double[] buffer = new double[nbPtsIgnore];
-            readWavFile.readFrames(buffer,nbPtsIgnore);
+            readWavFile.readFrames(buffer, nbPtsIgnore);
 
             //reading useful part
             buffer = new double[(int) readWavFile.getNumFrames()];
 
-            readWavFile.readFrames(buffer,buffer.length);
+            readWavFile.readFrames(buffer, buffer.length);
 
             System.gc();
-
-
-            //split stream
-            StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess = new SplitterProcess(nbPts,Fs);//(int) (TIME_ANALYSE * Fs), Fs);
-            StreamInputWraper<double[], Signal> splitterStream = new StreamInputWraper<>(new Signal(), splitterProcess);
-
-
-            //power filter
-            PowerFilterProcess powFilterProcess = new PowerFilterProcess();
-            StreamSimpleBase<Signal, Signal> powerFilterStream = new StreamSimpleBase<>(new Signal(), new Signal(), powFilterProcess);
-
-            //FFT
-            SpectrumProcess fftProcess = new SpectrumProcess(nbPts);
-            StreamSimpleBase<Signal, Spectrum> fftStream = new StreamSimpleBase<>(new Signal(), new Spectrum(), fftProcess);
-
-            //MFCC
-            MfccProcess mfccProcess = new MfccProcess();
-            StreamSimpleBase<Spectrum,Signal> mfccStream = new StreamSimpleBase<>(new Spectrum(),new Signal(), mfccProcess);
-
-            splitterStream.subscribe(powerFilterStream);
-            powerFilterStream.subscribe(fftStream);
-            fftStream.subscribe(mfccStream);
 
             final LinkedList<double[]> mfccs = new LinkedList<>();
 
@@ -291,11 +300,6 @@ public class MfccDb {
                 }
             });
 
-            StreamManager sm = new StreamManager(4,null);
-            sm.addStream(splitterStream);
-            sm.addStream(powerFilterStream);
-            sm.addStream(fftStream);
-            sm.addStream(mfccStream);
 
             splitterStream.fillBufferIn(buffer);
 
