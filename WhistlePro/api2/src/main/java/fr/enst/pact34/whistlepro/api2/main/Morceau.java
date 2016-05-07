@@ -76,6 +76,18 @@ public class Morceau {
         return saveStr;
     }
 
+    public double getTotalTime() {
+        double max = 0;
+        for (Piste p :
+                listePiste) {
+            if (p.getTotalTime() > max)
+            {
+                max = p.getTotalTime();
+            }
+        }
+        return max;
+    }
+
     public static class Builder
     {
         Morceau m = null;
