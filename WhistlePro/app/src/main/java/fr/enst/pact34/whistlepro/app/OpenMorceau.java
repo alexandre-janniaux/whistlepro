@@ -42,8 +42,8 @@ public class OpenMorceau extends WhistleProActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Piste m = ((Piste) parent.getItemAtPosition(position));
-                        replaceSharedData(SD_PISTE_ACTUELLE, m); //
+                        ListItemPiste m = ((ListItemPiste) parent.getItemAtPosition(position));
+                        replaceSharedData(SD_PISTE_ACTUELLE, m.getPiste()); //
                         //startActivity(new Intent(MainActivity.this, OpenMorceau.class));
                     }
                 }
