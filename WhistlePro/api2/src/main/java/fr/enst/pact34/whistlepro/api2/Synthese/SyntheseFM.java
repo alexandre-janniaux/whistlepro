@@ -48,7 +48,7 @@ public class SyntheseFM {
 		double[] x = oscFM(x1,m,Fe);
 
 		int i_m = 40;
-		for (int i = 0; i < i_m; i++) {
+		for (int i = 0; i < i_m && i <x.length; i++) {
 			x[i]*= ((double)i+1)/i_m;
 			x[x.length-i-1]*= ((double)i+1)/i_m;
 		}
