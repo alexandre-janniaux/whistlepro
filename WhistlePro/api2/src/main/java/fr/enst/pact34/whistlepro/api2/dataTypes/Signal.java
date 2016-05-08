@@ -112,4 +112,18 @@ public class Signal implements SignalGetInterface,SignalSetInterface,StreamDataI
     public void fillArray(double[] array ) {
         arraycopy(this.datas, 0, array, 0, (array.length<length)?array.length:length);
     }
+
+    // set max to m
+    public void maxToM(double M)
+    {
+        double max = 0;
+        for (int i = 0; i < length; i++) {
+            if(Math.abs(datas[i])>max) max = Math.abs(datas[i]);
+        }
+        if(max == 0) return;
+        double ratio = M/max;// on ne met pas 1 par securite
+        for (int i = 0; i < length; i++) {
+            datas[i] = ratio*datas[i];
+        }
+    }
 }
