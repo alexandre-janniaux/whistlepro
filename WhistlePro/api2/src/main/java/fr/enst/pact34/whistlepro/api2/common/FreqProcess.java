@@ -12,86 +12,43 @@ public class FreqProcess implements StreamProcessInterface<Signal,Frequency> {
     private int xFs;
     short[] sig;
     double[] res;
+    private int Fs;
+
     public FreqProcess(int Fs, int nbSample)
     {
         xFs = (int) Math.ceil(50000.0/Fs);
 
         sig = new short[nbSample*xFs];
         res = new double[sig.length];
+        this.Fs=Fs;
     }
 
     @Override
     public void process(Signal inputData, Frequency outputData) {
-        /* Auto-correlation
 
-        long t = System.currentTimeMillis();
+        double freq = 0;
 
-        double[] res = new double[inputData.length()];
-        double max = - Double.MAX_VALUE;
-        int i_max = 0;
+        double tps= 1.0/Fs;
 
-        for (int i = 0; i < res.length; i++) {
-            res[i] = 0;
-            for (int j = 0; j < res.length  ; j++) {
-                res[i]+=inputData.getValue(j)*inputData.getValue((i+j)%res.length);
+        double last_max = 0;
+        for (double f : NoteCorrector.getNoteFreqs() ) {
+            //System.out.print(" => "+f+" ");
+            double mc=0,ms=0;
+            double w= 2*Math.PI*f;
+
+            for (int j = 1; j < inputData.length(); j++) {
+                mc+=Math.cos(w * j * tps)*inputData.getValue(j);
+                ms+=Math.sin(w * j * tps)*inputData.getValue(j);
             }
-            res[i]/=(i);
-            if(i > 0 && res[i]> max && res[i]> res[i-1]) {
-                max =res[i];
-                i_max= i;
-            }
-        }
-
-        double freq = -1;
-        if(i_max>0) freq= inputData.getSamplingFrequency()/i_max;
-        System.out.println(System.currentTimeMillis()-t);
-        //*/
-
-
-
-//*     Circular AMDF (Average Magnitude Difference Function)
-//      + aumentation Fs artificielle by Momo
-//      fonctionne mieux comme ça (entre 65 Hz et 3951 soit les octave 1 à 6)
-//      octave 1 très sensible au bruit
-        //int xFs = (int) Math.ceil(100000.0/inputData.getSamplingFrequency());
-
-        //double[] sig = new double[inputData.length()*xFs];
-        //double[] res = new double[sig.length];
-
-        //long t = System.currentTimeMillis();
-        for (int i = 0; i < inputData.length()-1; i++) {
-            for (int j = 0; j < xFs; j++) {
-                //interpolation lineaire
-                sig[i*xFs+j] =  (short)(100*((inputData.getValue(i+1)-inputData.getValue(i))*((double)(j)/xFs)+inputData.getValue(i)));
+            double v = mc*mc+ms*ms;
+            //System.out.println(" => " +v +" ;");
+            if(last_max<v) {
+                last_max = v;
+                freq = f;
             }
         }
 
-        double max = Double.MAX_VALUE;
-        int i_max = 0;
-
-        for (int i = 1; i < res.length; i++) {
-            res[i] = 0;
-            for (int j = 0; i+j < res.length ; j++) {
-                res[i]+=Math.abs(sig[j%res.length]-sig[(i+j)%res.length]);
-            }
-            res[i]/=(i); // <= ca aussi by momo, fonctionne mieux (quand y a du bruit)
-            if(i > 0 && res[i]< max && res[i]< res[i-1]) {
-                //recherche d'un pic en bas
-                max =res[i];
-                i_max= i;
-            }
-            //arret au premier pic en bas
-            if(i_max != 0 && res[i] > res[i-1] && res[i-1] > res[i-2]) break;
-        }
-
-
-        double freq = -1;
-        if(i_max>0) freq= inputData.getSamplingFrequency()*xFs/i_max;
-        //System.out.println(System.currentTimeMillis()-t);
-//*/
-
-        outputData.setFrequency(NoteCorrector.closestNoteFreq(freq));
-
+        outputData.setFrequency(freq);
     }
 
     @Override
