@@ -21,7 +21,7 @@ public class PisteMelodie extends Piste {
 
     @Override
     public String getSaveStringInner() {
-        String str = "";
+        String str = "<instrument>"+getInstrument().name()+"</instrument>";
         for (Instru instru :
                 instruList) {
             str+= "<Instru>" + instru.getStartTime()+ ";"+instru.getEndTime()+";"+instru.getFreq()+"</Instru>";
@@ -31,6 +31,23 @@ public class PisteMelodie extends Piste {
 
     @Override
     protected void buildFromString(String strData) {
+        Pattern patternInstr = Pattern.compile("<instrument>.*?</instrument>", Pattern.DOTALL);
+        Matcher matcherInstr = patternInstr.matcher(strData);
+        if(matcherInstr.find())
+        {
+            String tmp = matcherInstr.group();
+            tmp=tmp.replace("<instrument>","");
+            tmp=tmp.replace("</instrument>","");
+            for (Instrument i :
+                    Instrument.values()) {
+                if(i.name().equals(tmp))
+                {
+                    setInstrument(i);
+                    break;
+                }
+            }
+        }
+
         Pattern pattern = Pattern.compile("<Instru>.*?</Instru>", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(strData);
 
