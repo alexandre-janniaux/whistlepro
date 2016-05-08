@@ -20,6 +20,12 @@
             android:text="New Piste"
             android:id="@+id/OpenMorceau_btn_new_piste"
             android:layout_gravity="right" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ecouter"
+            android:id="@+id/OpenMorceau_btn_ecouter" />
     </LinearLayout>
 
     <ListView

@@ -29,4 +29,5 @@ public interface ProcessorInterface extends  DoubleDataListener{
     void setEventLister(ProcessorEventListener l);
 
     Signal synthetisePiste(Piste piste);
+    Signal synthetiseMorceau(Morceau morceau);
 }

@@ -85,6 +85,11 @@ public class ProcessingMachine extends ProcessingMachineBase {
         return synthe.synthetise(piste);
     }
 
+    @Override
+    public Signal synthetiseMorceau(Morceau morceau) {
+        return synthe.synthetise(morceau);
+    }
+
     public void addPercuData(Percu.Type type,Signal sig)
     {
         percuGenerator.addPercu(type,sig);
