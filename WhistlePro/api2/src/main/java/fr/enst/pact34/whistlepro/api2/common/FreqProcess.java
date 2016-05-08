@@ -9,18 +9,29 @@ import fr.enst.pact34.whistlepro.api2.stream.StreamProcessInterface;
  */
 public class FreqProcess implements StreamProcessInterface<Signal,Frequency> {
 
-    private int xFs;
-    short[] sig;
-    double[] res;
+    private final int nbSample;
     private int Fs;
+    private double[][] tblCos,tblSin;
+    double[] freqs ;
 
     public FreqProcess(int Fs, int nbSample)
     {
-        xFs = (int) Math.ceil(50000.0/Fs);
-
-        sig = new short[nbSample*xFs];
-        res = new double[sig.length];
+        this.nbSample=nbSample;
         this.Fs=Fs;
+        tblCos = new double[NoteCorrector.getNoteFreqs().length][nbSample];
+        tblSin = new double[NoteCorrector.getNoteFreqs().length][nbSample];
+        freqs = NoteCorrector.getNoteFreqs();
+        double tps= 1.0/Fs;
+        for (int i = 0; i < freqs.length ; i++) {
+
+            double w= 2*Math.PI*freqs[i];
+
+            for (int j = 0; j < nbSample; j++) {
+                tblCos[i][j]=Math.cos(w * j * tps);
+                tblSin[i][j]=Math.sin(w * j * tps);
+            }
+        }
+
     }
 
     @Override
@@ -28,23 +39,19 @@ public class FreqProcess implements StreamProcessInterface<Signal,Frequency> {
 
         double freq = 0;
 
-        double tps= 1.0/Fs;
-
         double last_max = 0;
-        for (double f : NoteCorrector.getNoteFreqs() ) {
-            //System.out.print(" => "+f+" ");
+        for (int i = 0; i < freqs.length ; i++) {
             double mc=0,ms=0;
-            double w= 2*Math.PI*f;
+            double w= 2*Math.PI*freqs[i];
 
-            for (int j = 1; j < inputData.length(); j++) {
-                mc+=Math.cos(w * j * tps)*inputData.getValue(j);
-                ms+=Math.sin(w * j * tps)*inputData.getValue(j);
+            for (int j = 1; j < nbSample; j++) {
+                mc+=tblCos[i][j]*inputData.getValue(j);
+                ms+=tblSin[i][j]*inputData.getValue(j);
             }
             double v = mc*mc+ms*ms;
-            //System.out.println(" => " +v +" ;");
             if(last_max<v) {
                 last_max = v;
-                freq = f;
+                freq = freqs[i];
             }
         }
 
