@@ -49,7 +49,7 @@ public class Synthetiseur {
                 }
             }
         }
-
+        musique.maxToM(0.9);
         return  musique;
     }
 
@@ -85,7 +85,7 @@ public class Synthetiseur {
             Signal sigGen = percuGen.getPercu(type);
             int is = (int)(Fs*p.getStartTime());
             if(sigGen.length() > sound.length() - is) continue;
-
+            sigGen.maxToM(1);
             sound.fromSignal(sigGen,0,is,sigGen.length());
         }
 
@@ -110,6 +110,7 @@ public class Synthetiseur {
             if(p.getFreq() <1) continue;
             double time = p.getEndTime() - p.getStartTime();
             Signal sigGen = instruGen.generate(instrument,time,p.getFreq());
+            sigGen.maxToM(0.5);
 
             sound.fromSignal(sigGen,0,(int)(Fs*p.getStartTime()),sigGen.length());
         }
