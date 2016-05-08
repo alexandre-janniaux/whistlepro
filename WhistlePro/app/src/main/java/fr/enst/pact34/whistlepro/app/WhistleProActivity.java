@@ -52,7 +52,7 @@ public abstract class WhistleProActivity extends Activity {
             addSharedData(SD_RECORDER, recorder);
             //add processing machine
             ProcessingMachine processor = new ProcessingMachine(recorder.getSampleRate(),
-                    readRawTextFile(R.raw.bbox_full_20),
+                    readRawTextFile(R.raw.bbox_mix),
                     2, Piste.TypePiste.Percussions);
             addSharedData(SD_PROCESSING_MACINE, processor);
 

@@ -73,7 +73,7 @@ public class ClassifResults implements StreamDataInterface<ClassifResults> {
         }
     }
 
-    private double seuil = 1;
+    private double seuil = -0.5;
     public String getRecoClass() {
         if(reco == null)
         {
