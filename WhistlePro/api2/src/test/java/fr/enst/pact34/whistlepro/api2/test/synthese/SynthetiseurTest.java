@@ -36,7 +36,7 @@ public class SynthetiseurTest {
         PercuGenerator generator = new PercuGenerator(Fs);
         generator.addPercu(Percu.Type.Kick, inputData);
 
-        Synthetiseur synthe = new Synthetiseur(generator,null);
+        Synthetiseur synthe = new Synthetiseur(generator,null,16000);
 
         PistePercu pistePercu = new PistePercu();
         pistePercu.setTotalTime(0.1);
@@ -82,7 +82,7 @@ public class SynthetiseurTest {
         InstruGenerator generator = new InstruGenerator(Fs);
         generator.addInstru(PisteMelodie.Instrument.Piano, 0.9, 0.9);
 
-        Synthetiseur synthe = new Synthetiseur(null,generator);
+        Synthetiseur synthe = new Synthetiseur(null,generator,16000);
 
         PisteMelodie pisteMelodie = new PisteMelodie();
         pisteMelodie.setTotalTime(0.1);
