@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -63,6 +64,23 @@ public class OpenMorceau extends WhistleProActivity {
         }
 
 
+        ((ImageButton) findViewById(R.id.OpenMorceau_play)).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Signal sound = processor.synthetisePiste(piste);
+
+                        double[] tmp_dbl = new double[sound.length()];
+                        sound.fillArray(tmp_dbl);
+
+                        AudioPlayer ap = new AudioPlayer();
+                        ap.start();
+                        ap.push(tmp_dbl);
+                        ap.stop();
+
+                    }
+                }
+        );
     }
 
     private Morceau morceau;
