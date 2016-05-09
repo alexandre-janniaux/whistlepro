@@ -61,5 +61,38 @@ public class NoteCorrector {
 
     }
 
+    public static int getNoteFromFreq(double freq)
+    {
+        int iLow = 0, iHigh = freqs.length;
+        int iAct ;
+
+        if(freq < freqs[0]) return  0;
+        if(freq > freqs[freqs.length-1]) return  freqs.length-1;
+
+        while(iHigh-iLow > 1)
+        {
+            iAct = (iHigh+iLow)/2;
+
+            if(freq < freqs[iAct])
+            {
+                iHigh = iAct;
+            }
+            else if( freqs[iAct] < freq)
+            {
+                iLow = iAct;
+            }
+            else //freqs[iAct] == freq
+            {
+                return iAct;
+            }
+
+        }
+
+        double seuil = Math.sqrt(freqs[iHigh]*freqs[iLow]);
+        if( seuil <= freq)
+            return iHigh;
+        else
+            return iLow;
+    }
 
 }
