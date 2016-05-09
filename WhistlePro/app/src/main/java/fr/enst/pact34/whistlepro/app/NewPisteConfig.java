@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 
+import fr.enst.pact34.whistlepro.api2.main.Morceau;
 import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
 
@@ -25,22 +27,27 @@ public class NewPisteConfig extends WhistleProActivity {
             throw new RuntimeException(SD_PROCESSING_MACINE + " should exist in shared data.");
         }
 
+        Morceau morceau = (Morceau) getSharedData(SD_MORCEAU_ACTUEL);
+        if(morceau == null)
+        {
+            throw new RuntimeException("Aucun morceau ouvert !");
+        }
+        final EditText titre = (EditText) findViewById(R.id.NewPisteConfig_Title);
+
+        titre.setText("Piste n°"+(morceau.nbPiste()+1));
+
         ((Button) findViewById(R.id.NewPisteConfig_button_next)).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if( ((RadioButton)findViewById(R.id.NewPisteConfig_Percussion)).isChecked() ) {
+                        if (((RadioButton) findViewById(R.id.NewPisteConfig_Percussion)).isChecked()) {
                             processor.init(Piste.TypePiste.Percussions);
-                        }
-                        else if( ((RadioButton)findViewById(R.id.NewPisteConfig_Melodie)).isChecked() )
-                        {
+                        } else if (((RadioButton) findViewById(R.id.NewPisteConfig_Melodie)).isChecked()) {
                             processor.init(Piste.TypePiste.Melodie);
-                        }
-                        else
-                        {
+                        } else {
                             return;
                         }
-
+                        processor.setTitle(titre.getText().toString());
                         startActivity(new Intent(NewPisteConfig.this, NewPisteRecord.class));
                         finish();
                     }
