@@ -96,7 +96,7 @@ public class MainActivity extends WhistleProActivity{
                 }
             });
 
-            if (morceau.getTitle() != "" && morceau.getTitle() != null) name.setText(morceau.getTitle());
+            if (morceau.getTitle() != null && morceau.getTitle().isEmpty() == false) name.setText(morceau.getTitle());
             else name.setText("Composition sans nom");
 
             //TODO: set picture
