@@ -91,6 +91,11 @@ public abstract class WhistleProActivity extends AppCompatActivity {
         }
     }
 
+    protected int getNbMorceau()
+    {
+        return listeMorceau.size();
+    }
+
     private void updateMorceauList()
     {
         List<Morceau> lm = new LinkedList<>();

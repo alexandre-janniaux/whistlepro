@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import fr.enst.pact34.whistlepro.api2.main.Morceau;
 import fr.enst.pact34.whistlepro.api2.main.Piste;
@@ -48,6 +49,11 @@ public class NewPisteConfig extends WhistleProActivity {
                             return;
                         }
                         processor.setTitle(titre.getText().toString());
+                        if(titre.getText().toString().isEmpty())
+                        {
+                            Toast.makeText(getBaseContext(), "Vous devez définir un nom", Toast.LENGTH_LONG).show();
+                            return;
+                        }
                         startActivity(new Intent(NewPisteConfig.this, NewPisteRecord.class));
                         finish();
                     }
