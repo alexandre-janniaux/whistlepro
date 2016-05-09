@@ -56,7 +56,7 @@ public class GenericPianoRollView extends View {
 
     public float nameColWidth = 300.f;
     public float instrumentSpacing = 100.f;
-    public double screenWidthInTime = 20.;
+    public double screenWidthInTime = 5.;
     public double cursorPosition = 0.;
     public float verticalShift=0.f;
     public float verticalSpacingBetweenLines = 20.f;
@@ -125,7 +125,6 @@ public class GenericPianoRollView extends View {
         paint.setARGB(255, 0, 177, 235);
 
         for (GenericNoteProperty note : this.noteSet.values()) {
-            Log.d("whistlepro", "dessin d'une note whistle");
             double start = note.start;
             double stop = note.stop;
 
