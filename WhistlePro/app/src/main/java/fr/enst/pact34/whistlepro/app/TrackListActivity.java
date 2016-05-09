@@ -103,7 +103,7 @@ public class TrackListActivity extends WhistleProActivity {
                 }
             });
 
-            if (piste.getTitle() != null && piste.getTitle().isEmpty() == false) name.setText("test" +piste.getTitle());
+            if (piste.getTitle() != null && piste.getTitle().isEmpty() == false) name.setText(piste.getTitle());
             else name.setText("Piste sans nom");
             mute.setChecked(piste.getMuted());
             mute.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
