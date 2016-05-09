@@ -28,6 +28,7 @@ public class ProcessingMachine extends ProcessingMachineBase {
         super.setupFor(typePiste);
         piste = null;
         valid = false;
+        title = "";
     }
 
     @Override
@@ -54,14 +55,16 @@ public class ProcessingMachine extends ProcessingMachineBase {
                 break;
         }
         piste = pisteCreator.buildPiste(typePiste);
+        piste.setTitle(title);
         valid = true;
 //        if(piste==null) throw new RuntimeException("Error piste was not created.");
     }
 
 
+    String title = "";
     @Override
     public void setTitle(String title) {
-        piste.setTitle(title);
+        this.title=title;
     }
 
     @Override

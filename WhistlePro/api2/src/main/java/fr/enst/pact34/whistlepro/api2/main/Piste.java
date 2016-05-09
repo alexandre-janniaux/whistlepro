@@ -138,8 +138,8 @@ public abstract class  Piste {
                         if(matcherTitle.find()) {
                             String strTitle = matcherTitle.group();
 
-                            strTitle=strTitle.substring(strLen.indexOf("\'")+1);
-                            strTitle=strTitle.substring(0,strLen.indexOf("\'"));
+                            strTitle=strTitle.substring(strTitle.indexOf("\'")+1);
+                            strTitle=strTitle.substring(0,strTitle.indexOf("\'"));
 
                             pisteTmp.setTitle(strTitle);
                         }
@@ -149,8 +149,8 @@ public abstract class  Piste {
                         if(matcherMute.find()) {
                             String strMute = matcherMute.group();
 
-                            strMute=strMute.substring(strLen.indexOf("\'")+1);
-                            strMute=strMute.substring(0,strLen.indexOf("\'"));
+                            strMute=strMute.substring(strMute.indexOf("\'")+1);
+                            strMute=strMute.substring(0,strMute.indexOf("\'"));
 
                             pisteTmp.setMuted(Boolean.parseBoolean(strMute));
                         }
@@ -160,10 +160,10 @@ public abstract class  Piste {
                         if(matcherSolo.find()) {
                             String strSolo = matcherSolo.group();
 
-                            strSolo=strSolo.substring(strLen.indexOf("\'")+1);
-                            strSolo=strSolo.substring(0,strLen.indexOf("\'"));
+                            strSolo=strSolo.substring(strSolo.indexOf("\'")+1);
+                            strSolo=strSolo.substring(0,strSolo.indexOf("\'"));
 
-                            pisteTmp.setTitle(strSolo);
+                            pisteTmp.setSolo(Boolean.parseBoolean(strSolo)); 
                         }
 
 
