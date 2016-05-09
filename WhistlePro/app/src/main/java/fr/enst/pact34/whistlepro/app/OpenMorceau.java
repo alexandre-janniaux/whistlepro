@@ -61,6 +61,8 @@ public class OpenMorceau extends WhistleProActivity {
             }
             model.update();
         }
+
+
     }
 
     private Morceau morceau;

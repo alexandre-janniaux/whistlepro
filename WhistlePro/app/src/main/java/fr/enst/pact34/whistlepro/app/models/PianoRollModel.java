@@ -10,7 +10,7 @@ public class PianoRollModel {
 
     private ArrayList<PianoRollView> views = new ArrayList<>();
 
-    private ArrayList<NoteProperty> notes = new ArrayList<>();
+    private ArrayList<ArrayList<NoteProperty>> notes = new ArrayList<>();
 
     public void addViewNotifier(PianoRollView pianoRollView) {
         this.views.add(pianoRollView);
@@ -23,7 +23,6 @@ public class PianoRollModel {
         private double start;
         private double stop;
         private int type;
-        private HashMap<Long,NoteProperty> notes;
 
         public NoteProperty(int type, int pitch, double intensity, double start, double stop) {
             this.type = type;
@@ -43,8 +42,14 @@ public class PianoRollModel {
     private int lastId=0;
     private int noteTypeCount=6*12;
 
+    public PianoRollModel() {
+        for(int i=0; i<getNoteTypeCount(); ++i) {
+            this.notes.add(new ArrayList<NoteProperty>());
+        }
+    }
+
     public int addNote(NoteProperty note) {
-        notes.add(lastId, note); return lastId++;
+        notes.get(note.getPitch()).add(note); return lastId++;
     }
 
 
@@ -53,11 +58,11 @@ public class PianoRollModel {
     }
 
     public int getNoteCount(int noteType) {
-        return 0;
+        return this.notes.get(noteType).size();
     }
 
     public NoteProperty getNote(int noteType, int noteNb) {
-        return new NoteProperty(0,0,0,0,0);
+        return this.notes.get(noteType).get(noteNb);
     }
 
     public void update() {

@@ -123,13 +123,13 @@ public class GenericPianoRollView extends View {
 
         // choix de la couleur (à changer)
         paint.setARGB(255, 0, 177, 235);
-        //paint.setColor(Color.BLACK);
 
         for (GenericNoteProperty note : this.noteSet.values()) {
+            Log.d("whistlepro", "dessin d'une note whistle");
             double start = note.start;
             double stop = note.stop;
 
-            if (stop < this.cursorPosition || start > this.cursorPosition+this.screenWidthInTime) continue;
+            //if (stop < this.cursorPosition || start > this.cursorPosition+this.screenWidthInTime) continue;
 
             float left = Math.max((float) ((start-cursorPosition)/screenWidthInTime*getWidth()), this.nameColWidth);
             float right = (float) ((stop-cursorPosition)/screenWidthInTime*getWidth());
