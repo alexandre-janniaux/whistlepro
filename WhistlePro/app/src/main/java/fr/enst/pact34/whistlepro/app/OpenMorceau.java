@@ -49,7 +49,7 @@ public class OpenMorceau extends WhistleProActivity {
         TextView piste_name = ((TextView) findViewById(R.id.OpenMorceau_nom_piste));
 
         morceau_name.setText("Titre :" + morceau.getTitle());
-        piste_name.setText("Piste :" + piste.getName());
+        piste_name.setText("Piste :" + piste.getTitle());
 
         PianoRollView piano = (PianoRollView) findViewById(R.id.pianoroll_piano);
         piano.setModel(model);
@@ -57,7 +57,7 @@ public class OpenMorceau extends WhistleProActivity {
         if (piste.getTypePiste() == Piste.TypePiste.Melodie) {
             PisteMelodie melodie = (PisteMelodie) piste;
             for (Instru instru : melodie.getInstruList()) {
-                model.addNote(new PianoRollModel.NoteProperty(0, 0, 1., instru.getStartTime(), instru.getEndTime()));
+                model.addNote(new PianoRollModel.NoteProperty(0, instru.getNote(), 1., instru.getStartTime(), instru.getEndTime()));
             }
             model.update();
         }
