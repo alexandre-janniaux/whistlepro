@@ -45,4 +45,10 @@
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
+    <style name="whistlepro_show_title">
+        <item name="android:textColor">@color/wp_title</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:background">@null</item>
+    </style>
+
 </resources>

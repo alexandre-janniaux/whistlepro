@@ -2,5 +2,9 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <stroke
         android:color="@color/wp_background_button"
+        android:width="0.2dp"
+        />
+    <solid
+        android:color="@color/wp_background_button"
         />
 </shape>

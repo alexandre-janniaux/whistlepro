@@ -8,11 +8,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/OpenMorceau_nom_morceau" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                style="@style/whistlepro_list_itemname"
+                android:textStyle="bold"
+                android:id="@+id/OpenMorceau_nom_morceau" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                style="@style/whistlepro_list_itemname"
+                android:id="@+id/OpenMorceau_nom_piste" />
+        </LinearLayout>
 
         <Button
             android:layout_width="wrap_content"
@@ -28,8 +43,15 @@
             android:id="@+id/OpenMorceau_btn_ecouter" />
     </LinearLayout>
 
+    <fr.enst.pact34.whistlepro.app.views.PianoRollView
+        android:id="@+id/pianoroll_piano"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/OpenMorceau_listView_piste" />
+        -->
 </LinearLayout>
