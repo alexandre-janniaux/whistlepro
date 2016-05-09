@@ -9,11 +9,11 @@
 
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         style="@style/whistlepro_list_item"
-        android:orientation="horizontal"
-        android:layout_weight="0.5">
+        android:orientation="horizontal">
         <ImageView
             android:id="@+id/trackitem_picture"
             android:layout_width="70dp"
@@ -25,16 +25,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:background="@null"
             style="@style/whistlepro_list_itemname"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="0.5"
         android:orientation="horizontal"
         style="@style/whistlepro_list_item"
+
         android:layout_gravity="right">
 
         <ToggleButton
