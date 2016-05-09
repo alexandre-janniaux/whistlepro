@@ -3,24 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:orientation="horizontal"
-    style="@style/whistlepro_list_item">
+    style="@style/whistlepro_list_item"
+    android:clickable="true"
+    android:id="@+id/tracklist_item">
 
-    <ImageView
-        android:id="@+id/trackitem_picture"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_weight="0.1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        style="@style/whistlepro_list_item"
         android:orientation="vertical"
         android:layout_weight="0.5">
-
+        <ImageView
+            android:id="@+id/trackitem_picture"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="0.1"
+            android:background="@null"/>
         <TextView
             android:id="@+id/trackitem_piste_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
             style="@style/whistlepro_list_itemname"/>
     </LinearLayout>
 
@@ -28,7 +33,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.5"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        style="@style/whistlepro_list_item"
+        android:layout_gravity="right">
 
         <ToggleButton
             android:id="@+id/trackitem_mute_button"

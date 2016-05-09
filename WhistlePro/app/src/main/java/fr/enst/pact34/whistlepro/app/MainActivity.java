@@ -29,11 +29,12 @@ public class MainActivity extends WhistleProActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ((FloatingActionButton) findViewById(R.id.add_music_button)).setOnClickListener(
+        final FloatingActionButton addButton = ((FloatingActionButton) findViewById(R.id.add_music_button));
+        addButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        replaceSharedData(SD_MORCEAU_ACTUEL,new Morceau());
+                        replaceSharedData(SD_MORCEAU_ACTUEL, new Morceau());
                         startActivity(new Intent(MainActivity.this, NewMorceauActivity.class));
                     }
                 }

@@ -26,13 +26,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Liste des musics"
+            android:text="Vos compositions"
             android:id="@+id/textView"
             style="@style/TitleTextView"/>
 
         <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/whistlepro_list"
             android:id="@+id/main_listView_morceau"
             />
 

@@ -55,6 +55,17 @@ public class TrackListActivity extends WhistleProActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Morceau morceau = (Morceau) getSharedData(SD_MORCEAU_ACTUEL);
+        List<Piste> listePistes = morceau.getListPiste();
+        ListView listPisteElements = (ListView) findViewById(R.id.track_list_view);
+        trackListAdapter = new TrackListAdapter(this, 0, listePistes);
+        listPisteElements.setAdapter(trackListAdapter);
 
     }
 
@@ -75,12 +86,22 @@ public class TrackListActivity extends WhistleProActivity {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.track_list_item, parent, false);
             }
 
-            Piste piste = this.listPiste.get(position);
+            final Piste piste = this.listPiste.get(position);
 
+            View item = (View) convertView.findViewById(R.id.tracklist_item);
             ImageView picture = (ImageView) convertView.findViewById(R.id.trackitem_picture);
             TextView name = (TextView) convertView.findViewById(R.id.trackitem_piste_name);
             ToggleButton mute = (ToggleButton) convertView.findViewById(R.id.trackitem_mute_button);
             ToggleButton solo = (ToggleButton) convertView.findViewById(R.id.trackitem_solo_button);
+
+            item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    replaceSharedData(SD_PISTE_ACTUELLE, piste);
+                    Intent intent = new Intent(getApplicationContext(), OpenMorceau.class);
+                    startActivity(intent);
+                }
+            });
 
             if (piste.getName() != "" && piste.getName() != null) name.setText(piste.getName());
             else name.setText("Piste sans nom");
@@ -88,14 +109,14 @@ public class TrackListActivity extends WhistleProActivity {
             mute.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                    piste.setMuted(isChecked);
                 }
             });
             solo.setChecked(piste.getSolo());
             solo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                    piste.setSolo(isChecked);
                 }
             });
             //TODO: set picture
