@@ -4,20 +4,19 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                style="@style/whistlepro_list_itemname"
+                style="@style/whistlepro_show_title"
                 android:textStyle="bold"
                 android:id="@+id/OpenMorceau_nom_morceau" />
 
@@ -25,22 +24,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                style="@style/whistlepro_list_itemname"
+                style="@style/whistlepro_show_title"
                 android:id="@+id/OpenMorceau_nom_piste" />
         </LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Piste"
-            android:id="@+id/OpenMorceau_btn_new_piste"
-            android:layout_gravity="right" />
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/play"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ecouter"
-            android:id="@+id/OpenMorceau_btn_ecouter" />
     </LinearLayout>
 
     <fr.enst.pact34.whistlepro.app.views.PianoRollView
