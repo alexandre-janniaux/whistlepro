@@ -67,6 +67,8 @@ public class GenericPianoRollView extends View {
 
     private int nbRow = 0;
 
+    public double minShift=0., maxShift=0.;
+
 
     private HashMap<Long, GenericNoteProperty> noteSet = new HashMap<>();
 
@@ -120,8 +122,8 @@ public class GenericPianoRollView extends View {
         Paint paint = new Paint();
 
         // choix de la couleur (à changer)
-        //paint.setARGB(255, 0, 177, 235);
-        paint.setColor(Color.BLACK);
+        paint.setARGB(255, 0, 177, 235);
+        //paint.setColor(Color.BLACK);
 
         for (GenericNoteProperty note : this.noteSet.values()) {
             double start = note.start;
@@ -202,6 +204,8 @@ public class GenericPianoRollView extends View {
                 float dy = y - this.lastY;
 
                 this.cursorPosition -= dx / getWidth() * screenWidthInTime;
+                this.cursorPosition = Math.max(minShift,this.cursorPosition);
+                this.cursorPosition = Math.min(maxShift,this.cursorPosition);
                 //Log.d("whistlepro", "whistlepro cursor : " + this.cursorPosition);
                 this.verticalShift += dy;
                 this.invalidate();
@@ -217,6 +221,9 @@ public class GenericPianoRollView extends View {
 
 
     public long addNote(double start, double stop, int line) {
+        if (minShift>start) minShift = Math.max(0,start);
+        if (maxShift<stop) maxShift = stop;
+
         this.noteSet.put(++this.lastNoteId, new GenericNoteProperty(start, stop, line));
         return this.lastNoteId;
     }
