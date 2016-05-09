@@ -60,6 +60,7 @@ public class GenericPianoRollView extends View {
     public double cursorPosition = 0.;
     public float verticalShift=0.f;
     public float verticalSpacingBetweenLines = 20.f;
+    private float measureWidth = (float) (getWidth()/4); //TODO: arbitraire, faire un curseur de tempo
 
     private float lastX, lastY;
 
@@ -166,17 +167,18 @@ public class GenericPianoRollView extends View {
             lines[4*i+3] = lines[4*i+1];    // arrivé y
         }
 
-
         canvas.drawLines(lines, paint);
 
         for(int i=0; i < nbRow; ++i) {
             renderLeftPart(i, canvas);
         }
 
-        // TODO: dessin des notes pouvant apparaitre à l'écran
+        int nbMeasure = 4;//(int) ((getWidth()-nameColWidth)/measureWidth);
 
-        // TODO: model-view
-
+        for(int i=0; i< nbMeasure; ++i) {
+            float x = (float) (cursorPosition%measureWidth+measureWidth*0.1f*i);
+            canvas.drawLine(x, 0.f, x, getHeight(), paint);
+        }
 
         super.onDraw(canvas);
 
@@ -202,9 +204,11 @@ public class GenericPianoRollView extends View {
                 float dx = x - this.lastX;
                 float dy = y - this.lastY;
 
-                this.cursorPosition -= dx / getWidth() * screenWidthInTime;
-                this.cursorPosition = Math.max(minShift,this.cursorPosition);
-                this.cursorPosition = Math.min(maxShift,this.cursorPosition);
+                if(maxShift>minShift) {
+                    this.cursorPosition -= dx / getWidth() * screenWidthInTime;
+                    this.cursorPosition = Math.max(minShift, this.cursorPosition);
+                    this.cursorPosition = Math.min(maxShift, this.cursorPosition);
+                }
                 //Log.d("whistlepro", "whistlepro cursor : " + this.cursorPosition);
                 this.verticalShift += dy;
                 this.invalidate();
@@ -220,8 +224,8 @@ public class GenericPianoRollView extends View {
 
 
     public long addNote(double start, double stop, int line) {
-        if (minShift>start) minShift = Math.max(0,start);
-        if (maxShift<stop) maxShift = stop;
+        if (minShift>start-screenWidthInTime/4) minShift = Math.max(-screenWidthInTime/4,start);
+        if (maxShift<stop-screenWidthInTime+screenWidthInTime/4) maxShift = stop-screenWidthInTime+screenWidthInTime/4;
 
         this.noteSet.put(++this.lastNoteId, new GenericNoteProperty(start, stop, line));
         return this.lastNoteId;

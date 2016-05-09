@@ -93,7 +93,7 @@ public class PianoRollView extends GenericPianoRollView {;
         for(int i=0; i<model.getNoteTypeCount(); ++i) {
             for (int j = 0; j < model.getNoteCount(i); ++j) {
                 PianoRollModel.NoteProperty note = model.getNote(i, j);
-                addNote(note.getStart(), note.getStop(), 0);// note.getPitch()) TODO
+                addNote(note.getStart(), note.getStop(), note.getPitch());
             }
         }
     }
