@@ -13,7 +13,6 @@ public abstract class  Piste {
 
     private boolean mute=false;
     private boolean solo=false;
-    private String name;
 
     public abstract TypePiste getTypePiste();
 
@@ -27,7 +26,7 @@ public abstract class  Piste {
     public String getTitle() {
         return title;
     }
-    
+
     private int id =-1;
 
     public final void setId(int id) {
@@ -55,6 +54,9 @@ public abstract class  Piste {
                 "<Piste "
                         +" type='"+getTypePiste().name()+"' "
                         +" length='"+getTotalTime()+"' "
+                        +" mute='"+mute+"' "
+                        +" solo='"+solo+"' "
+                        +" title='"+title+"' "
                         +" >"
                         + getSaveStringInner()
                         +"</Piste>";
@@ -68,7 +70,8 @@ public abstract class  Piste {
     public static List<String> splitStrAsPistesStrs(String strData) {
         LinkedList<String> values = new LinkedList<>();
 
-        Pattern pattern = Pattern.compile("<Piste[ ]*type[ ]*=[ ]*'[^']*'[ ]*length[ ]*=[ ]*'[^']*'[ ]*>.*?</Piste[ ]*>", Pattern.DOTALL);
+        Pattern pattern = Pattern.compile("<Piste[ ]*type[ ]*=[ ]*'[^']*'[ ]*length[ ]*=[ ]*'[^']*'" +
+                "[ ]*(mute[ ]*=[ ]*'[^']*')*[ ]*(solo[ ]*=[ ]*'[^']*')*[ ]*(title[ ]*=[ ]*'[^']*')*[ ]*>.*?</Piste[ ]*>", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(strData);
 
         while(matcher.find())
@@ -78,13 +81,6 @@ public abstract class  Piste {
         return values;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public static class Builder
     {
@@ -93,7 +89,8 @@ public abstract class  Piste {
         public void fromString(String string) {
             valid = false;
             piste = null;
-            Pattern pattern = Pattern.compile("<Piste[ ]*type[ ]*=[ ]*'[^']*'[ ]*length[ ]*=[ ]*'[^']*'[ ]*>.*?</Piste[ ]*>", Pattern.DOTALL);
+            Pattern pattern = Pattern.compile("<Piste[ ]*type[ ]*=[ ]*'[^']*'[ ]*length[ ]*=[ ]*'[^']*'" +
+                    "[ ]*(mute[ ]*=[ ]*'[^']*')*[ ]*(solo[ ]*=[ ]*'[^']*')*[ ]*(title[ ]*=[ ]*'[^']*')*[ ]*>.*?</Piste[ ]*>", Pattern.DOTALL);
             Matcher matcher = pattern.matcher(string);
 
 
@@ -135,7 +132,43 @@ public abstract class  Piste {
 
                         pisteTmp.setTotalTime(Double.valueOf(strLen));
 
-                        strData=strData.replaceAll("<Piste[ ]*type[ ]*=[ ]*'[^']*'[ ]*length[ ]*=[ ]*'[^']*'[ ]*>|</Piste[ ]*>","");
+
+                        Pattern patternTitle = Pattern.compile("title[ ]*=[ ]*'[^']*'");
+                        Matcher matcherTitle = patternTitle.matcher(strData);
+                        if(matcherTitle.find()) {
+                            String strTitle = matcherTitle.group();
+
+                            strTitle=strTitle.substring(strLen.indexOf("\'")+1);
+                            strTitle=strTitle.substring(0,strLen.indexOf("\'"));
+
+                            pisteTmp.setTitle(strTitle);
+                        }
+
+                        Pattern patternMute = Pattern.compile("mute[ ]*=[ ]*'[^']*'");
+                        Matcher matcherMute = patternMute.matcher(strData);
+                        if(matcherMute.find()) {
+                            String strMute = matcherMute.group();
+
+                            strMute=strMute.substring(strLen.indexOf("\'")+1);
+                            strMute=strMute.substring(0,strLen.indexOf("\'"));
+
+                            pisteTmp.setMuted(Boolean.parseBoolean(strMute));
+                        }
+
+                        Pattern patternSolo = Pattern.compile("solo[ ]*=[ ]*'[^']*'");
+                        Matcher matcherSolo = patternSolo.matcher(strData);
+                        if(matcherSolo.find()) {
+                            String strSolo = matcherSolo.group();
+
+                            strSolo=strSolo.substring(strLen.indexOf("\'")+1);
+                            strSolo=strSolo.substring(0,strLen.indexOf("\'"));
+
+                            pisteTmp.setTitle(strSolo);
+                        }
+
+
+                        strData=strData.replaceAll("<Piste[ ]*type[ ]*=[ ]*'[^']*'[ ]*length[ ]*=[ ]*'[^']*'" +
+                                "[ ]*(mute[ ]*=[ ]*'[^']*')*[ ]*(solo[ ]*=[ ]*'[^']*')*[ ]*(title[ ]*=[ ]*'[^']*')*[ ]*>|</Piste[ ]*>","");
 
                         pisteTmp.buildFromString(strData);
 
