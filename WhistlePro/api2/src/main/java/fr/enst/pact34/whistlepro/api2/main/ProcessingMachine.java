@@ -58,12 +58,12 @@ public class ProcessingMachine extends ProcessingMachineBase {
 //        if(piste==null) throw new RuntimeException("Error piste was not created.");
     }
 
-    /*
-        @Override
-        public void setTitle(String title) {
-            piste.setTitle(title);
-        }
-    */
+
+    @Override
+    public void setTitle(String title) {
+        piste.setTitle(title);
+    }
+
     @Override
     public void correct() {
         // TODO use correction module here to correct song

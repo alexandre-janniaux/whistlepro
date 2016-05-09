@@ -16,7 +16,7 @@ public abstract class  Piste {
     private String name;
 
     public abstract TypePiste getTypePiste();
-/*
+
     private String title;
 
     public final void setTitle(String title)
@@ -27,7 +27,7 @@ public abstract class  Piste {
     public String getTitle() {
         return title;
     }
-    */
+    
     private int id =-1;
 
     public final void setId(int id) {

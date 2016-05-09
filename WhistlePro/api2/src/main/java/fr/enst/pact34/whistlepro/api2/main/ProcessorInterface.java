@@ -17,9 +17,9 @@ public interface ProcessorInterface extends  DoubleDataListener{
     boolean isRecProcessing();
 
     boolean hasRecordedData();
-/*
+
     void setTitle(String title);
-*/
+
     void correct();
 
     Piste getPiste();
