@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="wp_background_button">#3080A4</color>
+    <color name="wp_background_app">#21353e</color>
+    <color name="wp_title">#00b1eb</color>
+
+    <color name="wp_color_pro">#00749d</color>
+</resources>

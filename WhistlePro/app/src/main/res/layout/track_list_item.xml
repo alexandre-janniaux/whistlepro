@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    style="@style/whistlepro_list_item">
+
+    <ImageView
+        android:id="@+id/trackitem_picture"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_weight="0.1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="0.5">
+
+        <TextView
+            android:id="@+id/trackitem_piste_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/whistlepro_list_itemname"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:orientation="horizontal">
+
+        <ToggleButton
+            android:id="@+id/trackitem_mute_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:textOff="M"
+            android:textOn="M"
+            style="@style/tracktogglebutton"/>
+
+        <ToggleButton
+            android:id="@+id/trackitem_solo_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:textOff="S"
+            android:textOn="S"
+            style="@style/tracktogglebutton"
+            />
+
+        <ImageButton
+            android:id="@+id/trackitem_param"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/icon_settings"
+            android:scaleType="fitXY"
+            style="@style/trackbutton"/>
+
+    </LinearLayout>
+</LinearLayout>

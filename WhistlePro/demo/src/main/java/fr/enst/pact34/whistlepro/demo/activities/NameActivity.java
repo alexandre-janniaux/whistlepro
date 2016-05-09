@@ -61,7 +61,7 @@ public class NameActivity extends WhistleProActivity {
 
                 String strName = nom.getText().toString();
                 ProcessorInterface processor = (ProcessorInterface) getSharedData(SD_PROCESSING_MACINE);
-                processor.setTitle(strName);
+                //processor.setTitle(strName);
             }
         });
 

@@ -2,6 +2,7 @@ package fr.enst.pact34.whistlepro.app;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,7 +28,7 @@ import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
 /**
  * Created by mms on 26/04/16.
  */
-public abstract class WhistleProActivity extends Activity {
+public abstract class WhistleProActivity extends AppCompatActivity {
 
     //constant names for shared data
     public static String SD_PROCESSING_MACINE = "processing_machine";

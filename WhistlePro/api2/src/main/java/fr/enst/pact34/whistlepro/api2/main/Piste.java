@@ -9,7 +9,11 @@ import java.util.regex.Pattern;
  * Created by mms on 25/04/16.
  */
 public abstract class  Piste {
-    
+
+
+    private boolean mute=false;
+    private boolean solo=false;
+    private String name;
 
     public abstract TypePiste getTypePiste();
 /*
@@ -72,6 +76,14 @@ public abstract class  Piste {
             values.add(matcher.group());
         }
         return values;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public static class Builder
@@ -145,6 +157,19 @@ public abstract class  Piste {
             return piste;
         }
     }
+    
+    public void setMuted(boolean mute) {
+        this.mute = mute;
+    }
+
+    public void setSolo(boolean solo) {
+        this.solo = solo;
+    }
+
+    public boolean getMuted() {return this.mute;}
+
+    public boolean getSolo() {return this.solo;}
+
 
     protected abstract void buildFromString(String strData);
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/wp_background_app</item>
+
+    </style>
+
+    <style name="whistlepro_list_item">
+        <item name="android:background">@color/wp_title</item>
+    </style>
+
+    <style name="trackbutton">
+        <item name="android:background">@drawable/wp_background_button</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+
+    <style name="whistlepro_list_itemname">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/wp_title</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="tracktogglebutton">
+        <item name="android:background">@drawable/tracklist_togglebutton_selector</item>
+        <item name="android:textColor">@color/toggle_color</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+
+    <style name="TitleTextView">
+        <item name="android:textSize">30dp</item>
+        <item name="android:textColor">@color/wp_title</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+</resources>
