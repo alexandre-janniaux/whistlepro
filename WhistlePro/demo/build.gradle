@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    compile project(':api')
+    compile project(':api2')
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
 }

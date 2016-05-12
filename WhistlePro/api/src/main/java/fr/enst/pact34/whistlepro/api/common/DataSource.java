@@ -1,8 +1,6 @@
 package fr.enst.pact34.whistlepro.api.common;
 
 import java.util.HashSet;
-import java.util.ArrayList;
-import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 
 //TODO: documentation
 public class DataSource<E> implements DataSourceInterface<E>{
@@ -28,13 +26,13 @@ public class DataSource<E> implements DataSourceInterface<E>{
     }
     
     //////////////////////////////
-    /// @brief push data to listeners
+    /// @brief fillOut data to listeners
     /// @param outputData the data to broadcast
     //////////////////////////////
-    public final void push(E outputData) {
+    public final void fillOut(E outputData) {
         for (DataListenerInterface<E> out : this.listeners)
         {
-            out.onPushData(this, outputData);
+            out.fillIn(this, outputData);
         }
     }
 

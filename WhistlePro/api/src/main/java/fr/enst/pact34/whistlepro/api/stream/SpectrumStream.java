@@ -27,7 +27,7 @@ public class SpectrumStream
     }
 
     @Override
-    public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
+    public void fillIn(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
 
         double[][] results = new double[inputData.getSignal().length][];
 
@@ -37,7 +37,7 @@ public class SpectrumStream
         }
 
         DoubleSignal2DInterface outputData = new DoubleSignal2D(results, inputData.getNbPoints(), inputData.getFrequencySample());
-        this.datasource.push(outputData);
+        this.datasource.fillOut(outputData);
     }
 
 }

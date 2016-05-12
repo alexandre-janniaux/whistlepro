@@ -36,19 +36,24 @@ public class TestAttaque {
 		
 	}
 
-	public static void main(String[] args) {
-				
-		File file = new File("data/testVoice.wav");
-		
+	public static double[] testDetection(File file) {
+
+		//Pics pics = new Pics();
+
+		Affichage2 affich = new Affichage2();
+
+		//double[] attaque = pics.tAttaque(file);
+		//affich.affichage(attaque, "fonction stylée");
+
 		double[] x = ReadExample.audioRead(file);
 		//System.out.println(x);
-		//Affichage2.affichage(x, "signal");
-		
+		affich.affichage(x, "signal");
+
 		double[] e = Enveloppe.enveloppe(0.99, x);
-		//Affichage2.affichage(e, "Détection de l'enveloppe");
+		affich.affichage(e, "Détection de l'enveloppe");
 
 		double[] e2 = Enveloppe.sousEchantillonne(200,e);
-		//Affichage2.affichage(e2,"Enveloppe ssEch");
+		affich.affichage(e2,"Enveloppe ssEch");
 
 
 		///FONCTION DERIVATION AVEC CONVOLUTION///
@@ -64,7 +69,27 @@ public class TestAttaque {
 
 
 		double[] derive = Enveloppe.derive(10,e2);
-		//Affichage2.affichage(derive,"fonction de derivation");
+		affich.affichage(derive,"fonction de derivation");
+		//for (int i=0; i<derive.length; i++) {
+		//	System.out.println(derive[i]);
+		//}
+
+		Pics pics = new Pics();
+		double[] y = pics.DetectionPics(derive);
+		//affich.affichage(y,"Pics d'attaque");
+		for (int i=0; i<y.length; i++) {
+			System.out.println(y[i]/(44100/200));
+		}
+
+		return y;
+	}
+
+	public static void main(String[] args) {
+
+		File file = new File("data/Jean kick/Jean kick 2.wav");
+
+		double[] y = testDetection(file);
+
 	}
 
 }

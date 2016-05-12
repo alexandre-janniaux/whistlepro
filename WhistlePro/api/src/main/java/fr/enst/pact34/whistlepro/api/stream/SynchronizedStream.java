@@ -1,7 +1,5 @@
 package fr.enst.pact34.whistlepro.api.stream;
 
-import java.util.ArrayList;
-
 import fr.enst.pact34.whistlepro.api.common.DataListenerInterface;
 import fr.enst.pact34.whistlepro.api.common.DataSource;
 import fr.enst.pact34.whistlepro.api.common.DataSourceInterface;
@@ -28,8 +26,8 @@ public class SynchronizedStream<E,F>
         }
 
         @Override
-        public void onPushData(DataSource<F> source, F inputData) {
-            this.root.output.push(inputData);
+        public void fillIn(DataSource<F> source, F inputData) {
+            this.root.output.fillOut(inputData);
         }
 
     }
@@ -40,8 +38,8 @@ public class SynchronizedStream<E,F>
     }
 
     @Override
-    public void onPushData(DataSource<E> source, E inputData) {
-        this.input.push(inputData);//FIXME: bypass, need to implement synchronization
+    public void fillIn(DataSource<E> source, E inputData) {
+        this.input.fillOut(inputData);//FIXME: bypass, need to implement synchronization
     }
 
     @Override

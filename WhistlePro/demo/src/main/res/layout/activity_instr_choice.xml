@@ -6,7 +6,15 @@
     android:orientation="vertical"
     tools:context="fr.enst.pact34.whistlepro.demo.Percussions">
 
-    //première ligne
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif-medium"
+        android:text="Quel instrument ?"
+        android:textSize="26dp"/>
+    //premiere ligne
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -107,12 +115,12 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:text=" Clarinette "
+                android:text="Clarinette"
                 android:layout_below="@+id/clarinetteImg"
                 android:id="@+id/clariBtn"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentRight="false"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />

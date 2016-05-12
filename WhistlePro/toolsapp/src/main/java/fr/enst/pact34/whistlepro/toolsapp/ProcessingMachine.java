@@ -130,7 +130,7 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
         }
 
         @Override
-        public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
+        public void fillIn(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
             //System.out.print("pushdata ");
 
             double[][] signal = inputData.getSignal();
@@ -155,7 +155,7 @@ public class ProcessingMachine implements AudioDataListener,Runnable {
             output[0] = fft;
 
             DoubleSignal2DInterface outputData = new DoubleSignal2D(output, buffer.length, Fs);
-            this.push(outputData);
+            this.fillOut(outputData);
         }
     }
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="fr.enst.pact34.whistlepro.app.TrackListActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp"
+            android:scaleType="centerInside"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:src="@drawable/logo"/>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Liste des pistes"
+                android:id="@+id/tracklist_music_name"
+                android:layout_weight="0.5"
+                style="@style/TitleTextView" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp">
+
+        <ImageButton
+            style="@style/whistlepro_button"
+            android:src="@drawable/play"
+            android:onClick="play"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"/>
+
+        </LinearLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/track_list_view"
+            android:choiceMode="none"
+            android:layout_marginBottom="30dp"/>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_track_button"
+        android:src="@drawable/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="bottom|end"
+        style="@style/whistlepro_button" />
+
+</android.support.design.widget.CoordinatorLayout>

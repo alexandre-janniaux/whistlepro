@@ -2,7 +2,6 @@ package fr.enst.pact34.whistlepro.api.test.stream;
 import fr.enst.pact34.whistlepro.api.acquisition.WavFile;
 import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
 import fr.enst.pact34.whistlepro.api.common.*;
-import fr.enst.pact34.whistlepro.api.features.MfccFeatureProvider;
 import fr.enst.pact34.whistlepro.api.stream.MfccFeatureStream;
 import org.junit.Test;
 
@@ -64,7 +63,7 @@ public class MfccFeatureStreamTest {
         }
 
         @Override
-        public void onPushData(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
+        public void fillIn(DataSource<DoubleSignal2DInterface> source, DoubleSignal2DInterface inputData) {
             double[][] signal = inputData.getSignal();
 
             for(int j = 0; j < signal.length; j++) {
@@ -118,7 +117,7 @@ public class MfccFeatureStreamTest {
                 );
 
 
-                this.push(outputData);
+                this.fillOut(outputData);
 
             } catch (IOException e) {
                 e.printStackTrace();

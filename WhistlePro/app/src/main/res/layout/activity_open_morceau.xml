@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="fill">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                style="@style/whistlepro_show_title"
+                android:textStyle="bold"
+                android:id="@+id/OpenMorceau_nom_morceau" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                style="@style/whistlepro_show_title"
+                android:id="@+id/OpenMorceau_nom_piste" />
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/play"
+            android:contentDescription="play"
+            android:id="@+id/OpenMorceau_play" />
+
+        <Spinner
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
+            android:text="Instrument"
+            android:contentDescription="choose instrument"
+            android:id="@+id/OpenMorceau_chooseInstrument" />
+
+    </LinearLayout>
+
+    <fr.enst.pact34.whistlepro.app.views.PianoRollView
+        android:id="@+id/pianoroll_piano"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/OpenMorceau_listView_piste" />
+        -->
+</LinearLayout>
