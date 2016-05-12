@@ -19,23 +19,31 @@ import android.widget.ToggleButton;
 
 import java.util.List;
 
+import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 import fr.enst.pact34.whistlepro.api2.main.Morceau;
 import fr.enst.pact34.whistlepro.api2.main.Piste;
+import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
 
 
 public class TrackListActivity extends WhistleProActivity {
 
     private TrackListAdapter trackListAdapter;
-
+    private Morceau morceau;
+    private ProcessorInterface processor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.track_list);
 
-        Morceau morceau = (Morceau) getSharedData(SD_MORCEAU_ACTUEL);
+        morceau = (Morceau) getSharedData(SD_MORCEAU_ACTUEL);
         if (morceau == null) {
+            throw new RuntimeException(SD_MORCEAU_ACTUEL + " should exist in shared data.");
+        }
 
+        processor = (ProcessorInterface) getSharedData(SD_PROCESSING_MACINE);
+        if (processor == null) {
+            throw new RuntimeException(SD_PROCESSING_MACINE + " should exist in shared data.");
         }
 
         TextView musicName = (TextView) findViewById(R.id.tracklist_music_name);
@@ -126,5 +134,17 @@ public class TrackListActivity extends WhistleProActivity {
         }
     }
 
+    public void play(View v) {
+        Signal sound = processor.synthetiseMorceau(morceau);
+
+        double[] tmp_dbl = new double[sound.length()];
+        sound.fillArray(tmp_dbl);
+
+        AudioPlayer ap = new AudioPlayer();
+        ap.start();
+        ap.push(tmp_dbl);
+        ap.stop();
+
+    }
 
 }

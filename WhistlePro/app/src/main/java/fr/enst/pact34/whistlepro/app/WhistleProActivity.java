@@ -66,8 +66,8 @@ public abstract class WhistleProActivity extends AppCompatActivity {
             Piano : r=(1+4*250) ; D ~ 2*fm
              */
             processor.addInstruData(PisteMelodie.Instrument.Piano, 1+4*250,2);
-            processor.addInstruData(PisteMelodie.Instrument.Cuivre, 3.0/2,4);
-            processor.addInstruData(PisteMelodie.Instrument.Boise, 1,1);
+            processor.addInstruData(PisteMelodie.Instrument.Cuivre, 1,4);
+            processor.addInstruData(PisteMelodie.Instrument.Boise, 1.5,1);
 
             // config percu
             processor.setPercuCorrespondance("k", Percu.Type.Kick);

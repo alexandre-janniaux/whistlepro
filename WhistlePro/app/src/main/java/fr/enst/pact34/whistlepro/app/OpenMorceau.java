@@ -1,5 +1,7 @@
 package fr.enst.pact34.whistlepro.app;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,9 +9,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.enst.pact34.whistlepro.api2.Synthese.Instru;
@@ -25,6 +31,9 @@ import fr.enst.pact34.whistlepro.app.views.PianoRollView;
  * Created by mms on 01/05/16.
  */
 public class OpenMorceau extends WhistleProActivity {
+
+    private ArrayAdapter<InstrumentSpinnerEntry> adapter;
+    private Thread playThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,19 +77,56 @@ public class OpenMorceau extends WhistleProActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Signal sound = processor.synthetisePiste(piste);
-
-                        double[] tmp_dbl = new double[sound.length()];
-                        sound.fillArray(tmp_dbl);
-
-                        AudioPlayer ap = new AudioPlayer();
-                        ap.start();
-                        ap.push(tmp_dbl);
-                        ap.stop();
-
+                        //if (playThread != null) playThread.interrupt();
+                        //playThread = new Thread(new Runnable() {
+                        //    @Override
+                        //    public void run() {
+                                Signal sound = processor.synthetisePiste(piste);
+                                double[] tmp_dbl = new double[sound.length()];
+                                sound.fillArray(tmp_dbl);
+                                AudioPlayer ap = new AudioPlayer();
+                                ap.start();
+                                ap.push(tmp_dbl);
+                                ap.stop();
+                                playThread = null;
+                        //    }
+                        //});
+                        //playThread.start();
                     }
                 }
         );
+
+        Spinner spinner = (Spinner) findViewById(R.id.OpenMorceau_chooseInstrument);
+
+        ArrayList<InstrumentSpinnerEntry> instruments = new ArrayList<>();
+        instruments.add(new InstrumentSpinnerEntry(PisteMelodie.Instrument.Piano, "Piano"));
+        instruments.add(new InstrumentSpinnerEntry(PisteMelodie.Instrument.Boise, "Boise"));
+        instruments.add(new InstrumentSpinnerEntry(PisteMelodie.Instrument.Cuivre, "Cuivre"));
+        // instruments.add(new InstrumentSpinnerEntry());
+
+        adapter = new ArrayAdapter<>(this, R.layout.spinner_instrument_item, instruments);
+        adapter.setDropDownViewResource(R.layout.spinner_instrument_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                InstrumentSpinnerEntry instrument = adapter.getItem(position);
+                PisteMelodie piste = (PisteMelodie) getSharedData(SD_PISTE_ACTUELLE);
+                piste.setInstrument(instrument.getInstrument());
+            }
+        });
+
+        // SET THE CORRECT INSTRUMENT AT FIRST SCREEN
+        for(int i=0; i< adapter.getCount(); ++i) {
+            PisteMelodie piste = (PisteMelodie) getSharedData(SD_PISTE_ACTUELLE);
+            PisteMelodie.Instrument instrument = piste.getInstrument();
+            InstrumentSpinnerEntry entry = adapter.getItem(i);
+            if (entry.getInstrument() == instrument) {
+                spinner.setSelection(i);
+                break;
+            }
+        }
     }
 
     private Morceau morceau;
@@ -92,4 +138,28 @@ public class OpenMorceau extends WhistleProActivity {
         super.onResume();
     }
 
+
+    public void chooseInstrumentPopup(View v) {
+
+    }
+
+    private class InstrumentSpinnerEntry {
+        private PisteMelodie.Instrument instrument;
+        private final String name;
+
+        public InstrumentSpinnerEntry(PisteMelodie.Instrument instrument, String name) {
+
+            this.instrument = instrument;
+            this.name = name;
+        }
+
+        public PisteMelodie.Instrument getInstrument() {
+            return instrument;
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
+        }
+    }
 }

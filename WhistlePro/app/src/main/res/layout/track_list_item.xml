@@ -61,7 +61,7 @@
             android:layout_height="50dp"
             android:src="@drawable/icon_settings"
             android:scaleType="fitXY"
-            style="@style/trackbutton"/>
+            style="@style/whistlepro_button"/>
 
     </LinearLayout>
 </LinearLayout>

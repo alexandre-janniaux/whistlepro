@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">WhistlePro</string>
+
+    <string-array name="instruments_array">
+        <item>Piano</item>
+        <item>Trompette</item>
+        <item>Clarinette</item>
+    </string-array>
 </resources>

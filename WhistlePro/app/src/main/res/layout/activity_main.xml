@@ -46,6 +46,6 @@
         android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
         android:layout_gravity="bottom|end"
-        style="@style/trackbutton"/>
+        style="@style/whistlepro_button"/>
 
 </android.support.design.widget.CoordinatorLayout>
