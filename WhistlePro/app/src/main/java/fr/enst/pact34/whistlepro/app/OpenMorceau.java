@@ -104,16 +104,20 @@ public class OpenMorceau extends WhistleProActivity {
         instruments.add(new InstrumentSpinnerEntry(PisteMelodie.Instrument.Cuivre, "Cuivre"));
         // instruments.add(new InstrumentSpinnerEntry());
 
-        adapter = new ArrayAdapter<>(this, R.layout.spinner_instrument_item, instruments);
-        adapter.setDropDownViewResource(R.layout.spinner_instrument_dropdown_item);
+        adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, instruments);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 InstrumentSpinnerEntry instrument = adapter.getItem(position);
                 PisteMelodie piste = (PisteMelodie) getSharedData(SD_PISTE_ACTUELLE);
                 piste.setInstrument(instrument.getInstrument());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 
@@ -137,7 +141,6 @@ public class OpenMorceau extends WhistleProActivity {
     protected void onResume() {
         super.onResume();
     }
-
 
     public void chooseInstrumentPopup(View v) {
 
