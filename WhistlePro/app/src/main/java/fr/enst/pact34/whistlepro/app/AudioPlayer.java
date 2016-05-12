@@ -9,6 +9,7 @@ public class AudioPlayer {
     public int freq = 16000;
     AudioTrack audioTrack = null;
     private short volume = Short.MAX_VALUE/2;
+    private boolean stopped = false;
 
     private short[] buffer = new short[512];
 
@@ -20,6 +21,7 @@ public class AudioPlayer {
             for(int j=0; j<m; ++j) {
                 buffer[j] = (short) (samples[i*512+j]*this.volume);
             }
+            if (stopped) return;
             audioTrack.write(buffer, 0, m);
         }
     }
@@ -32,13 +34,16 @@ public class AudioPlayer {
                 freq, AudioFormat.CHANNEL_OUT_MONO,
                 AudioFormat.ENCODING_PCM_16BIT, buffsize,
                 AudioTrack.MODE_STREAM);
-
-
         // start audio
         audioTrack.play();
+        stopped = false;
     }
 
     public void stop() {
+        if(this.stopped) return;
+        stopped = true;
+        audioTrack.pause();
+        audioTrack.flush();
         audioTrack.stop();
         audioTrack.release();
     }

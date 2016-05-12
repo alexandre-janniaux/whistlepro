@@ -44,7 +44,6 @@
             android:scaleType="fitXY"
             android:text="Instrument"
             android:contentDescription="choose instrument"
-            style="@style/whistlepro_button"
             android:id="@+id/OpenMorceau_chooseInstrument" />
 
     </LinearLayout>

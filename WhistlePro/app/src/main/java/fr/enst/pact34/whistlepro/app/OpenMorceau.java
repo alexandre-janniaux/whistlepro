@@ -3,6 +3,7 @@ package fr.enst.pact34.whistlepro.app;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,10 +34,12 @@ import fr.enst.pact34.whistlepro.app.views.PianoRollView;
 public class OpenMorceau extends WhistleProActivity {
 
     private ArrayAdapter<InstrumentSpinnerEntry> adapter;
-    private Thread playThread;
+    private Thread playThread=null;
+    private AudioPlayer audioPlayer = new AudioPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_morceau);
 
@@ -77,21 +80,23 @@ public class OpenMorceau extends WhistleProActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //if (playThread != null) playThread.interrupt();
-                        //playThread = new Thread(new Runnable() {
-                        //    @Override
-                        //    public void run() {
+                        if (playThread != null) {
+                            audioPlayer.stop();
+
+                        }
+                        playThread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
                                 Signal sound = processor.synthetisePiste(piste);
                                 double[] tmp_dbl = new double[sound.length()];
                                 sound.fillArray(tmp_dbl);
-                                AudioPlayer ap = new AudioPlayer();
-                                ap.start();
-                                ap.push(tmp_dbl);
-                                ap.stop();
+                                audioPlayer.start();
+                                audioPlayer.push(tmp_dbl);
+                                audioPlayer.stop();
                                 playThread = null;
-                        //    }
-                        //});
-                        //playThread.start();
+                            }
+                        });
+                        playThread.start();
                     }
                 }
         );
@@ -140,11 +145,18 @@ public class OpenMorceau extends WhistleProActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
 
-    public void chooseInstrumentPopup(View v) {
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.audioPlayer.stop();
+        //if(this.playThread != null)
+            //this.playThread.interrupt();
+        this.playThread = null;
     }
+
 
     private class InstrumentSpinnerEntry {
         private PisteMelodie.Instrument instrument;
