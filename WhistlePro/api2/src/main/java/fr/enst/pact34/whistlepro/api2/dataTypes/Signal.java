@@ -40,8 +40,10 @@ public class Signal implements SignalGetInterface,SignalSetInterface,StreamDataI
     @Override
     public void setLength(int newLength) {
         if(newLength>length) {
+            double[] newData = new double[newLength];
+            arraycopy(this.datas,0,newData,0,length);
             length = newLength;
-            datas = new double[length];
+            datas = newData;
         }
         length= newLength;
     }

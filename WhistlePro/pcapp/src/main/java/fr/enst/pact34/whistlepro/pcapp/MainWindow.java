@@ -1,8 +1,14 @@
 package fr.enst.pact34.whistlepro.pcapp;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
+
+import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
 
 class MainWindow extends JFrame {
 
@@ -15,8 +21,8 @@ class MainWindow extends JFrame {
 
 
         CurveWidget curveView = new CurveWidget();
-        curveView.setStepPoints(15, 0.5);
-        curveView.addCurve(new CurveAdapterInterface() {
+        curveView.setStepPoints(50, 0.01);
+  /*      curveView.addCurve(new CurveAdapterInterface() {
             @Override
             public boolean isFinite() {
                 return false;
@@ -43,6 +49,27 @@ class MainWindow extends JFrame {
                 return 10;
             }
         });
+*/
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        File file = chooser.getSelectedFile() ;
+
+        if(file != null) {
+            SignalExtended sigTest = new SignalExtended();
+            try {
+                sigTest.loadFromWavFile(file.getAbsolutePath());
+                curveView.addCurve(sigTest);
+            } catch (IOException e) {
+                System.out.println("Pb de lecture fichier");
+                e.printStackTrace();
+            } catch (WavFileException e) {
+                System.out.println("Pb de lecture fichier");
+                e.printStackTrace();
+            }
+        }
+        else
+            System.out.println("Pas de fichier choisi");
+
         window.add(curveView);
         window.pack();
 
