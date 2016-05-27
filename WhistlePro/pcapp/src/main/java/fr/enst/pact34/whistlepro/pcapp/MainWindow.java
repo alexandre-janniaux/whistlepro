@@ -1,12 +1,18 @@
 package fr.enst.pact34.whistlepro.pcapp;
 
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.GridLayout;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
 
@@ -18,7 +24,7 @@ class MainWindow extends JFrame {
         MainWindow window = new MainWindow();
         window.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-
+        /*
 
         CurveWidget curveView = new CurveWidget();
         curveView.setStepPoints(50, 0.01);
@@ -49,7 +55,7 @@ class MainWindow extends JFrame {
                 return 10;
             }
         });
-*/
+* /
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         File file = chooser.getSelectedFile() ;
@@ -71,6 +77,22 @@ class MainWindow extends JFrame {
             System.out.println("Pas de fichier choisi");
 
         window.add(curveView);
+        */
+
+        //conteneur principal
+        JPanel mainPannel = new JPanel();
+        mainPannel.setLayout(new BorderLayout());
+
+        JButton btnOpen = new JButton("open");
+        mainPannel.add(btnOpen, BorderLayout.NORTH);
+
+        JPanel dataViewer = new DataViewer();
+        mainPannel.add(dataViewer, BorderLayout.CENTER);
+
+        mainPannel.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        //ajout du contenu a la fenetre
+        window.setContentPane(mainPannel);
         window.pack();
 
         System.out.println("Yoo");
