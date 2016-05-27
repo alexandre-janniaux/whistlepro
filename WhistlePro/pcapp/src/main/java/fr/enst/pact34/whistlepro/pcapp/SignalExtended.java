@@ -30,7 +30,7 @@ public class SignalExtended extends Signal implements CurveAdapterInterface {
 
     private int amplitude = 5;
     @Override
-    public int getAmplitude() {
+    public int getMaxAmplitude() {
         return amplitude;
     }
 

@@ -17,6 +17,8 @@ public class DataViewer extends JPanel {
 
     public DataViewer()
     {
+        signalCurvWidg.setStepPoints(5,5);
+        attackCurvWidg.setStepPoints(5,5);
         GridLayout gl = new GridLayout();
         this.setLayout(gl);
         gl.setColumns(1);

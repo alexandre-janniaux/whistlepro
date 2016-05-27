@@ -51,11 +51,11 @@ class MainWindow extends JFrame {
             }
 
             @Override
-            public int getAmplitude() {
+            public int getMaxAmplitude() {
                 return 10;
             }
         });
-* /
+
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         File file = chooser.getSelectedFile() ;
@@ -75,6 +75,10 @@ class MainWindow extends JFrame {
         }
         else
             System.out.println("Pas de fichier choisi");
+=======
+
+        curveView.scroll(15.,0.);
+>>>>>>> Stashed changes
 
         window.add(curveView);
         */

@@ -11,5 +11,5 @@ public interface CurveAdapterInterface {
 
     int getNbPoints();
 
-    int getAmplitude();
+    int getMaxAmplitude();
 }

@@ -134,16 +134,19 @@ class CurveWidget extends JComponent {
     public void setStepPoints(double x, double y) {
         this.step[0] = x;
         this.step[1] = y;
+        repaint();
     }
 
     public void scroll(double x, double y) {
         this.scroll[0] += x;
         this.scroll[1] += y;
+        repaint();
     }
 
     public void setScroll(double x, double y) {
         this.scroll[0] = x;
         this.scroll[1] = y;
+        repaint();
     }
 
     @Override
@@ -151,7 +154,7 @@ class CurveWidget extends JComponent {
         int xmax = 0, ymax=0;
         for (CurveAdapterInterface curve : this.curves) {
             xmax = Math.max(xmax, curve.getNbPoints());
-            ymax = Math.max(ymax, curve.getAmplitude());
+            ymax = Math.max(ymax, curve.getMaxAmplitude());
         }
         return new Dimension((int)(xmax*this.step[0]), (int)(ymax*this.step[1]));
     }
@@ -174,6 +177,7 @@ class CurveWidget extends JComponent {
     public void setGridStep(int x, int y) {
         this.gridStep[0] = x;
         this.gridStep[1] = y;
+        repaint();
     }
 
 }
