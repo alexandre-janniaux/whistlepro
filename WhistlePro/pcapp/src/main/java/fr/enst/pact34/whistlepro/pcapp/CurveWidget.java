@@ -14,12 +14,15 @@ class CurveWidget extends JComponent {
 
     private ArrayList<CurveAdapterInterface> curves = new ArrayList<>();
     private ArrayList<CurveViewProxy> curveViews = new ArrayList<>();
-    private int maxPoints=100;
     private double[] step = new double[2];
     private int[] gridStep = new int[2];
     private double[] scroll = new double[2];
     private int[] axisOffset = new int[2];
 
+    CurveWidget () {
+
+        setGridStep(10,10);
+    }
 
     /*
      *  Effectue le rendu du widget, en particulier :
@@ -42,10 +45,8 @@ class CurveWidget extends JComponent {
 
         g.setColor(Color.DARK_GRAY);
 
-        setGridStep(10,10);
-
-        int nbLineVert = getWidth()/this.gridStep[0];
-        int nbLineHoriz = getHeight()/this.gridStep[1];
+        int nbLineVert = getWidth()/this.gridStep[0]+1;
+        int nbLineHoriz = getHeight()/this.gridStep[1]+1;
 
         if (this.gridStep[1] > 0)
         for (int i=0; i<nbLineHoriz; ++i) {
@@ -78,6 +79,7 @@ class CurveWidget extends JComponent {
 
         for(int i=0; i<curves.size(); ++i) {
             paintCurve(g2d, i);
+            System.out.println("Redraw curve " + i);
         }
     }
 
@@ -96,10 +98,10 @@ class CurveWidget extends JComponent {
         g.setColor(Color.RED);
         g.setStroke(curveProxy.getStroke());
 
+        int maxPoints = (int) (this.getWidth()/this.step[0]);
 
         int nbPoints = curveModel.isFinite() ?
-                Math.min(curveModel.getNbPoints(), this.maxPoints) :
-                this.maxPoints;
+                Math.min(curveModel.getNbPoints(), maxPoints) : maxPoints;
 
         System.out.println("dessin courve à points " + nbPoints);
 
@@ -107,12 +109,10 @@ class CurveWidget extends JComponent {
         for(int i=0; i<nbPoints-2; ++i) {
             double x = curveModel.getAbscisse(i);
             double y = curveModel.getValue(i);
-            System.out.println("valeur " + x + " " + y);
 
             double xc = (x-this.scroll[0])*this.step[0];
             double yc =  axisOffset[1] - (y-this.scroll[1])*this.step[1];
 
-            System.out.println("points " + xc + " " + yc);
             if (i!=0) curveView.lineTo(xc, yc);
             else curveView.moveTo(xc,yc);
         }
@@ -127,6 +127,7 @@ class CurveWidget extends JComponent {
             this.curves.add(curve);
             this.curveViews.add(proxy);
         }
+        repaint();
 
         return proxy;
     }

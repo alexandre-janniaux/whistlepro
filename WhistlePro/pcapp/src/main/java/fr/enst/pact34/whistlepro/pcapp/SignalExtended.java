@@ -15,7 +15,7 @@ import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 public class SignalExtended extends Signal implements CurveAdapterInterface {
     @Override
     public boolean isFinite() {
-        return false;
+        return true;
     }
 
     @Override
