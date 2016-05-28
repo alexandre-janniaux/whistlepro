@@ -18,7 +18,6 @@ import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
 
 class MainWindow extends JFrame {
 
-
     public static void main(String[] args) {
         System.out.println("Yoo");
         MainWindow window = new MainWindow();

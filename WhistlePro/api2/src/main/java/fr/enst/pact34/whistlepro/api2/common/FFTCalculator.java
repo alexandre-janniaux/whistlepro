@@ -33,27 +33,31 @@ public class FFTCalculator {
         cst_tmp = 2.0 / siglength;
     }
 
-    private int j,k;
     private double[] tmp_sig;
-    private  double fft_ctmp;
+    private double fft_ctmp;
     private double fft_stmp;
     private double cst_tmp ;
-    public void fft(Signal sig, Spectrum fft) {
+
+    public void fft(Signal sig, Spectrum fft, int start, int stop) {
         fft.setLength(fftLength);
         fft.setNbPtsSig(siglength);
         fft.setFs(sig.getSamplingFrequency());
-        sig.fillArray(tmp_sig);
+        sig.fillArray(tmp_sig, start, stop);
 
-        for (k = 0; k < fftLength; k++) {
+        for (int k = 0; k < fftLength; k++) {
             fft_ctmp = 0;
             fft_stmp = 0;
-            for ( j = 0; j < siglength; j++) {
+            for (int j = 0; j < Math.min(siglength, stop-start); j++) {
                 fft_ctmp += tmp_sig[j] * cos_table[k][j];
                 fft_stmp += tmp_sig[j] * sin_table[k][j];
             }
 
-            fft.setValue(k, cst_tmp* Math.sqrt(fft_ctmp*fft_ctmp + fft_stmp*fft_stmp) );
+            fft.setValue(k, cst_tmp* Math.sqrt(fft_ctmp*fft_ctmp + fft_stmp*fft_stmp) / siglength );
         }
+    }
 
+    public void fft(Signal sig, Spectrum spectrum) {
+        int stop = sig.length();
+        fft(sig, spectrum, 0, stop);
     }
 }

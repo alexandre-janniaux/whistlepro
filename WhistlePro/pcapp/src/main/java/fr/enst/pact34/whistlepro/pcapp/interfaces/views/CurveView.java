@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.pcapp;
+package fr.enst.pact34.whistlepro.pcapp.interfaces.views;
 
 
 import java.awt.Color;
@@ -10,7 +10,10 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
-class CurveWidget extends JComponent {
+import fr.enst.pact34.whistlepro.pcapp.interfaces.proxies.CurveViewProxy;
+import fr.enst.pact34.whistlepro.pcapp.interfaces.adapters.CurveAdapterInterface;
+
+public class CurveView extends JComponent {
 
     private ArrayList<CurveAdapterInterface> curves = new ArrayList<>();
     private ArrayList<CurveViewProxy> curveViews = new ArrayList<>();
@@ -19,7 +22,7 @@ class CurveWidget extends JComponent {
     private double[] scroll = new double[2];
     private int[] axisOffset = new int[2];
 
-    CurveWidget () {
+    public CurveView() {
 
         setGridStep(10,10);
     }
@@ -121,7 +124,7 @@ class CurveWidget extends JComponent {
         g.draw(curveView);
     }
 
-    CurveViewProxy addCurve(CurveAdapterInterface curve) {
+    public CurveViewProxy addCurve(CurveAdapterInterface curve) {
         CurveViewProxy proxy = new CurveViewProxy();
         synchronized (curves) {
             this.curves.add(curve);

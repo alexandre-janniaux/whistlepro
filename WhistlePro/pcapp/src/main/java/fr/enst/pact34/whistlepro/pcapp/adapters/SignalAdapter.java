@@ -1,18 +1,24 @@
-package fr.enst.pact34.whistlepro.pcapp;
+package fr.enst.pact34.whistlepro.pcapp.adapters;
 
 import java.io.File;
 import java.io.IOException;
 
 import fr.enst.pact34.whistlepro.api.acquisition.WavFile;
 import fr.enst.pact34.whistlepro.api.acquisition.WavFileException;
-import fr.enst.pact34.whistlepro.api.common.Spectrum;
-import fr.enst.pact34.whistlepro.api.common.transformers;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
+import fr.enst.pact34.whistlepro.pcapp.interfaces.adapters.CurveAdapterInterface;
 
 /**
  * Created by mms on 26/05/16.
  */
-public class SignalExtended extends Signal implements CurveAdapterInterface {
+public class SignalAdapter extends Signal implements CurveAdapterInterface {
+
+    private double[] signal;
+
+    public SignalAdapter() {
+
+    }
+
     @Override
     public boolean isFinite() {
         return true;

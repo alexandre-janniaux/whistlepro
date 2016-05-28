@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.api.Attaque;
+package fr.enst.pact34.whistlepro.api.attaque;
 
 import java.util.ArrayList;
 

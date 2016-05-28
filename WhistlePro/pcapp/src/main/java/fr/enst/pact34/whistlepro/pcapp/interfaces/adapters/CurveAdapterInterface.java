@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.pcapp;
+package fr.enst.pact34.whistlepro.pcapp.interfaces.adapters;
 
 
 public interface CurveAdapterInterface {

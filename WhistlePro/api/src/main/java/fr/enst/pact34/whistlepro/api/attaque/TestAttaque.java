@@ -1,11 +1,10 @@
-package fr.enst.pact34.whistlepro.api.Attaque;
+package fr.enst.pact34.whistlepro.api.attaque;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import fr.enst.pact34.whistlepro.api.acquisition.Affichage2;
 import fr.enst.pact34.whistlepro.api.acquisition.ReadExample;
-import fr.enst.pact34.whistlepro.api.common.Convolution1D;
 
 public class TestAttaque {
 	
@@ -52,7 +51,7 @@ public class TestAttaque {
 		double[] e = Enveloppe.enveloppe(0.99, x);
 		affich.affichage(e, "Détection de l'enveloppe");
 
-		double[] e2 = Enveloppe.sousEchantillonne(200,e);
+		double[] e2 = Enveloppe.sousEchantillonne(200, e);
 		affich.affichage(e2,"Enveloppe ssEch");
 
 
@@ -68,13 +67,13 @@ public class TestAttaque {
 		//double[] derive = convolution.convoluate(e2,0, e2.length);*/
 
 
-		double[] derive = Enveloppe.derive(10,e2);
+		double[] derive = Enveloppe.derive(10, e2);
 		affich.affichage(derive,"fonction de derivation");
 		//for (int i=0; i<derive.length; i++) {
 		//	System.out.println(derive[i]);
 		//}
 
-		Pics pics = new Pics();
+		fr.enst.pact34.whistlepro.api.attaque.Pics pics = new fr.enst.pact34.whistlepro.api.attaque.Pics();
 		double[] y = pics.DetectionPics(derive);
 		//affich.affichage(y,"Pics d'attaque");
 		for (int i=0; i<y.length; i++) {

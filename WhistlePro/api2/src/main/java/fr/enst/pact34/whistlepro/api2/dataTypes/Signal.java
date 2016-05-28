@@ -115,6 +115,10 @@ public class Signal implements SignalGetInterface,SignalSetInterface,StreamDataI
         arraycopy(this.datas, 0, array, 0, (array.length<length)?array.length:length);
     }
 
+    public void fillArray(double[] array, int start, int stop) {
+        arraycopy(this.datas, start, array, 0, Math.min(this.datas.length-start,stop-start));
+    }
+
     // set max to m
     public void maxToM(double M)
     {

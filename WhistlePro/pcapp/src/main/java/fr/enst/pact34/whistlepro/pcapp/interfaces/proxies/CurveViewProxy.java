@@ -1,11 +1,8 @@
-package fr.enst.pact34.whistlepro.pcapp;
+package fr.enst.pact34.whistlepro.pcapp.interfaces.proxies;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.Stroke;
-
-import javax.swing.border.StrokeBorder;
 
 public class CurveViewProxy {
 
