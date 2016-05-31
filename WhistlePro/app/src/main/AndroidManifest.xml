@@ -19,6 +19,7 @@
         <activity android:name=".NewPisteRecordDone" />
         <activity android:name=".OpenMorceau" android:screenOrientation="landscape"/>
         <activity android:name=".TrackListActivity" />
+        <activity android:name=".RDSyntheseActivity" />
     </application>
 
 </manifest>
