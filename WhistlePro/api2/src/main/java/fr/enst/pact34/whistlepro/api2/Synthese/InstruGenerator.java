@@ -39,8 +39,12 @@ public class InstruGenerator {
         addInstru(instru,r,m);
     }
 
-    private class InstruParams
+    public InstruData getInstruData(PisteMelodie.Instrument instru)
     {
+        return (InstruData) instruGenElmts.get(instru);
+    }
+
+    private class InstruParams implements InstruData {
         double r;
         double m;
 
@@ -58,6 +62,16 @@ public class InstruGenerator {
 
             toRet.setSamplingFrequency(Fe);
             return toRet;
+        }
+
+        @Override
+        public double getM() {
+            return m;
+        }
+
+        @Override
+        public double getR() {
+            return r;
         }
     }
 
