@@ -30,6 +30,14 @@
             android:id="@+id/textView"
             style="@style/TitleTextView"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RD Synthese"
+            android:id="@+id/button2"
+            android:layout_gravity="right"
+            android:onClick="startRD_Synthese"/>
+
         <ListView
             style="@style/whistlepro_list"
             android:id="@+id/main_listView_morceau"

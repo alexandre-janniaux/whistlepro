@@ -47,6 +47,11 @@ public class MainActivity extends WhistleProActivity{
 
     }
 
+    public void startRD_Synthese(View v)
+    {
+        startActivity(new Intent(MainActivity.this, RDSyntheseActivity.class));
+    }
+
     private MusicListAdapter adapter;
 
     @Override
