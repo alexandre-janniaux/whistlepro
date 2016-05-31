@@ -28,10 +28,15 @@ public class InstruGenerator {
         return e.generateTime(time,Fs,freq);
     }
 
-    public void addInstru(PisteMelodie.Instrument instrumentPercussion, double r, double m)
+    public void addInstru(PisteMelodie.Instrument instrument, double r, double m)
     {
         InstruParams e = new InstruParams(r,m);
-        instruGenElmts.put(instrumentPercussion,e);
+        instruGenElmts.put(instrument,e);
+    }
+
+    public void replaceInstru(PisteMelodie.Instrument instru, double r, double m) {
+        instruGenElmts.remove(instru);
+        addInstru(instru,r,m);
     }
 
     private class InstruParams
