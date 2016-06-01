@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.app;
+package fr.enst.pact34.whistlepro.app.activities.v1;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import fr.enst.pact34.whistlepro.api2.main.Morceau; 
+import fr.enst.pact34.whistlepro.api2.main.Morceau;
+import fr.enst.pact34.whistlepro.app.NewPisteConfig;
+import fr.enst.pact34.whistlepro.app.R;
+import fr.enst.pact34.whistlepro.app.activities.WhistleProActivity;
 
 /**
  * Created by mms on 29/04/16.

@@ -1,4 +1,4 @@
-package fr.enst.pact34.whistlepro.app;
+package fr.enst.pact34.whistlepro.app.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -24,6 +24,8 @@ import fr.enst.pact34.whistlepro.api2.main.Morceau;
 import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.PisteMelodie;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
+import fr.enst.pact34.whistlepro.app.R;
+import fr.enst.pact34.whistlepro.app.Recorder;
 
 /**
  * Created by mms on 26/04/16.

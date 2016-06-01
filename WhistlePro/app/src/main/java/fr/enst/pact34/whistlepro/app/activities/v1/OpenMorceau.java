@@ -1,23 +1,15 @@
-package fr.enst.pact34.whistlepro.app;
+package fr.enst.pact34.whistlepro.app.activities.v1;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import fr.enst.pact34.whistlepro.api2.Synthese.Instru;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
@@ -25,6 +17,9 @@ import fr.enst.pact34.whistlepro.api2.main.Morceau;
 import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.PisteMelodie;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
+import fr.enst.pact34.whistlepro.app.AudioPlayer;
+import fr.enst.pact34.whistlepro.app.R;
+import fr.enst.pact34.whistlepro.app.activities.WhistleProActivity;
 import fr.enst.pact34.whistlepro.app.models.PianoRollModel;
 import fr.enst.pact34.whistlepro.app.views.PianoRollView;
 

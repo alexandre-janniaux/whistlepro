@@ -13,12 +13,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewMorceauActivity" />
+        <activity android:name=".activities.v1.NewMorceauActivity" />
         <activity android:name=".NewPisteConfig" />
         <activity android:name=".NewPisteRecord" />
         <activity android:name=".NewPisteRecordDone" />
-        <activity android:name=".OpenMorceau" android:screenOrientation="landscape"/>
-        <activity android:name=".TrackListActivity" />
+        <activity android:name=".activities.v1.OpenMorceau" android:screenOrientation="landscape"/>
+        <activity android:name=".activities.v1.TrackListActivity" />
     </application>
 
 </manifest>

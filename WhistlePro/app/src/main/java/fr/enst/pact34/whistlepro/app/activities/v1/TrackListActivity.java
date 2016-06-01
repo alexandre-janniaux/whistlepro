@@ -1,11 +1,9 @@
-package fr.enst.pact34.whistlepro.app;
+package fr.enst.pact34.whistlepro.app.activities.v1;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +21,10 @@ import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 import fr.enst.pact34.whistlepro.api2.main.Morceau;
 import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
+import fr.enst.pact34.whistlepro.app.AudioPlayer;
+import fr.enst.pact34.whistlepro.app.NewPisteConfig;
+import fr.enst.pact34.whistlepro.app.R;
+import fr.enst.pact34.whistlepro.app.activities.WhistleProActivity;
 
 
 public class TrackListActivity extends WhistleProActivity {

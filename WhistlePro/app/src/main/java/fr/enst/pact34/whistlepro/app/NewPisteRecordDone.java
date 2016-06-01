@@ -15,6 +15,7 @@ import fr.enst.pact34.whistlepro.api2.main.Piste;
 import fr.enst.pact34.whistlepro.api2.main.PisteMelodie;
 import fr.enst.pact34.whistlepro.api2.main.PistePercu;
 import fr.enst.pact34.whistlepro.api2.main.ProcessorInterface;
+import fr.enst.pact34.whistlepro.app.activities.WhistleProActivity;
 
 /**
  * Created by mms on 29/04/16.

@@ -2,6 +2,7 @@ package fr.enst.pact34.whistlepro.pcapp.adapters;
 
 import fr.enst.pact34.whistlepro.api.attaque.Enveloppe;
 import fr.enst.pact34.whistlepro.api.attaque.Pics;
+import fr.enst.pact34.whistlepro.api.common.Convolution1D;
 import fr.enst.pact34.whistlepro.pcapp.interfaces.adapters.CurveAdapterInterface;
 
 public class AttackAdapter implements CurveAdapterInterface {
@@ -11,7 +12,10 @@ public class AttackAdapter implements CurveAdapterInterface {
     public static AttackAdapter createFromSignal(double[] signal) {
         AttackAdapter attack = new AttackAdapter();
         double[] e = Enveloppe.enveloppe(0.99, signal);
-        double[] e2 = e;//Enveloppe.sousEchantillonne(200, e);
+        double[] kernel = new double[10];
+        for(int i=0; i<kernel.length; ++i) kernel[i] = 1/kernel.length;
+        Convolution1D conv = new Convolution1D(0,kernel);
+        double[] e2 = Enveloppe.sousEchantillonne(200, e);
         double[] derive = Enveloppe.derive(10, e2);
         Pics pics = new Pics();
         attack.attackSignal = derive;

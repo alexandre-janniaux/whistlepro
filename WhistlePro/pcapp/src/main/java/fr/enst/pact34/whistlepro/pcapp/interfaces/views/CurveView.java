@@ -119,8 +119,6 @@ public class CurveView extends JComponent {
             if (i!=0) curveView.lineTo(xc, yc);
             else curveView.moveTo(xc,yc);
         }
-
-
         g.draw(curveView);
     }
 
