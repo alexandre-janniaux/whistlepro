@@ -5,24 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import java.util.List;
 
 import fr.enst.pact34.whistlepro.api2.main.Morceau;
+import fr.enst.pact34.whistlepro.app.activities.v1.NewMorceauActivity;
+import fr.enst.pact34.whistlepro.app.activities.v1.TrackListActivity;
+import fr.enst.pact34.whistlepro.app.activities.WhistleProActivity;
 
 
-public class MainActivity extends WhistleProActivity{
+public class MainActivity extends WhistleProActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

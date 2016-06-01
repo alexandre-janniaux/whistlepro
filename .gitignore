@@ -10,3 +10,4 @@
 *.vrb
 *.syntastic_javac_config
 .idea
+*.iml

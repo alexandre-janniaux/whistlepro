@@ -1,8 +1,7 @@
-package fr.enst.pact34.whistlepro.api.Attaque;
+package fr.enst.pact34.whistlepro.api.attaque;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import fr.enst.pact34.whistlepro.api.acquisition.Affichage2;
 import fr.enst.pact34.whistlepro.api.acquisition.ReadExample;

@@ -1,9 +1,5 @@
 package fr.enst.pact34.whistlepro.api.acquisition;
 
-import java.io.File;
-
-import fr.enst.pact34.whistlepro.api.Attaque.Enveloppe;
-
 public class Test {
 
 	public static void main(String[] args) {
