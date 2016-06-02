@@ -1,6 +1,7 @@
 package fr.enst.pact34.whistlepro.app;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,6 +26,8 @@ public class NewPisteRecordDone extends WhistleProActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d("WHISTLEPRO", "WHISTLEPRO démarrage de l'activité newpisterecorddone");
         setContentView(R.layout.activity_new_piste_rec_done);
 
         final ProcessorInterface processor = (ProcessorInterface) getSharedData(SD_PROCESSING_MACINE);

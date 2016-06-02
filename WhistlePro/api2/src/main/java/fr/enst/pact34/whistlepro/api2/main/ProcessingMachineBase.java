@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import fr.enst.pact34.whistlepro.api2.attaque.AttackDetectorProcess;
 import fr.enst.pact34.whistlepro.api2.classification.ClassifProcess;
 import fr.enst.pact34.whistlepro.api2.classification.MultipleStrongClassifiers;
+import fr.enst.pact34.whistlepro.api2.common.AutoCorrelation2Process;
 import fr.enst.pact34.whistlepro.api2.common.FreqProcess;
 import fr.enst.pact34.whistlepro.api2.common.PowerFilterProcess;
 import fr.enst.pact34.whistlepro.api2.common.SpectrumProcess;
@@ -25,6 +26,8 @@ import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
  */
 public abstract class ProcessingMachineBase implements  ProcessorInterface {
     private static final double TIME_ANALYSE = 0.020;
+    public double freq = 0 ;
+
 
     //split stream
     private StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess ;
@@ -112,6 +115,19 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         estFreqProcess =  new FreqProcess((int) Fs,sampleLen);
         estFreqStream = new StreamSimpleBase<>(new Signal(),new Frequency(), estFreqProcess);
         streamList.add(estFreqStream);
+        estFreqStream.subscribe(new StreamDataListenerInterface<Frequency>() {
+
+
+            @Override
+            public void fillBufferIn(Frequency data) {
+                freq = data.getFrequency();
+            }
+
+            @Override
+            public int getInputState() {
+                return 0;
+            }
+        });
 
         //Attaque
         attackProcess = new AttackDetectorProcess(sampleLen);//new FakeProcessOutValue<>(new AttackTimes()); //TODO put real process

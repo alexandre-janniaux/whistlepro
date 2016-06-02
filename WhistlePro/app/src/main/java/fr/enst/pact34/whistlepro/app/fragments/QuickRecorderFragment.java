@@ -30,8 +30,8 @@ public class QuickRecorderFragment extends Fragment {
         Bundle args = getArguments();
         //((TextView) rootView.findViewById(android.R.id.text1)).setText(
         //        Integer.toString(args.getInt(ARG_OBJECT)));
-        this.buttonRecordMelody = (Button) rootView.findViewById(R.id.record_melody_button);
-        this.buttonRecordRhythm = (Button) rootView.findViewById(R.id.record_rhythm_button);
+        //this.buttonRecordMelody = (Button) rootView.findViewById(R.id.record_melody_button);
+        //this.buttonRecordRhythm = (Button) rootView.findViewById(R.id.record_rhythm_button);
 
         return rootView;
     }

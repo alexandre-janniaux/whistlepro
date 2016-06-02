@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,10 @@ public class MainActivity extends WhistleProActivity {
         ListView listPisteElements = (ListView) findViewById(R.id.main_listView_morceau);
         adapter = new MusicListAdapter(this, 0, listeMorceau);
         listPisteElements.setAdapter(adapter);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+        toolbar.setVisibility(View.INVISIBLE);
 
     }
 

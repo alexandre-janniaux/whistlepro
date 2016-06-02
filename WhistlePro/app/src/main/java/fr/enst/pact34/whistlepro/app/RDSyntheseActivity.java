@@ -13,6 +13,7 @@ import fr.enst.pact34.whistlepro.api2.Synthese.InstruData;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
 import fr.enst.pact34.whistlepro.api2.main.PisteMelodie;
 import fr.enst.pact34.whistlepro.api2.main.ProcessingMachine;
+import fr.enst.pact34.whistlepro.app.activities.WhistleProActivity;
 
 /**
  * Created by mms on 31/05/16.

@@ -12,24 +12,29 @@ import fr.enst.pact34.whistlepro.api2.dataTypes.Signal;
  */
 public class ProcessingMachine extends ProcessingMachineBase {
 
+    private String title = "";
+    private Piste piste = null;
+    private Piste.TypePiste typePiste = null;
+    private PisteCreator pisteCreator = new PisteCreator();
+    private boolean valid = false;
+    private double genFs = 16000;
+    private InstruGenerator instruGenerator = new InstruGenerator(genFs);
+    private PercuGenerator percuGenerator = new PercuGenerator(genFs);
+    private Synthetiseur synthe = new Synthetiseur(percuGenerator, instruGenerator, genFs);
+
+
     public ProcessingMachine(double Fs, String classifierData, int nbThread, Piste.TypePiste typePiste) {
         super(Fs, classifierData, nbThread);
         init(typePiste);
     }
 
-
-    private Piste piste = null;
-    private Piste.TypePiste typePiste = null;
-    private PisteCreator pisteCreator = new PisteCreator();
-    private boolean valid = false;
-
     @Override
     public void init(Piste.TypePiste typePiste) {
         this.typePiste = typePiste;
         super.setupFor(typePiste);
-        piste = null;
-        valid = false;
-        title = "";
+        this.piste = null;
+        this.valid = false;
+        this.title = "";
     }
 
     @Override
@@ -46,8 +51,7 @@ public class ProcessingMachine extends ProcessingMachineBase {
         waitEnd();
         pisteCreator.clearOldData();
         pisteCreator.addAttackTimes(super.getAttacksList());
-        switch (typePiste)
-        {
+        switch (typePiste) {
             case Melodie:
                 pisteCreator.addFrequencies(super.getFrequenciesList());
                 break;
@@ -61,11 +65,9 @@ public class ProcessingMachine extends ProcessingMachineBase {
 //        if(piste==null) throw new RuntimeException("Error piste was not created.");
     }
 
-
-    String title = "";
     @Override
     public void setTitle(String title) {
-        this.title=title;
+        this.title = title;
     }
 
     @Override
@@ -75,14 +77,9 @@ public class ProcessingMachine extends ProcessingMachineBase {
 
     @Override
     public synchronized Piste getPiste() {
-        if(valid == false) throw new RuntimeException("You should stop rec before.");
+        if (valid == false) throw new RuntimeException("You should stop rec before.");
         return piste;
     }
-
-    private double genFs = 16000;
-    InstruGenerator instruGenerator = new InstruGenerator(genFs);
-    PercuGenerator percuGenerator = new PercuGenerator(genFs);
-    Synthetiseur synthe = new Synthetiseur(percuGenerator,instruGenerator,genFs);
 
     @Override
     public Signal synthetisePiste(Piste piste) {
@@ -94,29 +91,25 @@ public class ProcessingMachine extends ProcessingMachineBase {
         return synthe.synthetise(morceau);
     }
 
-    public void addPercuData(Percu.Type type,Signal sig)
-    {
-        percuGenerator.addPercu(type,sig);
+    public void addPercuData(Percu.Type type, Signal sig) {
+        percuGenerator.addPercu(type, sig);
     }
 
 
-    public void addInstruData(PisteMelodie.Instrument instrument,double r, double m)
-    {
+    public void addInstruData(PisteMelodie.Instrument instrument, double r, double m) {
         instruGenerator.addInstru(instrument, r, m);
     }
 
 
-    public void setPercuCorrespondance(String recoStr, Percu.Type typeAssocie)
-    {
+    public void setPercuCorrespondance(String recoStr, Percu.Type typeAssocie) {
         pisteCreator.setPercuCorrespondance(recoStr, typeAssocie);
     }
 
     public void replaceInstruData(PisteMelodie.Instrument instru, double r, double m) {
-        instruGenerator.replaceInstru(instru,r,m);
+        instruGenerator.replaceInstru(instru, r, m);
     }
 
-    public InstruData getInstruData(PisteMelodie.Instrument instru)
-    {
+    public InstruData getInstruData(PisteMelodie.Instrument instru) {
         return instruGenerator.getInstruData(instru);
     }
 }

@@ -42,6 +42,7 @@ public class AudioPlayer {
     public void stop() {
         if(this.stopped) return;
         stopped = true;
+        if (audioTrack == null) return;
         audioTrack.pause();
         audioTrack.flush();
         audioTrack.stop();

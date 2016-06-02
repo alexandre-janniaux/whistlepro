@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
 
-    <Button
+    <!--<Button
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/record_melody_button" />
@@ -12,6 +12,6 @@
     <Button
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:id="@+id/record_rhythm_button" />
+        android:id="@+id/record_rhythm_button" />-->
 
 </GridLayout>
