@@ -95,11 +95,9 @@ public class ProcessingMachine extends ProcessingMachineBase {
         percuGenerator.addPercu(type, sig);
     }
 
-
     public void addInstruData(PisteMelodie.Instrument instrument, double r, double m) {
         instruGenerator.addInstru(instrument, r, m);
     }
-
 
     public void setPercuCorrespondance(String recoStr, Percu.Type typeAssocie) {
         pisteCreator.setPercuCorrespondance(recoStr, typeAssocie);

@@ -11,6 +11,7 @@ import fr.enst.pact34.whistlepro.api2.Synthese.Percu;
 import fr.enst.pact34.whistlepro.api2.dataTypes.AttackTimes;
 import fr.enst.pact34.whistlepro.api2.dataTypes.ClassifResults;
 import fr.enst.pact34.whistlepro.api2.dataTypes.Frequency;
+import fr.enst.pact34.whistlepro.api2.features.ChromaProcess;
 
 /**
  * Created by mms on 28/04/16.
@@ -211,7 +212,7 @@ public class PisteCreator {
             }
 
             if(maxKey != null) {
-                instru.setFreq(maxKey);
+                instru.setFreq(ChromaProcess.midi2freq(ChromaProcess.freq2midi(maxKey)-12));
             }
             else
                 instru.setFreq(0);

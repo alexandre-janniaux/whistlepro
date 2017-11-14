@@ -39,8 +39,8 @@ public class ChromaProcess implements FeatureProviderInterface, StreamProcessInt
     }
 
 
-    private double freq2midi(double freq) { return 69 + 12*Math.log(freq/440.); }
-    private double midi2freq(double midi) { return Math.exp((midi-69)/12)*440; }
+    public static double freq2midi(double freq) { return 69 + 12*Math.log(freq/440.); }
+    public static double midi2freq(double midi) { return Math.exp((midi-69)/12)*440; }
 
     public void process(Spectrum sigIn, Signal sigOut)
     {

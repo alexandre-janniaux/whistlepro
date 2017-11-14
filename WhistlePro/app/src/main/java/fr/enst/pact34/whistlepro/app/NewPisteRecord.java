@@ -18,7 +18,7 @@ import fr.enst.pact34.whistlepro.app.activities.WhistleProActivity;
  * Created by mms on 29/04/16.
  */
 public class NewPisteRecord extends WhistleProActivity {
-    private static final String UPDATE_UI_BROADCAST_ACTION = "fr.enst.pact34.whistlepro.app.NewPistRecord.updateUI";
+    private static final String UPDATE_UI_BROADCAST_ACTION = "fr.enst.pact34.whistlepro.NewPistRecord.updateUI";
 
     final ProcessingMachine processor = (ProcessingMachine) getSharedData(SD_PROCESSING_MACINE);
     final Recorder recorder = (Recorder) getSharedData(SD_RECORDER);
@@ -91,7 +91,7 @@ public class NewPisteRecord extends WhistleProActivity {
     }
 
     private void updateUI(Intent intent) {
-        double freq = intent.getDoubleExtra("frequence", 0.);
+        double freq = intent.getDoubleExtra("frequency", 0.);
         noteTextView.setText("f="+freq);
     }
 
@@ -120,7 +120,7 @@ public class NewPisteRecord extends WhistleProActivity {
                 });
 
         // STOP
-        ((Button) findViewById(R.id.NewPisteRecord_button_stop)).setOnClickListener(
+        findViewById(R.id.NewPisteRecord_button_stop).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -133,27 +133,32 @@ public class NewPisteRecord extends WhistleProActivity {
                 });
 
 
-        ((Button) findViewById(R.id.NewPisteRecord_button_next)).setOnClickListener(
+        findViewById(R.id.NewPisteRecord_button_next).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("testPM","ask stop " +System.currentTimeMillis());
+                        Log.d("testPM", "ask stop " + System.currentTimeMillis());
                         processor.stopRecProcessing();
                         Log.d("testPM", "stopped " + System.currentTimeMillis());
                         recorder.stopRec();
                         Log.d("testPM", "stopped 2" + System.currentTimeMillis());
 
                         handlerUpdateUI.removeCallbacks(runnableUpdateUI);
+                        Log.d("testPM", "callbackremove");
 
-                        if(processor.hasRecordedData())
-                        {
+                        if (processor.hasRecordedData()) {
+                            Log.d("testPM", "waiting end");
                             processor.waitEnd();
+                            Log.d("testPM", "start intent");
                             startActivity(new Intent(NewPisteRecord.this, NewPisteRecordDone.class));
                             finish();
+                        } else {
+                            Log.d("testPM", "NO RECORDED DATA");
                         }
                     }
                 });
     }
+
 /*
     @Override
     public void newWorkEvent(WorkEvent e) {

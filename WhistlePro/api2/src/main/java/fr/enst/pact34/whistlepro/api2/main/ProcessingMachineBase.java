@@ -24,77 +24,65 @@ import fr.enst.pact34.whistlepro.api2.transcription.TranscriptionBase;
 /**
  * Created by mms on 15/03/16.
  */
-public abstract class ProcessingMachineBase implements  ProcessorInterface {
+public abstract class ProcessingMachineBase implements ProcessorInterface {
     private static final double TIME_ANALYSE = 0.020;
-    public double freq = 0 ;
-
-
+    public double freq = 0;
+    ProcessorEventListener listener = null;
     //split stream
-    private StreamProcessInterface<LinkedList<double[]>,LinkedList<Signal>> splitterProcess ;
-    private StreamInputWraper<double[], Signal> splitterStream ;
-
+    private StreamProcessInterface<LinkedList<double[]>, LinkedList<Signal>> splitterProcess;
+    private StreamInputWraper<double[], Signal> splitterStream;
     //power filter
-    private StreamProcessInterface<Signal,Signal> powFilterProcess ;
-    private StreamSimpleBase<Signal, Signal> powerFilterStream ;
-
-
+    private StreamProcessInterface<Signal, Signal> powFilterProcess;
+    private StreamSimpleBase<Signal, Signal> powerFilterStream;
     //Estimation hauteur
-    private StreamProcessInterface<Signal,Frequency> estFreqProcess ;
-    private StreamSimpleBase<Signal, Frequency> estFreqStream ;
-
+    private StreamProcessInterface<Signal, Frequency> estFreqProcess;
+    private StreamSimpleBase<Signal, Frequency> estFreqStream;
     //Attaque
-    private StreamProcessInterface<Signal,AttackTimes> attackProcess ;
-    private StreamSimpleBase<Signal, AttackTimes> attackStream ;
-
+    private StreamProcessInterface<Signal, AttackTimes> attackProcess;
+    private StreamSimpleBase<Signal, AttackTimes> attackStream;
     //FFT
-    private StreamProcessInterface<Signal,Spectrum> fftProcess ;
-    private StreamSimpleBase<Signal , Spectrum> fftStream ;
-
+    private StreamProcessInterface<Signal, Spectrum> fftProcess;
+    private StreamSimpleBase<Signal, Spectrum> fftStream;
     //MFCC
-    private StreamProcessInterface<Spectrum,Signal> mfccProcess ;
-    private StreamSimpleBase<Spectrum, Signal> mfccStream ;
-
-
+    private StreamProcessInterface<Spectrum, Signal> mfccProcess;
+    private StreamSimpleBase<Spectrum, Signal> mfccStream;
     //classif
-    private MultipleStrongClassifiers classifier ;
-    private StreamProcessInterface<Signal, ClassifResults> classifProcess ;
-    private StreamSimpleBase<Signal, ClassifResults> classifStream ;
-
-
+    private MultipleStrongClassifiers classifier;
+    private StreamProcessInterface<Signal, ClassifResults> classifProcess;
+    private StreamSimpleBase<Signal, ClassifResults> classifStream;
     //transcription module
-    private TranscriptionBase transcriptionBase ;
-
-
+    private TranscriptionBase transcriptionBase;
     //Ends of the stream
-    private PartialDataStreamDest<Frequency> destFreqs ;
-    private PartialDataStreamDest<AttackTimes> destAttak ;
-    private PartialDataStreamDest<ClassifResults> destClassif ;
-
+    private PartialDataStreamDest<Frequency> destFreqs;
+    private PartialDataStreamDest<AttackTimes> destAttak;
+    private PartialDataStreamDest<ClassifResults> destClassif;
     //threadpool
-    private StreamManager streamMaster  ;
-
+    private StreamManager streamMaster;
     private int last_nb_done = 0;
-
     private LinkedList<manageableStream> streamList = new LinkedList<>();
+    private AtomicLong dataRecevied = new AtomicLong(0);
+    private Semaphore waitSem = new Semaphore(0);
+    private boolean processing = false;
+    private boolean enableWaiting = false;
 
     public ProcessingMachineBase(double Fs, String classifierData, int nbThread) {
-        int sampleLen = (int)(TIME_ANALYSE*Fs);
+        int sampleLen = (int) (TIME_ANALYSE * Fs);
         //initialisations
         streamMaster = new StreamManager(nbThread, new StreamManagerListener() {
             @Override
             public void oneJobDone() {
 
-                if(transcriptionEnded()) {
-                    if(listener != null)listener.newWorkEvent(ProcessorEventListener.WorkEvent.AllWorkDone);
-                }
-                else
-                {
+                if (transcriptionEnded()) {
+                    if (listener != null)
+                        listener.newWorkEvent(ProcessorEventListener.WorkEvent.AllWorkDone);
+                } else {
                     int nb_done = transcriptionBase.getNbReceived();
-                    if(last_nb_done < nb_done) {
-                        if(listener != null)listener.newWorkEvent(ProcessorEventListener.WorkEvent.OneWorkDone);
+                    if (last_nb_done < nb_done) {
+                        if (listener != null)
+                            listener.newWorkEvent(ProcessorEventListener.WorkEvent.OneWorkDone);
                         last_nb_done = nb_done;
                     }
-                } 
+                }
                 endWaintings();
             }
         });
@@ -108,46 +96,43 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
 
         //power filter
         powFilterProcess = new PowerFilterProcess();
-        powerFilterStream = new StreamSimpleBase<>(new Signal(),new Signal(), powFilterProcess);
+        powerFilterStream = new StreamSimpleBase<>(new Signal(), new Signal(), powFilterProcess);
         streamList.add(powerFilterStream);
 
         //Estimation hauteur
-        estFreqProcess =  new FreqProcess((int) Fs,sampleLen);
-        estFreqStream = new StreamSimpleBase<>(new Signal(),new Frequency(), estFreqProcess);
+        estFreqProcess = new FreqProcess((int) Fs, sampleLen);
+        estFreqStream = new StreamSimpleBase<>(new Signal(), new Frequency(), estFreqProcess);
         streamList.add(estFreqStream);
         estFreqStream.subscribe(new StreamDataListenerInterface<Frequency>() {
-
-
             @Override
             public void fillBufferIn(Frequency data) {
                 freq = data.getFrequency();
             }
-
             @Override
             public int getInputState() {
-                return 0;
+                return States.INPUT_WAITING;
             }
         });
 
         //Attaque
         attackProcess = new AttackDetectorProcess(sampleLen);//new FakeProcessOutValue<>(new AttackTimes()); //TODO put real process
-        attackStream = new StreamSimpleBase<>(new Signal(),new AttackTimes(), attackProcess);
+        attackStream = new StreamSimpleBase<>(new Signal(), new AttackTimes(), attackProcess);
         streamList.add(attackStream);
 
         //FFT
         fftProcess = new SpectrumProcess(sampleLen);
-        fftStream = new StreamSimpleBase<>(new Signal(),new Spectrum(), fftProcess);
+        fftStream = new StreamSimpleBase<>(new Signal(), new Spectrum(), fftProcess);
         streamList.add(fftStream);
 
         //MFCC
         mfccProcess = new MfccProcess();
-        mfccStream = new StreamSimpleBase<>(new Spectrum(),new Signal(), mfccProcess);
+        mfccStream = new StreamSimpleBase<>(new Spectrum(), new Signal(), mfccProcess);
         streamList.add(mfccStream);
 
         //classif
         classifier = new MultipleStrongClassifiers.Builder().fromString(classifierData).build();
         classifProcess = new ClassifProcess(classifier);
-        classifStream = new StreamSimpleBase<>(new Signal(),new ClassifResults(), classifProcess);
+        classifStream = new StreamSimpleBase<>(new Signal(), new ClassifResults(), classifProcess);
         streamList.add(classifStream);
 
         //transcription module
@@ -160,9 +145,9 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         destClassif = transcriptionBase.getStreamDestBaseClassif();
 
         //connexions                                                //            Audio
-                                                                    //            ||
+        //            ||
         //source.subscribe(splitterStream);                         //         Splitter =====================||
-                                                                    //            ||                         ||
+        //            ||                         ||
         splitterStream.subscribe(powerFilterStream);                //    ====PowerFilter ======||           ||
         splitterStream.subscribe(new StreamDataListenerInterface<Signal>() {
             @Override
@@ -175,19 +160,19 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
                 return States.INPUT_WAITING;
             }
         });                                                         //   this     ||             ||          ||
-                                                                    //            ||             ||          ||
+        //            ||             ||          ||
         //powerFilterStream.subscribe(estFreqStream);               //            ||             ||        attack
         splitterStream.subscribe(attackStream);     //to add        //            ||           estFreq
         //powerFilterStream.subscribe(fftStream);                   //            FFT
-                                                                    //            ||
+        //            ||
         fftStream.subscribe(mfccStream);                            //           MFCC
-                                                                    //            ||
+        //            ||
         mfccStream.subscribe(classifStream);                        //          Classif =========||==========||
-                                                                    //  |=====    ||             ||          ||     ======|
+        //  |=====    ||             ||          ||     ======|
         estFreqStream.subscribe(destFreqs);                         //  ||        ||             ||       destFreqs      ||
         attackStream.subscribe(destAttak);                          //  ||        ||          destAttack                 ||   Transcription
         classifStream.subscribe(destClassif);                       //  ||     destClassif                               ||
-                                                                    //  |=====                                      ======|
+        //  |=====                                      ======|
 
         //setup stream manager
         streamMaster.addStream(splitterStream);
@@ -206,37 +191,27 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
 
     }
 
-
-    private boolean transcriptionEnded()
-    {
-        if(processing==true) return false;
+    private boolean transcriptionEnded() {
+        if (processing == true) return false;
         return (transcriptionBase.getNbReceived() == dataRecevied.get())
-                && splitterStream.hasWork() ==false ;
+                && splitterStream.hasWork() == false;
     }
-
-    private AtomicLong dataRecevied = new AtomicLong(0);
-
 
     @Override
     public synchronized void pushData(double[] data) {
-        if(processing) {
+        if (processing) {
             splitterStream.fillBufferIn(data.clone());
             //TODO use memory pool
         }
     }
 
-    ProcessorEventListener listener = null;
-
-    public void setEventLister(ProcessorEventListener l)
-    {
+    public void setEventLister(ProcessorEventListener l) {
         listener = l;
     }
 
-    private Semaphore waitSem = new Semaphore(0);
-    public void waitEnd()
-    {
+    public void waitEnd() {
         try {
-            while (transcriptionEnded()==false && enableWaiting==true) {
+            while (transcriptionEnded() == false && enableWaiting == true) {
                 waitSem.acquire();
             }
         } catch (InterruptedException e) {
@@ -249,18 +224,17 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         return transcriptionBase.getLastClassifElement();
     }
 
-    public AttackTimes getLastAttack()
-    {
+    public AttackTimes getLastAttack() {
         return transcriptionBase.getLastAttackElement();
     }
-    private void clearData()
-    {
+
+    private void clearData() {
         dataRecevied.set(0);
         last_nb_done = 0;
         transcriptionBase.clear();
         splitterStream.resetIds();
-        for (manageableStream s:
-             streamList) {
+        for (manageableStream s :
+                streamList) {
             s.reset();
         }
     }
@@ -269,8 +243,7 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         //clear
         clearData();
         //setup
-        switch (typePiste)
-        {
+        switch (typePiste) {
             case Melodie:
                 powerFilterStream.subscribe(estFreqStream);
                 powerFilterStream.unsubscribe(fftStream);
@@ -283,9 +256,6 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
 
         transcriptionBase.setupFor(typePiste);
     }
-
-    private  boolean processing = false;
-    private  boolean enableWaiting = false;
 
     protected void startProcessing() {
         clearData();
@@ -310,11 +280,10 @@ public abstract class ProcessingMachineBase implements  ProcessorInterface {
         endWaintings();
     }
 
-    private void endWaintings()
-    {
-        if(transcriptionEnded()) {
+    private void endWaintings() {
+        if (transcriptionEnded()) {
             enableWaiting = false;
-            while(waitSem.hasQueuedThreads())
+            while (waitSem.hasQueuedThreads())
                 waitSem.release();
         }
     }

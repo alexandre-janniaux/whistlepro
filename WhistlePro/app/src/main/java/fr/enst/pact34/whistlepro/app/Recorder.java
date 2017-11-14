@@ -12,7 +12,7 @@ import fr.enst.pact34.whistlepro.api2.main.DoubleDataListener;
  * Created by mms on 26/04/16.
  */
 public class Recorder {
-    private int sampleRate = 16000; //TODO make it a parameter ?
+    private int sampleRate = 44100; //TODO make it a parameter ?
     private DoubleDataListener listener = null;
 
 

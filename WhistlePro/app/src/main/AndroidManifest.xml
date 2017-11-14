@@ -22,7 +22,6 @@
         <activity android:name=".RDSyntheseActivity" />
         <activity android:name=".activities.v1.OpenMorceau" android:screenOrientation="landscape"/>
         <activity android:name=".activities.v1.TrackListActivity" />
->>>>>>> application_pc
     </application>
 
 </manifest>
