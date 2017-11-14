@@ -4,9 +4,9 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
     
-    dataBinding {
-        enabled = true
-    }
+    //dataBinding {
+    //    enabled = true
+    //}
     
     defaultConfig {
         applicationId "fr.enst.pact34.whistlepro.app"
@@ -25,6 +25,7 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
+        abortOnError false
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -34,8 +35,8 @@ android {
 
 dependencies {
     //compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile 'com.android.support:design:23.2.0'
-    compile project(':api2')
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:23.2.0'
+    implementation 'com.android.support:design:23.2.0'
+    implementation project(':api2')
 }
