@@ -1,1 +1,1 @@
-include ':api', 'api2', ':app', ':demo', ':toolsapp', ':classifUtils', ':pcapp'
+include ':api', 'api2', ':app', ':classifUtils', ':pcapp'

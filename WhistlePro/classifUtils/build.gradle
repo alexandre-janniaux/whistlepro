@@ -1,8 +1,7 @@
 apply plugin: "java"
 
 dependencies {
-    compile project(':api2')
-    compile project(':api')
-    testCompile group: 'junit', name: 'junit', version: '4.+'
+    implementation project(':api2')
+    implementation project(':api')
+    testImplementation group: 'junit', name: 'junit', version: '4.+'
 }
-
